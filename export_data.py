@@ -269,6 +269,29 @@ df_round = df_with_round[df_with_round["Gender"] == "Female"]
 karateka_m = build_karateka_master(df[df["Gender"] == "Male"], df_clean[df_clean["Gender"] == "Male"], dm_round)
 karateka_f = build_karateka_master(df[df["Gender"] == "Female"], df_clean[df_clean["Gender"] == "Female"], df_round)
 
+# ── Placements / medals ───────────────────────────────────────────────────────
+try:
+    pldf = pd.read_csv(find_csv("Placements - Sheet1.csv"))
+    medals = {"male": {}, "female": {}}
+    for _, row in pldf.iterrows():
+        tourn = str(row.iloc[0]).strip().title()
+        combos = [
+            ("male",   row.iloc[1], 1), ("male",   row.iloc[2], 2),
+            ("male",   row.iloc[3], 3), ("male",   row.iloc[4], 3),
+            ("female", row.iloc[5], 1), ("female", row.iloc[6], 2),
+            ("female", row.iloc[7], 3), ("female", row.iloc[8], 3),
+        ]
+        for g, name, place in combos:
+            if pd.isna(name) or str(name).strip() == "":
+                continue
+            name = str(name).strip()
+            medals[g].setdefault(name, []).append({"Tournament": tourn, "Place": place})
+    for km_df, g_key in [(karateka_m, "male"), (karateka_f, "female")]:
+        km_df["Medals"] = km_df["Karateka"].map(lambda k: medals[g_key].get(k, []))
+    print("Placements loaded.")
+except FileNotFoundError:
+    print("Placements CSV not found — medals skipped.")
+
 # ── Tournament summary ────────────────────────────────────────────────────────
 tourn_summary = []
 for (tourn, gender), grp in df_total.groupby(["Tournament", "Gender"]):

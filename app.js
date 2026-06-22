@@ -25,6 +25,11 @@ const ISO2 = {
   "Dominican Republic":"DO","Burkina Faso":"BF","Slovenia":"SI",
   "Netherlands":"NL","Saudi Arabia":"SA","UAE":"AE",
 };
+function medalEmoji(medals) {
+  if (!medals || !medals.length) return "";
+  return medals.map(m => m.Place === 1 ? "🥇" : m.Place === 2 ? "🥈" : "🥉").join("");
+}
+
 function flagOf(country) {
   const iso = ISO2[country];
   if (!iso) return "";
@@ -301,6 +306,7 @@ function renderKaratekaTable() {
     <tr data-karateka="${esc(r.Karateka)}">
       <td class="name-cell">${esc(r.Karateka)}</td>
       <td>${flagOf(r.Country)} ${esc(r.Country || "—")}</td>
+      <td class="num">${medalEmoji(r.Medals)}</td>
       <td class="num">${r.Performances}</td>
       <td class="num">${r.Tournaments_Attended}</td>
       <td class="num">${fmt2(r.Mean_Score)}</td>
@@ -346,6 +352,11 @@ function showKaratekaCard(r) {
       <div class="stat-box"><div class="stat-label">Best Score</div><div class="stat-value">${fmt2(r.Max_Score)}</div>${bestPerf ? `<div style="font-size:11px;color:var(--text-muted);margin-top:3px">${esc(bestPerf.Kata)}</div>` : ""}</div>
       <div class="stat-box"><div class="stat-label">Win Rate</div><div class="stat-value">${fmtPct(r.Win_Rate)}</div></div>
     </div>
+    ${r.Medals && r.Medals.length ? `
+    <div class="card-section-title">Medals</div>
+    <div class="pill-list" style="margin-bottom:14px">
+      ${r.Medals.map(m => `<span class="pill">${m.Place === 1 ? "🥇" : m.Place === 2 ? "🥈" : "🥉"} ${esc(m.Tournament)}</span>`).join("")}
+    </div>` : ""}
     ${repertoire ? `<div class="card-section-title">Kata Repertoire</div><div class="pill-list" style="margin-bottom:14px">${repertoire}</div>` : ""}
     ${perfRows ? `
     <div class="card-section-title">All Performances</div>
@@ -619,7 +630,7 @@ function renderTierCountsTable() {
 function renderPerformedKata() {
   const ts = DATA.tier_summary[gender];
   document.getElementById("insight-performed").textContent =
-    `Lists which Advanced and Intermediate kata were and were not performed during the ${gender === "male" ? "Male" : "Female"} competition this season.`;
+    `Lists which Advanced and Intermediate kata were and were not performed during ${gender === "male" ? "Male" : "Female"} kata competition in the 2024–25 season.`;
   const makePills = arr => arr.length
     ? arr.map(k => `<span class="pill">${esc(k)}</span>`).join("")
     : `<span style="color:var(--text-muted);font-size:12px">None</span>`;

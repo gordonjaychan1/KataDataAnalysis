@@ -157,7 +157,7 @@ header {
 .tier-charts .chart-wrap { height: 260px; }
 
 /* ── Welcome tab ──────────────────────────────────────────────────────────── */
-.welcome-layout { display: flex; flex-direction: column; gap: 36px; }
+.welcome-layout { display: flex; flex-direction: column; gap: 52px; }
 .welcome-body { display: grid; grid-template-columns: 1fr 340px; gap: 32px; align-items: start; }
 
 .welcome-hero { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--red); border-radius: var(--radius); padding: 24px 28px; }

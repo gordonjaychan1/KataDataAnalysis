@@ -4575,6 +4575,44 @@
             "Avg_Score": 9.28,
             "Won": true
           }
+        ],
+        "Medals": [
+          {
+            "Tournament": "2024 Antalya",
+            "Place": 1
+          },
+          {
+            "Tournament": "2024 Cairo",
+            "Place": 1
+          },
+          {
+            "Tournament": "2024 Casablanca",
+            "Place": 1
+          },
+          {
+            "Tournament": "2024 Paris",
+            "Place": 1
+          },
+          {
+            "Tournament": "2025 Cairo",
+            "Place": 1
+          },
+          {
+            "Tournament": "2025 Hangzhou",
+            "Place": 1
+          },
+          {
+            "Tournament": "2025 Paris",
+            "Place": 1
+          },
+          {
+            "Tournament": "2025 Rabat",
+            "Place": 1
+          },
+          {
+            "Tournament": "2025 Worlds",
+            "Place": 1
+          }
         ]
       },
       {
@@ -4979,6 +5017,40 @@
             "Avg_Score": 8.8,
             "Won": true
           }
+        ],
+        "Medals": [
+          {
+            "Tournament": "2024 Antalya",
+            "Place": 2
+          },
+          {
+            "Tournament": "2024 Cairo",
+            "Place": 3
+          },
+          {
+            "Tournament": "2024 Paris",
+            "Place": 3
+          },
+          {
+            "Tournament": "2025 Cairo",
+            "Place": 2
+          },
+          {
+            "Tournament": "2025 Hangzhou",
+            "Place": 2
+          },
+          {
+            "Tournament": "2025 Paris",
+            "Place": 3
+          },
+          {
+            "Tournament": "2025 Rabat",
+            "Place": 2
+          },
+          {
+            "Tournament": "2025 Worlds",
+            "Place": 3
+          }
         ]
       },
       {
@@ -5329,6 +5401,24 @@
             "Avg_Score": 8.56,
             "Won": false
           }
+        ],
+        "Medals": [
+          {
+            "Tournament": "2024 Casablanca",
+            "Place": 3
+          },
+          {
+            "Tournament": "2025 Cairo",
+            "Place": 3
+          },
+          {
+            "Tournament": "2025 Hangzhou",
+            "Place": 3
+          },
+          {
+            "Tournament": "2025 Paris",
+            "Place": 3
+          }
         ]
       },
       {
@@ -5626,6 +5716,16 @@
             "Avg_Score": 8.3,
             "Won": false
           }
+        ],
+        "Medals": [
+          {
+            "Tournament": "2024 Casablanca",
+            "Place": 2
+          },
+          {
+            "Tournament": "2024 Paris",
+            "Place": 2
+          }
         ]
       },
       {
@@ -5903,6 +6003,16 @@
             "Avg_Score": 8.84,
             "Won": false
           }
+        ],
+        "Medals": [
+          {
+            "Tournament": "2024 Antalya",
+            "Place": 3
+          },
+          {
+            "Tournament": "2025 Worlds",
+            "Place": 2
+          }
         ]
       },
       {
@@ -6176,6 +6286,12 @@
             "Avg_Score": 8.86,
             "Won": true
           }
+        ],
+        "Medals": [
+          {
+            "Tournament": "2025 Worlds",
+            "Place": 3
+          }
         ]
       },
       {
@@ -6440,6 +6556,20 @@
             "Kata": "Anan Dai",
             "Avg_Score": 8.66,
             "Won": true
+          }
+        ],
+        "Medals": [
+          {
+            "Tournament": "2024 Antalya",
+            "Place": 3
+          },
+          {
+            "Tournament": "2024 Casablanca",
+            "Place": 3
+          },
+          {
+            "Tournament": "2025 Rabat",
+            "Place": 3
           }
         ]
       },
@@ -6715,7 +6845,8 @@
             "Avg_Score": 8.3,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Almosawi Sayed Salman",
@@ -6953,7 +7084,8 @@
             "Avg_Score": 8.12,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Roman Hrcka",
@@ -7199,7 +7331,8 @@
             "Avg_Score": 8.4,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Howard Hung Ho Wai",
@@ -7430,7 +7563,8 @@
             "Avg_Score": 7.96,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Yuki Ujihara",
@@ -7677,7 +7811,8 @@
             "Avg_Score": 7.96,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Ryusei Ikeda",
@@ -7896,7 +8031,8 @@
             "Avg_Score": 8.26,
             "Won": true
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Ali Sofuoglu",
@@ -8103,6 +8239,16 @@
             "Kata": "Unsu",
             "Avg_Score": 8.06,
             "Won": false
+          }
+        ],
+        "Medals": [
+          {
+            "Tournament": "2024 Cairo",
+            "Place": 2
+          },
+          {
+            "Tournament": "2024 Paris",
+            "Place": 3
           }
         ]
       },
@@ -8313,7 +8459,8 @@
             "Avg_Score": 8.38,
             "Won": true
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Yasuhiro Machida",
@@ -8512,6 +8659,12 @@
             "Kata": "Papuren",
             "Avg_Score": 8.28,
             "Won": false
+          }
+        ],
+        "Medals": [
+          {
+            "Tournament": "2025 Paris",
+            "Place": 2
           }
         ]
       },
@@ -8715,7 +8868,8 @@
             "Avg_Score": 8.06,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Anthony Vu",
@@ -8904,6 +9058,12 @@
             "Kata": "Chibana No Kushanku",
             "Avg_Score": 8.14,
             "Won": false
+          }
+        ],
+        "Medals": [
+          {
+            "Tournament": "2025 Hangzhou",
+            "Place": 3
           }
         ]
       },
@@ -9099,7 +9259,8 @@
             "Avg_Score": 8.18,
             "Won": true
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Mattia Busato",
@@ -9286,7 +9447,8 @@
             "Avg_Score": 8.16,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Gianluca Gallo",
@@ -9466,7 +9628,8 @@
             "Avg_Score": 8.26,
             "Won": true
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Martin Romero Raul",
@@ -9652,7 +9815,8 @@
             "Avg_Score": 7.78,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Almosawi Sayed Mohammed",
@@ -9832,7 +9996,8 @@
             "Avg_Score": 7.98,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Adam Bardos",
@@ -10009,7 +10174,8 @@
             "Avg_Score": 7.78,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Aoi Funada",
@@ -10169,6 +10335,12 @@
             "Avg_Score": 8.48,
             "Won": false
           }
+        ],
+        "Medals": [
+          {
+            "Tournament": "2024 Cairo",
+            "Place": 3
+          }
         ]
       },
       {
@@ -10308,7 +10480,8 @@
             "Avg_Score": 7.84,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Taishi Tozaki",
@@ -10455,7 +10628,8 @@
             "Avg_Score": 8.04,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Casanova Guerrero Cleiver",
@@ -10606,7 +10780,8 @@
             "Avg_Score": 7.54,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "James Harrison",
@@ -10757,7 +10932,8 @@
             "Avg_Score": 7.88,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Alessandro Iodice",
@@ -10897,7 +11073,8 @@
             "Avg_Score": 8.18,
             "Won": true
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Botond Nagy",
@@ -11018,7 +11195,8 @@
             "Avg_Score": 7.96,
             "Won": true
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Franck Ngoan",
@@ -11139,7 +11317,8 @@
             "Avg_Score": 8.06,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Manuel Grazia",
@@ -11256,7 +11435,8 @@
             "Avg_Score": 8.04,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Yaroslav Fedorov",
@@ -11377,7 +11557,8 @@
             "Avg_Score": 7.78,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Kotaro Ohata",
@@ -11493,6 +11674,16 @@
             "Avg_Score": 8.6,
             "Won": true
           }
+        ],
+        "Medals": [
+          {
+            "Tournament": "2025 Cairo",
+            "Place": 3
+          },
+          {
+            "Tournament": "2025 Rabat",
+            "Place": 3
+          }
         ]
       },
       {
@@ -11596,7 +11787,8 @@
             "Avg_Score": 7.68,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Eiji Otsuki",
@@ -11695,7 +11887,8 @@
             "Avg_Score": 7.76,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Damian Quintero",
@@ -11794,7 +11987,8 @@
             "Avg_Score": 8.26,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Chen Chao Ching",
@@ -11882,7 +12076,8 @@
             "Avg_Score": 7.74,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Tijani Lamoum",
@@ -11959,7 +12154,8 @@
             "Avg_Score": 7.6,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Tarik Koc",
@@ -12036,7 +12232,8 @@
             "Avg_Score": 7.62,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Abu Wahib Jonas",
@@ -12109,7 +12306,8 @@
             "Avg_Score": 7.98,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Yuki Sato",
@@ -12182,7 +12380,8 @@
             "Avg_Score": 8.06,
             "Won": true
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Kutluhan Duran",
@@ -12259,7 +12458,8 @@
             "Avg_Score": 8.04,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Dyun Kimura",
@@ -12336,7 +12536,8 @@
             "Avg_Score": 7.64,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Giuseppe Panagia",
@@ -12409,7 +12610,8 @@
             "Avg_Score": 7.84,
             "Won": true
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Saber Benmekhlouf",
@@ -12482,7 +12684,8 @@
             "Avg_Score": 7.5,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Thomas Klemz",
@@ -12559,7 +12762,8 @@
             "Avg_Score": 7.98,
             "Won": true
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Roman Heydarov",
@@ -12636,7 +12840,8 @@
             "Avg_Score": 7.86,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Vladimir Mijac",
@@ -12713,7 +12918,8 @@
             "Avg_Score": 8.14,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Mostafa Elghobashy",
@@ -12793,7 +12999,8 @@
             "Avg_Score": 8.64,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Youcef Ziad",
@@ -12855,7 +13062,8 @@
             "Avg_Score": 7.92,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Artur Neto",
@@ -12917,7 +13125,8 @@
             "Avg_Score": 7.98,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Alejandro Ramirez",
@@ -12968,7 +13177,8 @@
             "Avg_Score": 7.56,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Abu Alhaija Kareem",
@@ -13019,7 +13229,8 @@
             "Avg_Score": 7.32,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Dylan Fisher",
@@ -13070,7 +13281,8 @@
             "Avg_Score": 7.58,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Brillant Mukeshimana",
@@ -13121,7 +13333,8 @@
             "Avg_Score": 7.2,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Bu Khawwah Yaqoub",
@@ -13172,7 +13385,8 @@
             "Avg_Score": 7.48,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "El Mansoury Salah Eddine",
@@ -13223,7 +13437,8 @@
             "Avg_Score": 7.94,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "De Castro Heriberto",
@@ -13274,7 +13489,8 @@
             "Avg_Score": 7.6,
             "Won": true
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Impagnatiello Luca Mateo",
@@ -13325,7 +13541,8 @@
             "Avg_Score": 7.62,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Kangwei Yang",
@@ -13376,7 +13593,8 @@
             "Avg_Score": 7.84,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Perez De Abreu Ricardo",
@@ -13427,7 +13645,8 @@
             "Avg_Score": 7.94,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Rick Sonnema",
@@ -13478,7 +13697,8 @@
             "Avg_Score": 7.62,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Omar Diop",
@@ -13529,7 +13749,8 @@
             "Avg_Score": 7.5,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Karim Ghaly",
@@ -13580,7 +13801,8 @@
             "Avg_Score": 8.04,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Guido Polsinelli",
@@ -13631,7 +13853,8 @@
             "Avg_Score": 7.88,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Gianluca Greco",
@@ -13678,7 +13901,8 @@
             "Avg_Score": 7.5,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Ortiz Aquino Jefferson",
@@ -13729,7 +13953,8 @@
             "Avg_Score": 8.18,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Oluwaseun Olorunmbe",
@@ -13780,7 +14005,8 @@
             "Avg_Score": 6.98,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Nicholas Rowsby",
@@ -13831,7 +14057,8 @@
             "Avg_Score": 7.24,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Taeyeon Hwang",
@@ -13882,7 +14109,8 @@
             "Avg_Score": 7.48,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Yuto Watanabe",
@@ -13925,7 +14153,8 @@
             "Avg_Score": null,
             "Won": true
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Morris Tellocke",
@@ -13976,7 +14205,8 @@
             "Avg_Score": 7.58,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Zaresta Yuda Ahmad Zigi",
@@ -14027,7 +14257,8 @@
             "Avg_Score": 7.96,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Matthew Gruitia",
@@ -14067,7 +14298,8 @@
             "Avg_Score": 7.84,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Furkan Kaynar",
@@ -14107,7 +14339,8 @@
             "Avg_Score": 8.08,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Jure Sluga",
@@ -14147,7 +14380,8 @@
             "Avg_Score": 7.64,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       }
     ],
     "female": [
@@ -14559,6 +14793,44 @@
             "Avg_Score": 8.66,
             "Won": false
           }
+        ],
+        "Medals": [
+          {
+            "Tournament": "2024 Antalya",
+            "Place": 3
+          },
+          {
+            "Tournament": "2024 Cairo",
+            "Place": 2
+          },
+          {
+            "Tournament": "2024 Casablanca",
+            "Place": 1
+          },
+          {
+            "Tournament": "2024 Paris",
+            "Place": 1
+          },
+          {
+            "Tournament": "2025 Cairo",
+            "Place": 2
+          },
+          {
+            "Tournament": "2025 Hangzhou",
+            "Place": 2
+          },
+          {
+            "Tournament": "2025 Paris",
+            "Place": 1
+          },
+          {
+            "Tournament": "2025 Rabat",
+            "Place": 2
+          },
+          {
+            "Tournament": "2025 Worlds",
+            "Place": 2
+          }
         ]
       },
       {
@@ -14945,6 +15217,44 @@
             "Avg_Score": 9.22,
             "Won": true
           }
+        ],
+        "Medals": [
+          {
+            "Tournament": "2024 Antalya",
+            "Place": 1
+          },
+          {
+            "Tournament": "2024 Cairo",
+            "Place": 3
+          },
+          {
+            "Tournament": "2024 Casablanca",
+            "Place": 3
+          },
+          {
+            "Tournament": "2024 Paris",
+            "Place": 3
+          },
+          {
+            "Tournament": "2025 Cairo",
+            "Place": 1
+          },
+          {
+            "Tournament": "2025 Hangzhou",
+            "Place": 1
+          },
+          {
+            "Tournament": "2025 Paris",
+            "Place": 2
+          },
+          {
+            "Tournament": "2025 Rabat",
+            "Place": 1
+          },
+          {
+            "Tournament": "2025 Worlds",
+            "Place": 1
+          }
         ]
       },
       {
@@ -15254,6 +15564,28 @@
             "Kata": "Oyadomari No Passai",
             "Avg_Score": 8.2,
             "Won": true
+          }
+        ],
+        "Medals": [
+          {
+            "Tournament": "2024 Antalya",
+            "Place": 2
+          },
+          {
+            "Tournament": "2024 Cairo",
+            "Place": 3
+          },
+          {
+            "Tournament": "2024 Paris",
+            "Place": 2
+          },
+          {
+            "Tournament": "2025 Hangzhou",
+            "Place": 3
+          },
+          {
+            "Tournament": "2025 Paris",
+            "Place": 3
           }
         ]
       },
@@ -15580,6 +15912,16 @@
             "Avg_Score": 8.48,
             "Won": true
           }
+        ],
+        "Medals": [
+          {
+            "Tournament": "2025 Rabat",
+            "Place": 3
+          },
+          {
+            "Tournament": "2025 Worlds",
+            "Place": 3
+          }
         ]
       },
       {
@@ -15855,6 +16197,24 @@
             "Avg_Score": 8.28,
             "Won": false
           }
+        ],
+        "Medals": [
+          {
+            "Tournament": "2024 Cairo",
+            "Place": 1
+          },
+          {
+            "Tournament": "2024 Casablanca",
+            "Place": 3
+          },
+          {
+            "Tournament": "2025 Hangzhou",
+            "Place": 3
+          },
+          {
+            "Tournament": "2025 Paris",
+            "Place": 3
+          }
         ]
       },
       {
@@ -16121,7 +16481,8 @@
             "Avg_Score": 8.42,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Natsuki Shimizu",
@@ -16391,7 +16752,8 @@
             "Avg_Score": 7.78,
             "Won": true
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Ana Cruz",
@@ -16662,7 +17024,8 @@
             "Avg_Score": 8.34,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Aya En-Nesyry",
@@ -16917,6 +17280,12 @@
             "Kata": "Gankaku",
             "Avg_Score": 7.86,
             "Won": false
+          }
+        ],
+        "Medals": [
+          {
+            "Tournament": "2025 Rabat",
+            "Place": 3
           }
         ]
       },
@@ -17174,7 +17543,8 @@
             "Avg_Score": 8.36,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Helvetia Taily",
@@ -17416,7 +17786,8 @@
             "Avg_Score": 7.84,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Dilara Bozan",
@@ -17661,6 +18032,12 @@
             "Avg_Score": 7.64,
             "Won": false
           }
+        ],
+        "Medals": [
+          {
+            "Tournament": "2024 Antalya",
+            "Place": 3
+          }
         ]
       },
       {
@@ -17882,7 +18259,8 @@
             "Avg_Score": 8.06,
             "Won": true
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Garcia Lozano Paola",
@@ -18086,6 +18464,12 @@
             "Avg_Score": 8.12,
             "Won": false
           }
+        ],
+        "Medals": [
+          {
+            "Tournament": "2025 Cairo",
+            "Place": 3
+          }
         ]
       },
       {
@@ -18281,6 +18665,12 @@
             "Kata": "Gojushiho Dai",
             "Avg_Score": 8.52,
             "Won": true
+          }
+        ],
+        "Medals": [
+          {
+            "Tournament": "2025 Worlds",
+            "Place": 3
           }
         ]
       },
@@ -18483,7 +18873,8 @@
             "Avg_Score": 7.56,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Sakura Alforte",
@@ -18693,7 +19084,8 @@
             "Avg_Score": 7.78,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Nakaji Hisami",
@@ -18894,7 +19286,8 @@
             "Avg_Score": 7.86,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Jasmin Juettner",
@@ -19086,7 +19479,8 @@
             "Avg_Score": 7.68,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Mirisa Ohuchi",
@@ -19264,6 +19658,16 @@
             "Avg_Score": 8.54,
             "Won": false
           }
+        ],
+        "Medals": [
+          {
+            "Tournament": "2024 Casablanca",
+            "Place": 2
+          },
+          {
+            "Tournament": "2024 Paris",
+            "Place": 3
+          }
         ]
       },
       {
@@ -19440,7 +19844,8 @@
             "Avg_Score": 8.0,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Lo Sum Man",
@@ -19605,7 +20010,8 @@
             "Avg_Score": 7.74,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Carolina Amato",
@@ -19771,7 +20177,8 @@
             "Avg_Score": 7.54,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Rita Marques",
@@ -19916,6 +20323,12 @@
             "Kata": "Kururunfa",
             "Avg_Score": 7.92,
             "Won": false
+          }
+        ],
+        "Medals": [
+          {
+            "Tournament": "2025 Cairo",
+            "Place": 3
           }
         ]
       },
@@ -20063,7 +20476,8 @@
             "Avg_Score": 8.0,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Jana Khamis",
@@ -20202,7 +20616,8 @@
             "Avg_Score": 7.82,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Wong Sze Man",
@@ -20342,7 +20757,8 @@
             "Avg_Score": 7.64,
             "Won": true
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Mahsa Afsaneh",
@@ -20478,7 +20894,8 @@
             "Avg_Score": 8.12,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Tung Yee Yin",
@@ -20606,7 +21023,8 @@
             "Avg_Score": 7.74,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Alexandra Feracci",
@@ -20735,7 +21153,8 @@
             "Avg_Score": 7.7,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Claudia Laos-Loo",
@@ -20860,7 +21279,8 @@
             "Avg_Score": 7.72,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Zapata Machado Valentina",
@@ -20981,7 +21401,8 @@
             "Avg_Score": 7.8,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Armada Ruiz Andrea",
@@ -21098,7 +21519,8 @@
             "Avg_Score": 7.72,
             "Won": true
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Shirley Jay",
@@ -21223,7 +21645,8 @@
             "Avg_Score": 7.44,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Putri Aprilia Krisda",
@@ -21326,7 +21749,8 @@
             "Avg_Score": 7.64,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Athina Tsiakmaki",
@@ -21429,7 +21853,8 @@
             "Avg_Score": 7.64,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Narimene Dahleb",
@@ -21528,7 +21953,8 @@
             "Avg_Score": 7.8,
             "Won": true
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Morales Ozuna Gema",
@@ -21620,7 +22046,8 @@
             "Avg_Score": 7.9,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Asmaa Allam",
@@ -21697,7 +22124,8 @@
             "Avg_Score": 7.84,
             "Won": true
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Colak Keyda Nur",
@@ -21778,7 +22206,8 @@
             "Avg_Score": 7.76,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Jana Vanusanikova",
@@ -21859,7 +22288,8 @@
             "Avg_Score": 7.26,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Kao Kitaguchi",
@@ -21932,7 +22362,8 @@
             "Avg_Score": 8.1,
             "Won": true
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Rimas Assi",
@@ -22009,7 +22440,8 @@
             "Avg_Score": 7.74,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Natacha Fernandes",
@@ -22082,7 +22514,8 @@
             "Avg_Score": 7.78,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Mariam Elezaby",
@@ -22159,7 +22592,8 @@
             "Avg_Score": 7.62,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Lanyfer Minano",
@@ -22236,7 +22670,8 @@
             "Avg_Score": 7.82,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Mai-Linh Bui",
@@ -22302,7 +22737,8 @@
             "Avg_Score": 7.74,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Rita Siebert",
@@ -22368,7 +22804,8 @@
             "Avg_Score": 7.82,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Turemen Damla Su",
@@ -22434,7 +22871,8 @@
             "Avg_Score": 7.82,
             "Won": true
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Tamara Lehner",
@@ -22504,7 +22942,8 @@
             "Avg_Score": 7.56,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Nodoka Yamada",
@@ -22570,7 +23009,8 @@
             "Avg_Score": 7.96,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Gabrielle Henrique",
@@ -22632,7 +23072,8 @@
             "Avg_Score": 7.72,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Leong Wai Yee Shannon",
@@ -22694,7 +23135,8 @@
             "Avg_Score": 7.68,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Yiwei Tao",
@@ -22756,7 +23198,8 @@
             "Avg_Score": 7.88,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Anicha Romba",
@@ -22807,7 +23250,8 @@
             "Avg_Score": 6.38,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Diana Oligino",
@@ -22858,7 +23302,8 @@
             "Avg_Score": 8.0,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Chien Hui Hsuan",
@@ -22909,7 +23354,8 @@
             "Avg_Score": 7.86,
             "Won": true
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Sofia Fialkova",
@@ -22960,7 +23406,8 @@
             "Avg_Score": 7.5,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Stephanie Dimovska",
@@ -23011,7 +23458,8 @@
             "Avg_Score": 7.36,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Mia Karlsson",
@@ -23062,7 +23510,8 @@
             "Avg_Score": 7.58,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Miriam Ederar",
@@ -23113,7 +23562,8 @@
             "Avg_Score": 7.72,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Jasmin Bleul",
@@ -23164,7 +23614,8 @@
             "Avg_Score": 7.8,
             "Won": true
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Danni Williams",
@@ -23215,7 +23666,8 @@
             "Avg_Score": 7.5,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Habiba Mousa",
@@ -23266,7 +23718,8 @@
             "Avg_Score": 7.72,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Holly Wigg",
@@ -23317,7 +23770,8 @@
             "Avg_Score": 7.3,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Semblano Mariana",
@@ -23368,7 +23822,8 @@
             "Avg_Score": 7.42,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Thing Sanu Maya",
@@ -23419,7 +23874,8 @@
             "Avg_Score": 7.36,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Nicole Turner",
@@ -23470,7 +23926,8 @@
             "Avg_Score": 7.34,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Quiroz Castillo Yaneth",
@@ -23521,7 +23978,8 @@
             "Avg_Score": 7.36,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Lovelly Anne Robberth",
@@ -23561,7 +24019,8 @@
             "Avg_Score": 7.42,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Lila Ritz",
@@ -23601,7 +24060,8 @@
             "Avg_Score": 7.64,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Roberta Dominici",
@@ -23641,7 +24101,8 @@
             "Avg_Score": 7.5,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       },
       {
         "Karateka": "Ninon Vaucelle-Spelle",
@@ -23681,7 +24142,8 @@
             "Avg_Score": 7.68,
             "Won": false
           }
-        ]
+        ],
+        "Medals": []
       }
     ]
   },

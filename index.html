@@ -59,7 +59,7 @@
       <div class="welcome-stats" id="welcome-stats"><!-- filled by JS --></div>
 
       <div class="welcome-body">
-        <div class="welcome-section" style="padding-right:15%">
+        <div class="welcome-section" style="padding-right:5%">
           <h3>How to Use This Site</h3>
           <div class="how-to-grid">
             <div class="how-to-card">
@@ -142,18 +142,21 @@
       </div>
 
       <!-- YouTube thumbnail at bottom of welcome -->
-      <div style="display:flex;justify-content:center">
-        <a href="https://www.youtube.com/watch?v=iiiznDpoapQ" target="_blank" rel="noopener"
-           style="display:block;width:50%;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);position:relative">
-          <img src="https://img.youtube.com/vi/iiiznDpoapQ/hqdefault.jpg"
-               alt="Kata performance video"
-               style="width:100%;display:block">
-          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-                      background:rgba(0,0,0,0.65);border-radius:50%;width:52px;height:52px;
-                      display:flex;align-items:center;justify-content:center">
-            <svg viewBox="0 0 24 24" width="26" height="26" fill="#fff"><polygon points="9,7 19,12 9,17"/></svg>
-          </div>
-        </a>
+      <div>
+        <p style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:10px">2012 World Championships, Female Kata, Gold Medal Match</p>
+        <div style="display:flex;justify-content:center">
+          <a href="https://www.youtube.com/watch?v=iiiznDpoapQ" target="_blank" rel="noopener"
+             style="display:block;width:50%;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);position:relative;aspect-ratio:16/9">
+            <img src="https://img.youtube.com/vi/iiiznDpoapQ/hqdefault.jpg"
+                 alt="Kata performance video"
+                 style="width:100%;height:100%;object-fit:cover;object-position:center;display:block">
+            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+                        background:rgba(0,0,0,0.65);border-radius:50%;width:52px;height:52px;
+                        display:flex;align-items:center;justify-content:center">
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="#fff"><polygon points="9,7 19,12 9,17"/></svg>
+            </div>
+          </a>
+        </div>
       </div>
 
     </div>
@@ -199,6 +202,7 @@
           <tr>
             <th data-col="Karateka">Karateka</th>
             <th data-col="Country">Country</th>
+            <th class="num">Medals</th>
             <th data-col="Performances" class="num">Performances</th>
             <th data-col="Tournaments_Attended" class="num">Tournaments</th>
             <th data-col="Mean_Score" class="num">Avg Score</th>
