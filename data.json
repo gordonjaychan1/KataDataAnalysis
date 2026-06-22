@@ -1,0 +1,7284 @@
+{
+  "meta": {
+    "total_performances": 1970,
+    "num_tournaments": 9,
+    "male_karateka": 78,
+    "female_karateka": 73,
+    "male_kata": 29,
+    "female_kata": 29
+  },
+  "kata": {
+    "male": [
+      {
+        "Kata": "Gojushiho Sho",
+        "Performances": 108,
+        "Win_Rate": 0.537,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 8.0846,
+        "Median_Score": 8.03,
+        "Min_Score": 7.2,
+        "Max_Score": 8.98,
+        "Std_Dev": 0.3488,
+        "Unique_Karateka": 35,
+        "Top_Karateka": [
+          {
+            "Karateka": "Kazumasa Moto",
+            "performances": 10
+          },
+          {
+            "Karateka": "Enes Ozdemir",
+            "performances": 8
+          },
+          {
+            "Karateka": "Ali Sofuoglu",
+            "performances": 7
+          },
+          {
+            "Karateka": "Alessio Ghinami",
+            "performances": 7
+          },
+          {
+            "Karateka": "Ryuji Moto",
+            "performances": 7
+          }
+        ],
+        "Range": 1.78
+      },
+      {
+        "Kata": "Unsu",
+        "Performances": 104,
+        "Win_Rate": 0.375,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 8.0676,
+        "Median_Score": 8.06,
+        "Min_Score": 7.32,
+        "Max_Score": 8.74,
+        "Std_Dev": 0.2888,
+        "Unique_Karateka": 34,
+        "Top_Karateka": [
+          {
+            "Karateka": "Almosawi Sayed Salman",
+            "performances": 9
+          },
+          {
+            "Karateka": "Kazumasa Moto",
+            "performances": 8
+          },
+          {
+            "Karateka": "Almosawi Sayed Mohammed",
+            "performances": 7
+          },
+          {
+            "Karateka": "Enes Ozdemir",
+            "performances": 7
+          },
+          {
+            "Karateka": "Alessio Ghinami",
+            "performances": 6
+          }
+        ],
+        "Range": 1.42
+      },
+      {
+        "Kata": "Ohan Dai",
+        "Performances": 86,
+        "Win_Rate": 0.3721,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 8.1292,
+        "Median_Score": 8.08,
+        "Min_Score": 7.56,
+        "Max_Score": 8.88,
+        "Std_Dev": 0.3168,
+        "Unique_Karateka": 27,
+        "Top_Karateka": [
+          {
+            "Karateka": "Ariel Torres",
+            "performances": 11
+          },
+          {
+            "Karateka": "Howard Hung Ho Wai",
+            "performances": 8
+          },
+          {
+            "Karateka": "Sakichi Abe",
+            "performances": 8
+          },
+          {
+            "Karateka": "Ryusei Ikeda",
+            "performances": 7
+          },
+          {
+            "Karateka": "Anthony Vu",
+            "performances": 6
+          }
+        ],
+        "Range": 1.32
+      },
+      {
+        "Kata": "Suparinpei",
+        "Performances": 85,
+        "Win_Rate": 0.5176,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 8.1405,
+        "Median_Score": 8.14,
+        "Min_Score": 7.12,
+        "Max_Score": 8.98,
+        "Std_Dev": 0.3857,
+        "Unique_Karateka": 29,
+        "Top_Karateka": [
+          {
+            "Karateka": "Kakeru Nishiyama",
+            "performances": 9
+          },
+          {
+            "Karateka": "Yuki Ujihara",
+            "performances": 8
+          },
+          {
+            "Karateka": "Yasuhiro Machida",
+            "performances": 6
+          },
+          {
+            "Karateka": "Rey Chinen",
+            "performances": 6
+          },
+          {
+            "Karateka": "Gakuji Tozaki",
+            "performances": 6
+          }
+        ],
+        "Range": 1.86
+      },
+      {
+        "Kata": "Gojushiho Dai",
+        "Performances": 71,
+        "Win_Rate": 0.4507,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 8.1014,
+        "Median_Score": 8.07,
+        "Min_Score": 7.36,
+        "Max_Score": 8.84,
+        "Std_Dev": 0.3194,
+        "Unique_Karateka": 22,
+        "Top_Karateka": [
+          {
+            "Karateka": "Kazumasa Moto",
+            "performances": 9
+          },
+          {
+            "Karateka": "Alessio Ghinami",
+            "performances": 9
+          },
+          {
+            "Karateka": "Gianluca Gallo",
+            "performances": 6
+          },
+          {
+            "Karateka": "Ali Sofuoglu",
+            "performances": 5
+          },
+          {
+            "Karateka": "Enes Ozdemir",
+            "performances": 5
+          }
+        ],
+        "Range": 1.48
+      },
+      {
+        "Kata": "Papuren",
+        "Performances": 69,
+        "Win_Rate": 0.4638,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 8.1742,
+        "Median_Score": 8.08,
+        "Min_Score": 7.5,
+        "Max_Score": 9.02,
+        "Std_Dev": 0.3561,
+        "Unique_Karateka": 22,
+        "Top_Karateka": [
+          {
+            "Karateka": "Kakeru Nishiyama",
+            "performances": 10
+          },
+          {
+            "Karateka": "Yuki Ujihara",
+            "performances": 7
+          },
+          {
+            "Karateka": "Roman Hrcka",
+            "performances": 7
+          },
+          {
+            "Karateka": "Rey Chinen",
+            "performances": 5
+          },
+          {
+            "Karateka": "James Harrison",
+            "performances": 5
+          }
+        ],
+        "Range": 1.52
+      },
+      {
+        "Kata": "Anan Dai",
+        "Performances": 68,
+        "Win_Rate": 0.4853,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 8.1609,
+        "Median_Score": 8.08,
+        "Min_Score": 7.52,
+        "Max_Score": 8.8,
+        "Std_Dev": 0.3402,
+        "Unique_Karateka": 25,
+        "Top_Karateka": [
+          {
+            "Karateka": "Ariel Torres",
+            "performances": 9
+          },
+          {
+            "Karateka": "Sakichi Abe",
+            "performances": 6
+          },
+          {
+            "Karateka": "Yasuhiro Machida",
+            "performances": 5
+          },
+          {
+            "Karateka": "Ryusei Ikeda",
+            "performances": 5
+          },
+          {
+            "Karateka": "Botond Nagy",
+            "performances": 4
+          }
+        ],
+        "Range": 1.28
+      },
+      {
+        "Kata": "Anan",
+        "Performances": 47,
+        "Win_Rate": 0.7021,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 8.2328,
+        "Median_Score": 8.32,
+        "Min_Score": 7.16,
+        "Max_Score": 8.84,
+        "Std_Dev": 0.3381,
+        "Unique_Karateka": 17,
+        "Top_Karateka": [
+          {
+            "Karateka": "Ariel Torres",
+            "performances": 10
+          },
+          {
+            "Karateka": "Gakuji Tozaki",
+            "performances": 6
+          },
+          {
+            "Karateka": "Ryonosuke Kikuchi",
+            "performances": 5
+          },
+          {
+            "Karateka": "Ryusei Ikeda",
+            "performances": 5
+          },
+          {
+            "Karateka": "Sakichi Abe",
+            "performances": 4
+          }
+        ],
+        "Range": 1.68
+      },
+      {
+        "Kata": "Kanku Sho",
+        "Performances": 47,
+        "Win_Rate": 0.3191,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 8.026,
+        "Median_Score": 8.04,
+        "Min_Score": 7.44,
+        "Max_Score": 8.7,
+        "Std_Dev": 0.299,
+        "Unique_Karateka": 22,
+        "Top_Karateka": [
+          {
+            "Karateka": "Almosawi Sayed Salman",
+            "performances": 7
+          },
+          {
+            "Karateka": "Alessio Ghinami",
+            "performances": 6
+          },
+          {
+            "Karateka": "Petru Comanescu",
+            "performances": 5
+          },
+          {
+            "Karateka": "Almosawi Sayed Mohammed",
+            "performances": 4
+          },
+          {
+            "Karateka": "Enes Ozdemir",
+            "performances": 4
+          }
+        ],
+        "Range": 1.26
+      },
+      {
+        "Kata": "Chibana No Kushanku",
+        "Performances": 45,
+        "Win_Rate": 0.3333,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 8.2138,
+        "Median_Score": 8.08,
+        "Min_Score": 7.38,
+        "Max_Score": 9.28,
+        "Std_Dev": 0.4713,
+        "Unique_Karateka": 15,
+        "Top_Karateka": [
+          {
+            "Karateka": "Kakeru Nishiyama",
+            "performances": 9
+          },
+          {
+            "Karateka": "Howard Hung Ho Wai",
+            "performances": 8
+          },
+          {
+            "Karateka": "Anthony Vu",
+            "performances": 6
+          },
+          {
+            "Karateka": "Martin Romero Raul",
+            "performances": 5
+          },
+          {
+            "Karateka": "Roman Hrcka",
+            "performances": 4
+          }
+        ],
+        "Range": 1.9
+      },
+      {
+        "Kata": "Sochin",
+        "Performances": 36,
+        "Win_Rate": 0.6111,
+        "Kata_Tier": "Intermediate",
+        "Mean_Score": 8.1989,
+        "Median_Score": 8.25,
+        "Min_Score": 7.56,
+        "Max_Score": 8.72,
+        "Std_Dev": 0.3072,
+        "Unique_Karateka": 13,
+        "Top_Karateka": [
+          {
+            "Karateka": "Ryuji Moto",
+            "performances": 9
+          },
+          {
+            "Karateka": "Kazumasa Moto",
+            "performances": 7
+          },
+          {
+            "Karateka": "Enes Ozdemir",
+            "performances": 5
+          },
+          {
+            "Karateka": "Ali Sofuoglu",
+            "performances": 3
+          },
+          {
+            "Karateka": "Roman Heydarov",
+            "performances": 2
+          }
+        ],
+        "Range": 1.16
+      },
+      {
+        "Kata": "Kururunfa",
+        "Performances": 32,
+        "Win_Rate": 0.6875,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 8.1762,
+        "Median_Score": 8.22,
+        "Min_Score": 7.72,
+        "Max_Score": 8.66,
+        "Std_Dev": 0.2311,
+        "Unique_Karateka": 10,
+        "Top_Karateka": [
+          {
+            "Karateka": "Kakeru Nishiyama",
+            "performances": 8
+          },
+          {
+            "Karateka": "Ariel Torres",
+            "performances": 8
+          },
+          {
+            "Karateka": "Yuki Ujihara",
+            "performances": 6
+          },
+          {
+            "Karateka": "James Harrison",
+            "performances": 4
+          },
+          {
+            "Karateka": "Damian Quintero",
+            "performances": 1
+          }
+        ],
+        "Range": 0.94
+      },
+      {
+        "Kata": "Ohan",
+        "Performances": 29,
+        "Win_Rate": 0.7241,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 8.1041,
+        "Median_Score": 8.06,
+        "Min_Score": 7.58,
+        "Max_Score": 8.7,
+        "Std_Dev": 0.2857,
+        "Unique_Karateka": 10,
+        "Top_Karateka": [
+          {
+            "Karateka": "Howard Hung Ho Wai",
+            "performances": 7
+          },
+          {
+            "Karateka": "Sakichi Abe",
+            "performances": 6
+          },
+          {
+            "Karateka": "Ariel Torres",
+            "performances": 4
+          },
+          {
+            "Karateka": "Ryusei Ikeda",
+            "performances": 4
+          },
+          {
+            "Karateka": "Roman Hrcka",
+            "performances": 2
+          }
+        ],
+        "Range": 1.12
+      },
+      {
+        "Kata": "Chatanyara Kusanku",
+        "Performances": 24,
+        "Win_Rate": 0.5417,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 8.11,
+        "Median_Score": 8.16,
+        "Min_Score": 7.18,
+        "Max_Score": 8.64,
+        "Std_Dev": 0.3536,
+        "Unique_Karateka": 13,
+        "Top_Karateka": [
+          {
+            "Karateka": "Aoi Funada",
+            "performances": 4
+          },
+          {
+            "Karateka": "Rey Chinen",
+            "performances": 3
+          },
+          {
+            "Karateka": "Martin Romero Raul",
+            "performances": 3
+          },
+          {
+            "Karateka": "Yasuhiro Machida",
+            "performances": 3
+          },
+          {
+            "Karateka": "Roman Hrcka",
+            "performances": 3
+          }
+        ],
+        "Range": 1.46
+      },
+      {
+        "Kata": "Gankaku",
+        "Performances": 21,
+        "Win_Rate": 0.1429,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 8.1914,
+        "Median_Score": 8.14,
+        "Min_Score": 7.68,
+        "Max_Score": 8.68,
+        "Std_Dev": 0.3259,
+        "Unique_Karateka": 10,
+        "Top_Karateka": [
+          {
+            "Karateka": "Alessio Ghinami",
+            "performances": 4
+          },
+          {
+            "Karateka": "Kazumasa Moto",
+            "performances": 4
+          },
+          {
+            "Karateka": "Petru Comanescu",
+            "performances": 3
+          },
+          {
+            "Karateka": "Casanova Guerrero Cleiver",
+            "performances": 2
+          },
+          {
+            "Karateka": "Enes Ozdemir",
+            "performances": 2
+          }
+        ],
+        "Range": 1.0
+      },
+      {
+        "Kata": "Shisochin",
+        "Performances": 17,
+        "Win_Rate": 1.0,
+        "Kata_Tier": "Intermediate",
+        "Mean_Score": 8.2812,
+        "Median_Score": 8.34,
+        "Min_Score": 7.84,
+        "Max_Score": 8.6,
+        "Std_Dev": 0.1991,
+        "Unique_Karateka": 4,
+        "Top_Karateka": [
+          {
+            "Karateka": "Kakeru Nishiyama",
+            "performances": 8
+          },
+          {
+            "Karateka": "Ariel Torres",
+            "performances": 5
+          },
+          {
+            "Karateka": "Ryonosuke Kikuchi",
+            "performances": 3
+          },
+          {
+            "Karateka": "Yuki Ujihara",
+            "performances": 1
+          }
+        ],
+        "Range": 0.76
+      },
+      {
+        "Kata": "Enpi",
+        "Performances": 11,
+        "Win_Rate": 0.9091,
+        "Kata_Tier": "Intermediate",
+        "Mean_Score": 8.2691,
+        "Median_Score": 8.26,
+        "Min_Score": 8.04,
+        "Max_Score": 8.5,
+        "Std_Dev": 0.1495,
+        "Unique_Karateka": 3,
+        "Top_Karateka": [
+          {
+            "Karateka": "Ryuji Moto",
+            "performances": 7
+          },
+          {
+            "Karateka": "Kazumasa Moto",
+            "performances": 3
+          },
+          {
+            "Karateka": "Alessandro Iodice",
+            "performances": 1
+          }
+        ],
+        "Range": 0.46
+      },
+      {
+        "Kata": "Nipaipo",
+        "Performances": 9,
+        "Win_Rate": 0.7778,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 7.9044,
+        "Median_Score": 7.96,
+        "Min_Score": 6.98,
+        "Max_Score": 8.26,
+        "Std_Dev": 0.3739,
+        "Unique_Karateka": 4,
+        "Top_Karateka": [
+          {
+            "Karateka": "Roman Hrcka",
+            "performances": 5
+          },
+          {
+            "Karateka": "Kotaro Ohata",
+            "performances": 2
+          },
+          {
+            "Karateka": "Eiji Otsuki",
+            "performances": 1
+          },
+          {
+            "Karateka": "Oluwaseun Olorunmbe",
+            "performances": 1
+          }
+        ],
+        "Range": 1.28
+      },
+      {
+        "Kata": "Seisan",
+        "Performances": 8,
+        "Win_Rate": 0.875,
+        "Kata_Tier": "Intermediate",
+        "Mean_Score": 8.445,
+        "Median_Score": 8.52,
+        "Min_Score": 8.14,
+        "Max_Score": 8.64,
+        "Std_Dev": 0.1921,
+        "Unique_Karateka": 2,
+        "Top_Karateka": [
+          {
+            "Karateka": "Kakeru Nishiyama",
+            "performances": 6
+          },
+          {
+            "Karateka": "Kotaro Ohata",
+            "performances": 2
+          }
+        ],
+        "Range": 0.5
+      },
+      {
+        "Kata": "Jitte",
+        "Performances": 7,
+        "Win_Rate": 0.5714,
+        "Kata_Tier": "Intermediate",
+        "Mean_Score": 8.3429,
+        "Median_Score": 8.46,
+        "Min_Score": 8.08,
+        "Max_Score": 8.62,
+        "Std_Dev": 0.2162,
+        "Unique_Karateka": 1,
+        "Top_Karateka": [
+          {
+            "Karateka": "Ryuji Moto",
+            "performances": 7
+          }
+        ],
+        "Range": 0.54
+      },
+      {
+        "Kata": "Paiku",
+        "Performances": 4,
+        "Win_Rate": 0.75,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 7.93,
+        "Median_Score": 7.91,
+        "Min_Score": 7.76,
+        "Max_Score": 8.14,
+        "Std_Dev": 0.1571,
+        "Unique_Karateka": 3,
+        "Top_Karateka": [
+          {
+            "Karateka": "Botond Nagy",
+            "performances": 2
+          },
+          {
+            "Karateka": "Damian Quintero",
+            "performances": 1
+          },
+          {
+            "Karateka": "Yasuhiro Machida",
+            "performances": 1
+          }
+        ],
+        "Range": 0.38
+      },
+      {
+        "Kata": "Nijushiho",
+        "Performances": 4,
+        "Win_Rate": 1.0,
+        "Kata_Tier": "Intermediate",
+        "Mean_Score": 8.18,
+        "Median_Score": 8.19,
+        "Min_Score": 8.0,
+        "Max_Score": 8.34,
+        "Std_Dev": 0.1657,
+        "Unique_Karateka": 1,
+        "Top_Karateka": [
+          {
+            "Karateka": "Ali Sofuoglu",
+            "performances": 4
+          }
+        ],
+        "Range": 0.34
+      },
+      {
+        "Kata": "Gojushiho",
+        "Performances": 3,
+        "Win_Rate": 0.6667,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 8.0533,
+        "Median_Score": 7.9,
+        "Min_Score": 7.74,
+        "Max_Score": 8.52,
+        "Std_Dev": 0.412,
+        "Unique_Karateka": 1,
+        "Top_Karateka": [
+          {
+            "Karateka": "Martin Romero Raul",
+            "performances": 3
+          }
+        ],
+        "Range": 0.78
+      },
+      {
+        "Kata": "Sansai",
+        "Performances": 3,
+        "Win_Rate": 0.0,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 7.6467,
+        "Median_Score": 7.64,
+        "Min_Score": 7.42,
+        "Max_Score": 7.88,
+        "Std_Dev": 0.2301,
+        "Unique_Karateka": 3,
+        "Top_Karateka": [
+          {
+            "Karateka": "Guido Polsinelli",
+            "performances": 1
+          },
+          {
+            "Karateka": "Jure Sluga",
+            "performances": 1
+          },
+          {
+            "Karateka": "Petru Comanescu",
+            "performances": 1
+          }
+        ],
+        "Range": 0.46
+      },
+      {
+        "Kata": "Kishimoto No Kushanku",
+        "Performances": 2,
+        "Win_Rate": 0.0,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 7.37,
+        "Median_Score": 7.37,
+        "Min_Score": 7.24,
+        "Max_Score": 7.5,
+        "Std_Dev": 0.1838,
+        "Unique_Karateka": 2,
+        "Top_Karateka": [
+          {
+            "Karateka": "Gianluca Greco",
+            "performances": 1
+          },
+          {
+            "Karateka": "Nicholas Rowsby",
+            "performances": 1
+          }
+        ],
+        "Range": 0.26
+      },
+      {
+        "Kata": "Seipai",
+        "Performances": 2,
+        "Win_Rate": 0.5,
+        "Kata_Tier": "Intermediate",
+        "Mean_Score": 8.14,
+        "Median_Score": 8.14,
+        "Min_Score": 7.96,
+        "Max_Score": 8.32,
+        "Std_Dev": 0.2546,
+        "Unique_Karateka": 2,
+        "Top_Karateka": [
+          {
+            "Karateka": "Sakichi Abe",
+            "performances": 1
+          },
+          {
+            "Karateka": "Yuki Ujihara",
+            "performances": 1
+          }
+        ],
+        "Range": 0.36
+      },
+      {
+        "Kata": "Pachu",
+        "Performances": 2,
+        "Win_Rate": 1.0,
+        "Kata_Tier": "Intermediate",
+        "Mean_Score": 8.19,
+        "Median_Score": 8.19,
+        "Min_Score": 7.96,
+        "Max_Score": 8.42,
+        "Std_Dev": 0.3253,
+        "Unique_Karateka": 1,
+        "Top_Karateka": [
+          {
+            "Karateka": "Damian Quintero",
+            "performances": 2
+          }
+        ],
+        "Range": 0.46
+      },
+      {
+        "Kata": "Sanseiru",
+        "Performances": 2,
+        "Win_Rate": 1.0,
+        "Kata_Tier": "Intermediate",
+        "Mean_Score": 8.07,
+        "Median_Score": 8.07,
+        "Min_Score": 7.86,
+        "Max_Score": 8.28,
+        "Std_Dev": 0.297,
+        "Unique_Karateka": 2,
+        "Top_Karateka": [
+          {
+            "Karateka": "Ariel Torres",
+            "performances": 1
+          },
+          {
+            "Karateka": "Yuki Ujihara",
+            "performances": 1
+          }
+        ],
+        "Range": 0.42
+      },
+      {
+        "Kata": "Kyan No Chinto",
+        "Performances": 1,
+        "Win_Rate": 0.0,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 7.82,
+        "Median_Score": 7.82,
+        "Min_Score": 7.82,
+        "Max_Score": 7.82,
+        "Std_Dev": null,
+        "Unique_Karateka": 1,
+        "Top_Karateka": [
+          {
+            "Karateka": "Casanova Guerrero Cleiver",
+            "performances": 1
+          }
+        ],
+        "Range": 0.0
+      }
+    ],
+    "female": [
+      {
+        "Kata": "Papuren",
+        "Performances": 198,
+        "Win_Rate": 0.5101,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 7.9699,
+        "Median_Score": 7.96,
+        "Min_Score": 6.2,
+        "Max_Score": 8.82,
+        "Std_Dev": 0.3702,
+        "Unique_Karateka": 50,
+        "Top_Karateka": [
+          {
+            "Karateka": "Grace Lau",
+            "performances": 11
+          },
+          {
+            "Karateka": "Maho Ono",
+            "performances": 11
+          },
+          {
+            "Karateka": "Ana Cruz",
+            "performances": 9
+          },
+          {
+            "Karateka": "Sakura Kokumai",
+            "performances": 9
+          },
+          {
+            "Karateka": "Terryana D'Onofrio",
+            "performances": 9
+          }
+        ],
+        "Range": 2.62
+      },
+      {
+        "Kata": "Suparinpei",
+        "Performances": 129,
+        "Win_Rate": 0.5426,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 8.0271,
+        "Median_Score": 7.98,
+        "Min_Score": 7.28,
+        "Max_Score": 8.96,
+        "Std_Dev": 0.331,
+        "Unique_Karateka": 38,
+        "Top_Karateka": [
+          {
+            "Karateka": "Terryana D'Onofrio",
+            "performances": 10
+          },
+          {
+            "Karateka": "Grace Lau",
+            "performances": 9
+          },
+          {
+            "Karateka": "Maho Ono",
+            "performances": 9
+          },
+          {
+            "Karateka": "Kiri Mishima",
+            "performances": 8
+          },
+          {
+            "Karateka": "Saeko Azuma",
+            "performances": 7
+          }
+        ],
+        "Range": 1.68
+      },
+      {
+        "Kata": "Chatanyara Kusanku",
+        "Performances": 124,
+        "Win_Rate": 0.4194,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 8.07,
+        "Median_Score": 8.04,
+        "Min_Score": 7.1,
+        "Max_Score": 9.22,
+        "Std_Dev": 0.3848,
+        "Unique_Karateka": 35,
+        "Top_Karateka": [
+          {
+            "Karateka": "Maho Ono",
+            "performances": 12
+          },
+          {
+            "Karateka": "Grace Lau",
+            "performances": 9
+          },
+          {
+            "Karateka": "Xenou Georgia Archontia",
+            "performances": 8
+          },
+          {
+            "Karateka": "Saeko Azuma",
+            "performances": 8
+          },
+          {
+            "Karateka": "Garcia Lozano Paola",
+            "performances": 6
+          }
+        ],
+        "Range": 2.12
+      },
+      {
+        "Kata": "Chibana No Kushanku",
+        "Performances": 102,
+        "Win_Rate": 0.5294,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 8.0218,
+        "Median_Score": 8.05,
+        "Min_Score": 6.14,
+        "Max_Score": 8.88,
+        "Std_Dev": 0.3838,
+        "Unique_Karateka": 34,
+        "Top_Karateka": [
+          {
+            "Karateka": "Maho Ono",
+            "performances": 11
+          },
+          {
+            "Karateka": "Kiri Mishima",
+            "performances": 8
+          },
+          {
+            "Karateka": "Grace Lau",
+            "performances": 8
+          },
+          {
+            "Karateka": "Saeko Azuma",
+            "performances": 7
+          },
+          {
+            "Karateka": "Sakura Kokumai",
+            "performances": 6
+          }
+        ],
+        "Range": 2.74
+      },
+      {
+        "Kata": "Kururunfa",
+        "Performances": 65,
+        "Win_Rate": 0.6462,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 7.9258,
+        "Median_Score": 7.92,
+        "Min_Score": 7.4,
+        "Max_Score": 8.3,
+        "Std_Dev": 0.2141,
+        "Unique_Karateka": 22,
+        "Top_Karateka": [
+          {
+            "Karateka": "Natsuki Shimizu",
+            "performances": 8
+          },
+          {
+            "Karateka": "Dilara Bozan",
+            "performances": 8
+          },
+          {
+            "Karateka": "Sakura Kokumai",
+            "performances": 7
+          },
+          {
+            "Karateka": "Terryana D'Onofrio",
+            "performances": 5
+          },
+          {
+            "Karateka": "Rita Marques",
+            "performances": 4
+          }
+        ],
+        "Range": 0.9
+      },
+      {
+        "Kata": "Anan Dai",
+        "Performances": 44,
+        "Win_Rate": 0.4773,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 7.8291,
+        "Median_Score": 7.81,
+        "Min_Score": 7.36,
+        "Max_Score": 8.38,
+        "Std_Dev": 0.2455,
+        "Unique_Karateka": 20,
+        "Top_Karateka": [
+          {
+            "Karateka": "Xenou Georgia Archontia",
+            "performances": 7
+          },
+          {
+            "Karateka": "Sakura Alforte",
+            "performances": 5
+          },
+          {
+            "Karateka": "Ana Cruz",
+            "performances": 5
+          },
+          {
+            "Karateka": "Sadeghi Dastak Fatemeh",
+            "performances": 4
+          },
+          {
+            "Karateka": "Dilara Bozan",
+            "performances": 4
+          }
+        ],
+        "Range": 1.02
+      },
+      {
+        "Kata": "Ohan Dai",
+        "Performances": 43,
+        "Win_Rate": 0.3488,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 7.7591,
+        "Median_Score": 7.74,
+        "Min_Score": 7.26,
+        "Max_Score": 8.28,
+        "Std_Dev": 0.2315,
+        "Unique_Karateka": 20,
+        "Top_Karateka": [
+          {
+            "Karateka": "Sakura Alforte",
+            "performances": 7
+          },
+          {
+            "Karateka": "Chiara Manca",
+            "performances": 4
+          },
+          {
+            "Karateka": "Armada Ruiz Andrea",
+            "performances": 4
+          },
+          {
+            "Karateka": "Ana Cruz",
+            "performances": 3
+          },
+          {
+            "Karateka": "Tung Yee Yin",
+            "performances": 3
+          }
+        ],
+        "Range": 1.02
+      },
+      {
+        "Kata": "Gojushiho Sho",
+        "Performances": 42,
+        "Win_Rate": 0.4762,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 7.8167,
+        "Median_Score": 7.84,
+        "Min_Score": 7.48,
+        "Max_Score": 8.04,
+        "Std_Dev": 0.1351,
+        "Unique_Karateka": 12,
+        "Top_Karateka": [
+          {
+            "Karateka": "Aya En-Nesyry",
+            "performances": 9
+          },
+          {
+            "Karateka": "Helvetia Taily",
+            "performances": 8
+          },
+          {
+            "Karateka": "Jasmin Juettner",
+            "performances": 6
+          },
+          {
+            "Karateka": "Aya Hesham",
+            "performances": 5
+          },
+          {
+            "Karateka": "Jana Khamis",
+            "performances": 4
+          }
+        ],
+        "Range": 0.56
+      },
+      {
+        "Kata": "Gojushiho Dai",
+        "Performances": 41,
+        "Win_Rate": 0.4878,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 7.8137,
+        "Median_Score": 7.8,
+        "Min_Score": 7.46,
+        "Max_Score": 8.52,
+        "Std_Dev": 0.1711,
+        "Unique_Karateka": 14,
+        "Top_Karateka": [
+          {
+            "Karateka": "Helvetia Taily",
+            "performances": 8
+          },
+          {
+            "Karateka": "Aya Hesham",
+            "performances": 6
+          },
+          {
+            "Karateka": "Aya En-Nesyry",
+            "performances": 5
+          },
+          {
+            "Karateka": "Jana Khamis",
+            "performances": 4
+          },
+          {
+            "Karateka": "Jasmin Juettner",
+            "performances": 3
+          }
+        ],
+        "Range": 1.06
+      },
+      {
+        "Kata": "Unsu",
+        "Performances": 31,
+        "Win_Rate": 0.2903,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 7.8187,
+        "Median_Score": 7.8,
+        "Min_Score": 7.52,
+        "Max_Score": 8.24,
+        "Std_Dev": 0.206,
+        "Unique_Karateka": 14,
+        "Top_Karateka": [
+          {
+            "Karateka": "Helvetia Taily",
+            "performances": 5
+          },
+          {
+            "Karateka": "Aya En-Nesyry",
+            "performances": 5
+          },
+          {
+            "Karateka": "Jana Khamis",
+            "performances": 3
+          },
+          {
+            "Karateka": "Aya Hesham",
+            "performances": 3
+          },
+          {
+            "Karateka": "Turemen Damla Su",
+            "performances": 2
+          }
+        ],
+        "Range": 0.72
+      },
+      {
+        "Kata": "Anan",
+        "Performances": 19,
+        "Win_Rate": 0.2105,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 7.8211,
+        "Median_Score": 7.86,
+        "Min_Score": 7.4,
+        "Max_Score": 8.22,
+        "Std_Dev": 0.2517,
+        "Unique_Karateka": 12,
+        "Top_Karateka": [
+          {
+            "Karateka": "Sakura Alforte",
+            "performances": 3
+          },
+          {
+            "Karateka": "Carolina Amato",
+            "performances": 3
+          },
+          {
+            "Karateka": "Ana Cruz",
+            "performances": 3
+          },
+          {
+            "Karateka": "Natsuki Shimizu",
+            "performances": 2
+          },
+          {
+            "Karateka": "Rita Marques",
+            "performances": 1
+          }
+        ],
+        "Range": 0.82
+      },
+      {
+        "Kata": "Gankaku",
+        "Performances": 18,
+        "Win_Rate": 0.3889,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 7.7789,
+        "Median_Score": 7.78,
+        "Min_Score": 7.48,
+        "Max_Score": 8.16,
+        "Std_Dev": 0.1776,
+        "Unique_Karateka": 3,
+        "Top_Karateka": [
+          {
+            "Karateka": "Aya En-Nesyry",
+            "performances": 9
+          },
+          {
+            "Karateka": "Helvetia Taily",
+            "performances": 6
+          },
+          {
+            "Karateka": "Narimene Dahleb",
+            "performances": 3
+          }
+        ],
+        "Range": 0.68
+      },
+      {
+        "Kata": "Paiku",
+        "Performances": 15,
+        "Win_Rate": 0.7333,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 8.0587,
+        "Median_Score": 8.02,
+        "Min_Score": 7.74,
+        "Max_Score": 8.56,
+        "Std_Dev": 0.2477,
+        "Unique_Karateka": 4,
+        "Top_Karateka": [
+          {
+            "Karateka": "Kiri Mishima",
+            "performances": 6
+          },
+          {
+            "Karateka": "Nakaji Hisami",
+            "performances": 5
+          },
+          {
+            "Karateka": "Tung Yee Yin",
+            "performances": 2
+          },
+          {
+            "Karateka": "Sakura Alforte",
+            "performances": 2
+          }
+        ],
+        "Range": 0.82
+      },
+      {
+        "Kata": "Nipaipo",
+        "Performances": 13,
+        "Win_Rate": 0.7692,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 8.1492,
+        "Median_Score": 8.22,
+        "Min_Score": 7.22,
+        "Max_Score": 8.5,
+        "Std_Dev": 0.3406,
+        "Unique_Karateka": 4,
+        "Top_Karateka": [
+          {
+            "Karateka": "Maho Ono",
+            "performances": 9
+          },
+          {
+            "Karateka": "Mirisa Ohuchi",
+            "performances": 2
+          },
+          {
+            "Karateka": "Dilara Bozan",
+            "performances": 1
+          },
+          {
+            "Karateka": "Jana Vanusanikova",
+            "performances": 1
+          }
+        ],
+        "Range": 1.28
+      },
+      {
+        "Kata": "Tomari Bassai",
+        "Performances": 13,
+        "Win_Rate": 0.9231,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 8.0354,
+        "Median_Score": 8.08,
+        "Min_Score": 7.46,
+        "Max_Score": 8.4,
+        "Std_Dev": 0.2924,
+        "Unique_Karateka": 4,
+        "Top_Karateka": [
+          {
+            "Karateka": "Grace Lau",
+            "performances": 9
+          },
+          {
+            "Karateka": "Wong Sze Man",
+            "performances": 2
+          },
+          {
+            "Karateka": "Chiara Manca",
+            "performances": 1
+          },
+          {
+            "Karateka": "Sakura Alforte",
+            "performances": 1
+          }
+        ],
+        "Range": 0.94
+      },
+      {
+        "Kata": "Kanku Sho",
+        "Performances": 12,
+        "Win_Rate": 0.4167,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 7.8517,
+        "Median_Score": 7.86,
+        "Min_Score": 7.54,
+        "Max_Score": 8.16,
+        "Std_Dev": 0.2024,
+        "Unique_Karateka": 6,
+        "Top_Karateka": [
+          {
+            "Karateka": "Aya Hesham",
+            "performances": 5
+          },
+          {
+            "Karateka": "Aya En-Nesyry",
+            "performances": 2
+          },
+          {
+            "Karateka": "Jana Khamis",
+            "performances": 2
+          },
+          {
+            "Karateka": "Helvetia Taily",
+            "performances": 1
+          },
+          {
+            "Karateka": "Mariam Elezaby",
+            "performances": 1
+          }
+        ],
+        "Range": 0.62
+      },
+      {
+        "Kata": "Oyadomari No Passai",
+        "Performances": 11,
+        "Win_Rate": 0.8182,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 8.2364,
+        "Median_Score": 8.24,
+        "Min_Score": 7.58,
+        "Max_Score": 8.6,
+        "Std_Dev": 0.2791,
+        "Unique_Karateka": 4,
+        "Top_Karateka": [
+          {
+            "Karateka": "Saeko Azuma",
+            "performances": 7
+          },
+          {
+            "Karateka": "Terryana D'Onofrio",
+            "performances": 2
+          },
+          {
+            "Karateka": "Carola Casale",
+            "performances": 1
+          },
+          {
+            "Karateka": "Claudia Laos-Loo",
+            "performances": 1
+          }
+        ],
+        "Range": 1.02
+      },
+      {
+        "Kata": "Kishimoto No Kushanku",
+        "Performances": 8,
+        "Win_Rate": 0.375,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 7.8475,
+        "Median_Score": 7.9,
+        "Min_Score": 7.32,
+        "Max_Score": 8.02,
+        "Std_Dev": 0.2252,
+        "Unique_Karateka": 5,
+        "Top_Karateka": [
+          {
+            "Karateka": "Mahsa Afsaneh",
+            "performances": 4
+          },
+          {
+            "Karateka": "Alexandra Feracci",
+            "performances": 1
+          },
+          {
+            "Karateka": "Diana Oligino",
+            "performances": 1
+          },
+          {
+            "Karateka": "Holly Wigg",
+            "performances": 1
+          },
+          {
+            "Karateka": "Morales Ozuna Gema",
+            "performances": 1
+          }
+        ],
+        "Range": 0.7
+      },
+      {
+        "Kata": "Sansai",
+        "Performances": 7,
+        "Win_Rate": 0.4286,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 7.86,
+        "Median_Score": 7.9,
+        "Min_Score": 7.62,
+        "Max_Score": 8.1,
+        "Std_Dev": 0.1701,
+        "Unique_Karateka": 2,
+        "Top_Karateka": [
+          {
+            "Karateka": "Jasmin Juettner",
+            "performances": 6
+          },
+          {
+            "Karateka": "Jasmin Bleul",
+            "performances": 1
+          }
+        ],
+        "Range": 0.48
+      },
+      {
+        "Kata": "Kousoukun Sho",
+        "Performances": 6,
+        "Win_Rate": 0.6667,
+        "Kata_Tier": "Intermediate",
+        "Mean_Score": 7.688,
+        "Median_Score": 7.94,
+        "Min_Score": 6.38,
+        "Max_Score": 8.26,
+        "Std_Dev": 0.7504,
+        "Unique_Karateka": 2,
+        "Top_Karateka": [
+          {
+            "Karateka": "Nakaji Hisami",
+            "performances": 5
+          },
+          {
+            "Karateka": "Anicha Romba",
+            "performances": 1
+          }
+        ],
+        "Range": 1.88
+      },
+      {
+        "Kata": "Matsumura Bassai",
+        "Performances": 5,
+        "Win_Rate": 0.4,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 7.688,
+        "Median_Score": 7.64,
+        "Min_Score": 7.56,
+        "Max_Score": 7.9,
+        "Std_Dev": 0.1418,
+        "Unique_Karateka": 2,
+        "Top_Karateka": [
+          {
+            "Karateka": "Veronika Miskova",
+            "performances": 4
+          },
+          {
+            "Karateka": "Mia Karlsson",
+            "performances": 1
+          }
+        ],
+        "Range": 0.34
+      },
+      {
+        "Kata": "Ohan",
+        "Performances": 4,
+        "Win_Rate": 0.75,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 7.91,
+        "Median_Score": 7.94,
+        "Min_Score": 7.58,
+        "Max_Score": 8.18,
+        "Std_Dev": 0.2559,
+        "Unique_Karateka": 3,
+        "Top_Karateka": [
+          {
+            "Karateka": "Sakura Alforte",
+            "performances": 2
+          },
+          {
+            "Karateka": "Chien Hui Hsuan",
+            "performances": 1
+          },
+          {
+            "Karateka": "Terryana D'Onofrio",
+            "performances": 1
+          }
+        ],
+        "Range": 0.6
+      },
+      {
+        "Kata": "Sochin",
+        "Performances": 3,
+        "Win_Rate": 0.0,
+        "Kata_Tier": "Intermediate",
+        "Mean_Score": 8.1533,
+        "Median_Score": 8.12,
+        "Min_Score": 8.08,
+        "Max_Score": 8.26,
+        "Std_Dev": 0.0945,
+        "Unique_Karateka": 1,
+        "Top_Karateka": [
+          {
+            "Karateka": "Aya Hesham",
+            "performances": 3
+          }
+        ],
+        "Range": 0.18
+      },
+      {
+        "Kata": "Kusanku",
+        "Performances": 3,
+        "Win_Rate": 0.3333,
+        "Kata_Tier": "Intermediate",
+        "Mean_Score": 8.16,
+        "Median_Score": 8.2,
+        "Min_Score": 8.0,
+        "Max_Score": 8.28,
+        "Std_Dev": 0.1442,
+        "Unique_Karateka": 1,
+        "Top_Karateka": [
+          {
+            "Karateka": "Natsuki Shimizu",
+            "performances": 3
+          }
+        ],
+        "Range": 0.28
+      },
+      {
+        "Kata": "Shisochin",
+        "Performances": 2,
+        "Win_Rate": 1.0,
+        "Kata_Tier": "Intermediate",
+        "Mean_Score": 7.95,
+        "Median_Score": 7.95,
+        "Min_Score": 7.92,
+        "Max_Score": 7.98,
+        "Std_Dev": 0.0424,
+        "Unique_Karateka": 1,
+        "Top_Karateka": [
+          {
+            "Karateka": "Natsuki Shimizu",
+            "performances": 2
+          }
+        ],
+        "Range": 0.06
+      },
+      {
+        "Kata": "Kousoukun Dai",
+        "Performances": 1,
+        "Win_Rate": 0.0,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 7.9,
+        "Median_Score": 7.9,
+        "Min_Score": 7.9,
+        "Max_Score": 7.9,
+        "Std_Dev": null,
+        "Unique_Karateka": 1,
+        "Top_Karateka": [
+          {
+            "Karateka": "Nodoka Yamada",
+            "performances": 1
+          }
+        ],
+        "Range": 0.0
+      },
+      {
+        "Kata": "Gojushiho",
+        "Performances": 1,
+        "Win_Rate": 0.0,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": null,
+        "Median_Score": null,
+        "Min_Score": null,
+        "Max_Score": null,
+        "Std_Dev": null,
+        "Unique_Karateka": 1,
+        "Top_Karateka": [
+          {
+            "Karateka": "Narimene Dahleb",
+            "performances": 1
+          }
+        ],
+        "Range": null
+      },
+      {
+        "Kata": "Enpi",
+        "Performances": 1,
+        "Win_Rate": 0.0,
+        "Kata_Tier": "Intermediate",
+        "Mean_Score": 8.08,
+        "Median_Score": 8.08,
+        "Min_Score": 8.08,
+        "Max_Score": 8.08,
+        "Std_Dev": null,
+        "Unique_Karateka": 1,
+        "Top_Karateka": [
+          {
+            "Karateka": "Jana Khamis",
+            "performances": 1
+          }
+        ],
+        "Range": 0.0
+      },
+      {
+        "Kata": "Kyan No Chinto",
+        "Performances": 1,
+        "Win_Rate": 0.0,
+        "Kata_Tier": "Advanced",
+        "Mean_Score": 7.68,
+        "Median_Score": 7.68,
+        "Min_Score": 7.68,
+        "Max_Score": 7.68,
+        "Std_Dev": null,
+        "Unique_Karateka": 1,
+        "Top_Karateka": [
+          {
+            "Karateka": "Nakaji Hisami",
+            "performances": 1
+          }
+        ],
+        "Range": 0.0
+      }
+    ]
+  },
+  "karateka": {
+    "male": [
+      {
+        "Karateka": "Kakeru Nishiyama",
+        "Performances": 52,
+        "Win_Rate": 1.0,
+        "Tournaments_Attended": 9,
+        "Country": "Japan",
+        "Mean_Score": 8.67,
+        "Median_Score": 8.66,
+        "Min_Score": 8.18,
+        "Max_Score": 9.28,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 10
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 9
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 9
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 8
+          },
+          {
+            "Kata": "Shisochin",
+            "count": 8
+          },
+          {
+            "Kata": "Seisan",
+            "count": 6
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Ariel Torres",
+        "Performances": 50,
+        "Win_Rate": 0.82,
+        "Tournaments_Attended": 9,
+        "Country": "USA",
+        "Mean_Score": 8.47,
+        "Median_Score": 8.48,
+        "Min_Score": 8.02,
+        "Max_Score": 8.88,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Ohan Dai",
+            "count": 11
+          },
+          {
+            "Kata": "Anan",
+            "count": 10
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 9
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 8
+          },
+          {
+            "Kata": "Shisochin",
+            "count": 5
+          },
+          {
+            "Kata": "Ohan",
+            "count": 4
+          },
+          {
+            "Kata": "Sanseiru",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Kazumasa Moto",
+        "Performances": 43,
+        "Win_Rate": 0.7442,
+        "Tournaments_Attended": 8,
+        "Country": "Japan",
+        "Mean_Score": 8.49,
+        "Median_Score": 8.44,
+        "Min_Score": 8.28,
+        "Max_Score": 8.94,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 10
+          },
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 9
+          },
+          {
+            "Kata": "Unsu",
+            "count": 8
+          },
+          {
+            "Kata": "Sochin",
+            "count": 7
+          },
+          {
+            "Kata": "Gankaku",
+            "count": 4
+          },
+          {
+            "Kata": "Enpi",
+            "count": 3
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Ryuji Moto",
+        "Performances": 36,
+        "Win_Rate": 0.7222,
+        "Tournaments_Attended": 8,
+        "Country": "Japan",
+        "Mean_Score": 8.36,
+        "Median_Score": 8.3,
+        "Min_Score": 8.04,
+        "Max_Score": 8.72,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Sochin",
+            "count": 9
+          },
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 7
+          },
+          {
+            "Kata": "Enpi",
+            "count": 7
+          },
+          {
+            "Kata": "Jitte",
+            "count": 7
+          },
+          {
+            "Kata": "Unsu",
+            "count": 5
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Alessio Ghinami",
+        "Performances": 33,
+        "Win_Rate": 0.697,
+        "Tournaments_Attended": 9,
+        "Country": "Italy",
+        "Mean_Score": 8.29,
+        "Median_Score": 8.25,
+        "Min_Score": 8.0,
+        "Max_Score": 8.84,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 9
+          },
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 7
+          },
+          {
+            "Kata": "Kanku Sho",
+            "count": 6
+          },
+          {
+            "Kata": "Unsu",
+            "count": 6
+          },
+          {
+            "Kata": "Gankaku",
+            "count": 4
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Enes Ozdemir",
+        "Performances": 32,
+        "Win_Rate": 0.6875,
+        "Tournaments_Attended": 8,
+        "Country": "Turkey",
+        "Mean_Score": 8.34,
+        "Median_Score": 8.34,
+        "Min_Score": 7.98,
+        "Max_Score": 8.86,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 8
+          },
+          {
+            "Kata": "Unsu",
+            "count": 7
+          },
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 5
+          },
+          {
+            "Kata": "Sochin",
+            "count": 5
+          },
+          {
+            "Kata": "Kanku Sho",
+            "count": 4
+          },
+          {
+            "Kata": "Gankaku",
+            "count": 2
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Sakichi Abe",
+        "Performances": 31,
+        "Win_Rate": 0.7419,
+        "Tournaments_Attended": 7,
+        "Country": "Japan",
+        "Mean_Score": 8.47,
+        "Median_Score": 8.46,
+        "Min_Score": 8.08,
+        "Max_Score": 8.84,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Ohan Dai",
+            "count": 8
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 6
+          },
+          {
+            "Kata": "Ohan",
+            "count": 6
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 4
+          },
+          {
+            "Kata": "Anan",
+            "count": 4
+          },
+          {
+            "Kata": "Seipai",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Ryonosuke Kikuchi",
+        "Performances": 31,
+        "Win_Rate": 0.5806,
+        "Tournaments_Attended": 8,
+        "Country": "Japan",
+        "Mean_Score": 8.31,
+        "Median_Score": 8.32,
+        "Min_Score": 7.78,
+        "Max_Score": 8.62,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Ohan Dai",
+            "count": 5
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 5
+          },
+          {
+            "Kata": "Anan",
+            "count": 5
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 4
+          },
+          {
+            "Kata": "Papuren",
+            "count": 4
+          },
+          {
+            "Kata": "Shisochin",
+            "count": 3
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 1
+          },
+          {
+            "Kata": "Sochin",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Almosawi Sayed Salman",
+        "Performances": 28,
+        "Win_Rate": 0.3571,
+        "Tournaments_Attended": 9,
+        "Country": "Kuwait",
+        "Mean_Score": 8.01,
+        "Median_Score": 7.98,
+        "Min_Score": 7.86,
+        "Max_Score": 8.32,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Unsu",
+            "count": 9
+          },
+          {
+            "Kata": "Kanku Sho",
+            "count": 7
+          },
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 7
+          },
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 3
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Roman Hrcka",
+        "Performances": 27,
+        "Win_Rate": 0.4074,
+        "Tournaments_Attended": 8,
+        "Country": "Slovakia",
+        "Mean_Score": 8.0,
+        "Median_Score": 7.98,
+        "Min_Score": 7.66,
+        "Max_Score": 8.4,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 7
+          },
+          {
+            "Kata": "Nipaipo",
+            "count": 5
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 4
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 3
+          },
+          {
+            "Kata": "Ohan",
+            "count": 2
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Howard Hung Ho Wai",
+        "Performances": 27,
+        "Win_Rate": 0.2963,
+        "Tournaments_Attended": 9,
+        "Country": "Hong Kong",
+        "Mean_Score": 7.94,
+        "Median_Score": 7.94,
+        "Min_Score": 7.6,
+        "Max_Score": 8.32,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 8
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 8
+          },
+          {
+            "Kata": "Ohan",
+            "count": 7
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 2
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Yuki Ujihara",
+        "Performances": 27,
+        "Win_Rate": 0.1852,
+        "Tournaments_Attended": 9,
+        "Country": "Switzerland",
+        "Mean_Score": 7.97,
+        "Median_Score": 7.95,
+        "Min_Score": 7.72,
+        "Max_Score": 8.18,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Suparinpei",
+            "count": 8
+          },
+          {
+            "Kata": "Papuren",
+            "count": 7
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 6
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 1
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Sanseiru",
+            "count": 1
+          },
+          {
+            "Kata": "Seipai",
+            "count": 1
+          },
+          {
+            "Kata": "Shisochin",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Ryusei Ikeda",
+        "Performances": 25,
+        "Win_Rate": 0.72,
+        "Tournaments_Attended": 7,
+        "Country": "Japan",
+        "Mean_Score": 8.25,
+        "Median_Score": 8.28,
+        "Min_Score": 7.98,
+        "Max_Score": 8.46,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Ohan Dai",
+            "count": 7
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 5
+          },
+          {
+            "Kata": "Anan",
+            "count": 5
+          },
+          {
+            "Kata": "Ohan",
+            "count": 4
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 3
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Ali Sofuoglu",
+        "Performances": 23,
+        "Win_Rate": 0.6957,
+        "Tournaments_Attended": 6,
+        "Country": "Turkey",
+        "Mean_Score": 8.39,
+        "Median_Score": 8.36,
+        "Min_Score": 8.0,
+        "Max_Score": 8.98,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 7
+          },
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 5
+          },
+          {
+            "Kata": "Nijushiho",
+            "count": 4
+          },
+          {
+            "Kata": "Sochin",
+            "count": 3
+          },
+          {
+            "Kata": "Kanku Sho",
+            "count": 2
+          },
+          {
+            "Kata": "Unsu",
+            "count": 2
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Hangzhou",
+          "2025 Paris"
+        ]
+      },
+      {
+        "Karateka": "Gakuji Tozaki",
+        "Performances": 23,
+        "Win_Rate": 0.6522,
+        "Tournaments_Attended": 7,
+        "Country": "USA",
+        "Mean_Score": 8.22,
+        "Median_Score": 8.26,
+        "Min_Score": 7.88,
+        "Max_Score": 8.54,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Anan",
+            "count": 6
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 6
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 4
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 3
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 1
+          },
+          {
+            "Kata": "Ohan",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Yasuhiro Machida",
+        "Performances": 22,
+        "Win_Rate": 0.6818,
+        "Tournaments_Attended": 5,
+        "Country": "Japan",
+        "Mean_Score": 8.27,
+        "Median_Score": 8.26,
+        "Min_Score": 7.82,
+        "Max_Score": 8.66,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Suparinpei",
+            "count": 6
+          },
+          {
+            "Kata": "Papuren",
+            "count": 5
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 5
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 3
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 2
+          },
+          {
+            "Kata": "Paiku",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Petru Comanescu",
+        "Performances": 22,
+        "Win_Rate": 0.3636,
+        "Tournaments_Attended": 7,
+        "Country": "Romania",
+        "Mean_Score": 7.92,
+        "Median_Score": 7.91,
+        "Min_Score": 7.64,
+        "Max_Score": 8.24,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Kanku Sho",
+            "count": 5
+          },
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 5
+          },
+          {
+            "Kata": "Unsu",
+            "count": 4
+          },
+          {
+            "Kata": "Gankaku",
+            "count": 3
+          },
+          {
+            "Kata": "Sochin",
+            "count": 2
+          },
+          {
+            "Kata": "Sansai",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Paris",
+          "2025 Rabat",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Anthony Vu",
+        "Performances": 21,
+        "Win_Rate": 0.5714,
+        "Tournaments_Attended": 6,
+        "Country": "Sweden",
+        "Mean_Score": 8.07,
+        "Median_Score": 8.08,
+        "Min_Score": 7.76,
+        "Max_Score": 8.4,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Ohan Dai",
+            "count": 6
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 6
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 3
+          },
+          {
+            "Kata": "Papuren",
+            "count": 3
+          },
+          {
+            "Kata": "Anan",
+            "count": 2
+          }
+        ],
+        "Tournament_List": [
+          "2024 Casablanca",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Rey Chinen",
+        "Performances": 21,
+        "Win_Rate": 0.4762,
+        "Tournaments_Attended": 6,
+        "Country": "USA",
+        "Mean_Score": 8.19,
+        "Median_Score": 8.18,
+        "Min_Score": 7.9,
+        "Max_Score": 8.58,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Suparinpei",
+            "count": 6
+          },
+          {
+            "Kata": "Papuren",
+            "count": 5
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 3
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 3
+          },
+          {
+            "Kata": "Anan",
+            "count": 1
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Mattia Busato",
+        "Performances": 20,
+        "Win_Rate": 0.45,
+        "Tournaments_Attended": 6,
+        "Country": "Italy",
+        "Mean_Score": 8.19,
+        "Median_Score": 8.16,
+        "Min_Score": 7.96,
+        "Max_Score": 8.68,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Unsu",
+            "count": 5
+          },
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 5
+          },
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 4
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Gankaku",
+            "count": 1
+          },
+          {
+            "Kata": "Kanku Sho",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Gianluca Gallo",
+        "Performances": 20,
+        "Win_Rate": 0.4,
+        "Tournaments_Attended": 7,
+        "Country": "Italy",
+        "Mean_Score": 7.94,
+        "Median_Score": 7.96,
+        "Min_Score": 7.58,
+        "Max_Score": 8.26,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 6
+          },
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 6
+          },
+          {
+            "Kata": "Unsu",
+            "count": 4
+          },
+          {
+            "Kata": "Kanku Sho",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Martin Romero Raul",
+        "Performances": 20,
+        "Win_Rate": 0.55,
+        "Tournaments_Attended": 5,
+        "Country": "Spain",
+        "Mean_Score": 8.11,
+        "Median_Score": 8.14,
+        "Min_Score": 7.72,
+        "Max_Score": 8.52,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 5
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 3
+          },
+          {
+            "Kata": "Anan",
+            "count": 3
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 3
+          },
+          {
+            "Kata": "Gojushiho",
+            "count": 3
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Almosawi Sayed Mohammed",
+        "Performances": 20,
+        "Win_Rate": 0.3,
+        "Tournaments_Attended": 7,
+        "Country": "Kuwait",
+        "Mean_Score": 7.97,
+        "Median_Score": 7.98,
+        "Min_Score": 7.72,
+        "Max_Score": 8.2,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Unsu",
+            "count": 7
+          },
+          {
+            "Kata": "Kanku Sho",
+            "count": 4
+          },
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 4
+          },
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 4
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Adam Bardos",
+        "Performances": 18,
+        "Win_Rate": 0.0556,
+        "Tournaments_Attended": 6,
+        "Country": "Hungary",
+        "Mean_Score": 7.77,
+        "Median_Score": 7.74,
+        "Min_Score": 7.52,
+        "Max_Score": 8.14,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Suparinpei",
+            "count": 5
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 4
+          },
+          {
+            "Kata": "Papuren",
+            "count": 2
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 2
+          },
+          {
+            "Kata": "Anan",
+            "count": 1
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2025 Cairo",
+          "2025 Paris",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Aoi Funada",
+        "Performances": 17,
+        "Win_Rate": 0.7059,
+        "Tournaments_Attended": 4,
+        "Country": "Japan",
+        "Mean_Score": 8.32,
+        "Median_Score": 8.32,
+        "Min_Score": 8.06,
+        "Max_Score": 8.64,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Suparinpei",
+            "count": 4
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 4
+          },
+          {
+            "Kata": "Unsu",
+            "count": 3
+          },
+          {
+            "Kata": "Papuren",
+            "count": 2
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 2
+          }
+        ],
+        "Tournament_List": [
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2025 Cairo",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Mohammad Hussain",
+        "Performances": 15,
+        "Win_Rate": 0.4,
+        "Tournaments_Attended": 5,
+        "Country": "Kuwait",
+        "Mean_Score": 7.93,
+        "Median_Score": 7.92,
+        "Min_Score": 7.68,
+        "Max_Score": 8.18,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Unsu",
+            "count": 5
+          },
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 5
+          },
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 5
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Paris",
+          "2025 Hangzhou",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Taishi Tozaki",
+        "Performances": 15,
+        "Win_Rate": 0.4,
+        "Tournaments_Attended": 5,
+        "Country": "USA",
+        "Mean_Score": 8.11,
+        "Median_Score": 8.08,
+        "Min_Score": 7.96,
+        "Max_Score": 8.38,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Anan Dai",
+            "count": 4
+          },
+          {
+            "Kata": "Papuren",
+            "count": 3
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 3
+          },
+          {
+            "Kata": "Anan",
+            "count": 2
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Casanova Guerrero Cleiver",
+        "Performances": 15,
+        "Win_Rate": 0.1333,
+        "Tournaments_Attended": 5,
+        "Country": "Venezuela",
+        "Mean_Score": 7.75,
+        "Median_Score": 7.68,
+        "Min_Score": 7.52,
+        "Max_Score": 8.0,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 4
+          },
+          {
+            "Kata": "Unsu",
+            "count": 4
+          },
+          {
+            "Kata": "Gankaku",
+            "count": 2
+          },
+          {
+            "Kata": "Kyan No Chinto",
+            "count": 1
+          },
+          {
+            "Kata": "Sochin",
+            "count": 1
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "James Harrison",
+        "Performances": 15,
+        "Win_Rate": 0.2667,
+        "Tournaments_Attended": 5,
+        "Country": "England",
+        "Mean_Score": 7.87,
+        "Median_Score": 7.84,
+        "Min_Score": 7.6,
+        "Max_Score": 8.16,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 5
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 4
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 3
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 1
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Paris",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Alessandro Iodice",
+        "Performances": 14,
+        "Win_Rate": 0.4286,
+        "Tournaments_Attended": 5,
+        "Country": "Italy",
+        "Mean_Score": 8.11,
+        "Median_Score": 8.16,
+        "Min_Score": 7.82,
+        "Max_Score": 8.3,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Unsu",
+            "count": 5
+          },
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 5
+          },
+          {
+            "Kata": "Kanku Sho",
+            "count": 2
+          },
+          {
+            "Kata": "Enpi",
+            "count": 1
+          },
+          {
+            "Kata": "Sochin",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Hangzhou",
+          "2025 Paris"
+        ]
+      },
+      {
+        "Karateka": "Botond Nagy",
+        "Performances": 12,
+        "Win_Rate": 0.4167,
+        "Tournaments_Attended": 4,
+        "Country": "Hungary",
+        "Mean_Score": 7.89,
+        "Median_Score": 7.92,
+        "Min_Score": 7.62,
+        "Max_Score": 8.08,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Anan Dai",
+            "count": 4
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 4
+          },
+          {
+            "Kata": "Papuren",
+            "count": 2
+          },
+          {
+            "Kata": "Paiku",
+            "count": 2
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Paris",
+          "2025 Paris"
+        ]
+      },
+      {
+        "Karateka": "Franck Ngoan",
+        "Performances": 12,
+        "Win_Rate": 0.25,
+        "Tournaments_Attended": 4,
+        "Country": "France",
+        "Mean_Score": 7.98,
+        "Median_Score": 8.0,
+        "Min_Score": 7.74,
+        "Max_Score": 8.12,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 4
+          },
+          {
+            "Kata": "Unsu",
+            "count": 4
+          },
+          {
+            "Kata": "Sochin",
+            "count": 2
+          },
+          {
+            "Kata": "Kanku Sho",
+            "count": 2
+          }
+        ],
+        "Tournament_List": [
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Paris"
+        ]
+      },
+      {
+        "Karateka": "Manuel Grazia",
+        "Performances": 12,
+        "Win_Rate": 0.25,
+        "Tournaments_Attended": 4,
+        "Country": "Italy",
+        "Mean_Score": 7.93,
+        "Median_Score": 7.99,
+        "Min_Score": 7.7,
+        "Max_Score": 8.06,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Ohan Dai",
+            "count": 5
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 3
+          },
+          {
+            "Kata": "Ohan",
+            "count": 2
+          }
+        ],
+        "Tournament_List": [
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2025 Cairo",
+          "2025 Paris"
+        ]
+      },
+      {
+        "Karateka": "Yaroslav Fedorov",
+        "Performances": 12,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 4,
+        "Country": "Ukraine",
+        "Mean_Score": 7.85,
+        "Median_Score": 7.88,
+        "Min_Score": 7.68,
+        "Max_Score": 8.0,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Anan Dai",
+            "count": 4
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 3
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 2
+          },
+          {
+            "Kata": "Anan",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Cairo",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Kotaro Ohata",
+        "Performances": 11,
+        "Win_Rate": 0.7273,
+        "Tournaments_Attended": 2,
+        "Country": "Japan",
+        "Mean_Score": 8.34,
+        "Median_Score": 8.26,
+        "Min_Score": 8.14,
+        "Max_Score": 8.62,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Suparinpei",
+            "count": 2
+          },
+          {
+            "Kata": "Seisan",
+            "count": 2
+          },
+          {
+            "Kata": "Papuren",
+            "count": 2
+          },
+          {
+            "Kata": "Nipaipo",
+            "count": 2
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Cairo",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Adam Ellithy",
+        "Performances": 9,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 3,
+        "Country": "Egypt",
+        "Mean_Score": 7.8,
+        "Median_Score": 7.84,
+        "Min_Score": 7.6,
+        "Max_Score": 7.92,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Unsu",
+            "count": 3
+          },
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 2
+          },
+          {
+            "Kata": "Gankaku",
+            "count": 1
+          },
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Eiji Otsuki",
+        "Performances": 8,
+        "Win_Rate": 0.5,
+        "Tournaments_Attended": 2,
+        "Country": "Japan",
+        "Mean_Score": 8.2,
+        "Median_Score": 8.23,
+        "Min_Score": 7.96,
+        "Max_Score": 8.44,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Anan",
+            "count": 1
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 1
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 1
+          },
+          {
+            "Kata": "Nipaipo",
+            "count": 1
+          },
+          {
+            "Kata": "Papuren",
+            "count": 1
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Casablanca",
+          "2025 Cairo"
+        ]
+      },
+      {
+        "Karateka": "Damian Quintero",
+        "Performances": 8,
+        "Win_Rate": 0.625,
+        "Tournaments_Attended": 2,
+        "Country": "Spain",
+        "Mean_Score": 8.21,
+        "Median_Score": 8.2,
+        "Min_Score": 7.92,
+        "Max_Score": 8.56,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Pachu",
+            "count": 2
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 2
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 1
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Paiku",
+            "count": 1
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Paris",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Chen Chao Ching",
+        "Performances": 7,
+        "Win_Rate": 0.5714,
+        "Tournaments_Attended": 2,
+        "Country": "Taiwan",
+        "Mean_Score": 7.9,
+        "Median_Score": 7.88,
+        "Min_Score": 7.74,
+        "Max_Score": 8.04,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 2
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 2
+          },
+          {
+            "Kata": "Ohan",
+            "count": 1
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 1
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Hangzhou",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Tijani Lamoum",
+        "Performances": 6,
+        "Win_Rate": 0.1667,
+        "Tournaments_Attended": 2,
+        "Country": "Morocco",
+        "Mean_Score": 7.72,
+        "Median_Score": 7.7,
+        "Min_Score": 7.58,
+        "Max_Score": 7.9,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 2
+          },
+          {
+            "Kata": "Unsu",
+            "count": 2
+          },
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Kanku Sho",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Casablanca",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Tarik Koc",
+        "Performances": 6,
+        "Win_Rate": 0.3333,
+        "Tournaments_Attended": 2,
+        "Country": "Turkey",
+        "Mean_Score": 7.7,
+        "Median_Score": 7.62,
+        "Min_Score": 7.38,
+        "Max_Score": 8.02,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Suparinpei",
+            "count": 2
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 2
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 1
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Hangzhou",
+          "2025 Paris"
+        ]
+      },
+      {
+        "Karateka": "Abu Wahib Jonas",
+        "Performances": 6,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 2,
+        "Country": "Germany",
+        "Mean_Score": 7.91,
+        "Median_Score": 7.98,
+        "Min_Score": 7.66,
+        "Max_Score": 8.04,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Unsu",
+            "count": 2
+          },
+          {
+            "Kata": "Kanku Sho",
+            "count": 2
+          },
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 2
+          }
+        ],
+        "Tournament_List": [
+          "2024 Casablanca",
+          "2024 Paris"
+        ]
+      },
+      {
+        "Karateka": "Yuki Sato",
+        "Performances": 6,
+        "Win_Rate": 0.6667,
+        "Tournaments_Attended": 2,
+        "Country": "Japan",
+        "Mean_Score": 8.06,
+        "Median_Score": 8.05,
+        "Min_Score": 7.96,
+        "Max_Score": 8.16,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Anan",
+            "count": 2
+          },
+          {
+            "Kata": "Papuren",
+            "count": 2
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 2
+          }
+        ],
+        "Tournament_List": [
+          "2024 Cairo",
+          "2025 Paris"
+        ]
+      },
+      {
+        "Karateka": "Kutluhan Duran",
+        "Performances": 6,
+        "Win_Rate": 0.3333,
+        "Tournaments_Attended": 2,
+        "Country": "Turkey",
+        "Mean_Score": 7.92,
+        "Median_Score": 7.98,
+        "Min_Score": 7.72,
+        "Max_Score": 8.04,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 2
+          },
+          {
+            "Kata": "Unsu",
+            "count": 2
+          },
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Kanku Sho",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Paris"
+        ]
+      },
+      {
+        "Karateka": "Dyun Kimura",
+        "Performances": 6,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 2,
+        "Country": "Brazil",
+        "Mean_Score": 7.76,
+        "Median_Score": 7.76,
+        "Min_Score": 7.64,
+        "Max_Score": 7.88,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 2
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 2
+          },
+          {
+            "Kata": "Anan",
+            "count": 1
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Paris"
+        ]
+      },
+      {
+        "Karateka": "Giuseppe Panagia",
+        "Performances": 6,
+        "Win_Rate": 0.3333,
+        "Tournaments_Attended": 2,
+        "Country": "Italy",
+        "Mean_Score": 7.8,
+        "Median_Score": 7.79,
+        "Min_Score": 7.72,
+        "Max_Score": 7.9,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 2
+          },
+          {
+            "Kata": "Gankaku",
+            "count": 2
+          },
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 2
+          }
+        ],
+        "Tournament_List": [
+          "2024 Cairo",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Saber Benmekhlouf",
+        "Performances": 6,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 2,
+        "Country": "Algeria",
+        "Mean_Score": 7.76,
+        "Median_Score": 7.74,
+        "Min_Score": 7.5,
+        "Max_Score": 8.06,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Unsu",
+            "count": 2
+          },
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 2
+          },
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 2
+          }
+        ],
+        "Tournament_List": [
+          "2024 Paris",
+          "2025 Paris"
+        ]
+      },
+      {
+        "Karateka": "Thomas Klemz",
+        "Performances": 6,
+        "Win_Rate": 0.3333,
+        "Tournaments_Attended": 2,
+        "Country": "France",
+        "Mean_Score": 7.84,
+        "Median_Score": 7.85,
+        "Min_Score": 7.7,
+        "Max_Score": 7.98,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Ohan Dai",
+            "count": 2
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 2
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Papuren",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Paris",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Roman Heydarov",
+        "Performances": 6,
+        "Win_Rate": 0.3333,
+        "Tournaments_Attended": 2,
+        "Country": "Azerbaijan",
+        "Mean_Score": 7.68,
+        "Median_Score": 7.7,
+        "Min_Score": 7.52,
+        "Max_Score": 7.86,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Sochin",
+            "count": 2
+          },
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 2
+          },
+          {
+            "Kata": "Gankaku",
+            "count": 1
+          },
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Vladimir Mijac",
+        "Performances": 6,
+        "Win_Rate": 0.3333,
+        "Tournaments_Attended": 2,
+        "Country": "Montenegro",
+        "Mean_Score": 7.95,
+        "Median_Score": 7.98,
+        "Min_Score": 7.66,
+        "Max_Score": 8.14,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 2
+          },
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 2
+          },
+          {
+            "Kata": "Sochin",
+            "count": 1
+          },
+          {
+            "Kata": "Unsu",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Rabat",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Mostafa Elghobashy",
+        "Performances": 6,
+        "Win_Rate": 0.5,
+        "Tournaments_Attended": 1,
+        "Country": "Egypt",
+        "Mean_Score": 8.24,
+        "Median_Score": 8.15,
+        "Min_Score": 8.12,
+        "Max_Score": 8.64,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Unsu",
+            "count": 2
+          },
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 1
+          },
+          {
+            "Kata": "Kanku Sho",
+            "count": 1
+          },
+          {
+            "Kata": "Sochin",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Youcef Ziad",
+        "Performances": 4,
+        "Win_Rate": 0.5,
+        "Tournaments_Attended": 1,
+        "Country": "Algeria",
+        "Mean_Score": 7.84,
+        "Median_Score": 7.86,
+        "Min_Score": 7.7,
+        "Max_Score": 7.96,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 1
+          },
+          {
+            "Kata": "Kanku Sho",
+            "count": 1
+          },
+          {
+            "Kata": "Unsu",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Artur Neto",
+        "Performances": 4,
+        "Win_Rate": 0.75,
+        "Tournaments_Attended": 1,
+        "Country": "Portugal",
+        "Mean_Score": 7.74,
+        "Median_Score": 7.71,
+        "Min_Score": 7.58,
+        "Max_Score": 7.98,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Anan",
+            "count": 1
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 1
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Alejandro Ramirez",
+        "Performances": 3,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "Colombia",
+        "Mean_Score": 7.58,
+        "Median_Score": 7.56,
+        "Min_Score": 7.56,
+        "Max_Score": 7.62,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 1
+          },
+          {
+            "Kata": "Kanku Sho",
+            "count": 1
+          },
+          {
+            "Kata": "Unsu",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Abu Alhaija Kareem",
+        "Performances": 3,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "Jordan",
+        "Mean_Score": 7.47,
+        "Median_Score": 7.54,
+        "Min_Score": 7.32,
+        "Max_Score": 7.56,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Unsu",
+            "count": 1
+          },
+          {
+            "Kata": "Kanku Sho",
+            "count": 1
+          },
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Cairo"
+        ]
+      },
+      {
+        "Karateka": "Dylan Fisher",
+        "Performances": 3,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "Australia",
+        "Mean_Score": 7.58,
+        "Median_Score": 7.58,
+        "Min_Score": 7.56,
+        "Max_Score": 7.6,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Anan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Ohan",
+            "count": 1
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Brillant Mukeshimana",
+        "Performances": 3,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "Burundi",
+        "Mean_Score": 7.17,
+        "Median_Score": 7.18,
+        "Min_Score": 7.12,
+        "Max_Score": 7.2,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 1
+          },
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 1
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Bu Khawwah Yaqoub",
+        "Performances": 3,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "Saudi Arabia",
+        "Mean_Score": 7.53,
+        "Median_Score": 7.54,
+        "Min_Score": 7.48,
+        "Max_Score": 7.58,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 1
+          },
+          {
+            "Kata": "Kanku Sho",
+            "count": 1
+          },
+          {
+            "Kata": "Unsu",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "El Mansoury Salah Eddine",
+        "Performances": 3,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "Morocco",
+        "Mean_Score": 7.92,
+        "Median_Score": 7.94,
+        "Min_Score": 7.84,
+        "Max_Score": 7.98,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 1
+          },
+          {
+            "Kata": "Kanku Sho",
+            "count": 1
+          },
+          {
+            "Kata": "Unsu",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Casablanca"
+        ]
+      },
+      {
+        "Karateka": "De Castro Heriberto",
+        "Performances": 3,
+        "Win_Rate": 0.3333,
+        "Tournaments_Attended": 1,
+        "Country": "Dominican Republic",
+        "Mean_Score": 7.64,
+        "Median_Score": 7.66,
+        "Min_Score": 7.6,
+        "Max_Score": 7.66,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 1
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Papuren",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Impagnatiello Luca Mateo",
+        "Performances": 3,
+        "Win_Rate": 0.3333,
+        "Tournaments_Attended": 1,
+        "Country": "Argentina",
+        "Mean_Score": 7.58,
+        "Median_Score": 7.62,
+        "Min_Score": 7.48,
+        "Max_Score": 7.64,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Suparinpei",
+            "count": 1
+          },
+          {
+            "Kata": "Unsu",
+            "count": 1
+          },
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Kangwei Yang",
+        "Performances": 3,
+        "Win_Rate": 0.3333,
+        "Tournaments_Attended": 1,
+        "Country": "China",
+        "Mean_Score": 7.82,
+        "Median_Score": 7.84,
+        "Min_Score": 7.74,
+        "Max_Score": 7.88,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 1
+          },
+          {
+            "Kata": "Ohan",
+            "count": 1
+          },
+          {
+            "Kata": "Papuren",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Perez De Abreu Ricardo",
+        "Performances": 3,
+        "Win_Rate": 0.3333,
+        "Tournaments_Attended": 1,
+        "Country": "Venezuela",
+        "Mean_Score": 8.03,
+        "Median_Score": 8.04,
+        "Min_Score": 7.94,
+        "Max_Score": 8.1,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 1
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Paris"
+        ]
+      },
+      {
+        "Karateka": "Rick Sonnema",
+        "Performances": 3,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "Netherlands",
+        "Mean_Score": 7.51,
+        "Median_Score": 7.54,
+        "Min_Score": 7.36,
+        "Max_Score": 7.62,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 1
+          },
+          {
+            "Kata": "Unsu",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Hangzhou"
+        ]
+      },
+      {
+        "Karateka": "Omar Diop",
+        "Performances": 3,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "Senegal",
+        "Mean_Score": 7.49,
+        "Median_Score": 7.5,
+        "Min_Score": 7.44,
+        "Max_Score": 7.52,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 1
+          },
+          {
+            "Kata": "Kanku Sho",
+            "count": 1
+          },
+          {
+            "Kata": "Unsu",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya"
+        ]
+      },
+      {
+        "Karateka": "Karim Ghaly",
+        "Performances": 3,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "Egypt",
+        "Mean_Score": 7.89,
+        "Median_Score": 7.82,
+        "Min_Score": 7.82,
+        "Max_Score": 8.04,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 1
+          },
+          {
+            "Kata": "Kanku Sho",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Casablanca"
+        ]
+      },
+      {
+        "Karateka": "Guido Polsinelli",
+        "Performances": 3,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "Italy",
+        "Mean_Score": 7.98,
+        "Median_Score": 8.02,
+        "Min_Score": 7.88,
+        "Max_Score": 8.04,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 1
+          },
+          {
+            "Kata": "Sansai",
+            "count": 1
+          },
+          {
+            "Kata": "Unsu",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Cairo"
+        ]
+      },
+      {
+        "Karateka": "Gianluca Greco",
+        "Performances": 3,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "Venezuela",
+        "Mean_Score": 7.5,
+        "Median_Score": 7.5,
+        "Min_Score": 7.5,
+        "Max_Score": 7.5,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Kishimoto No Kushanku",
+            "count": 1
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Cairo"
+        ]
+      },
+      {
+        "Karateka": "Ortiz Aquino Jefferson",
+        "Performances": 3,
+        "Win_Rate": 0.3333,
+        "Tournaments_Attended": 1,
+        "Country": "Venezuela",
+        "Mean_Score": 8.16,
+        "Median_Score": 8.16,
+        "Min_Score": 8.14,
+        "Max_Score": 8.18,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Anan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Papuren",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Paris"
+        ]
+      },
+      {
+        "Karateka": "Oluwaseun Olorunmbe",
+        "Performances": 3,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "Nigeria",
+        "Mean_Score": 7.13,
+        "Median_Score": 7.16,
+        "Min_Score": 6.98,
+        "Max_Score": 7.24,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Anan",
+            "count": 1
+          },
+          {
+            "Kata": "Nipaipo",
+            "count": 1
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Nicholas Rowsby",
+        "Performances": 3,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "New Zealand",
+        "Mean_Score": 7.41,
+        "Median_Score": 7.5,
+        "Min_Score": 7.24,
+        "Max_Score": 7.5,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 1
+          },
+          {
+            "Kata": "Kishimoto No Kushanku",
+            "count": 1
+          },
+          {
+            "Kata": "Papuren",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Taeyeon Hwang",
+        "Performances": 3,
+        "Win_Rate": 0.3333,
+        "Tournaments_Attended": 1,
+        "Country": "South Korea",
+        "Mean_Score": 7.52,
+        "Median_Score": 7.48,
+        "Min_Score": 7.44,
+        "Max_Score": 7.64,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 1
+          },
+          {
+            "Kata": "Kanku Sho",
+            "count": 1
+          },
+          {
+            "Kata": "Unsu",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Yuto Watanabe",
+        "Performances": 3,
+        "Win_Rate": 0.6667,
+        "Tournaments_Attended": 1,
+        "Country": "Japan",
+        "Mean_Score": 8.28,
+        "Median_Score": 8.28,
+        "Min_Score": 8.28,
+        "Max_Score": 8.28,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Kururunfa",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Cairo"
+        ]
+      },
+      {
+        "Karateka": "Morris Tellocke",
+        "Performances": 3,
+        "Win_Rate": 0.3333,
+        "Tournaments_Attended": 1,
+        "Country": "Germany",
+        "Mean_Score": 7.68,
+        "Median_Score": 7.58,
+        "Min_Score": 7.54,
+        "Max_Score": 7.92,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Anan",
+            "count": 1
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Zaresta Yuda Ahmad Zigi",
+        "Performances": 3,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "Indonesia",
+        "Mean_Score": 7.9,
+        "Median_Score": 7.96,
+        "Min_Score": 7.76,
+        "Max_Score": 7.98,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gankaku",
+            "count": 1
+          },
+          {
+            "Kata": "Sochin",
+            "count": 1
+          },
+          {
+            "Kata": "Unsu",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Paris"
+        ]
+      },
+      {
+        "Karateka": "Matthew Gruitia",
+        "Performances": 2,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "Canada",
+        "Mean_Score": 7.77,
+        "Median_Score": 7.77,
+        "Min_Score": 7.7,
+        "Max_Score": 7.84,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Anan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya"
+        ]
+      },
+      {
+        "Karateka": "Furkan Kaynar",
+        "Performances": 2,
+        "Win_Rate": 0.5,
+        "Tournaments_Attended": 1,
+        "Country": "Turkey",
+        "Mean_Score": 8.08,
+        "Median_Score": 8.08,
+        "Min_Score": 8.08,
+        "Max_Score": 8.08,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 1
+          },
+          {
+            "Kata": "Unsu",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya"
+        ]
+      },
+      {
+        "Karateka": "Jure Sluga",
+        "Performances": 2,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "Slovenia",
+        "Mean_Score": 7.53,
+        "Median_Score": 7.53,
+        "Min_Score": 7.42,
+        "Max_Score": 7.64,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 1
+          },
+          {
+            "Kata": "Sansai",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Worlds"
+        ]
+      }
+    ],
+    "female": [
+      {
+        "Karateka": "Maho Ono",
+        "Performances": 52,
+        "Win_Rate": 0.8846,
+        "Tournaments_Attended": 9,
+        "Country": "Japan",
+        "Mean_Score": 8.44,
+        "Median_Score": 8.49,
+        "Min_Score": 8.1,
+        "Max_Score": 8.88,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 12
+          },
+          {
+            "Kata": "Papuren",
+            "count": 11
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 11
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 9
+          },
+          {
+            "Kata": "Nipaipo",
+            "count": 9
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Grace Lau",
+        "Performances": 48,
+        "Win_Rate": 0.9167,
+        "Tournaments_Attended": 9,
+        "Country": "Hong Kong",
+        "Mean_Score": 8.43,
+        "Median_Score": 8.4,
+        "Min_Score": 7.9,
+        "Max_Score": 9.22,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 11
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 9
+          },
+          {
+            "Kata": "Tomari Bassai",
+            "count": 9
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 9
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 8
+          },
+          {
+            "Kata": "Unsu",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Saeko Azuma",
+        "Performances": 38,
+        "Win_Rate": 0.7895,
+        "Tournaments_Attended": 7,
+        "Country": "Japan",
+        "Mean_Score": 8.34,
+        "Median_Score": 8.36,
+        "Min_Score": 8.0,
+        "Max_Score": 8.72,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 9
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 8
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 7
+          },
+          {
+            "Kata": "Oyadomari No Passai",
+            "count": 7
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 7
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Terryana D'Onofrio",
+        "Performances": 37,
+        "Win_Rate": 0.6486,
+        "Tournaments_Attended": 9,
+        "Country": "Italy",
+        "Mean_Score": 8.1,
+        "Median_Score": 8.12,
+        "Min_Score": 7.7,
+        "Max_Score": 8.48,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Suparinpei",
+            "count": 10
+          },
+          {
+            "Kata": "Papuren",
+            "count": 9
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 5
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 4
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 3
+          },
+          {
+            "Kata": "Oyadomari No Passai",
+            "count": 2
+          },
+          {
+            "Kata": "Anan",
+            "count": 1
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Ohan",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Kiri Mishima",
+        "Performances": 33,
+        "Win_Rate": 0.8182,
+        "Tournaments_Attended": 7,
+        "Country": "Japan",
+        "Mean_Score": 8.35,
+        "Median_Score": 8.32,
+        "Min_Score": 7.92,
+        "Max_Score": 8.96,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 8
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 8
+          },
+          {
+            "Kata": "Paiku",
+            "count": 6
+          },
+          {
+            "Kata": "Papuren",
+            "count": 6
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 5
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Sakura Kokumai",
+        "Performances": 31,
+        "Win_Rate": 0.6129,
+        "Tournaments_Attended": 8,
+        "Country": "USA",
+        "Mean_Score": 8.05,
+        "Median_Score": 8.06,
+        "Min_Score": 7.78,
+        "Max_Score": 8.42,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 9
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 7
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 6
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 6
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 2
+          },
+          {
+            "Kata": "Anan",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Natsuki Shimizu",
+        "Performances": 31,
+        "Win_Rate": 0.6452,
+        "Tournaments_Attended": 8,
+        "Country": "Japan",
+        "Mean_Score": 8.11,
+        "Median_Score": 8.12,
+        "Min_Score": 7.78,
+        "Max_Score": 8.4,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Kururunfa",
+            "count": 8
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 7
+          },
+          {
+            "Kata": "Papuren",
+            "count": 6
+          },
+          {
+            "Kata": "Kusanku",
+            "count": 3
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 3
+          },
+          {
+            "Kata": "Shisochin",
+            "count": 2
+          },
+          {
+            "Kata": "Anan",
+            "count": 2
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Ana Cruz",
+        "Performances": 31,
+        "Win_Rate": 0.4194,
+        "Tournaments_Attended": 9,
+        "Country": "Portugal",
+        "Mean_Score": 7.91,
+        "Median_Score": 7.88,
+        "Min_Score": 7.46,
+        "Max_Score": 8.34,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 9
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 5
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 5
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 4
+          },
+          {
+            "Kata": "Anan",
+            "count": 3
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 3
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 2
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Aya En-Nesyry",
+        "Performances": 30,
+        "Win_Rate": 0.4333,
+        "Tournaments_Attended": 9,
+        "Country": "Morocco",
+        "Mean_Score": 7.8,
+        "Median_Score": 7.75,
+        "Min_Score": 7.58,
+        "Max_Score": 8.24,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 9
+          },
+          {
+            "Kata": "Gankaku",
+            "count": 9
+          },
+          {
+            "Kata": "Unsu",
+            "count": 5
+          },
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 5
+          },
+          {
+            "Kata": "Kanku Sho",
+            "count": 2
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Xenou Georgia Archontia",
+        "Performances": 30,
+        "Win_Rate": 0.6,
+        "Tournaments_Attended": 9,
+        "Country": "Greece",
+        "Mean_Score": 7.89,
+        "Median_Score": 7.91,
+        "Min_Score": 7.62,
+        "Max_Score": 8.36,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 9
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 8
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 7
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 5
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Helvetia Taily",
+        "Performances": 28,
+        "Win_Rate": 0.3929,
+        "Tournaments_Attended": 9,
+        "Country": "France",
+        "Mean_Score": 7.83,
+        "Median_Score": 7.84,
+        "Min_Score": 7.54,
+        "Max_Score": 8.04,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 8
+          },
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 8
+          },
+          {
+            "Kata": "Gankaku",
+            "count": 6
+          },
+          {
+            "Kata": "Unsu",
+            "count": 5
+          },
+          {
+            "Kata": "Kanku Sho",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Dilara Bozan",
+        "Performances": 28,
+        "Win_Rate": 0.6071,
+        "Tournaments_Attended": 8,
+        "Country": "Turkey",
+        "Mean_Score": 7.97,
+        "Median_Score": 7.98,
+        "Min_Score": 7.64,
+        "Max_Score": 8.34,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 9
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 8
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 4
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 3
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 3
+          },
+          {
+            "Kata": "Nipaipo",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Carola Casale",
+        "Performances": 24,
+        "Win_Rate": 0.5833,
+        "Tournaments_Attended": 8,
+        "Country": "Italy",
+        "Mean_Score": 7.94,
+        "Median_Score": 7.98,
+        "Min_Score": 6.14,
+        "Max_Score": 8.4,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 8
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 5
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 4
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 3
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 2
+          },
+          {
+            "Kata": "Oyadomari No Passai",
+            "count": 1
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Garcia Lozano Paola",
+        "Performances": 23,
+        "Win_Rate": 0.6087,
+        "Tournaments_Attended": 6,
+        "Country": "Spain",
+        "Mean_Score": 8.07,
+        "Median_Score": 8.12,
+        "Min_Score": 7.7,
+        "Max_Score": 8.4,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Suparinpei",
+            "count": 6
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 6
+          },
+          {
+            "Kata": "Papuren",
+            "count": 5
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 3
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 3
+          }
+        ],
+        "Tournament_List": [
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Aya Hesham",
+        "Performances": 22,
+        "Win_Rate": 0.5,
+        "Tournaments_Attended": 5,
+        "Country": "Egypt",
+        "Mean_Score": 7.94,
+        "Median_Score": 7.95,
+        "Min_Score": 7.48,
+        "Max_Score": 8.52,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 6
+          },
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 5
+          },
+          {
+            "Kata": "Kanku Sho",
+            "count": 5
+          },
+          {
+            "Kata": "Unsu",
+            "count": 3
+          },
+          {
+            "Kata": "Sochin",
+            "count": 3
+          }
+        ],
+        "Tournament_List": [
+          "2024 Cairo",
+          "2025 Cairo",
+          "2025 Paris",
+          "2025 Rabat",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Veronika Miskova",
+        "Performances": 22,
+        "Win_Rate": 0.4091,
+        "Tournaments_Attended": 6,
+        "Country": "Czech Republic",
+        "Mean_Score": 7.86,
+        "Median_Score": 7.86,
+        "Min_Score": 7.48,
+        "Max_Score": 8.26,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 6
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 4
+          },
+          {
+            "Kata": "Matsumura Bassai",
+            "count": 4
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 3
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 3
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 2
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Paris",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Sakura Alforte",
+        "Performances": 22,
+        "Win_Rate": 0.4545,
+        "Tournaments_Attended": 7,
+        "Country": "Philippines",
+        "Mean_Score": 7.85,
+        "Median_Score": 7.81,
+        "Min_Score": 7.46,
+        "Max_Score": 8.28,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Ohan Dai",
+            "count": 7
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 5
+          },
+          {
+            "Kata": "Anan",
+            "count": 3
+          },
+          {
+            "Kata": "Ohan",
+            "count": 2
+          },
+          {
+            "Kata": "Paiku",
+            "count": 2
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 1
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 1
+          },
+          {
+            "Kata": "Tomari Bassai",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Casablanca",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Nakaji Hisami",
+        "Performances": 22,
+        "Win_Rate": 0.5909,
+        "Tournaments_Attended": 6,
+        "Country": "Japan",
+        "Mean_Score": 8.07,
+        "Median_Score": 8.06,
+        "Min_Score": 7.68,
+        "Max_Score": 8.62,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 5
+          },
+          {
+            "Kata": "Kousoukun Sho",
+            "count": 5
+          },
+          {
+            "Kata": "Paiku",
+            "count": 5
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 3
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 3
+          },
+          {
+            "Kata": "Kyan No Chinto",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Jasmin Juettner",
+        "Performances": 21,
+        "Win_Rate": 0.2857,
+        "Tournaments_Attended": 8,
+        "Country": "Germany",
+        "Mean_Score": 7.79,
+        "Median_Score": 7.72,
+        "Min_Score": 7.54,
+        "Max_Score": 8.1,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Sansai",
+            "count": 6
+          },
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 6
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 4
+          },
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 3
+          },
+          {
+            "Kata": "Unsu",
+            "count": 2
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Mirisa Ohuchi",
+        "Performances": 19,
+        "Win_Rate": 0.7895,
+        "Tournaments_Attended": 4,
+        "Country": "Japan",
+        "Mean_Score": 8.28,
+        "Median_Score": 8.24,
+        "Min_Score": 7.88,
+        "Max_Score": 8.7,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 4
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 4
+          },
+          {
+            "Kata": "Papuren",
+            "count": 4
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 3
+          },
+          {
+            "Kata": "Nipaipo",
+            "count": 2
+          },
+          {
+            "Kata": "Unsu",
+            "count": 2
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris"
+        ]
+      },
+      {
+        "Karateka": "Chiara Manca",
+        "Performances": 19,
+        "Win_Rate": 0.4737,
+        "Tournaments_Attended": 6,
+        "Country": "Belgium",
+        "Mean_Score": 7.8,
+        "Median_Score": 7.8,
+        "Min_Score": 7.58,
+        "Max_Score": 8.0,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 6
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 5
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 4
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 3
+          },
+          {
+            "Kata": "Tomari Bassai",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Lo Sum Man",
+        "Performances": 18,
+        "Win_Rate": 0.3333,
+        "Tournaments_Attended": 6,
+        "Country": "Hong Kong",
+        "Mean_Score": 7.88,
+        "Median_Score": 7.87,
+        "Min_Score": 7.6,
+        "Max_Score": 8.24,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 5
+          },
+          {
+            "Kata": "Papuren",
+            "count": 5
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 4
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 4
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Cairo",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Carolina Amato",
+        "Performances": 17,
+        "Win_Rate": 0.1765,
+        "Tournaments_Attended": 6,
+        "Country": "Italy",
+        "Mean_Score": 7.61,
+        "Median_Score": 7.58,
+        "Min_Score": 7.4,
+        "Max_Score": 7.86,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 4
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 3
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 3
+          },
+          {
+            "Kata": "Anan",
+            "count": 3
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 3
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2025 Cairo",
+          "2025 Paris",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Rita Marques",
+        "Performances": 15,
+        "Win_Rate": 0.5333,
+        "Tournaments_Attended": 4,
+        "Country": "Portugal",
+        "Mean_Score": 7.92,
+        "Median_Score": 7.92,
+        "Min_Score": 7.56,
+        "Max_Score": 8.56,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Suparinpei",
+            "count": 5
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 4
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 3
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 2
+          },
+          {
+            "Kata": "Anan",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Cairo",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Sadeghi Dastak Fatemeh",
+        "Performances": 15,
+        "Win_Rate": 0.6,
+        "Tournaments_Attended": 4,
+        "Country": "Iran",
+        "Mean_Score": 8.03,
+        "Median_Score": 7.98,
+        "Min_Score": 7.82,
+        "Max_Score": 8.32,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Suparinpei",
+            "count": 4
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 4
+          },
+          {
+            "Kata": "Papuren",
+            "count": 3
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 2
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 2
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Jana Khamis",
+        "Performances": 14,
+        "Win_Rate": 0.5714,
+        "Tournaments_Attended": 4,
+        "Country": "Egypt",
+        "Mean_Score": 7.9,
+        "Median_Score": 7.93,
+        "Min_Score": 7.6,
+        "Max_Score": 8.24,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 4
+          },
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 4
+          },
+          {
+            "Kata": "Unsu",
+            "count": 3
+          },
+          {
+            "Kata": "Kanku Sho",
+            "count": 2
+          },
+          {
+            "Kata": "Enpi",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2025 Cairo",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Wong Sze Man",
+        "Performances": 14,
+        "Win_Rate": 0.2857,
+        "Tournaments_Attended": 5,
+        "Country": "Hong Kong",
+        "Mean_Score": 7.78,
+        "Median_Score": 7.74,
+        "Min_Score": 7.52,
+        "Max_Score": 8.12,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 6
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 3
+          },
+          {
+            "Kata": "Tomari Bassai",
+            "count": 2
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 2
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2025 Hangzhou",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Mahsa Afsaneh",
+        "Performances": 13,
+        "Win_Rate": 0.3077,
+        "Tournaments_Attended": 4,
+        "Country": "Iran",
+        "Mean_Score": 7.96,
+        "Median_Score": 7.9,
+        "Min_Score": 7.7,
+        "Max_Score": 8.2,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Kishimoto No Kushanku",
+            "count": 4
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 3
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 2
+          },
+          {
+            "Kata": "Unsu",
+            "count": 2
+          },
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Paris",
+          "2025 Hangzhou",
+          "2025 Paris"
+        ]
+      },
+      {
+        "Karateka": "Tung Yee Yin",
+        "Performances": 13,
+        "Win_Rate": 0.3077,
+        "Tournaments_Attended": 4,
+        "Country": "Hong Kong",
+        "Mean_Score": 7.78,
+        "Median_Score": 7.77,
+        "Min_Score": 7.58,
+        "Max_Score": 8.02,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 4
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 3
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 3
+          },
+          {
+            "Kata": "Paiku",
+            "count": 2
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2025 Hangzhou"
+        ]
+      },
+      {
+        "Karateka": "Alexandra Feracci",
+        "Performances": 12,
+        "Win_Rate": 0.1667,
+        "Tournaments_Attended": 4,
+        "Country": "France",
+        "Mean_Score": 7.75,
+        "Median_Score": 7.72,
+        "Min_Score": 7.4,
+        "Max_Score": 7.96,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 4
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 3
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 2
+          },
+          {
+            "Kata": "Kishimoto No Kushanku",
+            "count": 1
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 1
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Claudia Laos-Loo",
+        "Performances": 12,
+        "Win_Rate": 0.0833,
+        "Tournaments_Attended": 4,
+        "Country": "Canada",
+        "Mean_Score": 7.68,
+        "Median_Score": 7.65,
+        "Min_Score": 7.46,
+        "Max_Score": 8.06,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 4
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 3
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 3
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 1
+          },
+          {
+            "Kata": "Oyadomari No Passai",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Casablanca",
+          "2025 Paris",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Zapata Machado Valentina",
+        "Performances": 12,
+        "Win_Rate": 0.4167,
+        "Tournaments_Attended": 4,
+        "Country": "Colombia",
+        "Mean_Score": 7.81,
+        "Median_Score": 7.78,
+        "Min_Score": 7.64,
+        "Max_Score": 8.1,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 4
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 4
+          },
+          {
+            "Kata": "Papuren",
+            "count": 3
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Hangzhou",
+          "2025 Paris",
+          "2025 Rabat",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Armada Ruiz Andrea",
+        "Performances": 12,
+        "Win_Rate": 0.25,
+        "Tournaments_Attended": 4,
+        "Country": "Venezuela",
+        "Mean_Score": 7.7,
+        "Median_Score": 7.71,
+        "Min_Score": 7.52,
+        "Max_Score": 7.9,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 4
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 4
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 4
+          }
+        ],
+        "Tournament_List": [
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Paris"
+        ]
+      },
+      {
+        "Karateka": "Shirley Jay",
+        "Performances": 12,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 4,
+        "Country": "Germany",
+        "Mean_Score": 7.55,
+        "Median_Score": 7.57,
+        "Min_Score": 6.98,
+        "Max_Score": 7.86,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 3
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 3
+          },
+          {
+            "Kata": "Papuren",
+            "count": 2
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 2
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 2
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Casablanca",
+          "2024 Paris"
+        ]
+      },
+      {
+        "Karateka": "Putri Aprilia Krisda",
+        "Performances": 10,
+        "Win_Rate": 0.3,
+        "Tournaments_Attended": 4,
+        "Country": "Indonesia",
+        "Mean_Score": 7.72,
+        "Median_Score": 7.74,
+        "Min_Score": 7.56,
+        "Max_Score": 7.88,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 4
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 3
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 3
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Casablanca",
+          "2024 Paris",
+          "2025 Hangzhou"
+        ]
+      },
+      {
+        "Karateka": "Athina Tsiakmaki",
+        "Performances": 9,
+        "Win_Rate": 0.2222,
+        "Tournaments_Attended": 3,
+        "Country": "Greece",
+        "Mean_Score": 7.63,
+        "Median_Score": 7.58,
+        "Min_Score": 7.52,
+        "Max_Score": 7.86,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 3
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 3
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 1
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Cairo",
+          "2024 Paris"
+        ]
+      },
+      {
+        "Karateka": "Narimene Dahleb",
+        "Performances": 9,
+        "Win_Rate": 0.1111,
+        "Tournaments_Attended": 3,
+        "Country": "Algeria",
+        "Mean_Score": 7.68,
+        "Median_Score": 7.68,
+        "Min_Score": 7.48,
+        "Max_Score": 7.8,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 3
+          },
+          {
+            "Kata": "Gankaku",
+            "count": 3
+          },
+          {
+            "Kata": "Unsu",
+            "count": 2
+          },
+          {
+            "Kata": "Gojushiho",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Cairo",
+          "2025 Paris",
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Morales Ozuna Gema",
+        "Performances": 8,
+        "Win_Rate": 0.375,
+        "Tournaments_Attended": 3,
+        "Country": "Spain",
+        "Mean_Score": 7.8,
+        "Median_Score": 7.81,
+        "Min_Score": 7.62,
+        "Max_Score": 7.9,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 3
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 3
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 1
+          },
+          {
+            "Kata": "Kishimoto No Kushanku",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2024 Casablanca",
+          "2024 Paris"
+        ]
+      },
+      {
+        "Karateka": "Asmaa Allam",
+        "Performances": 6,
+        "Win_Rate": 0.5,
+        "Tournaments_Attended": 2,
+        "Country": "Egypt",
+        "Mean_Score": 7.86,
+        "Median_Score": 7.82,
+        "Min_Score": 7.76,
+        "Max_Score": 8.0,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 2
+          },
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 2
+          },
+          {
+            "Kata": "Unsu",
+            "count": 1
+          },
+          {
+            "Kata": "Kanku Sho",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Cairo",
+          "2025 Cairo"
+        ]
+      },
+      {
+        "Karateka": "Colak Keyda Nur",
+        "Performances": 6,
+        "Win_Rate": 0.1667,
+        "Tournaments_Attended": 2,
+        "Country": "Turkey",
+        "Mean_Score": 7.9,
+        "Median_Score": 7.83,
+        "Min_Score": 7.72,
+        "Max_Score": 8.22,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 2
+          },
+          {
+            "Kata": "Papuren",
+            "count": 1
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 1
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Anan",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2025 Paris"
+        ]
+      },
+      {
+        "Karateka": "Jana Vanusanikova",
+        "Performances": 6,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 2,
+        "Country": "Slovakia",
+        "Mean_Score": 7.29,
+        "Median_Score": 7.29,
+        "Min_Score": 7.14,
+        "Max_Score": 7.42,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 2
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 1
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Nipaipo",
+            "count": 1
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Cairo",
+          "2024 Paris"
+        ]
+      },
+      {
+        "Karateka": "Kao Kitaguchi",
+        "Performances": 6,
+        "Win_Rate": 0.5,
+        "Tournaments_Attended": 2,
+        "Country": "Japan",
+        "Mean_Score": 7.85,
+        "Median_Score": 7.83,
+        "Min_Score": 7.66,
+        "Max_Score": 8.1,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 2
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 2
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 2
+          }
+        ],
+        "Tournament_List": [
+          "2025 Hangzhou",
+          "2025 Paris"
+        ]
+      },
+      {
+        "Karateka": "Rimas Assi",
+        "Performances": 6,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 2,
+        "Country": "Egypt",
+        "Mean_Score": 7.55,
+        "Median_Score": 7.53,
+        "Min_Score": 7.42,
+        "Max_Score": 7.74,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Suparinpei",
+            "count": 2
+          },
+          {
+            "Kata": "Papuren",
+            "count": 2
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 1
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Cairo",
+          "2025 Hangzhou"
+        ]
+      },
+      {
+        "Karateka": "Natacha Fernandes",
+        "Performances": 6,
+        "Win_Rate": 0.1667,
+        "Tournaments_Attended": 2,
+        "Country": "Portugal",
+        "Mean_Score": 7.78,
+        "Median_Score": 7.76,
+        "Min_Score": 7.56,
+        "Max_Score": 8.0,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Suparinpei",
+            "count": 2
+          },
+          {
+            "Kata": "Papuren",
+            "count": 2
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 2
+          }
+        ],
+        "Tournament_List": [
+          "2025 Hangzhou",
+          "2025 Paris"
+        ]
+      },
+      {
+        "Karateka": "Mariam Elezaby",
+        "Performances": 6,
+        "Win_Rate": 0.5,
+        "Tournaments_Attended": 2,
+        "Country": "Egypt",
+        "Mean_Score": 7.72,
+        "Median_Score": 7.7,
+        "Min_Score": 7.56,
+        "Max_Score": 7.94,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 2
+          },
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 2
+          },
+          {
+            "Kata": "Unsu",
+            "count": 1
+          },
+          {
+            "Kata": "Kanku Sho",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Cairo",
+          "2025 Cairo"
+        ]
+      },
+      {
+        "Karateka": "Lanyfer Minano",
+        "Performances": 6,
+        "Win_Rate": 0.3333,
+        "Tournaments_Attended": 2,
+        "Country": "Switzerland",
+        "Mean_Score": 7.7,
+        "Median_Score": 7.75,
+        "Min_Score": 7.52,
+        "Max_Score": 7.82,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Ohan Dai",
+            "count": 2
+          },
+          {
+            "Kata": "Papuren",
+            "count": 2
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 1
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Paris",
+          "2025 Hangzhou"
+        ]
+      },
+      {
+        "Karateka": "Mai-Linh Bui",
+        "Performances": 5,
+        "Win_Rate": 0.4,
+        "Tournaments_Attended": 2,
+        "Country": "France",
+        "Mean_Score": 7.74,
+        "Median_Score": 7.74,
+        "Min_Score": 7.62,
+        "Max_Score": 7.84,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 2
+          },
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 2
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Cairo",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Rita Siebert",
+        "Performances": 5,
+        "Win_Rate": 0.2,
+        "Tournaments_Attended": 2,
+        "Country": "Germany",
+        "Mean_Score": 7.68,
+        "Median_Score": 7.66,
+        "Min_Score": 7.62,
+        "Max_Score": 7.82,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 2
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 2
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Cairo",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Turemen Damla Su",
+        "Performances": 5,
+        "Win_Rate": 0.2,
+        "Tournaments_Attended": 2,
+        "Country": "Turkey",
+        "Mean_Score": 7.66,
+        "Median_Score": 7.64,
+        "Min_Score": 7.52,
+        "Max_Score": 7.82,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 2
+          },
+          {
+            "Kata": "Unsu",
+            "count": 2
+          },
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Antalya",
+          "2025 Cairo"
+        ]
+      },
+      {
+        "Karateka": "Tamara Lehner",
+        "Performances": 5,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 2,
+        "Country": "Austria",
+        "Mean_Score": 7.64,
+        "Median_Score": 7.62,
+        "Min_Score": 7.56,
+        "Max_Score": 7.74,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 2
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 1
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Cairo",
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Nodoka Yamada",
+        "Performances": 5,
+        "Win_Rate": 0.4,
+        "Tournaments_Attended": 2,
+        "Country": "Japan",
+        "Mean_Score": 8.01,
+        "Median_Score": 7.96,
+        "Min_Score": 7.9,
+        "Max_Score": 8.18,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 2
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 2
+          },
+          {
+            "Kata": "Kousoukun Dai",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Cairo",
+          "2024 Casablanca"
+        ]
+      },
+      {
+        "Karateka": "Gabrielle Henrique",
+        "Performances": 4,
+        "Win_Rate": 0.75,
+        "Tournaments_Attended": 1,
+        "Country": "Brazil",
+        "Mean_Score": 7.84,
+        "Median_Score": 7.83,
+        "Min_Score": 7.72,
+        "Max_Score": 7.98,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 1
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 1
+          },
+          {
+            "Kata": "Papuren",
+            "count": 1
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Leong Wai Yee Shannon",
+        "Performances": 4,
+        "Win_Rate": 0.5,
+        "Tournaments_Attended": 1,
+        "Country": "Singapore",
+        "Mean_Score": 7.73,
+        "Median_Score": 7.71,
+        "Min_Score": 7.68,
+        "Max_Score": 7.82,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Anan",
+            "count": 1
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Yiwei Tao",
+        "Performances": 4,
+        "Win_Rate": 0.5,
+        "Tournaments_Attended": 1,
+        "Country": "China",
+        "Mean_Score": 7.9,
+        "Median_Score": 7.92,
+        "Min_Score": 7.68,
+        "Max_Score": 8.06,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Anan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 1
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 1
+          },
+          {
+            "Kata": "Papuren",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Anicha Romba",
+        "Performances": 3,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "Burkina Faso",
+        "Mean_Score": 6.29,
+        "Median_Score": 6.29,
+        "Min_Score": 6.2,
+        "Max_Score": 6.38,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Kousoukun Sho",
+            "count": 1
+          },
+          {
+            "Kata": "Papuren",
+            "count": 1
+          },
+          {
+            "Kata": "Unsu",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Diana Oligino",
+        "Performances": 3,
+        "Win_Rate": 0.3333,
+        "Tournaments_Attended": 1,
+        "Country": "Venezuela",
+        "Mean_Score": 7.92,
+        "Median_Score": 8.0,
+        "Min_Score": 7.74,
+        "Max_Score": 8.02,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 1
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 1
+          },
+          {
+            "Kata": "Kishimoto No Kushanku",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Chien Hui Hsuan",
+        "Performances": 3,
+        "Win_Rate": 0.3333,
+        "Tournaments_Attended": 1,
+        "Country": "Taiwan",
+        "Mean_Score": 7.84,
+        "Median_Score": 7.84,
+        "Min_Score": 7.82,
+        "Max_Score": 7.86,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Ohan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Anan",
+            "count": 1
+          },
+          {
+            "Kata": "Ohan",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Paris"
+        ]
+      },
+      {
+        "Karateka": "Sofia Fialkova",
+        "Performances": 3,
+        "Win_Rate": 0.3333,
+        "Tournaments_Attended": 1,
+        "Country": "Slovakia",
+        "Mean_Score": 7.51,
+        "Median_Score": 7.5,
+        "Min_Score": 7.44,
+        "Max_Score": 7.6,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 1
+          },
+          {
+            "Kata": "Anan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Stephanie Dimovska",
+        "Performances": 3,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "Australia",
+        "Mean_Score": 7.49,
+        "Median_Score": 7.52,
+        "Min_Score": 7.36,
+        "Max_Score": 7.58,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 1
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 1
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Mia Karlsson",
+        "Performances": 3,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "Sweden",
+        "Mean_Score": 7.52,
+        "Median_Score": 7.58,
+        "Min_Score": 7.4,
+        "Max_Score": 7.58,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 1
+          },
+          {
+            "Kata": "Matsumura Bassai",
+            "count": 1
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Miriam Ederar",
+        "Performances": 3,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "Italy",
+        "Mean_Score": 7.65,
+        "Median_Score": 7.72,
+        "Min_Score": 7.52,
+        "Max_Score": 7.72,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Suparinpei",
+            "count": 1
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Papuren",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Rabat"
+        ]
+      },
+      {
+        "Karateka": "Jasmin Bleul",
+        "Performances": 3,
+        "Win_Rate": 0.3333,
+        "Tournaments_Attended": 1,
+        "Country": "Germany",
+        "Mean_Score": 7.69,
+        "Median_Score": 7.66,
+        "Min_Score": 7.62,
+        "Max_Score": 7.8,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Sansai",
+            "count": 1
+          },
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 1
+          },
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Danni Williams",
+        "Performances": 3,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "England",
+        "Mean_Score": 7.49,
+        "Median_Score": 7.5,
+        "Min_Score": 7.44,
+        "Max_Score": 7.54,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 1
+          },
+          {
+            "Kata": "Anan",
+            "count": 1
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Paris"
+        ]
+      },
+      {
+        "Karateka": "Habiba Mousa",
+        "Performances": 3,
+        "Win_Rate": 0.6667,
+        "Tournaments_Attended": 1,
+        "Country": "Egypt",
+        "Mean_Score": 7.79,
+        "Median_Score": 7.76,
+        "Min_Score": 7.72,
+        "Max_Score": 7.9,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 1
+          },
+          {
+            "Kata": "Unsu",
+            "count": 1
+          },
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Cairo"
+        ]
+      },
+      {
+        "Karateka": "Holly Wigg",
+        "Performances": 3,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "New Zealand",
+        "Mean_Score": 7.35,
+        "Median_Score": 7.32,
+        "Min_Score": 7.3,
+        "Max_Score": 7.44,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 1
+          },
+          {
+            "Kata": "Kishimoto No Kushanku",
+            "count": 1
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Semblano Mariana",
+        "Performances": 3,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "Portugal",
+        "Mean_Score": 7.45,
+        "Median_Score": 7.42,
+        "Min_Score": 7.38,
+        "Max_Score": 7.56,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Ohan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Kururunfa",
+            "count": 1
+          },
+          {
+            "Kata": "Suparinpei",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Paris"
+        ]
+      },
+      {
+        "Karateka": "Thing Sanu Maya",
+        "Performances": 3,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "Nepal",
+        "Mean_Score": 7.23,
+        "Median_Score": 7.22,
+        "Min_Score": 7.1,
+        "Max_Score": 7.36,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Anan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 1
+          },
+          {
+            "Kata": "Papuren",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Nicole Turner",
+        "Performances": 3,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "England",
+        "Mean_Score": 7.43,
+        "Median_Score": 7.4,
+        "Min_Score": 7.34,
+        "Max_Score": 7.56,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 1
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 1
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Paris"
+        ]
+      },
+      {
+        "Karateka": "Quiroz Castillo Yaneth",
+        "Performances": 3,
+        "Win_Rate": 0.3333,
+        "Tournaments_Attended": 1,
+        "Country": "Mexico",
+        "Mean_Score": 7.42,
+        "Median_Score": 7.38,
+        "Min_Score": 7.36,
+        "Max_Score": 7.52,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Papuren",
+            "count": 1
+          },
+          {
+            "Kata": "Chatanyara Kusanku",
+            "count": 1
+          },
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Lovelly Anne Robberth",
+        "Performances": 2,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "Malaysia",
+        "Mean_Score": 7.54,
+        "Median_Score": 7.54,
+        "Min_Score": 7.42,
+        "Max_Score": 7.66,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Anan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Anan",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Worlds"
+        ]
+      },
+      {
+        "Karateka": "Lila Ritz",
+        "Performances": 2,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "Switzerland",
+        "Mean_Score": 7.57,
+        "Median_Score": 7.57,
+        "Min_Score": 7.5,
+        "Max_Score": 7.64,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Chibana No Kushanku",
+            "count": 1
+          },
+          {
+            "Kata": "Papuren",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Cairo"
+        ]
+      },
+      {
+        "Karateka": "Roberta Dominici",
+        "Performances": 2,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "Italy",
+        "Mean_Score": 7.5,
+        "Median_Score": 7.5,
+        "Min_Score": 7.5,
+        "Max_Score": 7.5,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Anan Dai",
+            "count": 1
+          },
+          {
+            "Kata": "Ohan Dai",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2024 Paris"
+        ]
+      },
+      {
+        "Karateka": "Ninon Vaucelle-Spelle",
+        "Performances": 2,
+        "Win_Rate": 0.0,
+        "Tournaments_Attended": 1,
+        "Country": "France",
+        "Mean_Score": 7.57,
+        "Median_Score": 7.57,
+        "Min_Score": 7.46,
+        "Max_Score": 7.68,
+        "Kata_Repertoire": [
+          {
+            "Kata": "Gojushiho Sho",
+            "count": 1
+          },
+          {
+            "Kata": "Gojushiho Dai",
+            "count": 1
+          }
+        ],
+        "Tournament_List": [
+          "2025 Rabat"
+        ]
+      }
+    ]
+  },
+  "tournaments": [
+    {
+      "Tournament": "2024 Antalya",
+      "Gender": "Female",
+      "Total_Performances": 102,
+      "Unique_Kata": 19,
+      "Unique_Karateka": 30,
+      "Avg_Score": 7.994
+    },
+    {
+      "Tournament": "2024 Antalya",
+      "Gender": "Male",
+      "Total_Performances": 90,
+      "Unique_Kata": 20,
+      "Unique_Karateka": 28,
+      "Avg_Score": 8.19
+    },
+    {
+      "Tournament": "2024 Cairo",
+      "Gender": "Female",
+      "Total_Performances": 114,
+      "Unique_Kata": 21,
+      "Unique_Karateka": 32,
+      "Avg_Score": 7.947
+    },
+    {
+      "Tournament": "2024 Cairo",
+      "Gender": "Male",
+      "Total_Performances": 108,
+      "Unique_Kata": 23,
+      "Unique_Karateka": 31,
+      "Avg_Score": 8.156
+    },
+    {
+      "Tournament": "2024 Casablanca",
+      "Gender": "Female",
+      "Total_Performances": 102,
+      "Unique_Kata": 20,
+      "Unique_Karateka": 30,
+      "Avg_Score": 8.045
+    },
+    {
+      "Tournament": "2024 Casablanca",
+      "Gender": "Male",
+      "Total_Performances": 114,
+      "Unique_Kata": 20,
+      "Unique_Karateka": 32,
+      "Avg_Score": 8.209
+    },
+    {
+      "Tournament": "2024 Paris",
+      "Gender": "Female",
+      "Total_Performances": 108,
+      "Unique_Kata": 17,
+      "Unique_Karateka": 31,
+      "Avg_Score": 7.916
+    },
+    {
+      "Tournament": "2024 Paris",
+      "Gender": "Male",
+      "Total_Performances": 114,
+      "Unique_Kata": 20,
+      "Unique_Karateka": 32,
+      "Avg_Score": 8.213
+    },
+    {
+      "Tournament": "2025 Cairo",
+      "Gender": "Female",
+      "Total_Performances": 102,
+      "Unique_Kata": 21,
+      "Unique_Karateka": 30,
+      "Avg_Score": 7.881
+    },
+    {
+      "Tournament": "2025 Cairo",
+      "Gender": "Male",
+      "Total_Performances": 114,
+      "Unique_Kata": 19,
+      "Unique_Karateka": 32,
+      "Avg_Score": 8.213
+    },
+    {
+      "Tournament": "2025 Hangzhou",
+      "Gender": "Female",
+      "Total_Performances": 102,
+      "Unique_Kata": 20,
+      "Unique_Karateka": 30,
+      "Avg_Score": 8.008
+    },
+    {
+      "Tournament": "2025 Hangzhou",
+      "Gender": "Male",
+      "Total_Performances": 114,
+      "Unique_Kata": 21,
+      "Unique_Karateka": 32,
+      "Avg_Score": 8.084
+    },
+    {
+      "Tournament": "2025 Paris",
+      "Gender": "Female",
+      "Total_Performances": 114,
+      "Unique_Kata": 24,
+      "Unique_Karateka": 32,
+      "Avg_Score": 7.998
+    },
+    {
+      "Tournament": "2025 Paris",
+      "Gender": "Male",
+      "Total_Performances": 114,
+      "Unique_Kata": 20,
+      "Unique_Karateka": 32,
+      "Avg_Score": 8.137
+    },
+    {
+      "Tournament": "2025 Rabat",
+      "Gender": "Female",
+      "Total_Performances": 96,
+      "Unique_Kata": 20,
+      "Unique_Karateka": 29,
+      "Avg_Score": 7.95
+    },
+    {
+      "Tournament": "2025 Rabat",
+      "Gender": "Male",
+      "Total_Performances": 114,
+      "Unique_Kata": 23,
+      "Unique_Karateka": 32,
+      "Avg_Score": 8.122
+    },
+    {
+      "Tournament": "2025 Worlds",
+      "Gender": "Female",
+      "Total_Performances": 124,
+      "Unique_Kata": 21,
+      "Unique_Karateka": 31,
+      "Avg_Score": 7.867
+    },
+    {
+      "Tournament": "2025 Worlds",
+      "Gender": "Male",
+      "Total_Performances": 124,
+      "Unique_Kata": 23,
+      "Unique_Karateka": 31,
+      "Avg_Score": 7.942
+    }
+  ]
+}
