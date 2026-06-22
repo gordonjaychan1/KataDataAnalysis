@@ -1,4 +1,4 @@
-on the female welcome page, put this video thumbnail: https://www.youtube.com/watch?v=X2Y8CQcVWBc&t=445s
+on the female welcome page, put this video thumbnail: https://www.youtube.com/watch?v=NDp3JTglEKM&t=424s and make the header say: "2024 K1 Premier League Antalya, Female Kata, Gold Medal Match
 male vs. female tab: remove the ♂ and ♀ symbols, and put more vertical space between each section
 in the appendix, both kata lists don't show up
 important notes tab: delete the text "Kata are classified into three tiers — Advanced, Intermediate, and Beginner — based on the USA Karate - Official Kata List (see References for more information)." also, under the "kata tier system" header, write:
