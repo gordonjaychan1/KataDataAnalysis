@@ -7,3 +7,5 @@ Kata Score vs. Athlete's Average: make graph a bit taller, put vertical line at 
 Standard Deviation of Kata Scores vs. Number of Performers: make graph have annotations of kata names, add line of best fit
 
 put references and links
+
+put youtube video of one kata performance on welcome pg
