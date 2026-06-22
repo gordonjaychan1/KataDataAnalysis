@@ -8,6 +8,8 @@ const sortState = {
   tournaments: { col: "Tournament",   dir: "asc"  },
 };
 
+const searchQuery = { kata: "", karateka: "" };
+
 const charts = {};
 
 /* ── Boot ──────────────────────────────────────────────────────────────────── */
@@ -75,6 +77,8 @@ function setupGlobalToggle() {
       gender = btn.dataset.gender;
       clearCard("kata-card");
       clearCard("karateka-card");
+      searchQuery.kata = "";
+      searchQuery.karateka = "";
       document.getElementById("kata-search").value = "";
       document.getElementById("karateka-search").value = "";
       renderAll();
@@ -134,17 +138,17 @@ const tierBadge = t => t ? `<span class="tier-badge tier-${t}">${t}</span>` : ""
 function setupKataTab() {
   setupSortableTable("kata-table", "kata", renderKataTable);
   document.getElementById("kata-search").addEventListener("input", e => {
-    const q = e.target.value.trim().toLowerCase();
-    if (!q) { clearCard("kata-card"); renderKataTable(); return; }
-    const match = DATA.kata[gender].find(r => r.Kata && r.Kata.toLowerCase().includes(q));
-    if (match) { showKataCard(match); highlightRow("kata-tbody", "data-kata", match.Kata); }
-    else { clearCard("kata-card"); renderKataTable(); }
+    searchQuery.kata = e.target.value.trim().toLowerCase();
+    if (!searchQuery.kata) clearCard("kata-card");
+    renderKataTable();
   });
 }
 
 function renderKataTable() {
   const s = sortState.kata;
-  const rows = sortData(DATA.kata[gender], s.col, s.dir);
+  const q = searchQuery.kata;
+  let rows = sortData(DATA.kata[gender], s.col, s.dir);
+  if (q) rows = rows.filter(r => r.Kata && r.Kata.toLowerCase().includes(q));
   document.getElementById("kata-tbody").innerHTML = rows.map(r => `
     <tr data-kata="${esc(r.Kata)}">
       <td class="name-cell">${esc(r.Kata)}</td>
@@ -192,17 +196,17 @@ function showKataCard(r) {
 function setupKaratekaTab() {
   setupSortableTable("karateka-table", "karateka", renderKaratekaTable);
   document.getElementById("karateka-search").addEventListener("input", e => {
-    const q = e.target.value.trim().toLowerCase();
-    if (!q) { clearCard("karateka-card"); renderKaratekaTable(); return; }
-    const match = DATA.karateka[gender].find(r => r.Karateka && r.Karateka.toLowerCase().includes(q));
-    if (match) { showKaratekaCard(match); highlightRow("karateka-tbody", "data-karateka", match.Karateka); }
-    else { clearCard("karateka-card"); renderKaratekaTable(); }
+    searchQuery.karateka = e.target.value.trim().toLowerCase();
+    if (!searchQuery.karateka) clearCard("karateka-card");
+    renderKaratekaTable();
   });
 }
 
 function renderKaratekaTable() {
   const s = sortState.karateka;
-  const rows = sortData(DATA.karateka[gender], s.col, s.dir);
+  const q = searchQuery.karateka;
+  let rows = sortData(DATA.karateka[gender], s.col, s.dir);
+  if (q) rows = rows.filter(r => r.Karateka && r.Karateka.toLowerCase().includes(q));
   document.getElementById("karateka-tbody").innerHTML = rows.map(r => `
     <tr data-karateka="${esc(r.Karateka)}">
       <td class="name-cell">${esc(r.Karateka)}</td>
@@ -497,10 +501,6 @@ function renderPerformedKata() {
 
 function renderKataVsKaratekaAvg() {
   const rows = DATA.kata_vs_karateka_avg[gender];
-  document.getElementById("insight-kk-avg").textContent =
-    `Each kata's average score difference compared to the overall average of the athletes who performed it. ` +
-    `A positive number means the kata tends to be performed above the athlete's baseline; negative means below. ` +
-    `Kata with very few performances may have skewed results.`;
   const top = rows[0], bot = rows[rows.length - 1];
   if (top && bot) {
     document.getElementById("insight-kk-avg").textContent =
@@ -516,6 +516,28 @@ function renderKataVsKaratekaAvg() {
       <td class="num" style="${color(r.Diff)}">${sign(r.Diff)}</td>
       <td class="num">${r.Performances}</td>
     </tr>`).join("");
+
+  /* diverging horizontal bar chart */
+  destroyChart("chart-kk-avg");
+  const ctx = document.getElementById("chart-kk-avg"); if (!ctx) return;
+  const sorted = [...rows].sort((a, b) => a.Diff - b.Diff);
+  const bgColors = sorted.map(r => r.Diff >= 0 ? RED : "rgba(58,110,58,0.8)");
+  const bdColors = sorted.map(r => r.Diff >= 0 ? RED_BORDER : "rgba(40,85,40,1)");
+  charts["chart-kk-avg"] = new Chart(ctx, {
+    type: "bar",
+    data: { labels: sorted.map(r => r.Kata), datasets: [{ data: sorted.map(r => r.Diff), backgroundColor: bgColors, borderColor: bdColors, borderWidth: 1, borderRadius: 3 }] },
+    options: {
+      indexAxis: "y", responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.raw >= 0 ? "+" : ""}${ctx.raw.toFixed(3)}` } },
+      },
+      scales: {
+        x: { grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, title: { display: true, text: "Score Diff vs Athlete Avg", font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
+        y: { grid: { display: false }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#1c1c18" } },
+      },
+    },
+  });
 }
 
 function renderKataStdDev() {
@@ -529,6 +551,30 @@ function renderKataStdDev() {
       <td class="num">${r.Unique_Karateka}</td>
       <td class="num">${r.Std_Dev != null ? r.Std_Dev.toFixed(3) : "—"}</td>
     </tr>`).join("");
+
+  /* scatter: x = unique performers, y = std dev */
+  destroyChart("chart-stddev");
+  const ctx = document.getElementById("chart-stddev"); if (!ctx) return;
+  const validRows = rows.filter(r => r.Std_Dev != null);
+  charts["chart-stddev"] = new Chart(ctx, {
+    type: "scatter",
+    data: { datasets: [{
+      label: "Kata",
+      data: validRows.map(r => ({ x: r.Unique_Karateka, y: r.Std_Dev, kata: r.Kata })),
+      backgroundColor: RED, borderColor: RED_BORDER, borderWidth: 1.5, pointRadius: 6, pointHoverRadius: 8,
+    }] },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx => ` ${ctx.raw.kata}: ${ctx.raw.x} performers, σ = ${ctx.raw.y.toFixed(3)}` } },
+      },
+      scales: {
+        x: { title: { display: true, text: "Unique Performers", font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
+        y: { title: { display: true, text: "Score Std Dev (σ)", font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
+      },
+    },
+  });
 }
 
 /* ════════════════════════════════════════════════════════════════ KARATEKA FINDINGS */
