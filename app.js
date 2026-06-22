@@ -157,6 +157,8 @@ function setupTabs() {
       const sec = document.getElementById("tab-" + btn.dataset.tab);
       sec.classList.remove("hidden");
       sec.classList.add("active");
+      /* close any open detail cards when switching tabs */
+      ["kata-card", "karateka-card", "tournaments-card"].forEach(id => clearCard(id));
       if (btn.dataset.tab === "compare") renderCompareTab();
     });
   });
