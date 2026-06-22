@@ -681,7 +681,7 @@ function destroyChart(id) {
   if (charts[id]) { charts[id].destroy(); delete charts[id]; }
 }
 
-function makeHBar(id, labels, values, xLabel, minVal) {
+function makeHBar(id, labels, values, xLabel, minVal, perfs = null) {
   destroyChart(id);
   const ctx = document.getElementById(id); if (!ctx) return;
   charts[id] = new Chart(ctx, {
@@ -689,7 +689,12 @@ function makeHBar(id, labels, values, xLabel, minVal) {
     data: { labels, datasets: [{ data: values, backgroundColor: RED, borderColor: RED_BORDER, borderWidth: 1, borderRadius: 3 }] },
     options: {
       indexAxis: "y", responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx2 => perfs
+          ? ` ${ctx2.raw}  (${perfs[ctx2.dataIndex]} performances)`
+          : ` ${ctx2.raw}` } },
+      },
       scales: {
         x: { min: minVal, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, title: { display: !!xLabel, text: xLabel, font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
         y: { grid: { display: false }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#1c1c18" } },
@@ -698,7 +703,7 @@ function makeHBar(id, labels, values, xLabel, minVal) {
   });
 }
 
-function makeWinRateHBar(id, labels, values, axisTitle = "Win Rate (%)") {
+function makeWinRateHBar(id, labels, values, axisTitle = "Win Rate (%)", perfs = null) {
   destroyChart(id);
   const ctx = document.getElementById(id); if (!ctx) return;
   charts[id] = new Chart(ctx, {
@@ -706,7 +711,12 @@ function makeWinRateHBar(id, labels, values, axisTitle = "Win Rate (%)") {
     data: { labels, datasets: [{ data: values, backgroundColor: RED, borderColor: RED_BORDER, borderWidth: 1, borderRadius: 3 }] },
     options: {
       indexAxis: "y", responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.raw}%` } } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: ctx2 => perfs
+          ? ` ${ctx2.raw}%  (${perfs[ctx2.dataIndex]} performances)`
+          : ` ${ctx2.raw}%` } },
+      },
       scales: {
         x: { min: 0, max: 100, grid: { color: GRID }, ticks: { callback: v => v + "%", font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, title: { display: true, text: axisTitle, font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
         y: { grid: { display: false }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#1c1c18" } },
@@ -736,7 +746,7 @@ function renderKataFindings() {
     `${top1s.Kata} had the highest average score (${top1s.Mean_Score.toFixed(3)}); ` +
     `${bot1s.Kata} had the lowest (${bot1s.Mean_Score.toFixed(3)}). ` +
     `The overall ${gender} average across all performances was ${overallAvg.toFixed(3)}.`;
-  makeHBar("chart-avgscore", scoreSorted.map(r => r.Kata), scoreSorted.map(r => r.Mean_Score), "Average Score", 7.0);
+  makeHBar("chart-avgscore", scoreSorted.map(r => r.Kata), scoreSorted.map(r => r.Mean_Score), "Average Score", 7.0, scoreSorted.map(r => r.Performances));
 
   /* 3. Win Rate */
   const winSorted = [...kata].filter(r => r.Win_Rate != null && r.Performances >= 5).sort((a, b) => b.Win_Rate - a.Win_Rate);
@@ -744,7 +754,7 @@ function renderKataFindings() {
     `Among kata with at least 5 performances, ${winSorted[0].Kata} had the highest win rate ` +
     `(${(winSorted[0].Win_Rate*100).toFixed(1)}%) and ${winSorted[winSorted.length-1].Kata} had the lowest ` +
     `(${(winSorted[winSorted.length-1].Win_Rate*100).toFixed(1)}%). Win rate is influenced by opponent strength and athlete skill, not kata choice alone.`;
-  makeWinRateHBar("chart-winrate", winSorted.map(r => r.Kata), winSorted.map(r => +(r.Win_Rate*100).toFixed(1)));
+  makeWinRateHBar("chart-winrate", winSorted.map(r => r.Kata), winSorted.map(r => +(r.Win_Rate*100).toFixed(1)), "Win Rate (%)", winSorted.map(r => r.Performances));
 
   /* 4. Scatter: Performances vs Avg Score — Advanced & Intermediate only */
   document.getElementById("insight-scatter").textContent =
@@ -809,9 +819,9 @@ function renderKataFindings() {
   const tierBgs = ["rgba(0,0,0,0.82)", "rgba(130,75,25,0.82)"];
   const tierBorders = ["rgba(0,0,0,1)", "rgba(110,60,15,1)"];
   document.getElementById("insight-tier").textContent =
-    `Advanced kata account for ${((tierPerfs[0]/totalPerfs)*100).toFixed(1)}% of ${gender} performances ` +
-    `despite being just ${tierKata[0]} of the ${kata.length} kata performed. ` +
-    `Intermediate kata make up ${((tierPerfs[1]/totalPerfs)*100).toFixed(1)}%.`;
+    `${tierKata[1]} of the ${kata.length} kata performed (${Math.round(tierKata[1]/kata.length*100)}%) are Intermediate kata, ` +
+    `but they only account for ${((tierPerfs[1]/totalPerfs)*100).toFixed(1)}% of kata performances. ` +
+    `The ${tierKata[0]} Advanced kata performed account for ${((tierPerfs[0]/totalPerfs)*100).toFixed(1)}% of ${gender} performances.`;
 
   destroyChart("chart-tier-perfs");
   const ctxTP = document.getElementById("chart-tier-perfs"); if (ctxTP) {
