@@ -361,6 +361,13 @@ function renderKataTable() {
     const vals = allKata.map(r => r[field]).filter(v => v != null);
     return vals.length ? vals.reduce((s,v) => s+v, 0) / vals.length : null;
   };
+  const medianOf = vals => {
+    if (!vals.length) return null;
+    const s = [...vals].sort((a,b) => a-b);
+    const m = Math.floor(s.length/2);
+    return s.length % 2 ? s[m] : (s[m-1]+s[m])/2;
+  };
+  const medianPerfsKata = medianOf(allKata.map(r => r.Performances).filter(v => v != null));
   const absMin = allKata.map(r => r.Min_Score).filter(v => v != null).reduce((m,v) => Math.min(m,v), Infinity);
   const absMax = allKata.map(r => r.Max_Score).filter(v => v != null).reduce((m,v) => Math.max(m,v), -Infinity);
   const totalPerfsK = allKata.reduce((s,r) => s + (r.Performances || 0), 0);
@@ -374,7 +381,7 @@ function renderKataTable() {
     <tr class="avg-row">
       <td class="name-cell" style="font-weight:700;color:var(--text)">Average</td>
       <td></td>
-      <td class="num">${fmt2(avg("Performances"))}</td>
+      <td class="num" title="Median performances per kata across all kata">${medianPerfsKata ?? "—"}</td>
       <td class="num">${fmt2(avg("Unique_Karateka"))}</td>
       <td class="num">${fmt3(avg("Mean_Score"))}</td>
       <td class="num">${fmt2(avg("Median_Score"))}</td>
@@ -531,6 +538,13 @@ function renderKaratekaTable() {
     const vals = allKar.map(r => r[field]).filter(v => v != null);
     return vals.length ? vals.reduce((s,v) => s+v, 0) / vals.length : null;
   };
+  const medianOfK = vals => {
+    if (!vals.length) return null;
+    const s = [...vals].sort((a,b) => a-b);
+    const m = Math.floor(s.length/2);
+    return s.length % 2 ? s[m] : (s[m-1]+s[m])/2;
+  };
+  const medianPerfsKar = medianOfK(allKar.map(r => r.Performances).filter(v => v != null));
   const absMinK = allKar.map(r => r.Min_Score).filter(v => v != null).reduce((m,v) => Math.min(m,v), Infinity);
   const absMaxK = allKar.map(r => r.Max_Score).filter(v => v != null).reduce((m,v) => Math.max(m,v), -Infinity);
   const totPerfsKar  = allKar.reduce((s,r) => s + (r.Performances || 0), 0);
@@ -541,7 +555,7 @@ function renderKaratekaTable() {
       <td class="name-cell" style="font-weight:700;color:var(--text)">Average</td>
       <td></td>
       <td></td>
-      <td class="num">${fmt2(avgK("Performances"))}</td>
+      <td class="num" title="Median performances per athlete across all athletes">${medianPerfsKar ?? "—"}</td>
       <td class="num">${fmt2(avgK("Tournaments_Attended"))}</td>
       <td class="num">${fmt2(avgK("Mean_Score"))}</td>
       <td class="num">${fmt2(avgK("Median_Score"))}</td>
