@@ -261,6 +261,45 @@ for (tourn, gender), grp in df_total.groupby(["Tournament", "Gender"]):
     })
 tourn_summary.sort(key=lambda x: (x["Tournament"], x["Gender"]))
 
+# ── Tier summary ─────────────────────────────────────────────────────────────
+def build_tier_summary(df_g):
+    performed_adv   = sorted(df_g[df_g["Kata Tier"] == "Advanced"]["Kata"].dropna().unique().tolist())
+    performed_interm = sorted(df_g[df_g["Kata Tier"] == "Intermediate"]["Kata"].dropna().unique().tolist())
+    unperformed_adv   = sorted([k for k in adv_kata   if k not in performed_adv])
+    unperformed_interm = sorted([k for k in interm_kata if k not in performed_interm])
+    return {
+        "adv_kata_count":    len(adv_kata),
+        "adv_performances":  int((df_g["Kata Tier"] == "Advanced").sum()),
+        "adv_performed":     performed_adv,
+        "adv_unperformed":   unperformed_adv,
+        "interm_kata_count":   len(interm_kata),
+        "interm_performances": int((df_g["Kata Tier"] == "Intermediate").sum()),
+        "interm_performed":    performed_interm,
+        "interm_unperformed":  unperformed_interm,
+    }
+
+# ── Kata score vs karateka average ────────────────────────────────────────────
+def build_kata_vs_karateka_avg(df_clean_g):
+    karateka_avg = df_clean_g.groupby("Karateka")["Avg Score"].mean()
+    tmp = df_clean_g.copy()
+    tmp["Karateka_Avg"] = tmp["Karateka"].map(karateka_avg)
+    tmp["Diff"] = tmp["Avg Score"] - tmp["Karateka_Avg"]
+    result = (
+        tmp.groupby("Kata")
+        .agg(Diff=("Diff", "mean"), Performances=("Diff", "count"))
+        .reset_index()
+    )
+    result["Diff"] = result["Diff"].round(3)
+    return result.sort_values("Diff", ascending=False).to_dict("records")
+
+# ── Kata std dev vs unique performers ─────────────────────────────────────────
+def build_kata_std_dev_table(df_clean_g):
+    std_dev  = df_clean_g.groupby("Kata")["Avg Score"].std().reset_index(name="Std_Dev")
+    unique_k = df_clean_g.groupby("Kata")["Karateka"].nunique().reset_index(name="Unique_Karateka")
+    result = std_dev.merge(unique_k, on="Kata")
+    result["Std_Dev"] = result["Std_Dev"].round(3)
+    return result.sort_values("Unique_Karateka", ascending=False).to_dict("records")
+
 # ── Country summary (per gender) ──────────────────────────────────────────────
 def country_summary(df_g):
     counts = df_g.groupby("Country")["Karateka"].nunique().reset_index(name="Athletes")
@@ -288,6 +327,9 @@ def clean(obj):
     if isinstance(obj, list):  return [clean(i) for i in obj]
     return obj
 
+dm = df_clean[df_clean["Gender"] == "Male"]
+df_ = df_clean[df_clean["Gender"] == "Female"]
+
 output = {
     "meta":         meta,
     "missing_data": missing_data,
@@ -295,6 +337,18 @@ output = {
     "karateka":     {"male": clean(karateka_m.to_dict("records")),  "female": clean(karateka_f.to_dict("records"))},
     "tournaments":  clean(tourn_summary),
     "countries":    {"male": clean(country_m), "female": clean(country_f)},
+    "tier_summary": {
+        "male":   build_tier_summary(df[df["Gender"] == "Male"]),
+        "female": build_tier_summary(df[df["Gender"] == "Female"]),
+    },
+    "kata_vs_karateka_avg": {
+        "male":   clean(build_kata_vs_karateka_avg(dm)),
+        "female": clean(build_kata_vs_karateka_avg(df_)),
+    },
+    "kata_std_dev": {
+        "male":   clean(build_kata_std_dev_table(dm)),
+        "female": clean(build_kata_std_dev_table(df_)),
+    },
 }
 
 out_path = os.path.join(script_dir, "data.json")

@@ -7617,5 +7617,791 @@
         "Athletes": 1
       }
     ]
+  },
+  "tier_summary": {
+    "male": {
+      "adv_kata_count": 31,
+      "adv_performances": 858,
+      "adv_performed": [
+        "Anan",
+        "Anan Dai",
+        "Chatanyara Kusanku",
+        "Chibana No Kushanku",
+        "Gankaku",
+        "Gojushiho",
+        "Gojushiho Dai",
+        "Gojushiho Sho",
+        "Kanku Sho",
+        "Kishimoto No Kushanku",
+        "Kururunfa",
+        "Kyan No Chinto",
+        "Nipaipo",
+        "Ohan",
+        "Ohan Dai",
+        "Paiku",
+        "Papuren",
+        "Sansai",
+        "Suparinpei",
+        "Unsu"
+      ],
+      "adv_unperformed": [
+        "Chinto",
+        "Hakucho",
+        "Heiku",
+        "Kanchin",
+        "Kousoukun Dai",
+        "Kyan No Wanshu",
+        "Matsumura Bassai",
+        "Oyadomari No Passai",
+        "Seishan",
+        "Tomari Bassai",
+        "Useishi"
+      ],
+      "interm_kata_count": 56,
+      "interm_performances": 89,
+      "interm_performed": [
+        "Enpi",
+        "Jitte",
+        "Nijushiho",
+        "Pachu",
+        "Sanseiru",
+        "Seipai",
+        "Seisan",
+        "Shisochin",
+        "Sochin"
+      ],
+      "interm_unperformed": [
+        "Ananko",
+        "Aoyagi",
+        "Bassai",
+        "Bassai Dai",
+        "Bassai Sho",
+        "Chinte",
+        "Garyu",
+        "Hangetsu",
+        "Haufa",
+        "Ishimine Bassai",
+        "Itosu Rohai Nidan",
+        "Itosu Rohai Sandan",
+        "Itosu Rohai Shodan",
+        "Jiin",
+        "Jion",
+        "Juroku",
+        "Kanku Dai",
+        "Kanshu",
+        "Kousoukun",
+        "Kousoukun Sho",
+        "Kusanku",
+        "Matsukaze",
+        "Matsumura Rohai",
+        "Meikyo",
+        "Myojo",
+        "Naifanchin Nidan",
+        "Naifanchin Sandan",
+        "Naifanchin Shodan",
+        "Naihanchi",
+        "Niseishi",
+        "Passai",
+        "Rohai",
+        "Saifa",
+        "Sanchin",
+        "Sanseru",
+        "Seichin",
+        "Seienchin",
+        "Seiryu",
+        "Shiho Kousoukun",
+        "Shinpa",
+        "Shinsei",
+        "Tekki Nidan",
+        "Tekki Sandan",
+        "Tekki Shodan",
+        "Tensho",
+        "Wankan",
+        "Wanshu"
+      ]
+    },
+    "female": {
+      "adv_kata_count": 31,
+      "adv_performances": 947,
+      "adv_performed": [
+        "Anan",
+        "Anan Dai",
+        "Chatanyara Kusanku",
+        "Chibana No Kushanku",
+        "Gankaku",
+        "Gojushiho",
+        "Gojushiho Dai",
+        "Gojushiho Sho",
+        "Kanku Sho",
+        "Kishimoto No Kushanku",
+        "Kousoukun Dai",
+        "Kururunfa",
+        "Kyan No Chinto",
+        "Matsumura Bassai",
+        "Nipaipo",
+        "Ohan",
+        "Ohan Dai",
+        "Oyadomari No Passai",
+        "Paiku",
+        "Papuren",
+        "Sansai",
+        "Suparinpei",
+        "Tomari Bassai",
+        "Unsu"
+      ],
+      "adv_unperformed": [
+        "Chinto",
+        "Hakucho",
+        "Heiku",
+        "Kanchin",
+        "Kyan No Wanshu",
+        "Seishan",
+        "Useishi"
+      ],
+      "interm_kata_count": 56,
+      "interm_performances": 15,
+      "interm_performed": [
+        "Enpi",
+        "Kousoukun Sho",
+        "Kusanku",
+        "Shisochin",
+        "Sochin"
+      ],
+      "interm_unperformed": [
+        "Ananko",
+        "Aoyagi",
+        "Bassai",
+        "Bassai Dai",
+        "Bassai Sho",
+        "Chinte",
+        "Garyu",
+        "Hangetsu",
+        "Haufa",
+        "Ishimine Bassai",
+        "Itosu Rohai Nidan",
+        "Itosu Rohai Sandan",
+        "Itosu Rohai Shodan",
+        "Jiin",
+        "Jion",
+        "Jitte",
+        "Juroku",
+        "Kanku Dai",
+        "Kanshu",
+        "Kousoukun",
+        "Matsukaze",
+        "Matsumura Rohai",
+        "Meikyo",
+        "Myojo",
+        "Naifanchin Nidan",
+        "Naifanchin Sandan",
+        "Naifanchin Shodan",
+        "Naihanchi",
+        "Nijushiho",
+        "Niseishi",
+        "Pachu",
+        "Passai",
+        "Rohai",
+        "Saifa",
+        "Sanchin",
+        "Sanseiru",
+        "Sanseru",
+        "Seichin",
+        "Seienchin",
+        "Seipai",
+        "Seiryu",
+        "Seisan",
+        "Shiho Kousoukun",
+        "Shinpa",
+        "Shinsei",
+        "Tekki Nidan",
+        "Tekki Sandan",
+        "Tekki Shodan",
+        "Tensho",
+        "Wankan",
+        "Wanshu"
+      ]
+    }
+  },
+  "kata_vs_karateka_avg": {
+    "male": [
+      {
+        "Kata": "Gankaku",
+        "Diff": 0.084,
+        "Performances": 21
+      },
+      {
+        "Kata": "Chibana No Kushanku",
+        "Diff": 0.073,
+        "Performances": 45
+      },
+      {
+        "Kata": "Kyan No Chinto",
+        "Diff": 0.069,
+        "Performances": 1
+      },
+      {
+        "Kata": "Chatanyara Kusanku",
+        "Diff": 0.048,
+        "Performances": 24
+      },
+      {
+        "Kata": "Papuren",
+        "Diff": 0.043,
+        "Performances": 69
+      },
+      {
+        "Kata": "Anan",
+        "Diff": 0.023,
+        "Performances": 47
+      },
+      {
+        "Kata": "Ohan Dai",
+        "Diff": 0.02,
+        "Performances": 85
+      },
+      {
+        "Kata": "Suparinpei",
+        "Diff": 0.015,
+        "Performances": 85
+      },
+      {
+        "Kata": "Anan Dai",
+        "Diff": 0.014,
+        "Performances": 68
+      },
+      {
+        "Kata": "Gojushiho Sho",
+        "Diff": 0.014,
+        "Performances": 108
+      },
+      {
+        "Kata": "Kanku Sho",
+        "Diff": 0.011,
+        "Performances": 47
+      },
+      {
+        "Kata": "Unsu",
+        "Diff": 0.009,
+        "Performances": 103
+      },
+      {
+        "Kata": "Gojushiho Dai",
+        "Diff": 0.001,
+        "Performances": 70
+      },
+      {
+        "Kata": "Jitte",
+        "Diff": -0.016,
+        "Performances": 7
+      },
+      {
+        "Kata": "Pachu",
+        "Diff": -0.023,
+        "Performances": 2
+      },
+      {
+        "Kata": "Sochin",
+        "Diff": -0.051,
+        "Performances": 36
+      },
+      {
+        "Kata": "Gojushiho",
+        "Diff": -0.054,
+        "Performances": 3
+      },
+      {
+        "Kata": "Ohan",
+        "Diff": -0.057,
+        "Performances": 29
+      },
+      {
+        "Kata": "Seipai",
+        "Diff": -0.078,
+        "Performances": 2
+      },
+      {
+        "Kata": "Kishimoto No Kushanku",
+        "Diff": -0.087,
+        "Performances": 2
+      },
+      {
+        "Kata": "Nipaipo",
+        "Diff": -0.097,
+        "Performances": 9
+      },
+      {
+        "Kata": "Enpi",
+        "Diff": -0.103,
+        "Performances": 11
+      },
+      {
+        "Kata": "Kururunfa",
+        "Diff": -0.121,
+        "Performances": 32
+      },
+      {
+        "Kata": "Paiku",
+        "Diff": -0.136,
+        "Performances": 4
+      },
+      {
+        "Kata": "Seisan",
+        "Diff": -0.141,
+        "Performances": 8
+      },
+      {
+        "Kata": "Sanseiru",
+        "Diff": -0.149,
+        "Performances": 2
+      },
+      {
+        "Kata": "Sansai",
+        "Diff": -0.164,
+        "Performances": 3
+      },
+      {
+        "Kata": "Nijushiho",
+        "Diff": -0.214,
+        "Performances": 4
+      },
+      {
+        "Kata": "Shisochin",
+        "Diff": -0.225,
+        "Performances": 17
+      }
+    ],
+    "female": [
+      {
+        "Kata": "Sochin",
+        "Diff": 0.21,
+        "Performances": 3
+      },
+      {
+        "Kata": "Enpi",
+        "Diff": 0.183,
+        "Performances": 1
+      },
+      {
+        "Kata": "Sansai",
+        "Diff": 0.085,
+        "Performances": 7
+      },
+      {
+        "Kata": "Kusanku",
+        "Diff": 0.052,
+        "Performances": 3
+      },
+      {
+        "Kata": "Chatanyara Kusanku",
+        "Diff": 0.048,
+        "Performances": 124
+      },
+      {
+        "Kata": "Oyadomari No Passai",
+        "Diff": 0.036,
+        "Performances": 11
+      },
+      {
+        "Kata": "Papuren",
+        "Diff": 0.018,
+        "Performances": 197
+      },
+      {
+        "Kata": "Kishimoto No Kushanku",
+        "Diff": 0.016,
+        "Performances": 8
+      },
+      {
+        "Kata": "Suparinpei",
+        "Diff": 0.013,
+        "Performances": 129
+      },
+      {
+        "Kata": "Anan Dai",
+        "Diff": 0.008,
+        "Performances": 44
+      },
+      {
+        "Kata": "Gojushiho Sho",
+        "Diff": 0.003,
+        "Performances": 42
+      },
+      {
+        "Kata": "Gojushiho Dai",
+        "Diff": 0.003,
+        "Performances": 41
+      },
+      {
+        "Kata": "Ohan",
+        "Diff": 0.0,
+        "Performances": 4
+      },
+      {
+        "Kata": "Kururunfa",
+        "Diff": -0.002,
+        "Performances": 65
+      },
+      {
+        "Kata": "Gankaku",
+        "Diff": -0.009,
+        "Performances": 18
+      },
+      {
+        "Kata": "Ohan Dai",
+        "Diff": -0.013,
+        "Performances": 43
+      },
+      {
+        "Kata": "Anan",
+        "Diff": -0.017,
+        "Performances": 19
+      },
+      {
+        "Kata": "Kanku Sho",
+        "Diff": -0.025,
+        "Performances": 12
+      },
+      {
+        "Kata": "Kousoukun Sho",
+        "Diff": -0.029,
+        "Performances": 5
+      },
+      {
+        "Kata": "Chibana No Kushanku",
+        "Diff": -0.038,
+        "Performances": 102
+      },
+      {
+        "Kata": "Paiku",
+        "Diff": -0.054,
+        "Performances": 15
+      },
+      {
+        "Kata": "Unsu",
+        "Diff": -0.054,
+        "Performances": 30
+      },
+      {
+        "Kata": "Matsumura Bassai",
+        "Diff": -0.103,
+        "Performances": 5
+      },
+      {
+        "Kata": "Kousoukun Dai",
+        "Diff": -0.112,
+        "Performances": 1
+      },
+      {
+        "Kata": "Nipaipo",
+        "Diff": -0.144,
+        "Performances": 13
+      },
+      {
+        "Kata": "Shisochin",
+        "Diff": -0.158,
+        "Performances": 2
+      },
+      {
+        "Kata": "Tomari Bassai",
+        "Diff": -0.205,
+        "Performances": 13
+      },
+      {
+        "Kata": "Kyan No Chinto",
+        "Diff": -0.393,
+        "Performances": 1
+      }
+    ]
+  },
+  "kata_std_dev": {
+    "male": [
+      {
+        "Kata": "Gojushiho Sho",
+        "Std_Dev": 0.349,
+        "Unique_Karateka": 35
+      },
+      {
+        "Kata": "Unsu",
+        "Std_Dev": 0.289,
+        "Unique_Karateka": 34
+      },
+      {
+        "Kata": "Suparinpei",
+        "Std_Dev": 0.386,
+        "Unique_Karateka": 29
+      },
+      {
+        "Kata": "Ohan Dai",
+        "Std_Dev": 0.317,
+        "Unique_Karateka": 26
+      },
+      {
+        "Kata": "Anan Dai",
+        "Std_Dev": 0.34,
+        "Unique_Karateka": 25
+      },
+      {
+        "Kata": "Papuren",
+        "Std_Dev": 0.356,
+        "Unique_Karateka": 22
+      },
+      {
+        "Kata": "Gojushiho Dai",
+        "Std_Dev": 0.319,
+        "Unique_Karateka": 22
+      },
+      {
+        "Kata": "Kanku Sho",
+        "Std_Dev": 0.299,
+        "Unique_Karateka": 22
+      },
+      {
+        "Kata": "Anan",
+        "Std_Dev": 0.338,
+        "Unique_Karateka": 17
+      },
+      {
+        "Kata": "Chibana No Kushanku",
+        "Std_Dev": 0.471,
+        "Unique_Karateka": 15
+      },
+      {
+        "Kata": "Chatanyara Kusanku",
+        "Std_Dev": 0.354,
+        "Unique_Karateka": 13
+      },
+      {
+        "Kata": "Sochin",
+        "Std_Dev": 0.307,
+        "Unique_Karateka": 13
+      },
+      {
+        "Kata": "Kururunfa",
+        "Std_Dev": 0.231,
+        "Unique_Karateka": 10
+      },
+      {
+        "Kata": "Gankaku",
+        "Std_Dev": 0.326,
+        "Unique_Karateka": 10
+      },
+      {
+        "Kata": "Ohan",
+        "Std_Dev": 0.286,
+        "Unique_Karateka": 10
+      },
+      {
+        "Kata": "Shisochin",
+        "Std_Dev": 0.199,
+        "Unique_Karateka": 4
+      },
+      {
+        "Kata": "Nipaipo",
+        "Std_Dev": 0.374,
+        "Unique_Karateka": 4
+      },
+      {
+        "Kata": "Sansai",
+        "Std_Dev": 0.23,
+        "Unique_Karateka": 3
+      },
+      {
+        "Kata": "Paiku",
+        "Std_Dev": 0.157,
+        "Unique_Karateka": 3
+      },
+      {
+        "Kata": "Enpi",
+        "Std_Dev": 0.149,
+        "Unique_Karateka": 3
+      },
+      {
+        "Kata": "Kishimoto No Kushanku",
+        "Std_Dev": 0.184,
+        "Unique_Karateka": 2
+      },
+      {
+        "Kata": "Seipai",
+        "Std_Dev": 0.255,
+        "Unique_Karateka": 2
+      },
+      {
+        "Kata": "Seisan",
+        "Std_Dev": 0.192,
+        "Unique_Karateka": 2
+      },
+      {
+        "Kata": "Sanseiru",
+        "Std_Dev": 0.297,
+        "Unique_Karateka": 2
+      },
+      {
+        "Kata": "Gojushiho",
+        "Std_Dev": 0.412,
+        "Unique_Karateka": 1
+      },
+      {
+        "Kata": "Jitte",
+        "Std_Dev": 0.216,
+        "Unique_Karateka": 1
+      },
+      {
+        "Kata": "Pachu",
+        "Std_Dev": 0.325,
+        "Unique_Karateka": 1
+      },
+      {
+        "Kata": "Nijushiho",
+        "Std_Dev": 0.166,
+        "Unique_Karateka": 1
+      },
+      {
+        "Kata": "Kyan No Chinto",
+        "Std_Dev": null,
+        "Unique_Karateka": 1
+      }
+    ],
+    "female": [
+      {
+        "Kata": "Papuren",
+        "Std_Dev": 0.37,
+        "Unique_Karateka": 50
+      },
+      {
+        "Kata": "Suparinpei",
+        "Std_Dev": 0.331,
+        "Unique_Karateka": 38
+      },
+      {
+        "Kata": "Chatanyara Kusanku",
+        "Std_Dev": 0.385,
+        "Unique_Karateka": 35
+      },
+      {
+        "Kata": "Chibana No Kushanku",
+        "Std_Dev": 0.384,
+        "Unique_Karateka": 34
+      },
+      {
+        "Kata": "Kururunfa",
+        "Std_Dev": 0.214,
+        "Unique_Karateka": 22
+      },
+      {
+        "Kata": "Ohan Dai",
+        "Std_Dev": 0.231,
+        "Unique_Karateka": 20
+      },
+      {
+        "Kata": "Anan Dai",
+        "Std_Dev": 0.245,
+        "Unique_Karateka": 20
+      },
+      {
+        "Kata": "Gojushiho Dai",
+        "Std_Dev": 0.171,
+        "Unique_Karateka": 14
+      },
+      {
+        "Kata": "Unsu",
+        "Std_Dev": 0.206,
+        "Unique_Karateka": 13
+      },
+      {
+        "Kata": "Anan",
+        "Std_Dev": 0.252,
+        "Unique_Karateka": 12
+      },
+      {
+        "Kata": "Gojushiho Sho",
+        "Std_Dev": 0.135,
+        "Unique_Karateka": 12
+      },
+      {
+        "Kata": "Kanku Sho",
+        "Std_Dev": 0.202,
+        "Unique_Karateka": 6
+      },
+      {
+        "Kata": "Kishimoto No Kushanku",
+        "Std_Dev": 0.225,
+        "Unique_Karateka": 5
+      },
+      {
+        "Kata": "Paiku",
+        "Std_Dev": 0.248,
+        "Unique_Karateka": 4
+      },
+      {
+        "Kata": "Nipaipo",
+        "Std_Dev": 0.341,
+        "Unique_Karateka": 4
+      },
+      {
+        "Kata": "Oyadomari No Passai",
+        "Std_Dev": 0.279,
+        "Unique_Karateka": 4
+      },
+      {
+        "Kata": "Tomari Bassai",
+        "Std_Dev": 0.292,
+        "Unique_Karateka": 4
+      },
+      {
+        "Kata": "Ohan",
+        "Std_Dev": 0.256,
+        "Unique_Karateka": 3
+      },
+      {
+        "Kata": "Gankaku",
+        "Std_Dev": 0.178,
+        "Unique_Karateka": 3
+      },
+      {
+        "Kata": "Kousoukun Sho",
+        "Std_Dev": 0.75,
+        "Unique_Karateka": 2
+      },
+      {
+        "Kata": "Matsumura Bassai",
+        "Std_Dev": 0.142,
+        "Unique_Karateka": 2
+      },
+      {
+        "Kata": "Sansai",
+        "Std_Dev": 0.17,
+        "Unique_Karateka": 2
+      },
+      {
+        "Kata": "Kousoukun Dai",
+        "Std_Dev": null,
+        "Unique_Karateka": 1
+      },
+      {
+        "Kata": "Enpi",
+        "Std_Dev": null,
+        "Unique_Karateka": 1
+      },
+      {
+        "Kata": "Kusanku",
+        "Std_Dev": 0.144,
+        "Unique_Karateka": 1
+      },
+      {
+        "Kata": "Kyan No Chinto",
+        "Std_Dev": null,
+        "Unique_Karateka": 1
+      },
+      {
+        "Kata": "Shisochin",
+        "Std_Dev": 0.042,
+        "Unique_Karateka": 1
+      },
+      {
+        "Kata": "Sochin",
+        "Std_Dev": 0.095,
+        "Unique_Karateka": 1
+      }
+    ]
   }
 }

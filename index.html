@@ -249,6 +249,59 @@
         <div class="chart-wrap"><canvas id="chart-tournament"></canvas></div>
       </div>
 
+      <div class="finding-block">
+        <h2 class="finding-title">Kata Tier Counts</h2>
+        <p class="finding-desc" id="insight-tier-counts"></p>
+        <div class="table-wrapper" style="max-width:640px">
+          <table class="data-table" id="tier-counts-table">
+            <thead><tr>
+              <th>Tier</th>
+              <th class="num">Kata in Tier</th>
+              <th class="num">Kata Performed</th>
+              <th class="num">Kata Unperformed</th>
+              <th class="num">Performances</th>
+            </tr></thead>
+            <tbody id="tier-counts-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="finding-block">
+        <h2 class="finding-title">Performed &amp; Unperformed Kata by Tier</h2>
+        <p class="finding-desc" id="insight-performed"></p>
+        <div id="performed-kata-grid" class="performed-kata-grid"></div>
+      </div>
+
+      <div class="finding-block">
+        <h2 class="finding-title">Kata Score vs. Athlete's Average</h2>
+        <p class="finding-desc" id="insight-kk-avg"></p>
+        <div class="table-wrapper" style="max-width:540px">
+          <table class="data-table" id="kata-kk-avg-table">
+            <thead><tr>
+              <th data-col="Kata">Kata</th>
+              <th data-col="Diff" class="num">Diff vs Athlete Avg</th>
+              <th data-col="Performances" class="num">Performances</th>
+            </tr></thead>
+            <tbody id="kata-kk-avg-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="finding-block">
+        <h2 class="finding-title">Score Std Dev vs. Number of Performers</h2>
+        <p class="finding-desc" id="insight-stddev"></p>
+        <div class="table-wrapper" style="max-width:480px">
+          <table class="data-table" id="kata-stddev-table">
+            <thead><tr>
+              <th data-col="Kata">Kata</th>
+              <th data-col="Unique_Karateka" class="num">Unique Performers</th>
+              <th data-col="Std_Dev" class="num">Score Std Dev</th>
+            </tr></thead>
+            <tbody id="kata-stddev-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
     </div>
   </section>
 

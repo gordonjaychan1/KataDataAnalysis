@@ -362,7 +362,7 @@ function renderKataFindings() {
     charts["chart-scatter"] = new Chart(ctxSc, {
       type: "scatter", data: { datasets },
       options: {
-        responsive: true, maintainAspectRatio: true, aspectRatio: 1,
+        responsive: true, maintainAspectRatio: true, aspectRatio: 7 / 6,
         plugins: {
           legend: { position: "bottom", labels: { font: { family: CHART_FONT, size: 11 }, color: "#1c1c18", boxWidth: 12 } },
           tooltip: { callbacks: { label: ctx => ` ${ctx.raw.kata}: ${ctx.raw.x} perfs, avg ${ctx.raw.y.toFixed(3)}` } },
@@ -376,12 +376,12 @@ function renderKataFindings() {
   }
 
   /* 5. Tier breakdown */
-  const tiers = ["Advanced", "Intermediate", "Beginner"];
+  const tiers = ["Advanced", "Intermediate"];
   const tierPerfs = tiers.map(t => kata.filter(r => r.Kata_Tier === t).reduce((s,r) => s + r.Performances, 0));
   const tierKata  = tiers.map(t => kata.filter(r => r.Kata_Tier === t).length);
   const totalPerfs = tierPerfs.reduce((a,b) => a+b, 0);
-  const tierBgs = ["rgba(0,0,0,0.82)", "rgba(130,75,25,0.82)", "rgba(200,185,160,0.7)"];
-  const tierBorders = ["rgba(0,0,0,1)", "rgba(110,60,15,1)", "rgba(160,145,120,1)"];
+  const tierBgs = ["rgba(0,0,0,0.82)", "rgba(130,75,25,0.82)"];
+  const tierBorders = ["rgba(0,0,0,1)", "rgba(110,60,15,1)"];
   document.getElementById("insight-tier").textContent =
     `Advanced kata account for ${((tierPerfs[0]/totalPerfs)*100).toFixed(1)}% of ${gender} performances ` +
     `despite being just ${tierKata[0]} of the ${kata.length} kata performed. ` +
@@ -417,6 +417,12 @@ function renderKataFindings() {
     });
   }
 
+  /* 7–10. New tables (rendered after charts) */
+  renderTierCountsTable();
+  renderPerformedKata();
+  renderKataVsKaratekaAvg();
+  renderKataStdDev();
+
   /* 6. Tournament avg score */
   const tSorted = [...tourns].sort((a,b) => a.Tournament.localeCompare(b.Tournament));
   const tHigh = tSorted.reduce((best,r) => (r.Avg_Score > (best?.Avg_Score||0) ? r : best), null);
@@ -441,6 +447,88 @@ function renderKataFindings() {
       },
     });
   }
+}
+
+/* ════════════════════════════════════════════════════════════════ NEW KATA TABLES */
+function renderTierCountsTable() {
+  const ts = DATA.tier_summary[gender];
+  document.getElementById("insight-tier-counts").textContent =
+    `Of the ${ts.adv_kata_count} Advanced kata in the WKF list, ${ts.adv_performed.length} were performed ` +
+    `(${ts.adv_unperformed.length} were not). Of the ${ts.interm_kata_count} Intermediate kata, ` +
+    `${ts.interm_performed.length} were performed (${ts.interm_unperformed.length} were not).`;
+  document.getElementById("tier-counts-tbody").innerHTML = [
+    ["Advanced",     ts.adv_kata_count,   ts.adv_performed.length,   ts.adv_unperformed.length,   ts.adv_performances],
+    ["Intermediate", ts.interm_kata_count, ts.interm_performed.length, ts.interm_unperformed.length, ts.interm_performances],
+  ].map(([tier, total, perf, unperf, perfs]) => `
+    <tr>
+      <td>${tierBadge(tier)}</td>
+      <td class="num">${total}</td>
+      <td class="num">${perf}</td>
+      <td class="num">${unperf}</td>
+      <td class="num">${perfs}</td>
+    </tr>`).join("");
+}
+
+function renderPerformedKata() {
+  const ts = DATA.tier_summary[gender];
+  document.getElementById("insight-performed").textContent =
+    `Lists which Advanced and Intermediate kata were and were not performed during the ${gender} ${gender === "male" ? "Male" : "Female"} competition this season.`;
+  const makePills = arr => arr.length
+    ? arr.map(k => `<span class="pill">${esc(k)}</span>`).join("")
+    : `<span style="color:var(--text-muted);font-size:12px">None</span>`;
+  document.getElementById("performed-kata-grid").innerHTML = `
+    <div class="performed-kata-section">
+      <h4>Advanced — Performed (${ts.adv_performed.length})</h4>
+      <div class="pill-list">${makePills(ts.adv_performed)}</div>
+    </div>
+    <div class="performed-kata-section">
+      <h4>Advanced — Not Performed (${ts.adv_unperformed.length})</h4>
+      <div class="pill-list">${makePills(ts.adv_unperformed)}</div>
+    </div>
+    <div class="performed-kata-section">
+      <h4>Intermediate — Performed (${ts.interm_performed.length})</h4>
+      <div class="pill-list">${makePills(ts.interm_performed)}</div>
+    </div>
+    <div class="performed-kata-section">
+      <h4>Intermediate — Not Performed (${ts.interm_unperformed.length})</h4>
+      <div class="pill-list">${makePills(ts.interm_unperformed)}</div>
+    </div>`;
+}
+
+function renderKataVsKaratekaAvg() {
+  const rows = DATA.kata_vs_karateka_avg[gender];
+  document.getElementById("insight-kk-avg").textContent =
+    `Each kata's average score difference compared to the overall average of the athletes who performed it. ` +
+    `A positive number means the kata tends to be performed above the athlete's baseline; negative means below. ` +
+    `Kata with very few performances may have skewed results.`;
+  const top = rows[0], bot = rows[rows.length - 1];
+  if (top && bot) {
+    document.getElementById("insight-kk-avg").textContent =
+      `${top.Kata} is performed most above athletes' own averages (+${top.Diff.toFixed(3)}); ` +
+      `${bot.Kata} is performed most below (${bot.Diff.toFixed(3)}). ` +
+      `Kata with very few performances may have skewed results.`;
+  }
+  const sign = v => v > 0 ? `+${v.toFixed(3)}` : v.toFixed(3);
+  const color = v => v > 0 ? "color:var(--red)" : v < 0 ? "color:#3a6e3a" : "";
+  document.getElementById("kata-kk-avg-tbody").innerHTML = rows.map(r => `
+    <tr>
+      <td class="name-cell">${esc(r.Kata)}</td>
+      <td class="num" style="${color(r.Diff)}">${sign(r.Diff)}</td>
+      <td class="num">${r.Performances}</td>
+    </tr>`).join("");
+}
+
+function renderKataStdDev() {
+  const rows = DATA.kata_std_dev[gender];
+  document.getElementById("insight-stddev").textContent =
+    `Kata performed by more athletes tend to show higher score variance, since a wider ability range is represented. ` +
+    `Kata with only 1–2 performers have no meaningful standard deviation.`;
+  document.getElementById("kata-stddev-tbody").innerHTML = rows.map(r => `
+    <tr>
+      <td class="name-cell">${esc(r.Kata)}</td>
+      <td class="num">${r.Unique_Karateka}</td>
+      <td class="num">${r.Std_Dev != null ? r.Std_Dev.toFixed(3) : "—"}</td>
+    </tr>`).join("");
 }
 
 /* ════════════════════════════════════════════════════════════════ KARATEKA FINDINGS */

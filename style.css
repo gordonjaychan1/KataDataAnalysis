@@ -146,7 +146,7 @@ header {
 .chart-wrap.tall     { height: 600px; }
 .chart-wrap.medium   { height: 420px; }
 .chart-wrap.small    { height: 260px; }
-.chart-wrap--square  { height: auto; aspect-ratio: 1 / 1; max-width: min(600px, 100%); }
+.chart-wrap--square  { height: auto; aspect-ratio: 7 / 6; max-width: min(1050px, 100%); }
 
 .tier-charts { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 .tier-charts .chart-wrap { height: 260px; }
@@ -195,10 +195,14 @@ header {
 .missing-tables { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
 
 /* ── Responsive ───────────────────────────────────────────────────────────── */
+/* ── Performed/unperformed kata grid ──────────────────────────────────────── */
+.performed-kata-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.performed-kata-section h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 10px; }
+
 @media (max-width: 700px) {
   header { padding: 14px 16px; }
   .tab-content { padding: 16px; }
-  .tier-charts, .missing-tables { grid-template-columns: 1fr; }
+  .tier-charts, .missing-tables, .performed-kata-grid { grid-template-columns: 1fr; }
   .search-input { width: 100%; }
   .finding-block { padding: 16px; }
   .how-to-grid { grid-template-columns: 1fr; }
