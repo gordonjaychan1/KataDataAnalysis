@@ -215,7 +215,7 @@ header {
 .welcome-section > p { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin-bottom: 10px; }
 .welcome-section > p:last-child { margin-bottom: 0; }
 
-.how-to-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.how-to-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .how-to-card {
   display: flex; gap: 14px; align-items: flex-start;
   background: var(--surface); border: 1px solid var(--border);

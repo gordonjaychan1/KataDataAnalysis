@@ -9,6 +9,9 @@ const sortState = {
 };
 
 const searchQuery = { kata: "", karateka: "" };
+let compareShared   = [];   // cached for re-sort
+let compareSortCol  = "Diff";
+let compareSortDir  = "desc";
 let lastTournCard = "";
 
 /* ── Country → flag emoji ──────────────────────────────────────────────────── */
@@ -95,8 +98,7 @@ function updateHeaderSub() {
   document.getElementById("header-sub").textContent =
     `${g ? "Male" : "Female"} Kata · 9 Tournaments · ` +
     `${g ? m.male_performances : m.female_performances} Performances · ` +
-    `${g ? m.male_karateka : m.female_karateka} Athletes · ` +
-    `${g ? m.male_kata : m.female_kata} Kata`;
+    `${g ? m.male_karateka : m.female_karateka} Athletes`;
 }
 
 /* ── Tab switch helper ─────────────────────────────────────────────────────── */
@@ -172,13 +174,14 @@ function renderCompareTab() {
   const mTop5 = [...mkata].sort((a,b) => b.Performances - a.Performances).slice(0,5);
   const fTop5 = [...fkata].sort((a,b) => b.Performances - a.Performances).slice(0,5);
 
-  /* avg score comparison for shared kata, sorted by biggest difference */
-  const shared = mkata.filter(k => fSet.has(k.Kata) && k.Mean_Score != null).map(mk => {
+  /* avg score comparison for shared kata */
+  compareShared = mkata.filter(k => fSet.has(k.Kata) && k.Mean_Score != null).map(mk => {
     const fk = fkata.find(k => k.Kata === mk.Kata);
     return fk && fk.Mean_Score != null
       ? { Kata: mk.Kata, Male: mk.Mean_Score, Female: fk.Mean_Score, Diff: mk.Mean_Score - fk.Mean_Score }
       : null;
-  }).filter(Boolean).sort((a,b) => Math.abs(b.Diff) - Math.abs(a.Diff));
+  }).filter(Boolean);
+  compareSortCol = "Diff"; compareSortDir = "desc";
 
   const sign = v => (v >= 0 ? "+" : "") + v.toFixed(3);
   const diffColor = v => v > 0 ? "#3a6e3a" : v < 0 ? "var(--red)" : "inherit";
@@ -215,20 +218,54 @@ function renderCompareTab() {
 
     <!-- Avg score comparison -->
     <div style="margin-top:28px">
-      <h3 class="compare-head">Average Score Comparison — Shared Kata (${shared.length})</h3>
-      <p style="font-size:12px;color:var(--text-muted);margin-bottom:10px">Sorted by largest absolute score difference. Diff = Male − Female.</p>
+      <h3 class="compare-head">Average Score Comparison — Shared Kata (${compareShared.length})</h3>
+      <p style="font-size:12px;color:var(--text-muted);margin-bottom:10px">Click any column header to sort. Diff = Male − Female.</p>
       <div class="table-wrapper table-wrapper--sticky">
-        <table class="data-table">
-          <thead><tr><th>Kata</th><th class="num">Male Avg</th><th class="num">Female Avg</th><th class="num">Diff (M−F)</th></tr></thead>
-          <tbody>${shared.map(r => `<tr>
-            <td class="name-cell">${esc(r.Kata)}</td>
-            <td class="num">${r.Male.toFixed(3)}</td>
-            <td class="num">${r.Female.toFixed(3)}</td>
-            <td class="num" style="color:${diffColor(r.Diff)};font-weight:600">${sign(r.Diff)}</td>
-          </tr>`).join("")}</tbody>
+        <table class="data-table" id="compare-shared-table">
+          <thead><tr>
+            <th data-ccol="Kata"   style="cursor:pointer" onclick="sortCompareTable('Kata')">Kata</th>
+            <th data-ccol="Male"   class="num" style="cursor:pointer" onclick="sortCompareTable('Male')">Male Avg</th>
+            <th data-ccol="Female" class="num" style="cursor:pointer" onclick="sortCompareTable('Female')">Female Avg</th>
+            <th data-ccol="Diff"   class="num" style="cursor:pointer" onclick="sortCompareTable('Diff')">Diff (M−F) ↓</th>
+          </tr></thead>
+          <tbody id="compare-shared-tbody"></tbody>
         </table>
       </div>
     </div>`;
+  renderCompareSharedTable();
+}
+
+function sortCompareTable(col) {
+  if (compareSortCol === col) {
+    compareSortDir = compareSortDir === "asc" ? "desc" : "asc";
+  } else {
+    compareSortCol = col;
+    compareSortDir = col === "Kata" ? "asc" : "desc";
+  }
+  /* update header arrows */
+  document.querySelectorAll("#compare-shared-table th[data-ccol]").forEach(th => {
+    const base = th.textContent.replace(/ [↑↓]$/, "");
+    th.textContent = th.dataset.ccol === col ? base + (compareSortDir === "asc" ? " ↑" : " ↓") : base;
+  });
+  renderCompareSharedTable();
+}
+
+function renderCompareSharedTable() {
+  const sign      = v => (v >= 0 ? "+" : "") + v.toFixed(3);
+  const diffColor = v => v > 0 ? "#3a6e3a" : v < 0 ? "var(--red)" : "inherit";
+  const sorted = [...compareShared].sort((a, b) => {
+    const av = a[compareSortCol], bv = b[compareSortCol];
+    if (typeof av === "string") return compareSortDir === "asc" ? av.localeCompare(bv) : bv.localeCompare(av);
+    return compareSortDir === "asc" ? av - bv : bv - av;
+  });
+  const tbody = document.getElementById("compare-shared-tbody");
+  if (!tbody) return;
+  tbody.innerHTML = sorted.map(r => `<tr>
+    <td class="name-cell">${esc(r.Kata)}</td>
+    <td class="num">${r.Male.toFixed(3)}</td>
+    <td class="num">${r.Female.toFixed(3)}</td>
+    <td class="num" style="color:${diffColor(r.Diff)};font-weight:600">${sign(r.Diff)}</td>
+  </tr>`).join("");
 }
 
 /* ── Sorting ───────────────────────────────────────────────────────────────── */
