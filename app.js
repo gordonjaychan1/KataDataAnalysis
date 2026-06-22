@@ -9,6 +9,7 @@ const sortState = {
 };
 
 const searchQuery = { kata: "", karateka: "" };
+let lastTournCard = "";
 
 /* ── Country → flag emoji ──────────────────────────────────────────────────── */
 const ISO2 = {
@@ -250,33 +251,71 @@ function showKataCard(r) {
     }
   }
 
+  /* rank helper: rank 1 = best. descending by default (higher = better) */
+  const kataAll = DATA.kata[gender] || [];
+  const rankOf = (field, asc = false) => {
+    const sorted = [...kataAll].filter(d => d[field] != null)
+      .sort((a, b) => asc ? a[field] - b[field] : b[field] - a[field]);
+    const idx = sorted.findIndex(d => d.Kata === r.Kata);
+    return idx >= 0 ? `${idx + 1}/${sorted.length}` : null;
+  };
+  const rk = (field, asc) => { const v = rankOf(field, asc); return v ? `<div class="stat-rank">${v}</div>` : ""; };
+
+  /* country lookup for athlete table */
+  const karCountry = Object.fromEntries((DATA.karateka[gender] || []).map(k => [k.Karateka, k.Country]));
+
   const athletes  = (r.All_Karateka || []);
   const athleteRows = athletes.map(k => `
     <tr>
-      <td class="name-cell">${esc(k.Karateka)}</td>
+      <td class="name-cell">${flagOf(karCountry[k.Karateka])} ${esc(k.Karateka)}</td>
       <td class="num">${k.Performances}</td>
       <td class="num">${k.Avg_Score != null ? k.Avg_Score.toFixed(3) : "—"}</td>
     </tr>`).join("");
+
+  const diffStat = diffVal != null ? `
+    <div class="stat-box">
+      <div class="stat-label">
+        <a href="#" onclick="switchToTab('kata-findings');setTimeout(()=>document.getElementById('finding-kk-avg')?.scrollIntoView({behavior:'smooth'}),60);return false;"
+           style="color:inherit;text-decoration:none" title="Go to chart">Score Diff ↗</a>
+      </div>
+      <div class="stat-value" style="color:${diffColor};font-size:16px">${diffVal >= 0 ? "+" : ""}${diffVal.toFixed(3)}</div>
+      ${rank > 0 ? `<div class="stat-rank">${rank}/${total} among all kata</div>` : ""}
+    </div>` : "";
+
   document.getElementById("kata-card").innerHTML = `
     <button class="card-close-btn" onclick="document.getElementById('kata-card').classList.add('hidden')" title="Close">✕</button>
     <div class="card-header">
       <span class="card-title">${esc(r.Kata)}</span>${tierBadge(r.Kata_Tier)}
     </div>
     <div class="card-stats">
-      <div class="stat-box"><div class="stat-label">Performances</div><div class="stat-value">${r.Performances}</div></div>
-      <div class="stat-box"><div class="stat-label">Athletes</div><div class="stat-value">${r.Unique_Karateka}</div></div>
-      <div class="stat-box"><div class="stat-label">Avg Score</div><div class="stat-value">${fmt3(r.Mean_Score)}</div></div>
-      <div class="stat-box"><div class="stat-label">Median</div><div class="stat-value">${fmt2(r.Median_Score)}</div></div>
-      <div class="stat-box"><div class="stat-label">Min</div><div class="stat-value">${fmt2(r.Min_Score)}</div>${minK ? `<div style="font-size:11px;color:var(--text-muted);margin-top:3px">${esc(minK)}</div>` : ""}</div>
-      <div class="stat-box"><div class="stat-label">Max</div><div class="stat-value">${fmt2(r.Max_Score)}</div>${maxK ? `<div style="font-size:11px;color:var(--text-muted);margin-top:3px">${esc(maxK)}</div>` : ""}</div>
-      <div class="stat-box"><div class="stat-label">Std Dev</div><div class="stat-value">${fmt3(r.Std_Dev)}</div></div>
-      <div class="stat-box"><div class="stat-label">Win Rate</div><div class="stat-value">${fmtPct(r.Win_Rate)}</div></div>
+      <div class="stat-box">
+        <div class="stat-label">Performances</div><div class="stat-value">${r.Performances}</div>${rk('Performances')}
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Athletes</div><div class="stat-value">${r.Unique_Karateka}</div>${rk('Unique_Karateka')}
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Avg Score</div><div class="stat-value">${fmt3(r.Mean_Score)}</div>${rk('Mean_Score')}
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Median</div><div class="stat-value">${fmt2(r.Median_Score)}</div>${rk('Median_Score')}
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Min</div><div class="stat-value">${fmt2(r.Min_Score)}</div>${rk('Min_Score')}
+        ${minK ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">Karateka: ${esc(minK)}</div>` : ""}
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Max</div><div class="stat-value">${fmt2(r.Max_Score)}</div>${rk('Max_Score')}
+        ${maxK ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">Karateka: ${esc(maxK)}</div>` : ""}
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Std Dev</div><div class="stat-value">${fmt3(r.Std_Dev)}</div>${rk('Std_Dev', true)}
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Win Rate</div><div class="stat-value">${fmtPct(r.Win_Rate)}</div>${rk('Win_Rate')}
+      </div>
+      ${diffStat}
     </div>
-    <div class="card-section-title">
-      <a href="#" onclick="switchToTab('kata-findings');setTimeout(()=>document.getElementById('finding-kk-avg')?.scrollIntoView({behavior:'smooth'}),60);return false;"
-         style="color:var(--red);text-decoration:underline;cursor:pointer;font-size:11px;font-weight:700;letter-spacing:0.6px;text-transform:uppercase">Score Differential ↗</a>
-    </div>
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px">${diffNum} <span style="color:var(--text-muted);font-weight:400">Vs. Athlete's Personal Average Score</span>${rankStr}</p>
     ${athleteRows ? `
     <div class="card-section-title">All Athletes</div>
     <div class="card-table-wrap">
@@ -351,7 +390,7 @@ function showKaratekaCard(r) {
     const avg = kataAvgMap[k.Kata] ? (kataAvgMap[k.Kata].sum / kataAvgMap[k.Kata].n).toFixed(2) : null;
     return `<span class="pill" style="flex-direction:column;align-items:flex-start;gap:1px;padding:5px 11px">
       <span style="display:flex;align-items:center;gap:5px">${kData ? tierBadge(kData.Kata_Tier) : ""}<span style="font-size:12px">${esc(k.Kata)}</span><span class="pill-count">${k.count}×</span></span>
-      ${avg ? `<span class="pill-score">avg ${avg}</span>` : ""}
+      ${avg ? `<span style="font-size:12px;color:var(--text-muted)">Avg Score: ${avg}</span>` : ""}
     </span>`;
   }).join("");
 
@@ -414,7 +453,37 @@ function renderTournamentsTable() {
   });
 }
 
+function tournamentShowList(type) {
+  const tourn = lastTournCard;
+  const panel = document.getElementById("tourn-list-panel");
+  if (!panel) return;
+  if (type === "athletes") {
+    const athletes = (DATA.karateka[gender] || [])
+      .filter(k => (k.Tournament_List || []).includes(tourn))
+      .sort((a, b) => a.Karateka.localeCompare(b.Karateka));
+    panel.innerHTML = `
+      <div class="card-section-title">Athletes at this Tournament (${athletes.length})</div>
+      <div class="pill-list">${athletes.map(k => `<span class="pill">${flagOf(k.Country)} ${esc(k.Karateka)}</span>`).join("")}</div>`;
+  } else {
+    const kataSet = new Set();
+    for (const k of (DATA.karateka[gender] || [])) {
+      for (const p of (k.Performances_Detail || [])) {
+        if (p.Tournament === tourn && p.Kata) kataSet.add(p.Kata);
+      }
+    }
+    const kataArr = [...kataSet].sort();
+    const kataLookup = Object.fromEntries((DATA.kata[gender] || []).map(d => [d.Kata, d]));
+    panel.innerHTML = `
+      <div class="card-section-title">Kata Performed at this Tournament (${kataArr.length})</div>
+      <div class="pill-list">${kataArr.map(k => {
+        const kd = kataLookup[k];
+        return `<span class="pill">${kd ? tierBadge(kd.Kata_Tier) : ""} ${esc(k)}</span>`;
+      }).join("")}</div>`;
+  }
+}
+
 function showTournamentCard(r) {
+  lastTournCard = r.Tournament;
   const meta = TOURN_META[r.Tournament] || {};
   const missingTotal = (r.Missing_Kata || 0) + (r.Missing_Score || 0) + (r.Missing_Both || 0);
   let missingHtml = "";
@@ -437,10 +506,15 @@ function showTournamentCard(r) {
     ${meta.city ? `<p style="font-size:13px;color:var(--text-muted);margin-bottom:14px">${flagOf(meta.country)} ${esc(meta.city)}, ${esc(meta.country)}</p>` : ""}
     <div class="card-stats">
       <div class="stat-box"><div class="stat-label">Performances</div><div class="stat-value">${r.Total_Performances}</div></div>
-      <div class="stat-box"><div class="stat-label">Athletes</div><div class="stat-value">${r.Unique_Karateka}</div></div>
-      <div class="stat-box"><div class="stat-label">Unique Kata</div><div class="stat-value">${r.Unique_Kata}</div></div>
+      <div class="stat-box clickable" onclick="tournamentShowList('athletes')" title="Click to see athlete list">
+        <div class="stat-label">Athletes ↓</div><div class="stat-value">${r.Unique_Karateka}</div>
+      </div>
+      <div class="stat-box clickable" onclick="tournamentShowList('kata')" title="Click to see kata list">
+        <div class="stat-label">Unique Kata ↓</div><div class="stat-value">${r.Unique_Kata}</div>
+      </div>
       <div class="stat-box"><div class="stat-label">Avg Score</div><div class="stat-value">${r.Avg_Score != null ? r.Avg_Score.toFixed(3) : "—"}</div></div>
     </div>
+    <div id="tourn-list-panel" style="margin-top:8px"></div>
     ${missingHtml}`;
   document.getElementById("tournaments-card").classList.remove("hidden");
 }
