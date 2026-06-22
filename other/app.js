@@ -56,7 +56,7 @@ const TOURN_META = {
 const charts = {};
 
 /* ── Boot ──────────────────────────────────────────────────────────────────── */
-fetch("data.json")
+fetch("other/data.json")
   .then(r => r.json())
   .then(d => { DATA = d; init(); })
   .catch(() => {
