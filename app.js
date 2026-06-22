@@ -258,6 +258,7 @@ function showKataCard(r) {
       <td class="num">${k.Avg_Score != null ? k.Avg_Score.toFixed(3) : "—"}</td>
     </tr>`).join("");
   document.getElementById("kata-card").innerHTML = `
+    <button class="card-close-btn" onclick="document.getElementById('kata-card').classList.add('hidden')" title="Close">✕</button>
     <div class="card-header">
       <span class="card-title">${esc(r.Kata)}</span>${tierBadge(r.Kata_Tier)}
     </div>
@@ -336,11 +337,34 @@ function showKaratekaCard(r) {
       <td class="num">${p.Avg_Score != null ? p.Avg_Score.toFixed(2) : "—"}</td>
       <td class="num" style="color:${p.Won ? "#3a6e3a" : "var(--red)"}; font-weight:600">${p.Won == null ? "—" : p.Won ? "Win" : "Loss"}</td>
     </tr>`).join("");
+  /* avg score per kata from Performances_Detail */
+  const kataAvgMap = {};
+  for (const p of (r.Performances_Detail || [])) {
+    if (p.Kata && p.Avg_Score != null) {
+      if (!kataAvgMap[p.Kata]) kataAvgMap[p.Kata] = { sum: 0, n: 0 };
+      kataAvgMap[p.Kata].sum += p.Avg_Score;
+      kataAvgMap[p.Kata].n++;
+    }
+  }
   const repertoire = (r.Kata_Repertoire || []).map(k => {
     const kData = DATA.kata[gender]?.find(d => d.Kata === k.Kata);
-    return `<span class="pill">${kData ? tierBadge(kData.Kata_Tier) : ""} ${esc(k.Kata)}<span class="pill-count">${k.count}x</span></span>`;
+    const avg = kataAvgMap[k.Kata] ? (kataAvgMap[k.Kata].sum / kataAvgMap[k.Kata].n).toFixed(2) : null;
+    return `<span class="pill" style="flex-direction:column;align-items:flex-start;gap:1px;padding:5px 11px">
+      <span style="display:flex;align-items:center;gap:5px">${kData ? tierBadge(kData.Kata_Tier) : ""}<span style="font-size:12px">${esc(k.Kata)}</span><span class="pill-count">${k.count}×</span></span>
+      ${avg ? `<span class="pill-score">avg ${avg}</span>` : ""}
+    </span>`;
   }).join("");
+
+  /* medal count summary */
+  const medalCounts = { 1: 0, 2: 0, 3: 0 };
+  (r.Medals || []).forEach(m => medalCounts[m.Place] = (medalCounts[m.Place] || 0) + 1);
+  const medalSummaryParts = [];
+  if (medalCounts[1]) medalSummaryParts.push(`${medalCounts[1]}× Gold`);
+  if (medalCounts[2]) medalSummaryParts.push(`${medalCounts[2]}× Silver`);
+  if (medalCounts[3]) medalSummaryParts.push(`${medalCounts[3]}× Bronze`);
+
   document.getElementById("karateka-card").innerHTML = `
+    <button class="card-close-btn" onclick="document.getElementById('karateka-card').classList.add('hidden')" title="Close">✕</button>
     <div class="card-header">
       <span class="card-title">${esc(r.Karateka)}</span>
       <span class="card-subtitle">${flagOf(r.Country)} ${esc(r.Country || "")}</span>
@@ -354,6 +378,7 @@ function showKaratekaCard(r) {
     </div>
     ${r.Medals && r.Medals.length ? `
     <div class="card-section-title">Medals</div>
+    ${medalSummaryParts.length ? `<p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px">${medalSummaryParts.join(" &nbsp;·&nbsp; ")}</p>` : ""}
     <div class="pill-list" style="margin-bottom:14px">
       ${r.Medals.map(m => `<span class="pill">${m.Place === 1 ? "🥇" : m.Place === 2 ? "🥈" : "🥉"} ${esc(m.Tournament)}</span>`).join("")}
     </div>` : ""}
@@ -404,6 +429,7 @@ function showTournamentCard(r) {
       <ul style="font-size:13px;color:var(--text-muted);padding-left:18px;line-height:1.8">${lines.map(l=>`<li>${l}</li>`).join("")}</ul>`;
   }
   document.getElementById("tournaments-card").innerHTML = `
+    <button class="card-close-btn" onclick="document.getElementById('tournaments-card').classList.add('hidden')" title="Close">✕</button>
     <div class="card-header">
       <span class="card-title">${esc(r.Tournament)}</span>
       ${meta.date ? `<span class="card-subtitle">${esc(meta.date)}</span>` : ""}
