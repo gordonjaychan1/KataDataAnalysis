@@ -28,7 +28,7 @@ const ISO2 = {
 function flagOf(country) {
   const iso = ISO2[country];
   if (!iso) return "";
-  return [...iso].map(c => String.fromCodePoint(0x1F1E6 + c.charCodeAt(0) - 65)).join("");
+  return `<img src="https://flagcdn.com/16x12/${iso.toLowerCase()}.png" width="16" height="12" alt="${iso}" style="vertical-align:middle;margin-right:4px;border-radius:1px">`;
 }
 
 /* ── Tournament metadata ───────────────────────────────────────────────────── */
@@ -85,20 +85,30 @@ function updateHeaderSub() {
     `${g ? m.male_kata : m.female_kata} Kata`;
 }
 
+/* ── Tab switch helper ─────────────────────────────────────────────────────── */
+function switchToTab(tabId) {
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  document.querySelectorAll(".tab-content").forEach(s => { s.classList.remove("active"); s.classList.add("hidden"); });
+  const btn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+  if (btn) btn.classList.add("active");
+  const sec = document.getElementById(`tab-${tabId}`);
+  if (sec) { sec.classList.remove("hidden"); sec.classList.add("active"); }
+}
+
 /* ── Welcome stats ─────────────────────────────────────────────────────────── */
 function renderWelcomeStats() {
   const m = DATA.meta;
   const g = gender === "male";
   document.getElementById("welcome-stats").innerHTML = [
-    [g ? m.male_performances : m.female_performances, "Performances"],
-    [9,                                                "Tournaments"],
-    [g ? m.male_karateka : m.female_karateka,          "Athletes"],
-    [g ? m.male_kata : m.female_kata,                  "Unique Kata"],
-  ].map(([n, label]) => `
-    <div class="welcome-stat-card">
+    [g ? m.male_performances : m.female_performances, "Performances",  "kata"],
+    [9,                                                "Tournaments",   "tournaments"],
+    [g ? m.male_karateka : m.female_karateka,          "Karateka",      "karateka"],
+    [g ? m.male_kata : m.female_kata,                  "Unique Kata",   "kata-findings"],
+  ].map(([n, label, tab]) => `
+    <button class="welcome-stat-card" onclick="switchToTab('${tab}')">
       <div class="stat-num">${n.toLocaleString()}</div>
       <div class="stat-label">${label}</div>
-    </div>
+    </button>
   `).join("");
 }
 
@@ -205,9 +215,18 @@ function renderKataTable() {
 }
 
 function showKataCard(r) {
-  const topK = (r.Top_Karateka || []).map(k =>
-    `<span class="pill">${esc(k.Karateka)}<span class="pill-count">${k.performances}x</span></span>`
-  ).join("");
+  const diffEntry = (DATA.kata_vs_karateka_avg[gender] || []).find(d => d.Kata === r.Kata);
+  const diffVal   = diffEntry ? diffEntry.Diff : null;
+  const diffStr   = diffVal != null
+    ? `<span style="color:${diffVal >= 0 ? "#3a6e3a" : "var(--red)"}; font-weight:700">${diffVal >= 0 ? "+" : ""}${diffVal.toFixed(3)}</span> vs athlete's personal avg`
+    : "—";
+  const athletes = (r.All_Karateka || []);
+  const athleteRows = athletes.map(k => `
+    <tr>
+      <td class="name-cell">${esc(k.Karateka)}</td>
+      <td class="num">${k.Performances}</td>
+      <td class="num">${k.Avg_Score != null ? k.Avg_Score.toFixed(3) : "—"}</td>
+    </tr>`).join("");
   document.getElementById("kata-card").innerHTML = `
     <div class="card-header">
       <span class="card-title">${esc(r.Kata)}</span>${tierBadge(r.Kata_Tier)}
@@ -222,7 +241,16 @@ function showKataCard(r) {
       <div class="stat-box"><div class="stat-label">Std Dev</div><div class="stat-value">${fmt3(r.Std_Dev)}</div></div>
       <div class="stat-box"><div class="stat-label">Win Rate</div><div class="stat-value">${fmtPct(r.Win_Rate)}</div></div>
     </div>
-    ${topK ? `<div class="card-section-title">Top Athletes</div><div class="pill-list">${topK}</div>` : ""}`;
+    <div class="card-section-title">Score Differential</div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px">${diffStr}</p>
+    ${athleteRows ? `
+    <div class="card-section-title">All Athletes</div>
+    <div class="card-table-wrap">
+      <table class="data-table">
+        <thead><tr><th>Karateka</th><th class="num">Performances</th><th class="num">Avg Score</th></tr></thead>
+        <tbody>${athleteRows}</tbody>
+      </table>
+    </div>` : ""}`;
   document.getElementById("kata-card").classList.remove("hidden");
 }
 
@@ -262,11 +290,22 @@ function renderKaratekaTable() {
 }
 
 function showKaratekaCard(r) {
+  const perfs = r.Performances_Detail || [];
+  const scoredPerfs = perfs.filter(p => p.Avg_Score != null && p.Kata);
+  const bestPerf = scoredPerfs.reduce((best, p) => (p.Avg_Score > (best?.Avg_Score ?? -Infinity) ? p : best), null);
+  const roundLabel = { rr:"Round Robin", r1:"Round 1", r2:"Round 2", r3:"Round 3", rpc:"Repechage" };
+  const perfRows = perfs.map(p => `
+    <tr>
+      <td>${esc(p.Tournament || "—")}</td>
+      <td>${esc(roundLabel[p.Round] || p.Round || "—")}</td>
+      <td class="name-cell">${esc(p.Kata || "—")}</td>
+      <td class="num">${p.Avg_Score != null ? p.Avg_Score.toFixed(3) : "—"}</td>
+      <td class="num" style="color:${p.Won ? "#3a6e3a" : "var(--red)"}; font-weight:600">${p.Won == null ? "—" : p.Won ? "Win" : "Loss"}</td>
+    </tr>`).join("");
   const repertoire = (r.Kata_Repertoire || []).map(k => {
     const kData = DATA.kata[gender]?.find(d => d.Kata === k.Kata);
     return `<span class="pill">${kData ? tierBadge(kData.Kata_Tier) : ""} ${esc(k.Kata)}<span class="pill-count">${k.count}x</span></span>`;
   }).join("");
-  const tournaments = (r.Tournament_List || []).map(t => `<span class="pill">${esc(t)}</span>`).join("");
   document.getElementById("karateka-card").innerHTML = `
     <div class="card-header">
       <span class="card-title">${esc(r.Karateka)}</span>
@@ -276,12 +315,19 @@ function showKaratekaCard(r) {
       <div class="stat-box"><div class="stat-label">Performances</div><div class="stat-value">${r.Performances}</div></div>
       <div class="stat-box"><div class="stat-label">Tournaments</div><div class="stat-value">${r.Tournaments_Attended}</div></div>
       <div class="stat-box"><div class="stat-label">Avg Score</div><div class="stat-value">${fmt2(r.Mean_Score)}</div></div>
-      <div class="stat-box"><div class="stat-label">Median</div><div class="stat-value">${fmt2(r.Median_Score)}</div></div>
       <div class="stat-box"><div class="stat-label">Best Score</div><div class="stat-value">${fmt2(r.Max_Score)}</div></div>
       <div class="stat-box"><div class="stat-label">Win Rate</div><div class="stat-value">${fmtPct(r.Win_Rate)}</div></div>
+      ${bestPerf ? `<div class="stat-box"><div class="stat-label">Best Kata</div><div class="stat-value" style="font-size:13px">${esc(bestPerf.Kata)}</div></div>` : ""}
     </div>
-    ${repertoire ? `<div class="card-section-title">Kata Repertoire</div><div class="pill-list">${repertoire}</div>` : ""}
-    ${tournaments ? `<div class="card-section-title">Tournaments Attended</div><div class="pill-list">${tournaments}</div>` : ""}`;
+    ${repertoire ? `<div class="card-section-title">Kata Repertoire</div><div class="pill-list" style="margin-bottom:14px">${repertoire}</div>` : ""}
+    ${perfRows ? `
+    <div class="card-section-title">All Performances</div>
+    <div class="card-table-wrap">
+      <table class="data-table">
+        <thead><tr><th>Tournament</th><th>Round</th><th>Kata</th><th class="num">Score</th><th class="num">Result</th></tr></thead>
+        <tbody>${perfRows}</tbody>
+      </table>
+    </div>` : ""}`;
   document.getElementById("karateka-card").classList.remove("hidden");
 }
 
@@ -436,7 +482,7 @@ function renderKataFindings() {
     charts["chart-scatter"] = new Chart(ctxSc, {
       type: "scatter", data: { datasets },
       options: {
-        responsive: true, maintainAspectRatio: true, aspectRatio: 5 / 3,
+        responsive: true, maintainAspectRatio: true, aspectRatio: 11 / 6,
         plugins: {
           legend: { position: "bottom", labels: { font: { family: CHART_FONT, size: 11 }, color: "#1c1c18", boxWidth: 12 } },
           tooltip: { callbacks: { label: ctx => ` ${ctx.raw.kata}: ${ctx.raw.x} perfs, avg ${ctx.raw.y.toFixed(3)}` } },

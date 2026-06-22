@@ -36,6 +36,7 @@ for col in ["Kata", "Karateka", "Tournament"]:
 
 df["Score"]     = pd.to_numeric(df["Score"],     errors="coerce")
 df["Avg Score"] = pd.to_numeric(df["Avg Score"], errors="coerce")
+df_with_round = df.copy()          # keep Round # for performance history
 df = df.drop(columns=["Score", "Round #"])
 
 replacements = {
@@ -48,6 +49,8 @@ replacements = {
 }
 df["Kata"] = df["Kata"].replace(replacements)
 df["Kata"] = df["Kata"].replace(["", " ", "nan"], np.nan)
+df_with_round["Kata"] = df_with_round["Kata"].replace(replacements)
+df_with_round["Kata"] = df_with_round["Kata"].replace(["", " ", "nan"], np.nan)
 
 # ── Missing data summary ──────────────────────────────────────────────────────
 total_rows      = len(df)
@@ -181,15 +184,23 @@ def build_kata_master(df_all, df_scores):
         .reset_index()
     )
     unique_k = df_all.groupby("Kata")["Karateka"].nunique().reset_index(name="Unique_Karateka")
-    top_k = (
-        df_all.dropna(subset=["Kata"])
-        .groupby(["Kata", "Karateka"]).size().reset_index(name="n")
-        .sort_values("n", ascending=False)
-        .groupby("Kata")
-        .apply(lambda g: g.head(5)[["Karateka", "n"]].rename(columns={"n": "performances"}).to_dict("records"), include_groups=False)
-        .reset_index(name="Top_Karateka")
+    athlete_counts = (
+        df_all.dropna(subset=["Kata", "Karateka"])
+        .groupby(["Kata", "Karateka"]).size().reset_index(name="Performances")
     )
-    km = base.merge(scores, on="Kata", how="left").merge(unique_k, on="Kata", how="left").merge(top_k, on="Kata", how="left")
+    athlete_scores = (
+        df_scores.dropna(subset=["Kata", "Karateka"])
+        .groupby(["Kata", "Karateka"])["Avg Score"].mean().reset_index(name="Avg_Score")
+    )
+    athlete_scores["Avg_Score"] = athlete_scores["Avg_Score"].round(3)
+    all_k = (
+        athlete_counts.merge(athlete_scores, on=["Kata", "Karateka"], how="left")
+        .sort_values("Performances", ascending=False)
+        .groupby("Kata")
+        .apply(lambda g: g[["Karateka", "Performances", "Avg_Score"]].to_dict("records"), include_groups=False)
+        .reset_index(name="All_Karateka")
+    )
+    km = base.merge(scores, on="Kata", how="left").merge(unique_k, on="Kata", how="left").merge(all_k, on="Kata", how="left")
     km["Range"] = (km["Max_Score"] - km["Min_Score"]).round(2)
     for col in ["Mean_Score", "Std_Dev", "Win_Rate"]:
         km[col] = km[col].round(4)
@@ -202,7 +213,7 @@ kata_m = build_kata_master(df[df["Gender"] == "Male"], df_clean[df_clean["Gender
 kata_f = build_kata_master(df[df["Gender"] == "Female"], df_clean[df_clean["Gender"] == "Female"])
 
 # ── Karateka master ───────────────────────────────────────────────────────────
-def build_karateka_master(df_all, df_scores):
+def build_karateka_master(df_all, df_scores, df_rounds_g=None):
     base = (
         df_all.groupby("Karateka")
         .agg(
@@ -242,10 +253,21 @@ def build_karateka_master(df_all, df_scores):
     km["Median_Score"] = km["Median_Score"].round(2)
     km["Min_Score"]    = km["Min_Score"].round(2)
     km["Max_Score"]    = km["Max_Score"].round(2)
+    if df_rounds_g is not None:
+        rnd = df_rounds_g.rename(columns={"Round #": "Round", "Won?": "Won", "Avg Score": "Avg_Score"})
+        rnd["Avg_Score"] = rnd["Avg_Score"].round(3)
+        perf_detail = (
+            rnd.groupby("Karateka")
+            .apply(lambda g: g[["Tournament", "Round", "Kata", "Avg_Score", "Won"]].to_dict("records"), include_groups=False)
+            .reset_index(name="Performances_Detail")
+        )
+        km = km.merge(perf_detail, on="Karateka", how="left")
     return km.sort_values("Performances", ascending=False).reset_index(drop=True)
 
-karateka_m = build_karateka_master(df[df["Gender"] == "Male"], df_clean[df_clean["Gender"] == "Male"])
-karateka_f = build_karateka_master(df[df["Gender"] == "Female"], df_clean[df_clean["Gender"] == "Female"])
+dm_round = df_with_round[df_with_round["Gender"] == "Male"]
+df_round = df_with_round[df_with_round["Gender"] == "Female"]
+karateka_m = build_karateka_master(df[df["Gender"] == "Male"], df_clean[df_clean["Gender"] == "Male"], dm_round)
+karateka_f = build_karateka_master(df[df["Gender"] == "Female"], df_clean[df_clean["Gender"] == "Female"], df_round)
 
 # ── Tournament summary ────────────────────────────────────────────────────────
 tourn_summary = []
