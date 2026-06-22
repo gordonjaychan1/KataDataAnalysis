@@ -34,6 +34,7 @@
     <button class="tab-btn" data-tab="karateka-findings">Karateka Findings</button>
     <button class="tab-btn" data-tab="notes">Important Notes</button>
     <button class="tab-btn" data-tab="about">About</button>
+    <button class="tab-btn" data-tab="references">References</button>
   </nav>
   </div><!-- /.sticky-top -->
 
@@ -127,7 +128,7 @@
             Data was manually collected from official WKF scoring sheets and tournament results.
             The dataset covers <strong>9 tournaments</strong>: the four 2024 Karate1 Premier League events
             (Paris, Antalya, Cairo, Casablanca), the four 2025 K1 events (Cairo, Hangzhou, Paris, Rabat),
-            and the <strong>2025 World Karate Championships</strong> in Abu Dhabi.
+            and the 2025 World Karate Championships in Abu Dhabi.
           </p>
           <p>
             A small number of entries are missing either the kata name or the score — see
@@ -135,8 +136,8 @@
           </p>
           <p>
             Kata are classified into three tiers — <strong>Advanced</strong>, <strong>Intermediate</strong>,
-            and <strong>Beginner</strong> — based on technical complexity. At this level of competition,
-            virtually all performed kata are Advanced tier.
+            and <strong>Beginner</strong> — based on the USA Karate - Official Kata List
+            (see <a href="#" onclick="switchToTab('references');return false;" style="color:var(--red)">References</a> for more information).
           </p>
         </div>
       </div>
@@ -508,6 +509,59 @@
         <a class="download-link" href="Placements.csv" download>
           ⬇ Tournament Placements
         </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════ REFERENCES TAB -->
+  <section id="tab-references" class="tab-content hidden">
+    <h2 class="section-title">References</h2>
+
+    <div class="ref-list">
+
+      <!-- PDF 1 -->
+      <div class="ref-card">
+        <div class="ref-label">Competition Rules Document</div>
+        <div class="ref-title">
+          <a href="https://assets.contentstack.io/v3/assets/blteb7d012fc7ebef7f/bltfb1159754e7987ee/695eabb4b83bb88d079c15a5/USA_Karate_Rules_of_Competition_January_1_2026.pdf"
+             target="_blank" rel="noopener" class="ref-link">
+            USA Karate — Rules of Competition (January 1, 2026) ↗
+          </a>
+        </div>
+        <div class="ref-meta">USA Karate · 2026</div>
+      </div>
+
+      <!-- PDF 2 -->
+      <div class="ref-card">
+        <div class="ref-label">Competition Rules Document</div>
+        <div class="ref-title">
+          <a href="https://www.wkf.net/files/pdf/documents/WKF%20Kata%20Competition%20Rules%202026%20MASTER%20COPY_V2.pdf"
+             target="_blank" rel="noopener" class="ref-link">
+            WKF — Kata Competition Rules 2026 ↗
+          </a>
+        </div>
+        <div class="ref-meta">World Karate Federation · 2026</div>
+      </div>
+
+      <!-- Image 1: Appendix 1 – Official Kata List -->
+      <div class="ref-card">
+        <div class="ref-label">Appendix</div>
+        <div class="ref-title">Appendix 1: Official Kata List</div>
+        <div class="ref-meta">From: WKF Kata Competition Rules 2026</div>
+        <div class="ref-img-wrap">
+          <img src="ref-wkf-kata-list.png" alt="WKF Appendix 1 – Official Kata List" class="ref-img">
+        </div>
+      </div>
+
+      <!-- Image 2: USA Karate Official Kata List -->
+      <div class="ref-card">
+        <div class="ref-label">Official List</div>
+        <div class="ref-title">USA Karate — Official Kata List</div>
+        <div class="ref-meta">From: USA Karate Rules of Competition, January 1, 2026</div>
+        <div class="ref-img-wrap">
+          <img src="ref-usa-karate-kata-list.png" alt="USA Karate – Official Kata List with tier classifications" class="ref-img">
+        </div>
       </div>
 
     </div>
