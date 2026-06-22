@@ -183,7 +183,7 @@
             <th data-col="Max_Score" class="num">Max</th>
             <th data-col="Std_Dev" class="num">Std Dev</th>
             <th data-col="Win_Rate" class="num">Win Rate</th>
-            <th data-col="Diff" class="num">Diff</th>
+            <th data-col="Diff" class="num">Score Differential</th>
           </tr>
         </thead>
         <tbody id="kata-tbody"></tbody>
@@ -498,17 +498,8 @@
       <div class="about-sidebar">
         <h3>Download the Data</h3>
         <p style="font-size:12px;color:var(--text-muted);margin-bottom:4px">
-          Raw datasets used for this project.
+          Raw datasets are available on the <a href="#" onclick="switchToTab('references');return false;" style="color:var(--red)">References</a> tab.
         </p>
-        <a class="download-link" href="Male2425Season.csv" download>
-          ⬇ Male Kata — 2024–25 Season
-        </a>
-        <a class="download-link" href="Female2425Season.csv" download>
-          ⬇ Female Kata — 2024–25 Season
-        </a>
-        <a class="download-link" href="Placements.csv" download>
-          ⬇ Tournament Placements
-        </a>
       </div>
 
     </div>
@@ -518,9 +509,32 @@
   <section id="tab-references" class="tab-content hidden">
     <h2 class="section-title">References</h2>
 
-    <div class="ref-list">
+    <!-- Download the Data -->
+    <h3 class="ref-section-head">Download the Data</h3>
+    <div class="ref-list" style="margin-bottom:32px">
+      <div class="ref-card">
+        <div class="ref-label">Raw Dataset</div>
+        <div class="ref-title">Male Kata — 2024–25 Season</div>
+        <div class="ref-meta" style="margin-bottom:10px">All male kata performances recorded this season</div>
+        <a class="download-link" href="Male2425Season.csv" download onclick="return confirm('Download Male Kata 2024–25 Season data as a CSV file?')">⬇ Download CSV</a>
+      </div>
+      <div class="ref-card">
+        <div class="ref-label">Raw Dataset</div>
+        <div class="ref-title">Female Kata — 2024–25 Season</div>
+        <div class="ref-meta" style="margin-bottom:10px">All female kata performances recorded this season</div>
+        <a class="download-link" href="Female2425Season.csv" download onclick="return confirm('Download Female Kata 2024–25 Season data as a CSV file?')">⬇ Download CSV</a>
+      </div>
+      <div class="ref-card">
+        <div class="ref-label">Raw Dataset</div>
+        <div class="ref-title">Tournament Placements</div>
+        <div class="ref-meta" style="margin-bottom:10px">Gold, Silver, and Bronze medalists for each tournament</div>
+        <a class="download-link" href="Placements.csv" download onclick="return confirm('Download Tournament Placements data as a CSV file?')">⬇ Download CSV</a>
+      </div>
+    </div>
 
-      <!-- PDF 1 -->
+    <!-- Competition Rules Documents -->
+    <h3 class="ref-section-head">Competition Rules</h3>
+    <div class="ref-list" style="margin-bottom:32px">
       <div class="ref-card">
         <div class="ref-label">Competition Rules Document</div>
         <div class="ref-title">
@@ -531,8 +545,6 @@
         </div>
         <div class="ref-meta">USA Karate · 2026</div>
       </div>
-
-      <!-- PDF 2 -->
       <div class="ref-card">
         <div class="ref-label">Competition Rules Document</div>
         <div class="ref-title">
@@ -543,18 +555,19 @@
         </div>
         <div class="ref-meta">World Karate Federation · 2026</div>
       </div>
+    </div>
 
-      <!-- Image 1: Appendix 1 – Official Kata List -->
+    <!-- Appendix -->
+    <h3 class="ref-section-head">Appendix</h3>
+    <div class="ref-list">
       <div class="ref-card">
-        <div class="ref-label">Appendix</div>
-        <div class="ref-title">Appendix 1: Official Kata List</div>
+        <div class="ref-label">Appendix 1</div>
+        <div class="ref-title">Official Kata List</div>
         <div class="ref-meta">From: WKF Kata Competition Rules 2026</div>
         <div class="ref-img-wrap">
           <img src="ref-wkf-kata-list.png" alt="WKF Appendix 1 – Official Kata List" class="ref-img">
         </div>
       </div>
-
-      <!-- Image 2: USA Karate Official Kata List -->
       <div class="ref-card">
         <div class="ref-label">Official List</div>
         <div class="ref-title">USA Karate — Official Kata List</div>
@@ -563,8 +576,8 @@
           <img src="ref-usa-karate-kata-list.png" alt="USA Karate – Official Kata List with tier classifications" class="ref-img">
         </div>
       </div>
-
     </div>
+
   </section>
 
   <script src="app.js"></script>

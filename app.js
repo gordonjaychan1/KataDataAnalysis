@@ -402,6 +402,15 @@ function showKaratekaCard(r) {
   if (medalCounts[2]) medalSummaryParts.push(`${medalCounts[2]}× Silver`);
   if (medalCounts[3]) medalSummaryParts.push(`${medalCounts[3]}× Bronze`);
 
+  /* rank among all karateka of this gender */
+  const karAll = DATA.karateka[gender] || [];
+  const rkK = (field, asc = false) => {
+    const srt = [...karAll].filter(d => d[field] != null)
+      .sort((a, b) => asc ? a[field] - b[field] : b[field] - a[field]);
+    const idx = srt.findIndex(d => d.Karateka === r.Karateka);
+    return idx >= 0 ? `<div class="stat-rank">${idx + 1}/${srt.length}</div>` : "";
+  };
+
   document.getElementById("karateka-card").innerHTML = `
     <button class="card-close-btn" onclick="document.getElementById('karateka-card').classList.add('hidden')" title="Close">✕</button>
     <div class="card-header">
@@ -409,11 +418,11 @@ function showKaratekaCard(r) {
       <span class="card-subtitle">${flagOf(r.Country)} ${esc(r.Country || "")}</span>
     </div>
     <div class="card-stats">
-      <div class="stat-box"><div class="stat-label">Performances</div><div class="stat-value">${r.Performances}</div></div>
-      <div class="stat-box"><div class="stat-label">Tournaments</div><div class="stat-value">${r.Tournaments_Attended}</div></div>
-      <div class="stat-box"><div class="stat-label">Avg Score</div><div class="stat-value">${fmt2(r.Mean_Score)}</div></div>
-      <div class="stat-box"><div class="stat-label">Best Score</div><div class="stat-value">${fmt2(r.Max_Score)}</div>${bestPerf ? `<div style="font-size:11px;color:var(--text-muted);margin-top:3px">${esc(bestPerf.Kata)}</div>` : ""}</div>
-      <div class="stat-box"><div class="stat-label">Win Rate</div><div class="stat-value">${fmtPct(r.Win_Rate)}</div></div>
+      <div class="stat-box"><div class="stat-label">Performances</div><div class="stat-value">${r.Performances}</div>${rkK('Performances')}</div>
+      <div class="stat-box"><div class="stat-label">Tournaments</div><div class="stat-value">${r.Tournaments_Attended}</div>${rkK('Tournaments_Attended')}</div>
+      <div class="stat-box"><div class="stat-label">Avg Score</div><div class="stat-value">${fmt2(r.Mean_Score)}</div>${rkK('Mean_Score')}</div>
+      <div class="stat-box"><div class="stat-label">Best Score</div><div class="stat-value">${fmt2(r.Max_Score)}</div>${rkK('Max_Score')}${bestPerf ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">${esc(bestPerf.Kata)}</div>` : ""}</div>
+      <div class="stat-box"><div class="stat-label">Win Rate</div><div class="stat-value">${fmtPct(r.Win_Rate)}</div>${rkK('Win_Rate')}</div>
     </div>
     ${r.Medals && r.Medals.length ? `
     <div class="card-section-title">Medals</div>
@@ -437,9 +446,10 @@ function showKaratekaCard(r) {
 function renderTournamentsTable() {
   const s = sortState.tournaments;
   const rows = sortData(DATA.tournaments.filter(r => r.Gender.toLowerCase() === gender), s.col, s.dir);
+  const tmeta = t => TOURN_META[t] || {};
   document.getElementById("tournaments-tbody").innerHTML = rows.map(r => `
     <tr data-tourn="${esc(r.Tournament)}" style="cursor:pointer">
-      <td class="name-cell">${esc(r.Tournament)}</td>
+      <td class="name-cell">${flagOf(tmeta(r.Tournament).country)} ${esc(r.Tournament)}</td>
       <td class="num">${r.Total_Performances}</td>
       <td class="num">${r.Unique_Karateka}</td>
       <td class="num">${r.Unique_Kata}</td>
@@ -617,19 +627,41 @@ function renderKataFindings() {
         borderWidth: 1.5, pointRadius: 6, pointHoverRadius: 8,
       };
     }).filter(Boolean);
+    const scatterLabelPlugin = {
+      id: "scatterLabels",
+      afterDatasetsDraw(chart) {
+        const ctx2 = chart.ctx;
+        ctx2.save();
+        ctx2.font = `9px ${CHART_FONT}`;
+        ctx2.fillStyle = "#7a7060";
+        ctx2.textBaseline = "middle";
+        ctx2.textAlign = "left";
+        chart.data.datasets.forEach((ds, di) => {
+          const meta = chart.getDatasetMeta(di);
+          (ds.data || []).forEach((pt, i) => {
+            const el = meta.data[i];
+            if (el && pt.kata) ctx2.fillText(pt.kata, el.x + 6, el.y);
+          });
+        });
+        ctx2.restore();
+      },
+    };
     charts["chart-scatter"] = new Chart(ctxSc, {
       type: "scatter", data: { datasets },
       options: {
         responsive: true, maintainAspectRatio: true, aspectRatio: 11 / 6,
+        layout: { padding: { right: 100 } },
         plugins: {
           legend: { position: "bottom", labels: { font: { family: CHART_FONT, size: 11 }, color: "#1c1c18", boxWidth: 12 } },
           tooltip: { callbacks: { label: ctx => ` ${ctx.raw.kata}: ${ctx.raw.x} perfs, avg ${ctx.raw.y.toFixed(3)}` } },
+          scatterLabels: {},
         },
         scales: {
           x: { title: { display: true, text: "Performances", font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
           y: { title: { display: true, text: "Average Score", font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
         },
       },
+      plugins: [scatterLabelPlugin],
     });
   }
 
@@ -778,20 +810,47 @@ function renderKataVsKaratekaAvg() {
   const sorted = [...rows].sort((a, b) => b.Diff - a.Diff);
   const bgColors = sorted.map(r => r.Diff >= 0 ? "rgba(58,110,58,0.8)" : RED);
   const bdColors = sorted.map(r => r.Diff >= 0 ? "rgba(40,85,40,1)" : RED_BORDER);
+  const kkLabelPlugin = {
+    id: "kkLabels",
+    afterDatasetsDraw(chart) {
+      const ctx2 = chart.ctx;
+      ctx2.save();
+      ctx2.font = `9px ${CHART_FONT}`;
+      ctx2.textBaseline = "middle";
+      const meta = chart.getDatasetMeta(0);
+      sorted.forEach((row, i) => {
+        const el = meta.data[i];
+        if (!el) return;
+        if (row.Diff >= 0) {
+          ctx2.textAlign = "left";
+          ctx2.fillStyle = "#3a6e3a";
+          ctx2.fillText(row.Kata, el.x + 5, el.y);
+        } else {
+          ctx2.textAlign = "right";
+          ctx2.fillStyle = "#c0392b";
+          ctx2.fillText(row.Kata, el.x - 5, el.y);
+        }
+      });
+      ctx2.restore();
+    },
+  };
   charts["chart-kk-avg"] = new Chart(ctx, {
     type: "bar",
     data: { labels: sorted.map(r => r.Kata), datasets: [{ data: sorted.map(r => r.Diff), backgroundColor: bgColors, borderColor: bdColors, borderWidth: 1, borderRadius: 3 }] },
     options: {
       indexAxis: "y", responsive: true, maintainAspectRatio: false,
+      layout: { padding: { left: 160, right: 160 } },
       plugins: {
         legend: { display: false },
         tooltip: { callbacks: { label: ctx => ` ${ctx.raw >= 0 ? "+" : ""}${ctx.raw.toFixed(3)}` } },
+        kkLabels: {},
       },
       scales: {
         x: { grid: { color: ctx => ctx.tick.value === 0 ? "rgba(0,0,0,0.75)" : GRID, lineWidth: ctx => ctx.tick.value === 0 ? 1.5 : 1 }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, title: { display: true, text: "Score Diff vs Athlete Avg", font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
-        y: { grid: { display: false }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#1c1c18" } },
+        y: { grid: { display: false }, ticks: { display: false } },
       },
     },
+    plugins: [kkLabelPlugin],
   });
 }
 

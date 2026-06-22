@@ -61,8 +61,9 @@ header {
 .tab-bar {
   display: flex; padding: 0 32px;
   background: var(--surface); border-bottom: 1px solid var(--border); gap: 2px;
-  overflow-x: auto;
+  overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
 }
+.tab-bar::-webkit-scrollbar { display: none; }
 .tab-btn {
   background: none; border: none; border-bottom: 2px solid transparent;
   padding: 11px 16px; font-size: 13px; font-weight: 500; color: var(--text-muted);
@@ -272,6 +273,7 @@ blockquote.dedication {
 .performed-kata-section h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 10px; }
 
 /* ── References tab ───────────────────────────────────────────────────────── */
+.ref-section-head { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 14px; padding-bottom: 6px; border-bottom: 1px solid var(--border-light); max-width: 860px; }
 .ref-list { display: flex; flex-direction: column; gap: 24px; max-width: 860px; }
 .ref-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--red); border-radius: var(--radius); padding: 20px 24px; box-shadow: 0 1px 5px rgba(0,0,0,0.05); }
 .ref-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-muted); margin-bottom: 6px; }
