@@ -233,7 +233,10 @@ function showKataCard(r) {
   const allDiffs  = [...(DATA.kata_vs_karateka_avg[gender] || [])].sort((a, b) => b.Diff - a.Diff);
   const diffEntry = allDiffs.find(d => d.Kata === r.Kata);
   const diffVal   = diffEntry ? diffEntry.Diff : null;
-  const rank      = allDiffs.findIndex(d => d.Kata === r.Kata) + 1;
+  const myDiff    = diffVal;
+  const diffBetter = myDiff != null ? allDiffs.filter(d => d.Diff > myDiff).length : 0;
+  const diffTied   = myDiff != null ? allDiffs.filter(d => d.Diff === myDiff).length : 0;
+  const rank       = diffBetter + 1;
   const total     = allDiffs.length;
   const diffColor = diffVal != null ? (diffVal >= 0 ? "#3a6e3a" : "var(--red)") : "inherit";
   const diffNum   = diffVal != null
@@ -251,13 +254,17 @@ function showKataCard(r) {
     }
   }
 
-  /* rank helper: rank 1 = best. descending by default (higher = better) */
+  /* rank helper: competition-style (tied values share the same rank) */
   const kataAll = DATA.kata[gender] || [];
   const rankOf = (field, asc = false) => {
-    const sorted = [...kataAll].filter(d => d[field] != null)
-      .sort((a, b) => asc ? a[field] - b[field] : b[field] - a[field]);
-    const idx = sorted.findIndex(d => d.Kata === r.Kata);
-    return idx >= 0 ? `${idx + 1}/${sorted.length}` : null;
+    const vals = kataAll.filter(d => d[field] != null);
+    const total = vals.length;
+    const myVal = r[field];
+    if (myVal == null || !total) return null;
+    const better = vals.filter(d => asc ? d[field] < myVal : d[field] > myVal).length;
+    const tied   = vals.filter(d => d[field] === myVal).length;
+    const suffix = tied > 1 ? " (T)" : "";
+    return `${better + 1}/${total}${suffix}`;
   };
   const rk = (field, asc) => { const v = rankOf(field, asc); return v ? `<div class="stat-rank">${v}</div>` : ""; };
 
@@ -279,7 +286,7 @@ function showKataCard(r) {
            style="color:inherit;text-decoration:none" title="Go to chart">Score Diff ↗</a>
       </div>
       <div class="stat-value" style="color:${diffColor};font-size:16px">${diffVal >= 0 ? "+" : ""}${diffVal.toFixed(3)}</div>
-      ${rank > 0 ? `<div class="stat-rank">${rank}/${total} among all kata</div>` : ""}
+      ${rank > 0 ? `<div class="stat-rank">${rank}/${total} among all kata${diffTied > 1 ? " (T)" : ""}</div>` : ""}
     </div>` : "";
 
   document.getElementById("kata-card").innerHTML = `
@@ -366,7 +373,8 @@ function renderKaratekaTable() {
 function showKaratekaCard(r) {
   const perfs = r.Performances_Detail || [];
   const scoredPerfs = perfs.filter(p => p.Avg_Score != null && p.Kata);
-  const bestPerf = scoredPerfs.reduce((best, p) => (p.Avg_Score > (best?.Avg_Score ?? -Infinity) ? p : best), null);
+  const bestPerf  = scoredPerfs.reduce((best, p)  => (p.Avg_Score > (best?.Avg_Score  ?? -Infinity) ? p : best),  null);
+  const worstPerf = scoredPerfs.reduce((worst, p) => (p.Avg_Score < (worst?.Avg_Score ??  Infinity) ? p : worst), null);
   const roundLabel = { rr:"Round Robin", r1:"Round 1", r2:"Round 2", r3:"Round 3", rpc:"Repechage" };
   const perfRows = perfs.map(p => `
     <tr>
@@ -402,13 +410,17 @@ function showKaratekaCard(r) {
   if (medalCounts[2]) medalSummaryParts.push(`${medalCounts[2]}× Silver`);
   if (medalCounts[3]) medalSummaryParts.push(`${medalCounts[3]}× Bronze`);
 
-  /* rank among all karateka of this gender */
+  /* rank among all karateka — competition-style (ties share same rank) */
   const karAll = DATA.karateka[gender] || [];
   const rkK = (field, asc = false) => {
-    const srt = [...karAll].filter(d => d[field] != null)
-      .sort((a, b) => asc ? a[field] - b[field] : b[field] - a[field]);
-    const idx = srt.findIndex(d => d.Karateka === r.Karateka);
-    return idx >= 0 ? `<div class="stat-rank">${idx + 1}/${srt.length}</div>` : "";
+    const vals  = karAll.filter(d => d[field] != null);
+    const total = vals.length;
+    const myVal = r[field];
+    if (myVal == null || !total) return "";
+    const better = vals.filter(d => asc ? d[field] < myVal : d[field] > myVal).length;
+    const tied   = vals.filter(d => d[field] === myVal).length;
+    const suffix = tied > 1 ? " (T)" : "";
+    return `<div class="stat-rank">${better + 1}/${total}${suffix}</div>`;
   };
 
   document.getElementById("karateka-card").innerHTML = `
@@ -422,6 +434,7 @@ function showKaratekaCard(r) {
       <div class="stat-box"><div class="stat-label">Tournaments</div><div class="stat-value">${r.Tournaments_Attended}</div>${rkK('Tournaments_Attended')}</div>
       <div class="stat-box"><div class="stat-label">Avg Score</div><div class="stat-value">${fmt2(r.Mean_Score)}</div>${rkK('Mean_Score')}</div>
       <div class="stat-box"><div class="stat-label">Best Score</div><div class="stat-value">${fmt2(r.Max_Score)}</div>${rkK('Max_Score')}${bestPerf ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">${esc(bestPerf.Kata)}</div>` : ""}</div>
+      <div class="stat-box"><div class="stat-label">Worst Score</div><div class="stat-value">${fmt2(r.Min_Score)}</div>${rkK('Min_Score', true)}${worstPerf ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">${esc(worstPerf.Kata)}</div>` : ""}</div>
       <div class="stat-box"><div class="stat-label">Win Rate</div><div class="stat-value">${fmtPct(r.Win_Rate)}</div>${rkK('Win_Rate')}</div>
     </div>
     ${r.Medals && r.Medals.length ? `
