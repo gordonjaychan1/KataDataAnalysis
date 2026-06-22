@@ -152,11 +152,15 @@ header {
 }
 .data-table thead th.num { text-align: right; }
 .data-table thead th:hover { color: var(--text); }
+.data-table thead th[title] { cursor: help; }
 .data-table thead th.sort-asc::after  { content: " ↑"; color: var(--red); }
 .data-table thead th.sort-desc::after { content: " ↓"; color: var(--red); }
 .data-table tbody tr { border-bottom: 1px solid var(--border-light); transition: background 0.1s; }
 .data-table tbody tr:nth-child(even) { background: rgba(240,232,214,0.35); }
 .data-table tbody tr:last-child  { border-bottom: none; }
+.data-table tfoot tr { border-top: 2px solid var(--border); background: rgba(240,232,214,0.5); }
+.data-table tfoot td { padding: 9px 14px; font-size: 13px; vertical-align: middle; color: var(--text-muted); }
+.data-table tfoot td.num { text-align: right; font-variant-numeric: tabular-nums; }
 .data-table tbody tr:hover       { background: var(--row-hover); cursor: pointer; }
 .data-table tbody tr.highlighted { background: var(--red-light); }
 .data-table td { padding: 9px 14px; vertical-align: middle; }

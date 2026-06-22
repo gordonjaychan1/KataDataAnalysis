@@ -50,7 +50,7 @@ const TOURN_META = {
   "2025 Hangzhou":   { city:"Hangzhou",   country:"China",   flag:"🇨🇳", date:"Mar 2025"          },
   "2025 Paris":      { city:"Paris",      country:"France",  flag:"🇫🇷", date:"May 2025"          },
   "2025 Rabat":      { city:"Rabat",      country:"Morocco", flag:"🇲🇦", date:"Jun 2025"          },
-  "2025 Worlds":     { city:"Abu Dhabi",  country:"UAE",     flag:"🇦🇪", date:"Oct 2025"          },
+  "2025 Worlds":     { city:"Cairo",      country:"Egypt",   flag:"🇪🇬", date:"Oct 2025"          },
 };
 
 const charts = {};
@@ -331,6 +331,30 @@ function renderKataTable() {
       <td class="num">${fmtPct(r.Win_Rate)}</td>
       <td class="num" style="${r.Diff != null ? (r.Diff >= 0 ? 'color:#3a6e3a' : 'color:var(--red)') : ''}">${r.Diff != null ? (r.Diff >= 0 ? '+' : '') + r.Diff.toFixed(3) : '—'}</td>
     </tr>`).join("");
+  /* averages row */
+  const allKata = DATA.kata[gender];
+  const avg = field => {
+    const vals = allKata.map(r => r[field]).filter(v => v != null);
+    return vals.length ? vals.reduce((s,v) => s+v, 0) / vals.length : null;
+  };
+  const avgDiff = (() => {
+    const vals = allKata.map(r => r.Diff).filter(v => v != null);
+    return vals.length ? vals.reduce((s,v) => s+v, 0) / vals.length : null;
+  })();
+  document.getElementById("kata-tfoot").innerHTML = `
+    <tr class="avg-row">
+      <td class="name-cell" style="font-weight:700;color:var(--text)">Average</td>
+      <td></td>
+      <td class="num">${fmt2(avg("Performances"))}</td>
+      <td class="num">${fmt2(avg("Unique_Karateka"))}</td>
+      <td class="num">${fmt3(avg("Mean_Score"))}</td>
+      <td class="num">${fmt2(avg("Median_Score"))}</td>
+      <td class="num">${fmt2(avg("Min_Score"))}</td>
+      <td class="num">${fmt2(avg("Max_Score"))}</td>
+      <td class="num">${fmt3(avg("Std_Dev"))}</td>
+      <td class="num">${fmtPct(avg("Win_Rate"))}</td>
+      <td class="num" style="${avgDiff != null ? (avgDiff >= 0 ? 'color:#3a6e3a' : 'color:var(--red)') : ''}">${avgDiff != null ? (avgDiff >= 0 ? '+' : '') + avgDiff.toFixed(3) : '—'}</td>
+    </tr>`;
   document.querySelectorAll("#kata-tbody tr").forEach(tr => {
     tr.addEventListener("click", () => {
       const row = DATA.kata[gender].find(r => r.Kata === tr.dataset.kata);
@@ -863,9 +887,14 @@ function renderKataFindings() {
   const tSorted = [...tourns].sort((a,b) => a.Tournament.localeCompare(b.Tournament));
   const tHigh = tSorted.reduce((best,r) => (r.Avg_Score > (best?.Avg_Score||0) ? r : best), null);
   const tLow  = tSorted.filter(r=>r.Avg_Score).reduce((worst,r) => (r.Avg_Score < (worst?.Avg_Score||Infinity) ? r : worst), null);
+  const tTotalPerfs = tSorted.filter(r => r.Avg_Score && r.Performances).reduce((s,r) => s + r.Performances, 0);
+  const tWeightedSum = tSorted.filter(r => r.Avg_Score && r.Performances).reduce((s,r) => s + r.Avg_Score * r.Performances, 0);
+  const tOverallMean = tTotalPerfs ? tWeightedSum / tTotalPerfs : null;
+  const tPerfCounts  = tSorted.map(r => r.Performances ?? null);
   document.getElementById("insight-tournament").textContent =
     tHigh && tLow
-      ? `${tHigh.Tournament} had the highest average score (${tHigh.Avg_Score.toFixed(3)}) and ${tLow.Tournament} the lowest (${tLow.Avg_Score.toFixed(3)}).`
+      ? `${tHigh.Tournament} had the highest average score (${tHigh.Avg_Score.toFixed(3)}) and ${tLow.Tournament} the lowest (${tLow.Avg_Score.toFixed(3)}). ` +
+        (tOverallMean ? `The overall mean score across all ${gender} performances this season was ${tOverallMean.toFixed(3)}.` : "")
       : "";
   const tMin = Math.max(7.5, Math.min(...tSorted.map(r=>r.Avg_Score).filter(Boolean)) - 0.05);
   destroyChart("chart-tournament");
@@ -875,7 +904,15 @@ function renderKataFindings() {
       data: { labels: tSorted.map(r=>r.Tournament), datasets: [{ data: tSorted.map(r=>r.Avg_Score), backgroundColor: RED, borderColor: RED_BORDER, borderWidth: 1, borderRadius: 3 }] },
       options: {
         responsive: true, maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: ctx2 => {
+            const p = tPerfCounts[ctx2.dataIndex];
+            return p != null
+              ? ` ${ctx2.raw.toFixed(3)}  (${p} performances)`
+              : ` ${ctx2.raw.toFixed(3)}`;
+          }}},
+        },
         scales: {
           x: { grid: { display: false }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#1c1c18", maxRotation: 30 } },
           y: { min: tMin, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
