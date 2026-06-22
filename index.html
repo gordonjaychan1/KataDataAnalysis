@@ -432,26 +432,77 @@
 
   <!-- ══════════════════════════════════════════════════ ABOUT TAB -->
   <section id="tab-about" class="tab-content hidden">
-    <div class="notes-content">
+    <div class="notes-content" style="max-width:760px">
+
+      <!-- Dedication -->
+      <blockquote class="dedication">
+        This work is dedicated to Shihan Carl Hultin, who gave me a lifelong passion for Karate
+        and self-improvement through hard work.
+      </blockquote>
 
       <div class="note-section">
         <h2>About Me</h2>
-        <p><em>Write about your background here — who you are, your experience in karate, your level of competition, etc.</em></p>
+        <p>
+          I grew up in California and began training in karate at age six. My primary style is
+          <strong>Hayashi-ha Shito-ryu</strong>, the system I have trained in throughout my life.
+          When I entered university I joined the campus Shotokan karate club, training in Shotokan
+          alongside my Shito-ryu practice — and I now coach that same club.
+        </p>
+        <p>
+          I have been competing since I was ten years old. Kata has always been the dimension of
+          karate I find most compelling: the depth of technique, the demands of precision under
+          pressure, and the endless pursuit of refinement.
+        </p>
       </div>
 
       <div class="note-section">
         <h2>Why I Made This</h2>
-        <p><em>Explain your motivation for building this project — what questions you wanted to answer, what you hoped to learn, how it connects to your competitive career.</em></p>
+        <p>
+          I studied Management Information Systems in college and took a course on Data Science
+          with Python. The analytical skills from that class mapped directly onto a question I
+          had long wanted to explore: <em>what can the data from elite international kata
+          competition actually tell us?</em>
+        </p>
+        <p>
+          This project is an attempt to answer that question — to give competitors, coaches, and
+          fans a clearer picture of which kata are chosen at the highest level, how scores compare
+          across athletes, and what patterns emerge over a full WKF season. I hope it serves as a
+          useful resource for anyone with a serious interest in kata.
+        </p>
       </div>
 
       <div class="note-section">
         <h2>Methodology</h2>
-        <p><em>Describe how you collected and cleaned the data, any decisions you made about how to categorize or present it, and the tools you used (Python, pandas, etc.).</em></p>
+        <p>
+          Performance data was manually collected from official WKF scoring sheets and tournament
+          results across all nine events of the 2024–25 season. Python was used as the primary
+          language for data processing and analysis, with the following libraries:
+        </p>
+        <ul>
+          <li><strong>Pandas</strong> — for structuring, cleaning, and manipulating the dataset</li>
+          <li><strong>NumPy</strong> — for numerical computations and descriptive statistics</li>
+          <li><strong>Chart.js</strong> — for all interactive charts on this site</li>
+        </ul>
+        <p>
+          Kata were manually classified into Advanced, Intermediate, and Beginner tiers based on
+          technical complexity. See <strong>Important Notes</strong> for full tier definitions.
+        </p>
       </div>
 
       <div class="note-section">
-        <h2>Other Notes</h2>
-        <p><em>Anything else you want to add — future plans, limitations of the dataset, acknowledgements, etc.</em></p>
+        <h2>Download the Data</h2>
+        <p>The raw datasets used for this project are available below.</p>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:12px">
+          <a class="download-link" href="Male2425Season.csv" download>
+            ⬇ Male Kata — 2024–25 Season (CSV)
+          </a>
+          <a class="download-link" href="Female2425Season.csv" download>
+            ⬇ Female Kata — 2024–25 Season (CSV)
+          </a>
+          <a class="download-link" href="Placements.csv" download>
+            ⬇ Tournament Placements — 2024–25 Season (CSV)
+          </a>
+        </div>
       </div>
 
     </div>
