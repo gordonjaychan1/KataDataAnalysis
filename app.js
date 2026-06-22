@@ -10,6 +10,40 @@ const sortState = {
 
 const searchQuery = { kata: "", karateka: "" };
 
+/* ── Country → flag emoji ──────────────────────────────────────────────────── */
+const ISO2 = {
+  "Japan":"JP","USA":"US","Turkey":"TR","Italy":"IT","Spain":"ES","France":"FR",
+  "Germany":"DE","Kuwait":"KW","England":"GB","Brazil":"BR","Venezuela":"VE",
+  "Indonesia":"ID","Hong Kong":"HK","Switzerland":"CH","Algeria":"DZ",
+  "Slovakia":"SK","Ukraine":"UA","Hungary":"HU","Romania":"RO","Morocco":"MA",
+  "Jordan":"JO","Egypt":"EG","Sweden":"SE","Canada":"CA","Senegal":"SN",
+  "Azerbaijan":"AZ","Greece":"GR","Belgium":"BE","Czech Republic":"CZ",
+  "Portugal":"PT","Philippines":"PH","Australia":"AU","New Zealand":"NZ",
+  "China":"CN","South Korea":"KR","Montenegro":"ME","Singapore":"SG",
+  "Mexico":"MX","Colombia":"CO","Iran":"IR","Austria":"AT","Taiwan":"TW",
+  "Nigeria":"NG","Argentina":"AR","Burundi":"BI","Nepal":"NP","Malaysia":"MY",
+  "Dominican Republic":"DO","Burkina Faso":"BF","Slovenia":"SI",
+  "Netherlands":"NL","Saudi Arabia":"SA","UAE":"AE",
+};
+function flagOf(country) {
+  const iso = ISO2[country];
+  if (!iso) return "";
+  return [...iso].map(c => String.fromCodePoint(0x1F1E6 + c.charCodeAt(0) - 65)).join("");
+}
+
+/* ── Tournament metadata ───────────────────────────────────────────────────── */
+const TOURN_META = {
+  "2024 Paris":      { city:"Paris",      country:"France",  flag:"🇫🇷", date:"Jan 11–14, 2024" },
+  "2024 Antalya":    { city:"Antalya",    country:"Turkey",  flag:"🇹🇷", date:"Apr 18–21, 2024" },
+  "2024 Cairo":      { city:"Cairo",      country:"Egypt",   flag:"🇪🇬", date:"Oct 17–20, 2024" },
+  "2024 Casablanca": { city:"Casablanca", country:"Morocco", flag:"🇲🇦", date:"Nov  7–10, 2024" },
+  "2025 Cairo":      { city:"Cairo",      country:"Egypt",   flag:"🇪🇬", date:"Jan 30–Feb 2, 2025" },
+  "2025 Hangzhou":   { city:"Hangzhou",   country:"China",   flag:"🇨🇳", date:"Mar 2025"          },
+  "2025 Paris":      { city:"Paris",      country:"France",  flag:"🇫🇷", date:"May 2025"          },
+  "2025 Rabat":      { city:"Rabat",      country:"Morocco", flag:"🇲🇦", date:"Jun 2025"          },
+  "2025 Worlds":     { city:"Abu Dhabi",  country:"UAE",     flag:"🇦🇪", date:"Oct 2025"          },
+};
+
 const charts = {};
 
 /* ── Boot ──────────────────────────────────────────────────────────────────── */
@@ -210,7 +244,7 @@ function renderKaratekaTable() {
   document.getElementById("karateka-tbody").innerHTML = rows.map(r => `
     <tr data-karateka="${esc(r.Karateka)}">
       <td class="name-cell">${esc(r.Karateka)}</td>
-      <td>${esc(r.Country || "—")}</td>
+      <td>${flagOf(r.Country)} ${esc(r.Country || "—")}</td>
       <td class="num">${r.Performances}</td>
       <td class="num">${r.Tournaments_Attended}</td>
       <td class="num">${fmt2(r.Mean_Score)}</td>
@@ -236,7 +270,7 @@ function showKaratekaCard(r) {
   document.getElementById("karateka-card").innerHTML = `
     <div class="card-header">
       <span class="card-title">${esc(r.Karateka)}</span>
-      <span class="card-subtitle">${esc(r.Country || "")}</span>
+      <span class="card-subtitle">${flagOf(r.Country)} ${esc(r.Country || "")}</span>
     </div>
     <div class="card-stats">
       <div class="stat-box"><div class="stat-label">Performances</div><div class="stat-value">${r.Performances}</div></div>
@@ -256,13 +290,49 @@ function renderTournamentsTable() {
   const s = sortState.tournaments;
   const rows = sortData(DATA.tournaments.filter(r => r.Gender.toLowerCase() === gender), s.col, s.dir);
   document.getElementById("tournaments-tbody").innerHTML = rows.map(r => `
-    <tr>
+    <tr data-tourn="${esc(r.Tournament)}" style="cursor:pointer">
       <td class="name-cell">${esc(r.Tournament)}</td>
       <td class="num">${r.Total_Performances}</td>
       <td class="num">${r.Unique_Karateka}</td>
       <td class="num">${r.Unique_Kata}</td>
       <td class="num">${r.Avg_Score != null ? r.Avg_Score.toFixed(3) : "—"}</td>
     </tr>`).join("");
+  document.querySelectorAll("#tournaments-tbody tr").forEach(tr => {
+    tr.addEventListener("click", () => {
+      const row = DATA.tournaments.find(r => r.Tournament === tr.dataset.tourn && r.Gender.toLowerCase() === gender);
+      if (row) showTournamentCard(row);
+    });
+  });
+}
+
+function showTournamentCard(r) {
+  const meta = TOURN_META[r.Tournament] || {};
+  const missingTotal = (r.Missing_Kata || 0) + (r.Missing_Score || 0) + (r.Missing_Both || 0);
+  let missingHtml = "";
+  if (missingTotal === 0) {
+    missingHtml = `<p style="font-size:13px;color:var(--text-muted);margin-top:14px">No missing data for this tournament.</p>`;
+  } else {
+    const lines = [];
+    if (r.Missing_Kata)  lines.push(`${r.Missing_Kata} row${r.Missing_Kata>1?"s":""} missing kata name (score present)`);
+    if (r.Missing_Score) lines.push(`${r.Missing_Score} row${r.Missing_Score>1?"s":""} missing score (kata name present)`);
+    if (r.Missing_Both)  lines.push(`${r.Missing_Both} row${r.Missing_Both>1?"s":""} missing both kata name and score`);
+    missingHtml = `<div class="card-section-title" style="margin-top:14px">Missing Data</div>
+      <ul style="font-size:13px;color:var(--text-muted);padding-left:18px;line-height:1.8">${lines.map(l=>`<li>${l}</li>`).join("")}</ul>`;
+  }
+  document.getElementById("tournaments-card").innerHTML = `
+    <div class="card-header">
+      <span class="card-title">${esc(r.Tournament)}</span>
+      ${meta.date ? `<span class="card-subtitle">${esc(meta.date)}</span>` : ""}
+    </div>
+    ${meta.city ? `<p style="font-size:13px;color:var(--text-muted);margin-bottom:14px">${meta.flag || ""} ${esc(meta.city)}, ${esc(meta.country)}</p>` : ""}
+    <div class="card-stats">
+      <div class="stat-box"><div class="stat-label">Performances</div><div class="stat-value">${r.Total_Performances}</div></div>
+      <div class="stat-box"><div class="stat-label">Athletes</div><div class="stat-value">${r.Unique_Karateka}</div></div>
+      <div class="stat-box"><div class="stat-label">Unique Kata</div><div class="stat-value">${r.Unique_Kata}</div></div>
+      <div class="stat-box"><div class="stat-label">Avg Score</div><div class="stat-value">${r.Avg_Score != null ? r.Avg_Score.toFixed(3) : "—"}</div></div>
+    </div>
+    ${missingHtml}`;
+  document.getElementById("tournaments-card").classList.remove("hidden");
 }
 
 /* ════════════════════════════════════════════════════════════════ CHART HELPERS */
@@ -366,7 +436,7 @@ function renderKataFindings() {
     charts["chart-scatter"] = new Chart(ctxSc, {
       type: "scatter", data: { datasets },
       options: {
-        responsive: true, maintainAspectRatio: true, aspectRatio: 7 / 6,
+        responsive: true, maintainAspectRatio: true, aspectRatio: 5 / 3,
         plugins: {
           legend: { position: "bottom", labels: { font: { family: CHART_FONT, size: 11 }, color: "#1c1c18", boxWidth: 12 } },
           tooltip: { callbacks: { label: ctx => ` ${ctx.raw.kata}: ${ctx.raw.x} perfs, avg ${ctx.raw.y.toFixed(3)}` } },
@@ -517,10 +587,11 @@ function renderKataVsKaratekaAvg() {
       <td class="num">${r.Performances}</td>
     </tr>`).join("");
 
-  /* diverging horizontal bar chart — highest diff at top (descending) */
+  /* diverging horizontal bar chart — highest diff at top */
   destroyChart("chart-kk-avg");
   const ctx = document.getElementById("chart-kk-avg"); if (!ctx) return;
-  const sorted = [...rows].sort((a, b) => a.Diff - b.Diff);  // ascending → lowest at top of array = lowest at bottom of chart
+  // Chart.js horizontal bar: labels[0] = top row. Sort desc so highest diff is first = top.
+  const sorted = [...rows].sort((a, b) => b.Diff - a.Diff);
   const bgColors = sorted.map(r => r.Diff >= 0 ? "rgba(58,110,58,0.8)" : RED);
   const bdColors = sorted.map(r => r.Diff >= 0 ? "rgba(40,85,40,1)" : RED_BORDER);
   charts["chart-kk-avg"] = new Chart(ctx, {
@@ -552,21 +623,29 @@ function renderKataStdDev() {
       <td class="num">${r.Std_Dev != null ? r.Std_Dev.toFixed(3) : "—"}</td>
     </tr>`).join("");
 
-  /* scatter: x = unique performers, y = std dev */
+  /* scatter: x = unique performers, y = std dev — colored by tier */
   destroyChart("chart-stddev");
   const ctx = document.getElementById("chart-stddev"); if (!ctx) return;
+  const kataLookup = Object.fromEntries((DATA.kata[gender] || []).map(k => [k.Kata, k.Kata_Tier]));
   const validRows = rows.filter(r => r.Std_Dev != null);
+  const tierDatasets = ["Advanced", "Intermediate"].map(tier => {
+    const subset = validRows.filter(r => kataLookup[r.Kata] === tier);
+    if (!subset.length) return null;
+    return {
+      label: tier,
+      data: subset.map(r => ({ x: r.Unique_Karateka, y: r.Std_Dev, kata: r.Kata })),
+      backgroundColor: TIER_COLORS[tier].bg,
+      borderColor: TIER_COLORS[tier].border,
+      borderWidth: 1.5, pointRadius: 6, pointHoverRadius: 8,
+    };
+  }).filter(Boolean);
   charts["chart-stddev"] = new Chart(ctx, {
     type: "scatter",
-    data: { datasets: [{
-      label: "Kata",
-      data: validRows.map(r => ({ x: r.Unique_Karateka, y: r.Std_Dev, kata: r.Kata })),
-      backgroundColor: RED, borderColor: RED_BORDER, borderWidth: 1.5, pointRadius: 6, pointHoverRadius: 8,
-    }] },
+    data: { datasets: tierDatasets },
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: {
-        legend: { display: false },
+        legend: { position: "bottom", labels: { font: { family: CHART_FONT, size: 11 }, color: "#1c1c18", boxWidth: 12 } },
         tooltip: { callbacks: { label: ctx => ` ${ctx.raw.kata}: ${ctx.raw.x} performers, σ = ${ctx.raw.y.toFixed(3)}` } },
       },
       scales: {

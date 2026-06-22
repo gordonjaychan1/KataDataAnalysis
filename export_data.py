@@ -258,6 +258,9 @@ for (tourn, gender), grp in df_total.groupby(["Tournament", "Gender"]):
         "Unique_Kata": int(clean_grp["Kata"].nunique()),
         "Unique_Karateka": int(grp["Karateka"].nunique()),
         "Avg_Score": round(float(clean_grp["Avg Score"].mean()), 3) if len(clean_grp) else None,
+        "Missing_Kata":  int((grp["Kata"].isna()  & grp["Avg Score"].notna()).sum()),
+        "Missing_Score": int((grp["Kata"].notna() & grp["Avg Score"].isna()).sum()),
+        "Missing_Both":  int((grp["Kata"].isna()  & grp["Avg Score"].isna()).sum()),
     })
 tourn_summary.sort(key=lambda x: (x["Tournament"], x["Gender"]))
 

@@ -27,6 +27,9 @@ body {
   min-height: 100vh;
 }
 
+/* ── Sticky top bar ───────────────────────────────────────────────────────── */
+.sticky-top { position: sticky; top: 0; z-index: 200; }
+
 /* ── Header ───────────────────────────────────────────────────────────────── */
 header {
   background: var(--surface);
@@ -146,13 +149,14 @@ header {
 .chart-wrap.tall     { height: 600px; }
 .chart-wrap.medium   { height: 420px; }
 .chart-wrap.small    { height: 260px; }
-.chart-wrap--square  { height: auto; aspect-ratio: 7 / 6; max-width: min(1470px, 100%); }
+.chart-wrap--square  { height: auto; aspect-ratio: 5 / 3; max-width: min(1470px, 100%); }
 
 .tier-charts { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
 .tier-charts .chart-wrap { height: 260px; }
 
 /* ── Welcome tab ──────────────────────────────────────────────────────────── */
-.welcome-layout { display: flex; flex-direction: column; gap: 36px; max-width: 900px; }
+.welcome-layout { display: flex; flex-direction: column; gap: 36px; }
+.welcome-body { display: grid; grid-template-columns: 1fr 340px; gap: 32px; align-items: start; }
 
 .welcome-hero { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--red); border-radius: var(--radius); padding: 24px 28px; }
 .welcome-hero h2 { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
@@ -202,7 +206,7 @@ header {
 @media (max-width: 700px) {
   header { padding: 14px 16px; }
   .tab-content { padding: 16px; }
-  .tier-charts, .missing-tables, .performed-kata-grid { grid-template-columns: 1fr; }
+  .tier-charts, .missing-tables, .performed-kata-grid, .welcome-body { grid-template-columns: 1fr; }
   .search-input { width: 100%; }
   .finding-block { padding: 16px; }
   .how-to-grid { grid-template-columns: 1fr; }

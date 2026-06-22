@@ -7165,7 +7165,10 @@
       "Total_Performances": 102,
       "Unique_Kata": 19,
       "Unique_Karateka": 30,
-      "Avg_Score": 7.994
+      "Avg_Score": 7.994,
+      "Missing_Kata": 0,
+      "Missing_Score": 1,
+      "Missing_Both": 0
     },
     {
       "Tournament": "2024 Antalya",
@@ -7173,7 +7176,10 @@
       "Total_Performances": 90,
       "Unique_Kata": 20,
       "Unique_Karateka": 28,
-      "Avg_Score": 8.19
+      "Avg_Score": 8.19,
+      "Missing_Kata": 0,
+      "Missing_Score": 0,
+      "Missing_Both": 0
     },
     {
       "Tournament": "2024 Cairo",
@@ -7181,7 +7187,10 @@
       "Total_Performances": 114,
       "Unique_Kata": 21,
       "Unique_Karateka": 32,
-      "Avg_Score": 7.947
+      "Avg_Score": 7.947,
+      "Missing_Kata": 0,
+      "Missing_Score": 1,
+      "Missing_Both": 0
     },
     {
       "Tournament": "2024 Cairo",
@@ -7189,7 +7198,10 @@
       "Total_Performances": 108,
       "Unique_Kata": 23,
       "Unique_Karateka": 31,
-      "Avg_Score": 8.156
+      "Avg_Score": 8.156,
+      "Missing_Kata": 0,
+      "Missing_Score": 0,
+      "Missing_Both": 0
     },
     {
       "Tournament": "2024 Casablanca",
@@ -7197,7 +7209,10 @@
       "Total_Performances": 102,
       "Unique_Kata": 20,
       "Unique_Karateka": 30,
-      "Avg_Score": 8.045
+      "Avg_Score": 8.045,
+      "Missing_Kata": 1,
+      "Missing_Score": 0,
+      "Missing_Both": 0
     },
     {
       "Tournament": "2024 Casablanca",
@@ -7205,7 +7220,10 @@
       "Total_Performances": 114,
       "Unique_Kata": 20,
       "Unique_Karateka": 32,
-      "Avg_Score": 8.209
+      "Avg_Score": 8.209,
+      "Missing_Kata": 0,
+      "Missing_Score": 0,
+      "Missing_Both": 0
     },
     {
       "Tournament": "2024 Paris",
@@ -7213,7 +7231,10 @@
       "Total_Performances": 108,
       "Unique_Kata": 17,
       "Unique_Karateka": 31,
-      "Avg_Score": 7.916
+      "Avg_Score": 7.916,
+      "Missing_Kata": 1,
+      "Missing_Score": 0,
+      "Missing_Both": 0
     },
     {
       "Tournament": "2024 Paris",
@@ -7221,7 +7242,10 @@
       "Total_Performances": 114,
       "Unique_Kata": 20,
       "Unique_Karateka": 32,
-      "Avg_Score": 8.213
+      "Avg_Score": 8.213,
+      "Missing_Kata": 0,
+      "Missing_Score": 0,
+      "Missing_Both": 0
     },
     {
       "Tournament": "2025 Cairo",
@@ -7229,7 +7253,10 @@
       "Total_Performances": 102,
       "Unique_Kata": 21,
       "Unique_Karateka": 30,
-      "Avg_Score": 7.881
+      "Avg_Score": 7.881,
+      "Missing_Kata": 0,
+      "Missing_Score": 1,
+      "Missing_Both": 0
     },
     {
       "Tournament": "2025 Cairo",
@@ -7237,7 +7264,10 @@
       "Total_Performances": 114,
       "Unique_Kata": 19,
       "Unique_Karateka": 32,
-      "Avg_Score": 8.213
+      "Avg_Score": 8.213,
+      "Missing_Kata": 57,
+      "Missing_Score": 2,
+      "Missing_Both": 2
     },
     {
       "Tournament": "2025 Hangzhou",
@@ -7245,7 +7275,10 @@
       "Total_Performances": 102,
       "Unique_Kata": 20,
       "Unique_Karateka": 30,
-      "Avg_Score": 8.008
+      "Avg_Score": 8.008,
+      "Missing_Kata": 0,
+      "Missing_Score": 0,
+      "Missing_Both": 0
     },
     {
       "Tournament": "2025 Hangzhou",
@@ -7253,7 +7286,10 @@
       "Total_Performances": 114,
       "Unique_Kata": 21,
       "Unique_Karateka": 32,
-      "Avg_Score": 8.084
+      "Avg_Score": 8.084,
+      "Missing_Kata": 0,
+      "Missing_Score": 0,
+      "Missing_Both": 0
     },
     {
       "Tournament": "2025 Paris",
@@ -7261,7 +7297,10 @@
       "Total_Performances": 114,
       "Unique_Kata": 24,
       "Unique_Karateka": 32,
-      "Avg_Score": 7.998
+      "Avg_Score": 7.998,
+      "Missing_Kata": 0,
+      "Missing_Score": 0,
+      "Missing_Both": 0
     },
     {
       "Tournament": "2025 Paris",
@@ -7269,7 +7308,10 @@
       "Total_Performances": 114,
       "Unique_Kata": 20,
       "Unique_Karateka": 32,
-      "Avg_Score": 8.137
+      "Avg_Score": 8.137,
+      "Missing_Kata": 0,
+      "Missing_Score": 1,
+      "Missing_Both": 0
     },
     {
       "Tournament": "2025 Rabat",
@@ -7277,7 +7319,10 @@
       "Total_Performances": 96,
       "Unique_Kata": 20,
       "Unique_Karateka": 29,
-      "Avg_Score": 7.95
+      "Avg_Score": 7.95,
+      "Missing_Kata": 0,
+      "Missing_Score": 0,
+      "Missing_Both": 0
     },
     {
       "Tournament": "2025 Rabat",
@@ -7285,7 +7330,10 @@
       "Total_Performances": 114,
       "Unique_Kata": 23,
       "Unique_Karateka": 32,
-      "Avg_Score": 8.122
+      "Avg_Score": 8.122,
+      "Missing_Kata": 0,
+      "Missing_Score": 0,
+      "Missing_Both": 0
     },
     {
       "Tournament": "2025 Worlds",
@@ -7293,7 +7341,10 @@
       "Total_Performances": 124,
       "Unique_Kata": 21,
       "Unique_Karateka": 31,
-      "Avg_Score": 7.867
+      "Avg_Score": 7.867,
+      "Missing_Kata": 0,
+      "Missing_Score": 1,
+      "Missing_Both": 0
     },
     {
       "Tournament": "2025 Worlds",
@@ -7301,7 +7352,10 @@
       "Total_Performances": 124,
       "Unique_Kata": 23,
       "Unique_Karateka": 31,
-      "Avg_Score": 7.942
+      "Avg_Score": 7.942,
+      "Missing_Kata": 0,
+      "Missing_Score": 0,
+      "Missing_Both": 0
     }
   ],
   "countries": {

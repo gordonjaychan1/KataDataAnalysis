@@ -9,6 +9,7 @@
 </head>
 <body>
 
+  <div class="sticky-top">
   <header>
     <div class="header-inner">
       <div class="header-left">
@@ -33,6 +34,7 @@
     <button class="tab-btn" data-tab="karateka-findings">Karateka Findings</button>
     <button class="tab-btn" data-tab="notes">Important Notes</button>
   </nav>
+  </div><!-- /.sticky-top -->
 
   <!-- ═══════════════════════════════════════════════════════════ WELCOME -->
   <section id="tab-welcome" class="tab-content active">
@@ -53,83 +55,82 @@
         </p>
       </div>
 
-      <div class="welcome-stats" id="welcome-stats">
-        <!-- filled by JS -->
-      </div>
+      <div class="welcome-stats" id="welcome-stats"><!-- filled by JS --></div>
 
-      <div class="welcome-section">
-        <h3>How to Use This Site</h3>
-        <div class="how-to-grid">
-          <div class="how-to-card">
-            <div class="how-to-icon">⇄</div>
-            <div>
-              <strong>Male / Female toggle</strong>
-              <p>The toggle in the top-right corner switches every page — all tables, all charts, all stats — between the male and female kata events. The two categories are completely separate competitions with different athlete pools.</p>
+      <div class="welcome-body">
+        <div class="welcome-section">
+          <h3>How to Use This Site</h3>
+          <div class="how-to-grid">
+            <div class="how-to-card">
+              <div class="how-to-icon">⇄</div>
+              <div>
+                <strong>Male / Female toggle</strong>
+                <p>The toggle in the top-right corner switches every page — all tables, all charts, all stats — between the male and female kata events.</p>
+              </div>
             </div>
-          </div>
-          <div class="how-to-card">
-            <div class="how-to-icon">表</div>
-            <div>
-              <strong>Kata tab</strong>
-              <p>A full stats table for every kata performed this season. Click any column header to sort. Click any row — or type a kata name in the search bar — to open a detail card with scores, win rate, and top athletes for that kata.</p>
+            <div class="how-to-card">
+              <div class="how-to-icon">表</div>
+              <div>
+                <strong>Kata tab</strong>
+                <p>Full stats for every kata performed this season. Click any column header to sort. Type in the search bar to filter rows, then click a row to open its detail card.</p>
+              </div>
             </div>
-          </div>
-          <div class="how-to-card">
-            <div class="how-to-icon">人</div>
-            <div>
-              <strong>Karateka tab</strong>
-              <p>Same idea, but for individual athletes. Search by name or click a row to see their full stat card: country, average score, win rate, kata repertoire, and which tournaments they attended.</p>
+            <div class="how-to-card">
+              <div class="how-to-icon">人</div>
+              <div>
+                <strong>Karateka tab</strong>
+                <p>Same idea, but for individual athletes. Search or click to see country, average score, win rate, kata repertoire, and tournaments attended.</p>
+              </div>
             </div>
-          </div>
-          <div class="how-to-card">
-            <div class="how-to-icon">🏆</div>
-            <div>
-              <strong>Tournaments tab</strong>
-              <p>A summary of each tournament: total performances, number of athletes, number of unique kata performed, and average score. Sortable by any column.</p>
+            <div class="how-to-card">
+              <div class="how-to-icon">🏆</div>
+              <div>
+                <strong>Tournaments tab</strong>
+                <p>One row per tournament. Click any row for date, location, and missing-data breakdown. Sortable by any column.</p>
+              </div>
             </div>
-          </div>
-          <div class="how-to-card">
-            <div class="how-to-icon">📊</div>
-            <div>
-              <strong>Kata Findings</strong>
-              <p>Charts and data insights about kata: which are most performed, which score highest, which win most often, and whether rarer kata tend to score better than common ones.</p>
+            <div class="how-to-card">
+              <div class="how-to-icon">📊</div>
+              <div>
+                <strong>Kata Findings</strong>
+                <p>Charts and tables: popularity, average score, win rate, tier breakdown, score vs. athlete baseline, and score variability.</p>
+              </div>
             </div>
-          </div>
-          <div class="how-to-card">
-            <div class="how-to-icon">📈</div>
-            <div>
-              <strong>Karateka Findings</strong>
-              <p>Charts comparing individual athletes by average score and win rate, plus a breakdown of which countries sent the most athletes this season.</p>
+            <div class="how-to-card">
+              <div class="how-to-icon">📈</div>
+              <div>
+                <strong>Karateka Findings</strong>
+                <p>Charts comparing athletes by average score and win rate, plus a breakdown of which countries sent the most competitors.</p>
+              </div>
             </div>
-          </div>
-          <div class="how-to-card">
-            <div class="how-to-icon">📋</div>
-            <div>
-              <strong>Important Notes</strong>
-              <p>Details on data collection, missing data, the kata tier classification system, how WKF scoring works, and how to interpret win rate. Read this before drawing strong conclusions from the numbers.</p>
+            <div class="how-to-card">
+              <div class="how-to-icon">📋</div>
+              <div>
+                <strong>Important Notes</strong>
+                <p>Data collection details, missing data tables, kata tier definitions, WKF scoring rules, and guidance on interpreting win rate.</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="welcome-section">
-        <h3>About the Data</h3>
-        <p>
-          Data was manually collected from official WKF scoring sheets and tournament results.
-          The dataset covers <strong>9 tournaments</strong>: the four 2024 Karate1 Premier League events
-          (Paris, Antalya, Cairo, Casablanca), the four 2025 K1 events (Cairo, Hangzhou, Paris, Rabat),
-          and the <strong>2025 World Karate Championships</strong> in Abu Dhabi.
-        </p>
-        <p>
-          A small number of entries are missing either the kata name or the score — see
-          <strong>Important Notes</strong> for the full breakdown. All analyses using scores or kata names
-          exclude those missing rows.
-        </p>
-        <p>
-          Kata are classified into three tiers — <strong>Advanced</strong>, <strong>Intermediate</strong>,
-          and <strong>Beginner</strong> — based on technical complexity. At this level of competition,
-          virtually all performed kata are Advanced tier.
-        </p>
+        <div class="welcome-section welcome-about">
+          <h3>About the Data</h3>
+          <p>
+            Data was manually collected from official WKF scoring sheets and tournament results.
+            The dataset covers <strong>9 tournaments</strong>: the four 2024 Karate1 Premier League events
+            (Paris, Antalya, Cairo, Casablanca), the four 2025 K1 events (Cairo, Hangzhou, Paris, Rabat),
+            and the <strong>2025 World Karate Championships</strong> in Abu Dhabi.
+          </p>
+          <p>
+            A small number of entries are missing either the kata name or the score — see
+            <strong>Important Notes</strong> for the full breakdown. All analyses exclude those rows.
+          </p>
+          <p>
+            Kata are classified into three tiers — <strong>Advanced</strong>, <strong>Intermediate</strong>,
+            and <strong>Beginner</strong> — based on technical complexity. At this level of competition,
+            virtually all performed kata are Advanced tier.
+          </p>
+        </div>
       </div>
 
     </div>
@@ -190,6 +191,7 @@
 
   <!-- ══════════════════════════════════════════════════ TOURNAMENTS TAB -->
   <section id="tab-tournaments" class="tab-content hidden">
+    <div id="tournaments-card" class="detail-card hidden"></div>
     <div class="table-wrapper">
       <table id="tournaments-table" class="data-table">
         <thead>
