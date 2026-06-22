@@ -56,14 +56,24 @@ missing_kata_only  = int((df["Kata"].isna()  & df["Avg Score"].notna()).sum())
 missing_score_only = int((df["Kata"].notna() & df["Avg Score"].isna()).sum())
 missing_both       = int((df["Kata"].isna()  & df["Avg Score"].isna()).sum())
 
+def gender_missing(g):
+    dg = df[df["Gender"] == g]
+    return {
+        "total":              int(dg.shape[0]),
+        "complete":           int((dg["Kata"].notna() & dg["Avg Score"].notna()).sum()),
+        "missing_kata_only":  int((dg["Kata"].isna()  & dg["Avg Score"].notna()).sum()),
+        "missing_score_only": int((dg["Kata"].notna() & dg["Avg Score"].isna()).sum()),
+        "missing_both":       int((dg["Kata"].isna()  & dg["Avg Score"].isna()).sum()),
+    }
+
 missing_data = {
     "total":              total_rows,
     "complete":           complete_rows,
     "missing_kata_only":  missing_kata_only,
     "missing_score_only": missing_score_only,
     "missing_both":       missing_both,
-    "male_total":   int(df[df["Gender"] == "Male"].shape[0]),
-    "female_total": int(df[df["Gender"] == "Female"].shape[0]),
+    "male":   gender_missing("Male"),
+    "female": gender_missing("Female"),
 }
 
 # ── Country map ───────────────────────────────────────────────────────────────

@@ -15,8 +15,20 @@
     "missing_kata_only": 59,
     "missing_score_only": 7,
     "missing_both": 2,
-    "male_total": 1006,
-    "female_total": 964
+    "male": {
+      "total": 1006,
+      "complete": 944,
+      "missing_kata_only": 57,
+      "missing_score_only": 3,
+      "missing_both": 2
+    },
+    "female": {
+      "total": 964,
+      "complete": 958,
+      "missing_kata_only": 2,
+      "missing_score_only": 4,
+      "missing_both": 0
+    }
   },
   "kata": {
     "male": [

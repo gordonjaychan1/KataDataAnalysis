@@ -25,15 +25,118 @@
   </header>
 
   <nav class="tab-bar">
-    <button class="tab-btn active" data-tab="kata">Kata</button>
+    <button class="tab-btn active" data-tab="welcome">Welcome</button>
+    <button class="tab-btn" data-tab="kata">Kata</button>
     <button class="tab-btn" data-tab="karateka">Karateka</button>
     <button class="tab-btn" data-tab="tournaments">Tournaments</button>
-    <button class="tab-btn" data-tab="findings">Findings</button>
+    <button class="tab-btn" data-tab="kata-findings">Kata Findings</button>
+    <button class="tab-btn" data-tab="karateka-findings">Karateka Findings</button>
     <button class="tab-btn" data-tab="notes">Important Notes</button>
   </nav>
 
+  <!-- ═══════════════════════════════════════════════════════════ WELCOME -->
+  <section id="tab-welcome" class="tab-content active">
+    <div class="welcome-layout">
+
+      <div class="welcome-hero">
+        <h2>Welcome</h2>
+        <p>
+          This site presents a statistical analysis of all kata performances recorded during the
+          <strong>2024–25 WKF (World Karate Federation) season</strong> — covering both the
+          Male and Female Kata categories across nine international tournaments.
+        </p>
+        <p>
+          In WKF kata competition, athletes perform a traditional kata (a choreographed sequence of
+          techniques) in head-to-head matches judged by a panel of five judges. This dataset captures
+          every individual performance: which kata was performed, the score received, and whether the
+          athlete won that match.
+        </p>
+      </div>
+
+      <div class="welcome-stats" id="welcome-stats">
+        <!-- filled by JS -->
+      </div>
+
+      <div class="welcome-section">
+        <h3>How to Use This Site</h3>
+        <div class="how-to-grid">
+          <div class="how-to-card">
+            <div class="how-to-icon">⇄</div>
+            <div>
+              <strong>Male / Female toggle</strong>
+              <p>The toggle in the top-right corner switches every page — all tables, all charts, all stats — between the male and female kata events. The two categories are completely separate competitions with different athlete pools.</p>
+            </div>
+          </div>
+          <div class="how-to-card">
+            <div class="how-to-icon">表</div>
+            <div>
+              <strong>Kata tab</strong>
+              <p>A full stats table for every kata performed this season. Click any column header to sort. Click any row — or type a kata name in the search bar — to open a detail card with scores, win rate, and top athletes for that kata.</p>
+            </div>
+          </div>
+          <div class="how-to-card">
+            <div class="how-to-icon">人</div>
+            <div>
+              <strong>Karateka tab</strong>
+              <p>Same idea, but for individual athletes. Search by name or click a row to see their full stat card: country, average score, win rate, kata repertoire, and which tournaments they attended.</p>
+            </div>
+          </div>
+          <div class="how-to-card">
+            <div class="how-to-icon">🏆</div>
+            <div>
+              <strong>Tournaments tab</strong>
+              <p>A summary of each tournament: total performances, number of athletes, number of unique kata performed, and average score. Sortable by any column.</p>
+            </div>
+          </div>
+          <div class="how-to-card">
+            <div class="how-to-icon">📊</div>
+            <div>
+              <strong>Kata Findings</strong>
+              <p>Charts and data insights about kata: which are most performed, which score highest, which win most often, and whether rarer kata tend to score better than common ones.</p>
+            </div>
+          </div>
+          <div class="how-to-card">
+            <div class="how-to-icon">📈</div>
+            <div>
+              <strong>Karateka Findings</strong>
+              <p>Charts comparing individual athletes by average score and win rate, plus a breakdown of which countries sent the most athletes this season.</p>
+            </div>
+          </div>
+          <div class="how-to-card">
+            <div class="how-to-icon">📋</div>
+            <div>
+              <strong>Important Notes</strong>
+              <p>Details on data collection, missing data, the kata tier classification system, how WKF scoring works, and how to interpret win rate. Read this before drawing strong conclusions from the numbers.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="welcome-section">
+        <h3>About the Data</h3>
+        <p>
+          Data was manually collected from official WKF scoring sheets and tournament results.
+          The dataset covers <strong>9 tournaments</strong>: the four 2024 Karate1 Premier League events
+          (Paris, Antalya, Cairo, Casablanca), the four 2025 K1 events (Cairo, Hangzhou, Paris, Rabat),
+          and the <strong>2025 World Karate Championships</strong> in Abu Dhabi.
+        </p>
+        <p>
+          A small number of entries are missing either the kata name or the score — see
+          <strong>Important Notes</strong> for the full breakdown. All analyses using scores or kata names
+          exclude those missing rows.
+        </p>
+        <p>
+          Kata are classified into three tiers — <strong>Advanced</strong>, <strong>Intermediate</strong>,
+          and <strong>Beginner</strong> — based on technical complexity. At this level of competition,
+          virtually all performed kata are Advanced tier.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
   <!-- ═══════════════════════════════════════════════════════════ KATA TAB -->
-  <section id="tab-kata" class="tab-content active">
+  <section id="tab-kata" class="tab-content hidden">
     <div class="controls-bar">
       <input type="text" id="kata-search" class="search-input" placeholder="Search kata…" />
     </div>
@@ -103,36 +206,35 @@
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════════════ FINDINGS TAB -->
-  <section id="tab-findings" class="tab-content hidden">
-
+  <!-- ══════════════════════════════════════════════════ KATA FINDINGS TAB -->
+  <section id="tab-kata-findings" class="tab-content hidden">
     <div class="findings-grid">
 
-      <div class="finding-block full-width">
+      <div class="finding-block">
         <h2 class="finding-title">Kata Popularity</h2>
         <p class="finding-desc" id="insight-popularity"></p>
         <div class="chart-wrap tall"><canvas id="chart-popularity"></canvas></div>
       </div>
 
-      <div class="finding-block full-width">
+      <div class="finding-block">
         <h2 class="finding-title">Kata Average Score</h2>
         <p class="finding-desc" id="insight-avgscore"></p>
         <div class="chart-wrap tall"><canvas id="chart-avgscore"></canvas></div>
       </div>
 
-      <div class="finding-block full-width">
+      <div class="finding-block">
         <h2 class="finding-title">Kata Win Rate</h2>
         <p class="finding-desc" id="insight-winrate"></p>
         <div class="chart-wrap tall"><canvas id="chart-winrate"></canvas></div>
       </div>
 
-      <div class="finding-block full-width">
+      <div class="finding-block">
         <h2 class="finding-title">Performances vs. Average Score</h2>
         <p class="finding-desc" id="insight-scatter"></p>
-        <div class="chart-wrap"><canvas id="chart-scatter"></canvas></div>
+        <div class="chart-wrap chart-wrap--square"><canvas id="chart-scatter"></canvas></div>
       </div>
 
-      <div class="finding-block full-width">
+      <div class="finding-block">
         <h2 class="finding-title">Kata Tier Breakdown</h2>
         <p class="finding-desc" id="insight-tier"></p>
         <div class="tier-charts">
@@ -141,25 +243,32 @@
         </div>
       </div>
 
-      <div class="finding-block full-width">
+      <div class="finding-block">
         <h2 class="finding-title">Average Score by Tournament</h2>
         <p class="finding-desc" id="insight-tournament"></p>
         <div class="chart-wrap"><canvas id="chart-tournament"></canvas></div>
       </div>
 
-      <div class="finding-block full-width">
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════ KARATEKA FINDINGS TAB -->
+  <section id="tab-karateka-findings" class="tab-content hidden">
+    <div class="findings-grid">
+
+      <div class="finding-block">
         <h2 class="finding-title">Top Karateka by Average Score</h2>
         <p class="finding-desc" id="insight-k-avgscore"></p>
         <div class="chart-wrap medium"><canvas id="chart-k-avgscore"></canvas></div>
       </div>
 
-      <div class="finding-block full-width">
+      <div class="finding-block">
         <h2 class="finding-title">Top Karateka by Win Rate</h2>
         <p class="finding-desc" id="insight-k-winrate"></p>
         <div class="chart-wrap medium"><canvas id="chart-k-winrate"></canvas></div>
       </div>
 
-      <div class="finding-block full-width">
+      <div class="finding-block">
         <h2 class="finding-title">Athletes by Country</h2>
         <p class="finding-desc" id="insight-country"></p>
         <div class="chart-wrap medium"><canvas id="chart-country"></canvas></div>
@@ -173,60 +282,63 @@
     <div class="notes-content">
 
       <div class="note-section">
-        <h2>Project Overview</h2>
-        <p>This analysis covers all kata performances recorded across the 2024–25 WKF Karate1 Premier League season and the 2025 World Karate Championships — <strong>9 tournaments total</strong>. The four K1 Premier League events in 2024 were held in Paris, Antalya, Cairo, and Casablanca. The four K1 events in 2025 were held in Cairo, Hangzhou, Paris, and Rabat. The 2025 World Championships were held in Abu Dhabi.</p>
-        <p>Both the <strong>Male Kata</strong> and <strong>Female Kata</strong> categories are included. Each row in the dataset represents a single kata performance in a single head-to-head match, recording the kata performed, the average score received, whether the athlete won the match, and which tournament it occurred in.</p>
-      </div>
-
-      <div class="note-section">
         <h2>Data Collection</h2>
-        <p>Data was manually collected from official WKF live scoring sheets and publicly available tournament results. Due to the nature of manual collection, some entries are missing kata names (where the kata performed could not be confirmed from available sources) or scores (where scoring data was incomplete or unavailable).</p>
-        <p>Only the <strong>average score</strong> (Avg Score) is retained in this dataset — the raw total score has been dropped. All analyses involving scores use the average score only.</p>
+        <p>Data was manually collected from official WKF live scoring sheets and publicly available tournament results. Only the <strong>average score</strong> (Avg Score) is retained — the raw total score has been dropped. All analyses involving scores use the average score only.</p>
       </div>
 
       <div class="note-section">
         <h2>Missing Data</h2>
-        <p>The table below summarizes missing data across the full dataset (male and female combined). Analyses involving kata names or scores use only rows where that data is present.</p>
-        <div class="table-wrapper" style="max-width:580px">
-          <table class="data-table" id="missing-table">
-            <thead>
-              <tr><th>Metric</th><th class="num">Count</th><th class="num">Percent</th></tr>
-            </thead>
-            <tbody id="missing-tbody"></tbody>
-          </table>
+        <p>The tables below summarize missing data for each gender. Analyses involving kata names or scores only use rows where that data is present.</p>
+        <div class="missing-tables">
+          <div>
+            <h3>Male</h3>
+            <div class="table-wrapper" style="max-width:540px">
+              <table class="data-table" id="missing-table-male">
+                <thead><tr><th>Metric</th><th class="num">Count</th><th class="num">Percent</th></tr></thead>
+                <tbody id="missing-tbody-male"></tbody>
+              </table>
+            </div>
+          </div>
+          <div>
+            <h3>Female</h3>
+            <div class="table-wrapper" style="max-width:540px">
+              <table class="data-table" id="missing-table-female">
+                <thead><tr><th>Metric</th><th class="num">Count</th><th class="num">Percent</th></tr></thead>
+                <tbody id="missing-tbody-female"></tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
 
       <div class="note-section">
         <h2>Kata Tier System</h2>
-        <p>Kata in this dataset are classified into three tiers based on their technical complexity and the competitive level at which they are typically introduced:</p>
+        <p>Kata are classified into three tiers based on technical complexity:</p>
         <ul>
-          <li><strong>Advanced</strong> — High-difficulty kata featuring complex techniques, unusual stances, or rare traditional forms. These are almost exclusively performed at elite international level. Examples: Suparinpei, Unsu, Ohan, Papuren, Gojushiho Sho.</li>
-          <li><strong>Intermediate</strong> — Mid-level kata that form the broader competitive repertoire. Common at national and continental level, but also seen occasionally at WKF events. Examples: Sochin, Shisochin, Seienchin, Kanku Dai.</li>
+          <li><strong>Advanced</strong> — High-difficulty kata featuring complex techniques, unusual stances, or rare traditional forms. Almost exclusively performed at elite international level. Examples: Suparinpei, Unsu, Ohan, Papuren, Gojushiho Sho.</li>
+          <li><strong>Intermediate</strong> — Mid-level kata common at national and continental level, occasionally seen at WKF events. Examples: Sochin, Shisochin, Seienchin, Kanku Dai.</li>
           <li><strong>Beginner</strong> — Lower-difficulty kata rarely seen at this level of competition.</li>
         </ul>
-        <p>Tier classifications reflect the WKF Approved Kata List difficulty rankings and are applied consistently across both genders.</p>
+        <p>At the K1 Premier League and World Championship level, virtually all performances are Advanced tier kata.</p>
       </div>
 
       <div class="note-section">
         <h2>WKF Scoring System</h2>
-        <p>In WKF kata competition, <strong>five judges</strong> each assign a score from 0 to 10, evaluating technical performance and athletic performance. The highest and lowest scores from the five judges are discarded, and the remaining three are averaged to produce the final score. This dataset records only the <strong>average score</strong> (the result after discarding the high and low).</p>
-        <p>A score above <strong>8.0</strong> is generally considered competitive at the K1 Premier League level. The very top athletes regularly score in the 8.4–9.3 range in finals.</p>
+        <p>Five judges each assign a score from 0–10. The highest and lowest scores are discarded; the remaining three are averaged to produce the final score. This dataset records only this <strong>average score</strong>. A score above <strong>8.0</strong> is generally considered competitive at the K1 Premier League level; top finals performances regularly reach 8.4–9.3.</p>
       </div>
 
       <div class="note-section">
         <h2>The "Won?" Field</h2>
-        <p>In WKF format, two athletes compete simultaneously in a head-to-head match. Both perform their kata, and the panel of judges indicates who won the match by raising a flag. The <strong>Won?</strong> field records whether the athlete won this particular head-to-head match. A value of <em>True</em> means they won; <em>False</em> means they lost.</p>
-        <p><strong>Win rate</strong> across multiple performances indicates how often a given kata choice — or athlete — results in a victory. However, win rate is influenced by many factors beyond kata selection: opponent strength, execution quality, judging tendencies, and competition format.</p>
+        <p>Two athletes compete simultaneously in a head-to-head match. Both perform their kata, and judges determine the winner by raising a flag. <strong>Won?</strong> records whether the athlete won that match. Win rate across multiple performances indicates how often a given kata choice — or athlete — leads to victory, though it is influenced by many factors beyond the kata itself.</p>
       </div>
 
       <div class="note-section">
         <h2>Notes on Interpretation</h2>
         <ul>
-          <li>Kata with very few performances (fewer than ~10) may have skewed statistics due to small sample size. Be cautious interpreting averages or win rates for rarely-performed kata.</li>
-          <li>Average score reflects both the difficulty ceiling of the kata and the consistency of athletes who choose to perform it. A kata with a high average score is not necessarily "better" — it may simply be performed by a smaller pool of elite specialists.</li>
-          <li>The male and female events are entirely separate competitions with separate athlete pools. Scores and rankings should not be compared across genders.</li>
-          <li>Some athletes competed in only one or two tournaments; their statistics may not be representative of their full-season performance.</li>
+          <li>Kata with fewer than ~10 performances may have skewed statistics due to small sample size.</li>
+          <li>A kata with a high average score may simply be performed by a smaller pool of elite specialists — not necessarily "better" than other kata.</li>
+          <li>Male and female events are entirely separate. Do not compare scores across genders.</li>
+          <li>Athletes who competed in only one or two tournaments may have unrepresentative stats.</li>
         </ul>
       </div>
 
