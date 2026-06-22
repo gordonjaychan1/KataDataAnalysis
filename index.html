@@ -56,16 +56,10 @@
         </p>
       </div>
 
-      <!-- Replace VIDEO_ID with the YouTube video ID from the URL (e.g. dQw4w9WgXcQ) -->
-      <div style="border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);position:relative;padding-bottom:56.25%;height:0;">
-        <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="Kata performance" frameborder="0" allowfullscreen
-          style="position:absolute;top:0;left:0;width:100%;height:100%"></iframe>
-      </div>
-
       <div class="welcome-stats" id="welcome-stats"><!-- filled by JS --></div>
 
       <div class="welcome-body">
-        <div class="welcome-section">
+        <div class="welcome-section" style="padding-right:15%">
           <h3>How to Use This Site</h3>
           <div class="how-to-grid">
             <div class="how-to-card">
@@ -147,6 +141,21 @@
         </div>
       </div>
 
+      <!-- YouTube thumbnail at bottom of welcome -->
+      <div style="display:flex;justify-content:center">
+        <a href="https://www.youtube.com/watch?v=iiiznDpoapQ" target="_blank" rel="noopener"
+           style="display:block;width:50%;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);position:relative">
+          <img src="https://img.youtube.com/vi/iiiznDpoapQ/hqdefault.jpg"
+               alt="Kata performance video"
+               style="width:100%;display:block">
+          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+                      background:rgba(0,0,0,0.65);border-radius:50%;width:52px;height:52px;
+                      display:flex;align-items:center;justify-content:center">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="#fff"><polygon points="9,7 19,12 9,17"/></svg>
+          </div>
+        </a>
+      </div>
+
     </div>
   </section>
 
@@ -156,7 +165,7 @@
       <input type="text" id="kata-search" class="search-input" placeholder="Search kata…" />
     </div>
     <div id="kata-card" class="detail-card hidden"></div>
-    <div class="table-wrapper">
+    <div class="table-wrapper table-wrapper--sticky">
       <table id="kata-table" class="data-table">
         <thead>
           <tr>
@@ -184,7 +193,7 @@
       <input type="text" id="karateka-search" class="search-input" placeholder="Search karateka…" />
     </div>
     <div id="karateka-card" class="detail-card hidden"></div>
-    <div class="table-wrapper">
+    <div class="table-wrapper table-wrapper--sticky">
       <table id="karateka-table" class="data-table">
         <thead>
           <tr>

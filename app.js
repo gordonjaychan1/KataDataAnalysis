@@ -234,6 +234,17 @@ function showKataCard(r) {
     ? `<span style="color:${diffColor};font-weight:700">${diffVal >= 0 ? "+" : ""}${diffVal.toFixed(3)}</span>`
     : "—";
   const rankStr   = rank > 0 ? ` &nbsp;·&nbsp; ${rank}/${total} among all kata` : "";
+  /* find karateka who got the min and max score for this kata */
+  let minK = null, maxK = null, minS = Infinity, maxS = -Infinity;
+  for (const k of (DATA.karateka[gender] || [])) {
+    for (const p of (k.Performances_Detail || [])) {
+      if (p.Kata === r.Kata && p.Avg_Score != null) {
+        if (p.Avg_Score < minS) { minS = p.Avg_Score; minK = k.Karateka; }
+        if (p.Avg_Score > maxS) { maxS = p.Avg_Score; maxK = k.Karateka; }
+      }
+    }
+  }
+
   const athletes  = (r.All_Karateka || []);
   const athleteRows = athletes.map(k => `
     <tr>
@@ -250,16 +261,16 @@ function showKataCard(r) {
       <div class="stat-box"><div class="stat-label">Athletes</div><div class="stat-value">${r.Unique_Karateka}</div></div>
       <div class="stat-box"><div class="stat-label">Avg Score</div><div class="stat-value">${fmt3(r.Mean_Score)}</div></div>
       <div class="stat-box"><div class="stat-label">Median</div><div class="stat-value">${fmt2(r.Median_Score)}</div></div>
-      <div class="stat-box"><div class="stat-label">Min</div><div class="stat-value">${fmt2(r.Min_Score)}</div></div>
-      <div class="stat-box"><div class="stat-label">Max</div><div class="stat-value">${fmt2(r.Max_Score)}</div></div>
+      <div class="stat-box"><div class="stat-label">Min</div><div class="stat-value">${fmt2(r.Min_Score)}</div>${minK ? `<div style="font-size:11px;color:var(--text-muted);margin-top:3px">${esc(minK)}</div>` : ""}</div>
+      <div class="stat-box"><div class="stat-label">Max</div><div class="stat-value">${fmt2(r.Max_Score)}</div>${maxK ? `<div style="font-size:11px;color:var(--text-muted);margin-top:3px">${esc(maxK)}</div>` : ""}</div>
       <div class="stat-box"><div class="stat-label">Std Dev</div><div class="stat-value">${fmt3(r.Std_Dev)}</div></div>
       <div class="stat-box"><div class="stat-label">Win Rate</div><div class="stat-value">${fmtPct(r.Win_Rate)}</div></div>
     </div>
     <div class="card-section-title">
       <a href="#" onclick="switchToTab('kata-findings');setTimeout(()=>document.getElementById('finding-kk-avg')?.scrollIntoView({behavior:'smooth'}),60);return false;"
-         style="color:var(--red);text-decoration:underline;cursor:pointer;font-size:11px;font-weight:700;letter-spacing:0.6px;text-transform:uppercase">vs. Athlete's Personal Average ↗</a>
+         style="color:var(--red);text-decoration:underline;cursor:pointer;font-size:11px;font-weight:700;letter-spacing:0.6px;text-transform:uppercase">Score Differential ↗</a>
     </div>
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px">${diffNum}${rankStr}</p>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px">${diffNum} <span style="color:var(--text-muted);font-weight:400">Vs. Athlete's Personal Average Score</span>${rankStr}</p>
     ${athleteRows ? `
     <div class="card-section-title">All Athletes</div>
     <div class="card-table-wrap">
@@ -386,7 +397,7 @@ function showTournamentCard(r) {
       <span class="card-title">${esc(r.Tournament)}</span>
       ${meta.date ? `<span class="card-subtitle">${esc(meta.date)}</span>` : ""}
     </div>
-    ${meta.city ? `<p style="font-size:13px;color:var(--text-muted);margin-bottom:14px">${meta.flag || ""} ${esc(meta.city)}, ${esc(meta.country)}</p>` : ""}
+    ${meta.city ? `<p style="font-size:13px;color:var(--text-muted);margin-bottom:14px">${flagOf(meta.country)} ${esc(meta.city)}, ${esc(meta.country)}</p>` : ""}
     <div class="card-stats">
       <div class="stat-box"><div class="stat-label">Performances</div><div class="stat-value">${r.Total_Performances}</div></div>
       <div class="stat-box"><div class="stat-label">Athletes</div><div class="stat-value">${r.Unique_Karateka}</div></div>
@@ -608,7 +619,7 @@ function renderTierCountsTable() {
 function renderPerformedKata() {
   const ts = DATA.tier_summary[gender];
   document.getElementById("insight-performed").textContent =
-    `Lists which Advanced and Intermediate kata were and were not performed during the ${gender} ${gender === "male" ? "Male" : "Female"} competition this season.`;
+    `Lists which Advanced and Intermediate kata were and were not performed during the ${gender === "male" ? "Male" : "Female"} competition this season.`;
   const makePills = arr => arr.length
     ? arr.map(k => `<span class="pill">${esc(k)}</span>`).join("")
     : `<span style="color:var(--text-muted);font-size:12px">None</span>`;
@@ -666,7 +677,7 @@ function renderKataVsKaratekaAvg() {
         tooltip: { callbacks: { label: ctx => ` ${ctx.raw >= 0 ? "+" : ""}${ctx.raw.toFixed(3)}` } },
       },
       scales: {
-        x: { grid: { color: ctx => ctx.tick.value === 0 ? "rgba(0,0,0,0.35)" : GRID, lineWidth: ctx => ctx.tick.value === 0 ? 1.5 : 1 }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, title: { display: true, text: "Score Diff vs Athlete Avg", font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
+        x: { grid: { color: ctx => ctx.tick.value === 0 ? "rgba(0,0,0,0.75)" : GRID, lineWidth: ctx => ctx.tick.value === 0 ? 1.5 : 1 }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, title: { display: true, text: "Score Diff vs Athlete Avg", font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
         y: { grid: { display: false }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#1c1c18" } },
       },
     },
@@ -718,7 +729,7 @@ function renderKataStdDev() {
       label: "Trend",
       data: [{ x: xMin, y: slope * xMin + intercept }, { x: xMax, y: slope * xMax + intercept }],
       type: "line",
-      borderColor: "rgba(154,100,50,0.65)",
+      borderColor: RED,
       borderWidth: 1.5,
       borderDash: [5, 4],
       pointRadius: 0,
@@ -753,6 +764,7 @@ function renderKataStdDev() {
     plugins: [kataLabelPlugin],
     options: {
       responsive: true, maintainAspectRatio: false,
+      layout: { padding: { right: 130 } },
       plugins: {
         legend: { position: "bottom", labels: {
           filter: item => item.text !== "Trend",

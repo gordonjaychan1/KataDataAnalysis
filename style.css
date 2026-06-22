@@ -119,6 +119,8 @@ header {
 
 /* ── Tables ───────────────────────────────────────────────────────────────── */
 .table-wrapper { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+.table-wrapper--sticky { max-height: 72vh; overflow-y: auto; }
+.table-wrapper--sticky .data-table thead th { position: sticky; top: 0; z-index: 5; background: var(--bg); box-shadow: 0 1px 0 var(--border); }
 .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .data-table thead th {
   padding: 10px 14px; text-align: left; font-weight: 600; font-size: 11px;
