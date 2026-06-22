@@ -54,6 +54,13 @@ fetch("data.json")
     document.body.innerHTML = "<p style='padding:40px;color:#9a1c1c'>Could not load data.json.</p>";
   });
 
+function addKataDiffs() {
+  for (const g of ["male", "female"]) {
+    const diffMap = Object.fromEntries((DATA.kata_vs_karateka_avg[g] || []).map(d => [d.Kata, d.Diff]));
+    (DATA.kata[g] || []).forEach(k => { k.Diff = diffMap[k.Kata] ?? null; });
+  }
+}
+
 function init() {
   setupGlobalToggle();
   setupTabs();
@@ -61,6 +68,7 @@ function init() {
   setupKaratekaTab();
   setupSortableTable("tournaments-table", "tournaments", renderTournamentsTable);
   buildMissingTables();
+  addKataDiffs();
   renderAll();
 }
 
@@ -205,6 +213,7 @@ function renderKataTable() {
       <td class="num">${fmt2(r.Max_Score)}</td>
       <td class="num">${fmt3(r.Std_Dev)}</td>
       <td class="num">${fmtPct(r.Win_Rate)}</td>
+      <td class="num" style="${r.Diff != null ? (r.Diff >= 0 ? 'color:#3a6e3a' : 'color:var(--red)') : ''}">${r.Diff != null ? (r.Diff >= 0 ? '+' : '') + r.Diff.toFixed(3) : '—'}</td>
     </tr>`).join("");
   document.querySelectorAll("#kata-tbody tr").forEach(tr => {
     tr.addEventListener("click", () => {
@@ -215,12 +224,17 @@ function renderKataTable() {
 }
 
 function showKataCard(r) {
-  const diffEntry = (DATA.kata_vs_karateka_avg[gender] || []).find(d => d.Kata === r.Kata);
+  const allDiffs  = [...(DATA.kata_vs_karateka_avg[gender] || [])].sort((a, b) => b.Diff - a.Diff);
+  const diffEntry = allDiffs.find(d => d.Kata === r.Kata);
   const diffVal   = diffEntry ? diffEntry.Diff : null;
-  const diffStr   = diffVal != null
-    ? `<span style="color:${diffVal >= 0 ? "#3a6e3a" : "var(--red)"}; font-weight:700">${diffVal >= 0 ? "+" : ""}${diffVal.toFixed(3)}</span> vs athlete's personal avg`
+  const rank      = allDiffs.findIndex(d => d.Kata === r.Kata) + 1;
+  const total     = allDiffs.length;
+  const diffColor = diffVal != null ? (diffVal >= 0 ? "#3a6e3a" : "var(--red)") : "inherit";
+  const diffNum   = diffVal != null
+    ? `<span style="color:${diffColor};font-weight:700">${diffVal >= 0 ? "+" : ""}${diffVal.toFixed(3)}</span>`
     : "—";
-  const athletes = (r.All_Karateka || []);
+  const rankStr   = rank > 0 ? ` &nbsp;·&nbsp; ${rank}/${total} among all kata` : "";
+  const athletes  = (r.All_Karateka || []);
   const athleteRows = athletes.map(k => `
     <tr>
       <td class="name-cell">${esc(k.Karateka)}</td>
@@ -241,8 +255,11 @@ function showKataCard(r) {
       <div class="stat-box"><div class="stat-label">Std Dev</div><div class="stat-value">${fmt3(r.Std_Dev)}</div></div>
       <div class="stat-box"><div class="stat-label">Win Rate</div><div class="stat-value">${fmtPct(r.Win_Rate)}</div></div>
     </div>
-    <div class="card-section-title">Score Differential</div>
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px">${diffStr}</p>
+    <div class="card-section-title">
+      <a href="#" onclick="switchToTab('kata-findings');setTimeout(()=>document.getElementById('finding-kk-avg')?.scrollIntoView({behavior:'smooth'}),60);return false;"
+         style="color:var(--red);text-decoration:underline;cursor:pointer;font-size:11px;font-weight:700;letter-spacing:0.6px;text-transform:uppercase">vs. Athlete's Personal Average ↗</a>
+    </div>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px">${diffNum}${rankStr}</p>
     ${athleteRows ? `
     <div class="card-section-title">All Athletes</div>
     <div class="card-table-wrap">
@@ -299,7 +316,7 @@ function showKaratekaCard(r) {
       <td>${esc(p.Tournament || "—")}</td>
       <td>${esc(roundLabel[p.Round] || p.Round || "—")}</td>
       <td class="name-cell">${esc(p.Kata || "—")}</td>
-      <td class="num">${p.Avg_Score != null ? p.Avg_Score.toFixed(3) : "—"}</td>
+      <td class="num">${p.Avg_Score != null ? p.Avg_Score.toFixed(2) : "—"}</td>
       <td class="num" style="color:${p.Won ? "#3a6e3a" : "var(--red)"}; font-weight:600">${p.Won == null ? "—" : p.Won ? "Win" : "Loss"}</td>
     </tr>`).join("");
   const repertoire = (r.Kata_Repertoire || []).map(k => {
@@ -315,9 +332,8 @@ function showKaratekaCard(r) {
       <div class="stat-box"><div class="stat-label">Performances</div><div class="stat-value">${r.Performances}</div></div>
       <div class="stat-box"><div class="stat-label">Tournaments</div><div class="stat-value">${r.Tournaments_Attended}</div></div>
       <div class="stat-box"><div class="stat-label">Avg Score</div><div class="stat-value">${fmt2(r.Mean_Score)}</div></div>
-      <div class="stat-box"><div class="stat-label">Best Score</div><div class="stat-value">${fmt2(r.Max_Score)}</div></div>
+      <div class="stat-box"><div class="stat-label">Best Score</div><div class="stat-value">${fmt2(r.Max_Score)}</div>${bestPerf ? `<div style="font-size:11px;color:var(--text-muted);margin-top:3px">${esc(bestPerf.Kata)}</div>` : ""}</div>
       <div class="stat-box"><div class="stat-label">Win Rate</div><div class="stat-value">${fmtPct(r.Win_Rate)}</div></div>
-      ${bestPerf ? `<div class="stat-box"><div class="stat-label">Best Kata</div><div class="stat-value" style="font-size:13px">${esc(bestPerf.Kata)}</div></div>` : ""}
     </div>
     ${repertoire ? `<div class="card-section-title">Kata Repertoire</div><div class="pill-list" style="margin-bottom:14px">${repertoire}</div>` : ""}
     ${perfRows ? `
@@ -650,7 +666,7 @@ function renderKataVsKaratekaAvg() {
         tooltip: { callbacks: { label: ctx => ` ${ctx.raw >= 0 ? "+" : ""}${ctx.raw.toFixed(3)}` } },
       },
       scales: {
-        x: { grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, title: { display: true, text: "Score Diff vs Athlete Avg", font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
+        x: { grid: { color: ctx => ctx.tick.value === 0 ? "rgba(0,0,0,0.35)" : GRID, lineWidth: ctx => ctx.tick.value === 0 ? 1.5 : 1 }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, title: { display: true, text: "Score Diff vs Athlete Avg", font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
         y: { grid: { display: false }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#1c1c18" } },
       },
     },
@@ -685,14 +701,64 @@ function renderKataStdDev() {
       borderWidth: 1.5, pointRadius: 6, pointHoverRadius: 8,
     };
   }).filter(Boolean);
+
+  /* line of best fit */
+  const allPts = tierDatasets.flatMap(ds => ds.data);
+  const n = allPts.length;
+  if (n >= 2) {
+    const sumX  = allPts.reduce((s, p) => s + p.x, 0);
+    const sumY  = allPts.reduce((s, p) => s + p.y, 0);
+    const sumXY = allPts.reduce((s, p) => s + p.x * p.y, 0);
+    const sumX2 = allPts.reduce((s, p) => s + p.x * p.x, 0);
+    const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+    const intercept = (sumY - slope * sumX) / n;
+    const xMin = Math.min(...allPts.map(p => p.x));
+    const xMax = Math.max(...allPts.map(p => p.x));
+    tierDatasets.push({
+      label: "Trend",
+      data: [{ x: xMin, y: slope * xMin + intercept }, { x: xMax, y: slope * xMax + intercept }],
+      type: "line",
+      borderColor: "rgba(154,100,50,0.65)",
+      borderWidth: 1.5,
+      borderDash: [5, 4],
+      pointRadius: 0,
+      fill: false,
+      tension: 0,
+    });
+  }
+
+  const kataLabelPlugin = {
+    id: "kataLabels",
+    afterDatasetsDraw(chart) {
+      const ctx2 = chart.ctx;
+      ctx2.save();
+      ctx2.font = `9px ${CHART_FONT}`;
+      ctx2.fillStyle = "#7a7060";
+      ctx2.textBaseline = "middle";
+      chart.data.datasets.forEach((dataset, di) => {
+        if (dataset.type === "line") return;
+        const meta = chart.getDatasetMeta(di);
+        (dataset.data || []).forEach((point, i) => {
+          const el = meta.data[i];
+          if (el && point.kata) ctx2.fillText(point.kata, el.x + 7, el.y);
+        });
+      });
+      ctx2.restore();
+    },
+  };
+
   charts["chart-stddev"] = new Chart(ctx, {
     type: "scatter",
     data: { datasets: tierDatasets },
+    plugins: [kataLabelPlugin],
     options: {
       responsive: true, maintainAspectRatio: false,
       plugins: {
-        legend: { position: "bottom", labels: { font: { family: CHART_FONT, size: 11 }, color: "#1c1c18", boxWidth: 12 } },
-        tooltip: { callbacks: { label: ctx => ` ${ctx.raw.kata}: ${ctx.raw.x} performers, σ = ${ctx.raw.y.toFixed(3)}` } },
+        legend: { position: "bottom", labels: {
+          filter: item => item.text !== "Trend",
+          font: { family: CHART_FONT, size: 11 }, color: "#1c1c18", boxWidth: 12,
+        } },
+        tooltip: { callbacks: { label: ctx => ctx.raw.kata ? ` ${ctx.raw.kata}: ${ctx.raw.x} performers, σ = ${ctx.raw.y.toFixed(3)}` : "" } },
       },
       scales: {
         x: { title: { display: true, text: "Unique Performers", font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },

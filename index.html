@@ -56,6 +56,12 @@
         </p>
       </div>
 
+      <!-- Replace VIDEO_ID with the YouTube video ID from the URL (e.g. dQw4w9WgXcQ) -->
+      <div style="border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);position:relative;padding-bottom:56.25%;height:0;">
+        <iframe src="https://www.youtube.com/embed/VIDEO_ID" title="Kata performance" frameborder="0" allowfullscreen
+          style="position:absolute;top:0;left:0;width:100%;height:100%"></iframe>
+      </div>
+
       <div class="welcome-stats" id="welcome-stats"><!-- filled by JS --></div>
 
       <div class="welcome-body">
@@ -156,7 +162,7 @@
           <tr>
             <th data-col="Kata">Kata</th>
             <th data-col="Kata_Tier">Tier</th>
-            <th data-col="Performances" class="num">Perfs</th>
+            <th data-col="Performances" class="num">Performances</th>
             <th data-col="Unique_Karateka" class="num">Athletes</th>
             <th data-col="Mean_Score" class="num">Avg Score</th>
             <th data-col="Median_Score" class="num">Median</th>
@@ -164,6 +170,7 @@
             <th data-col="Max_Score" class="num">Max</th>
             <th data-col="Std_Dev" class="num">Std Dev</th>
             <th data-col="Win_Rate" class="num">Win Rate</th>
+            <th data-col="Diff" class="num">Diff</th>
           </tr>
         </thead>
         <tbody id="kata-tbody"></tbody>
@@ -183,7 +190,7 @@
           <tr>
             <th data-col="Karateka">Karateka</th>
             <th data-col="Country">Country</th>
-            <th data-col="Performances" class="num">Perfs</th>
+            <th data-col="Performances" class="num">Performances</th>
             <th data-col="Tournaments_Attended" class="num">Tournaments</th>
             <th data-col="Mean_Score" class="num">Avg Score</th>
             <th data-col="Median_Score" class="num">Median</th>
@@ -282,7 +289,7 @@
         <div id="performed-kata-grid" class="performed-kata-grid"></div>
       </div>
 
-      <div class="finding-block">
+      <div class="finding-block" id="finding-kk-avg">
         <h2 class="finding-title">Kata Score vs. Athlete's Average</h2>
         <p class="finding-desc" id="insight-kk-avg"></p>
         <div class="table-wrapper" style="max-width:540px">
@@ -295,7 +302,7 @@
             <tbody id="kata-kk-avg-tbody"></tbody>
           </table>
         </div>
-        <div class="chart-wrap tall" style="margin-top:20px"><canvas id="chart-kk-avg"></canvas></div>
+        <div class="chart-wrap" style="margin-top:20px;height:800px"><canvas id="chart-kk-avg"></canvas></div>
       </div>
 
       <div class="finding-block">
