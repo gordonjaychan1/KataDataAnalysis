@@ -509,7 +509,7 @@ function renderKataVsKaratekaAvg() {
       `Kata with very few performances may have skewed results.`;
   }
   const sign = v => v > 0 ? `+${v.toFixed(3)}` : v.toFixed(3);
-  const color = v => v > 0 ? "color:var(--red)" : v < 0 ? "color:#3a6e3a" : "";
+  const color = v => v > 0 ? "color:#3a6e3a" : v < 0 ? "color:var(--red)" : "";
   document.getElementById("kata-kk-avg-tbody").innerHTML = rows.map(r => `
     <tr>
       <td class="name-cell">${esc(r.Kata)}</td>
@@ -517,12 +517,12 @@ function renderKataVsKaratekaAvg() {
       <td class="num">${r.Performances}</td>
     </tr>`).join("");
 
-  /* diverging horizontal bar chart */
+  /* diverging horizontal bar chart — highest diff at top (descending) */
   destroyChart("chart-kk-avg");
   const ctx = document.getElementById("chart-kk-avg"); if (!ctx) return;
-  const sorted = [...rows].sort((a, b) => a.Diff - b.Diff);
-  const bgColors = sorted.map(r => r.Diff >= 0 ? RED : "rgba(58,110,58,0.8)");
-  const bdColors = sorted.map(r => r.Diff >= 0 ? RED_BORDER : "rgba(40,85,40,1)");
+  const sorted = [...rows].sort((a, b) => a.Diff - b.Diff);  // ascending → lowest at top of array = lowest at bottom of chart
+  const bgColors = sorted.map(r => r.Diff >= 0 ? "rgba(58,110,58,0.8)" : RED);
+  const bdColors = sorted.map(r => r.Diff >= 0 ? "rgba(40,85,40,1)" : RED_BORDER);
   charts["chart-kk-avg"] = new Chart(ctx, {
     type: "bar",
     data: { labels: sorted.map(r => r.Kata), datasets: [{ data: sorted.map(r => r.Diff), backgroundColor: bgColors, borderColor: bdColors, borderWidth: 1, borderRadius: 3 }] },
