@@ -5,7 +5,18 @@
     "male_karateka": 78,
     "female_karateka": 73,
     "male_kata": 29,
-    "female_kata": 29
+    "female_kata": 29,
+    "male_performances": 1006,
+    "female_performances": 964
+  },
+  "missing_data": {
+    "total": 1970,
+    "complete": 1902,
+    "missing_kata_only": 59,
+    "missing_score_only": 7,
+    "missing_both": 2,
+    "male_total": 1006,
+    "female_total": 964
   },
   "kata": {
     "male": [
@@ -7280,5 +7291,319 @@
       "Unique_Karateka": 31,
       "Avg_Score": 7.942
     }
-  ]
+  ],
+  "countries": {
+    "male": [
+      {
+        "Country": "Japan",
+        "Athletes": 12
+      },
+      {
+        "Country": "Italy",
+        "Athletes": 7
+      },
+      {
+        "Country": "Turkey",
+        "Athletes": 5
+      },
+      {
+        "Country": "USA",
+        "Athletes": 4
+      },
+      {
+        "Country": "Venezuela",
+        "Athletes": 4
+      },
+      {
+        "Country": "Egypt",
+        "Athletes": 3
+      },
+      {
+        "Country": "Kuwait",
+        "Athletes": 3
+      },
+      {
+        "Country": "Morocco",
+        "Athletes": 2
+      },
+      {
+        "Country": "Algeria",
+        "Athletes": 2
+      },
+      {
+        "Country": "Spain",
+        "Athletes": 2
+      },
+      {
+        "Country": "France",
+        "Athletes": 2
+      },
+      {
+        "Country": "Hungary",
+        "Athletes": 2
+      },
+      {
+        "Country": "Germany",
+        "Athletes": 2
+      },
+      {
+        "Country": "Brazil",
+        "Athletes": 1
+      },
+      {
+        "Country": "Azerbaijan",
+        "Athletes": 1
+      },
+      {
+        "Country": "Australia",
+        "Athletes": 1
+      },
+      {
+        "Country": "Argentina",
+        "Athletes": 1
+      },
+      {
+        "Country": "Colombia",
+        "Athletes": 1
+      },
+      {
+        "Country": "China",
+        "Athletes": 1
+      },
+      {
+        "Country": "Canada",
+        "Athletes": 1
+      },
+      {
+        "Country": "Burundi",
+        "Athletes": 1
+      },
+      {
+        "Country": "Indonesia",
+        "Athletes": 1
+      },
+      {
+        "Country": "Hong Kong",
+        "Athletes": 1
+      },
+      {
+        "Country": "Dominican Republic",
+        "Athletes": 1
+      },
+      {
+        "Country": "England",
+        "Athletes": 1
+      },
+      {
+        "Country": "New Zealand",
+        "Athletes": 1
+      },
+      {
+        "Country": "Netherlands",
+        "Athletes": 1
+      },
+      {
+        "Country": "Montenegro",
+        "Athletes": 1
+      },
+      {
+        "Country": "Jordan",
+        "Athletes": 1
+      },
+      {
+        "Country": "Nigeria",
+        "Athletes": 1
+      },
+      {
+        "Country": "Portugal",
+        "Athletes": 1
+      },
+      {
+        "Country": "Romania",
+        "Athletes": 1
+      },
+      {
+        "Country": "Saudi Arabia",
+        "Athletes": 1
+      },
+      {
+        "Country": "South Korea",
+        "Athletes": 1
+      },
+      {
+        "Country": "Slovenia",
+        "Athletes": 1
+      },
+      {
+        "Country": "Slovakia",
+        "Athletes": 1
+      },
+      {
+        "Country": "Senegal",
+        "Athletes": 1
+      },
+      {
+        "Country": "Taiwan",
+        "Athletes": 1
+      },
+      {
+        "Country": "Switzerland",
+        "Athletes": 1
+      },
+      {
+        "Country": "Sweden",
+        "Athletes": 1
+      },
+      {
+        "Country": "Ukraine",
+        "Athletes": 1
+      }
+    ],
+    "female": [
+      {
+        "Country": "Japan",
+        "Athletes": 8
+      },
+      {
+        "Country": "Egypt",
+        "Athletes": 6
+      },
+      {
+        "Country": "Italy",
+        "Athletes": 5
+      },
+      {
+        "Country": "France",
+        "Athletes": 4
+      },
+      {
+        "Country": "Germany",
+        "Athletes": 4
+      },
+      {
+        "Country": "Hong Kong",
+        "Athletes": 4
+      },
+      {
+        "Country": "Portugal",
+        "Athletes": 4
+      },
+      {
+        "Country": "Turkey",
+        "Athletes": 3
+      },
+      {
+        "Country": "Iran",
+        "Athletes": 2
+      },
+      {
+        "Country": "Slovakia",
+        "Athletes": 2
+      },
+      {
+        "Country": "Venezuela",
+        "Athletes": 2
+      },
+      {
+        "Country": "Spain",
+        "Athletes": 2
+      },
+      {
+        "Country": "Switzerland",
+        "Athletes": 2
+      },
+      {
+        "Country": "England",
+        "Athletes": 2
+      },
+      {
+        "Country": "Greece",
+        "Athletes": 2
+      },
+      {
+        "Country": "Algeria",
+        "Athletes": 1
+      },
+      {
+        "Country": "Belgium",
+        "Athletes": 1
+      },
+      {
+        "Country": "Austria",
+        "Athletes": 1
+      },
+      {
+        "Country": "Australia",
+        "Athletes": 1
+      },
+      {
+        "Country": "Czech Republic",
+        "Athletes": 1
+      },
+      {
+        "Country": "Indonesia",
+        "Athletes": 1
+      },
+      {
+        "Country": "Canada",
+        "Athletes": 1
+      },
+      {
+        "Country": "Brazil",
+        "Athletes": 1
+      },
+      {
+        "Country": "Burkina Faso",
+        "Athletes": 1
+      },
+      {
+        "Country": "China",
+        "Athletes": 1
+      },
+      {
+        "Country": "Colombia",
+        "Athletes": 1
+      },
+      {
+        "Country": "Morocco",
+        "Athletes": 1
+      },
+      {
+        "Country": "Malaysia",
+        "Athletes": 1
+      },
+      {
+        "Country": "Singapore",
+        "Athletes": 1
+      },
+      {
+        "Country": "Philippines",
+        "Athletes": 1
+      },
+      {
+        "Country": "New Zealand",
+        "Athletes": 1
+      },
+      {
+        "Country": "Nepal",
+        "Athletes": 1
+      },
+      {
+        "Country": "Mexico",
+        "Athletes": 1
+      },
+      {
+        "Country": "Sweden",
+        "Athletes": 1
+      },
+      {
+        "Country": "Taiwan",
+        "Athletes": 1
+      },
+      {
+        "Country": "USA",
+        "Athletes": 1
+      }
+    ]
+  }
 }

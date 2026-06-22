@@ -3,7 +3,7 @@ Run this script from the same folder as Male2425Season.csv and Female2425Season.
 It generates data.json used by the website.
 
 Usage:
-    python export_data.py
+    py export_data.py
 """
 
 import pandas as pd
@@ -48,6 +48,23 @@ replacements = {
 }
 df["Kata"] = df["Kata"].replace(replacements)
 df["Kata"] = df["Kata"].replace(["", " ", "nan"], np.nan)
+
+# ── Missing data summary ──────────────────────────────────────────────────────
+total_rows      = len(df)
+complete_rows   = int((df["Kata"].notna() & df["Avg Score"].notna()).sum())
+missing_kata_only  = int((df["Kata"].isna()  & df["Avg Score"].notna()).sum())
+missing_score_only = int((df["Kata"].notna() & df["Avg Score"].isna()).sum())
+missing_both       = int((df["Kata"].isna()  & df["Avg Score"].isna()).sum())
+
+missing_data = {
+    "total":              total_rows,
+    "complete":           complete_rows,
+    "missing_kata_only":  missing_kata_only,
+    "missing_score_only": missing_score_only,
+    "missing_both":       missing_both,
+    "male_total":   int(df[df["Gender"] == "Male"].shape[0]),
+    "female_total": int(df[df["Gender"] == "Female"].shape[0]),
+}
 
 # ── Country map ───────────────────────────────────────────────────────────────
 athlete_country = {
@@ -138,7 +155,6 @@ def assign_tier(kata):
     return "Beginner"
 
 df["Kata Tier"] = df["Kata"].apply(assign_tier)
-
 df_clean = df.dropna(subset=["Kata", "Avg Score"]).copy()
 df_total = df.copy()
 
@@ -155,19 +171,14 @@ def build_kata_master(df_all, df_scores):
         .reset_index()
     )
     unique_k = df_all.groupby("Kata")["Karateka"].nunique().reset_index(name="Unique_Karateka")
-
-    # top karateka (by performances) per kata
     top_k = (
         df_all.dropna(subset=["Kata"])
-        .groupby(["Kata", "Karateka"])
-        .size()
-        .reset_index(name="n")
+        .groupby(["Kata", "Karateka"]).size().reset_index(name="n")
         .sort_values("n", ascending=False)
         .groupby("Kata")
-        .apply(lambda g: g.head(5)[["Karateka", "n"]].rename(columns={"n": "performances"}).to_dict("records"))
+        .apply(lambda g: g.head(5)[["Karateka", "n"]].rename(columns={"n": "performances"}).to_dict("records"), include_groups=False)
         .reset_index(name="Top_Karateka")
     )
-
     km = base.merge(scores, on="Kata", how="left").merge(unique_k, on="Kata", how="left").merge(top_k, on="Kata", how="left")
     km["Range"] = (km["Max_Score"] - km["Min_Score"]).round(2)
     for col in ["Mean_Score", "Std_Dev", "Win_Rate"]:
@@ -197,34 +208,30 @@ def build_karateka_master(df_all, df_scores):
         .agg(Mean_Score="mean", Median_Score="median", Min_Score="min", Max_Score="max")
         .reset_index()
     )
-    # kata repertoire: list of {kata, count}
     repertoire = (
         df_all.dropna(subset=["Kata"])
-        .groupby(["Karateka", "Kata"])
-        .size()
-        .reset_index(name="count")
+        .groupby(["Karateka", "Kata"]).size().reset_index(name="count")
         .sort_values("count", ascending=False)
         .groupby("Karateka")
-        .apply(lambda g: g[["Kata", "count"]].to_dict("records"))
+        .apply(lambda g: g[["Kata", "count"]].to_dict("records"), include_groups=False)
         .reset_index(name="Kata_Repertoire")
     )
-    # tournament history: list of tournament names
     tourn_hist = (
         df_all.groupby("Karateka")["Tournament"]
         .apply(lambda x: sorted(x.unique().tolist()))
         .reset_index(name="Tournament_List")
     )
-
     km = (
         base
         .merge(scores, on="Karateka", how="left")
         .merge(repertoire, on="Karateka", how="left")
         .merge(tourn_hist, on="Karateka", how="left")
     )
-    for col in ["Win_Rate"]:
-        km[col] = km[col].round(4)
-    for col in ["Mean_Score", "Median_Score", "Min_Score", "Max_Score"]:
-        km[col] = km[col].round(2)
+    km["Win_Rate"]     = km["Win_Rate"].round(4)
+    km["Mean_Score"]   = km["Mean_Score"].round(2)
+    km["Median_Score"] = km["Median_Score"].round(2)
+    km["Min_Score"]    = km["Min_Score"].round(2)
+    km["Max_Score"]    = km["Max_Score"].round(2)
     return km.sort_values("Performances", ascending=False).reset_index(drop=True)
 
 karateka_m = build_karateka_master(df[df["Gender"] == "Male"], df_clean[df_clean["Gender"] == "Male"])
@@ -244,17 +251,27 @@ for (tourn, gender), grp in df_total.groupby(["Tournament", "Gender"]):
     })
 tourn_summary.sort(key=lambda x: (x["Tournament"], x["Gender"]))
 
+# ── Country summary (per gender) ──────────────────────────────────────────────
+def country_summary(df_g):
+    counts = df_g.groupby("Country")["Karateka"].nunique().reset_index(name="Athletes")
+    return counts.sort_values("Athletes", ascending=False).to_dict("records")
+
+country_m = country_summary(df[df["Gender"] == "Male"])
+country_f = country_summary(df[df["Gender"] == "Female"])
+
 # ── Meta ──────────────────────────────────────────────────────────────────────
 meta = {
-    "total_performances": int(df_total.shape[0]),
-    "num_tournaments": int(df_total["Tournament"].nunique()),
-    "male_karateka": int(df[df["Gender"] == "Male"]["Karateka"].nunique()),
-    "female_karateka": int(df[df["Gender"] == "Female"]["Karateka"].nunique()),
-    "male_kata": int(df[df["Gender"] == "Male"]["Kata"].nunique()),
-    "female_kata": int(df[df["Gender"] == "Female"]["Kata"].nunique()),
+    "total_performances":  int(df_total.shape[0]),
+    "num_tournaments":     int(df_total["Tournament"].nunique()),
+    "male_karateka":       int(df[df["Gender"] == "Male"]["Karateka"].nunique()),
+    "female_karateka":     int(df[df["Gender"] == "Female"]["Karateka"].nunique()),
+    "male_kata":           int(df[df["Gender"] == "Male"]["Kata"].nunique()),
+    "female_kata":         int(df[df["Gender"] == "Female"]["Kata"].nunique()),
+    "male_performances":   int(df[df["Gender"] == "Male"].shape[0]),
+    "female_performances": int(df[df["Gender"] == "Female"].shape[0]),
 }
 
-# ── Serialize (NaN → None) ────────────────────────────────────────────────────
+# ── Serialize ─────────────────────────────────────────────────────────────────
 def clean(obj):
     if isinstance(obj, float) and np.isnan(obj): return None
     if isinstance(obj, dict):  return {k: clean(v) for k, v in obj.items()}
@@ -262,10 +279,12 @@ def clean(obj):
     return obj
 
 output = {
-    "meta": meta,
-    "kata":      {"male": clean(kata_m.to_dict("records")),      "female": clean(kata_f.to_dict("records"))},
-    "karateka":  {"male": clean(karateka_m.to_dict("records")),  "female": clean(karateka_f.to_dict("records"))},
-    "tournaments": clean(tourn_summary),
+    "meta":         meta,
+    "missing_data": missing_data,
+    "kata":         {"male": clean(kata_m.to_dict("records")),      "female": clean(kata_f.to_dict("records"))},
+    "karateka":     {"male": clean(karateka_m.to_dict("records")),  "female": clean(karateka_f.to_dict("records"))},
+    "tournaments":  clean(tourn_summary),
+    "countries":    {"male": clean(country_m), "female": clean(country_f)},
 }
 
 out_path = os.path.join(script_dir, "data.json")
