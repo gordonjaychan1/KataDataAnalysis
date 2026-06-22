@@ -273,8 +273,9 @@ blockquote.dedication {
 .performed-kata-section h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 10px; }
 
 /* ── References tab ───────────────────────────────────────────────────────── */
-.ref-section-head { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 14px; padding-bottom: 6px; border-bottom: 1px solid var(--border-light); max-width: 860px; }
-.ref-list { display: flex; flex-direction: column; gap: 24px; max-width: 860px; }
+.ref-section-head { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 14px; padding-bottom: 6px; border-bottom: 1px solid var(--border-light); }
+.ref-layout   { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.ref-layout.single { grid-template-columns: 1fr; }
 .ref-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--red); border-radius: var(--radius); padding: 20px 24px; box-shadow: 0 1px 5px rgba(0,0,0,0.05); }
 .ref-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-muted); margin-bottom: 6px; }
 .ref-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
@@ -292,4 +293,5 @@ blockquote.dedication {
   .search-input { width: 100%; }
   .finding-block { padding: 16px; }
   .how-to-grid { grid-template-columns: 1fr; }
+  .ref-layout { grid-template-columns: 1fr; }
 }
