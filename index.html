@@ -46,13 +46,7 @@
       <div class="welcome-hero">
         <h2>Welcome!</h2>
         <p>
-          This site presents a statistical analysis of all kata performances recorded during the
-          2024–25 WKF season — covering both the Male and Female Kata categories across the nine
-          Tier 1 tournaments.
-        </p>
-        <p>
-          This dataset captures every individual performance: which kata was performed, the score
-          received, and whether the athlete won that match.
+          This site presents a statistical analysis of all kata performances recorded during the nine Tier 1 tournaments in the 2024–25 WKF season — covering both the Male and Female Kata categories.
         </p>
       </div>
 
@@ -140,21 +134,7 @@
       </div>
 
       <!-- YouTube thumbnail at bottom of welcome -->
-      <div>
-        <p class="video-header">2024 K1 Premier League Casablanca, Male Kata, Gold Medal Match</p>
-        <div style="display:flex;justify-content:center">
-          <a href="https://www.youtube.com/watch?v=B8jNtZaZbgY" target="_blank" rel="noopener"
-             style="display:block;width:50%;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);position:relative;aspect-ratio:16/9">
-            <img src="https://img.youtube.com/vi/B8jNtZaZbgY/hqdefault.jpg"
-                 alt="Kata performance video"
-                 style="width:100%;height:100%;object-fit:cover;object-position:center;display:block">
-            <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-                        background:rgba(0,0,0,0.65);border-radius:50%;width:52px;height:52px;
-                        display:flex;align-items:center;justify-content:center">
-              <svg viewBox="0 0 24 24" width="26" height="26" fill="#fff"><polygon points="9,7 19,12 9,17"/></svg>
-            </div>
-          </a>
-        </div>
+      <div id="welcome-video-section">
       </div>
 
     </div>
@@ -199,19 +179,20 @@
       <table id="karateka-table" class="data-table">
         <thead>
           <tr>
-            <th data-col="Karateka">Athlete</th>
-            <th data-col="Country">Country</th>
-            <th class="num">Medals</th>
-            <th data-col="Performances" class="num">Performances</th>
-            <th data-col="Tournaments_Attended" class="num">Tournaments</th>
-            <th data-col="Mean_Score" class="num">Avg Score</th>
-            <th data-col="Median_Score" class="num">Median</th>
-            <th data-col="Min_Score" class="num">Min</th>
-            <th data-col="Max_Score" class="num">Max</th>
-            <th data-col="Win_Rate" class="num">Win Rate</th>
+            <th data-col="Karateka" title="Athlete's name">Athlete</th>
+            <th data-col="Country" title="Athlete's country">Country</th>
+            <th class="num" title="Medals won this season">Medals</th>
+            <th data-col="Performances" class="num" title="Total number of individual kata performances this season">Performances</th>
+            <th data-col="Tournaments_Attended" class="num" title="Number of tournaments the athlete competed in">Tournaments</th>
+            <th data-col="Mean_Score" class="num" title="Average score across all of the athlete's performances">Avg Score</th>
+            <th data-col="Median_Score" class="num" title="Middle score when all the athlete's scores are sorted">Median</th>
+            <th data-col="Min_Score" class="num" title="Lowest score the athlete received in any single performance">Min</th>
+            <th data-col="Max_Score" class="num" title="Highest score the athlete received in any single performance">Max</th>
+            <th data-col="Win_Rate" class="num" title="Percentage of performances where the athlete won the match">Win Rate</th>
           </tr>
         </thead>
         <tbody id="karateka-tbody"></tbody>
+        <tfoot id="karateka-tfoot"></tfoot>
       </table>
     </div>
   </section>
@@ -223,11 +204,11 @@
       <table id="tournaments-table" class="data-table">
         <thead>
           <tr>
-            <th data-col="Tournament">Tournament</th>
-            <th data-col="Total_Performances" class="num">Performances</th>
-            <th data-col="Unique_Karateka" class="num">Athletes</th>
-            <th data-col="Unique_Kata" class="num">Unique Kata</th>
-            <th data-col="Avg_Score" class="num">Avg Score</th>
+            <th data-col="Tournament" title="Tournament name">Tournament</th>
+            <th data-col="Total_Performances" class="num" title="Total kata performances recorded at this tournament">Performances</th>
+            <th data-col="Unique_Karateka" class="num" title="Number of unique athletes who competed">Athletes</th>
+            <th data-col="Unique_Kata" class="num" title="Number of distinct kata performed at this tournament">Unique Kata</th>
+            <th data-col="Avg_Score" class="num" title="Average score across all performances at this tournament">Avg Score</th>
           </tr>
         </thead>
         <tbody id="tournaments-tbody"></tbody>
@@ -371,12 +352,7 @@
           Data was manually collected from official WKF scoring sheets and tournament results.
           The dataset covers <strong>9 tournaments</strong>: the four 2024 Karate1 Premier League events
           (Paris, Antalya, Cairo, Casablanca), the four 2025 K1 events (Cairo, Hangzhou, Paris, Rabat),
-          and the 2025 World Karate Championships in Abu Dhabi.
-        </p>
-        <p>
-          Kata are classified into three tiers — <strong>Advanced</strong>, <strong>Intermediate</strong>,
-          and <strong>Beginner</strong> — based on the USA Karate - Official Kata List
-          (see <a href="#" onclick="switchToTab('references');return false;" style="color:var(--red)">References</a> for more information).
+          and the 2025 World Karate Championships in Cairo.
         </p>
       </div>
 
@@ -412,18 +388,19 @@
 
       <div class="note-section">
         <h2>Kata Tier System</h2>
-        <p>Kata are classified into three tiers based on technical complexity:</p>
+        <p>Kata are classified into three tiers — <strong>Advanced</strong>, <strong>Intermediate</strong>, and <strong>Beginner</strong> — based on the USA Karate - Official Kata List (see <a href="#" onclick="switchToTab('references');return false;" style="color:var(--red)">References</a> for more information).</p>
+        <p>In competition, a competitor may only perform a kata from their tier or lower. For example, a competitor in an Intermediate Kata Division may not perform an Advanced kata; they must perform an Intermediate or Beginner kata.</p>
+        <p>At Tier 1 WKF Events, all divisions are Advanced, meaning any kata may be performed (Advanced, Intermediate, or Beginner).</p>
         <ul>
           <li><strong>Advanced</strong> — High-difficulty kata featuring complex techniques, unusual stances, or rare traditional forms. Almost exclusively performed at elite international level. Examples: Suparinpei, Unsu, Ohan, Papuren, Gojushiho Sho.</li>
           <li><strong>Intermediate</strong> — Mid-level kata common at national and continental level, occasionally seen at WKF events. Examples: Sochin, Shisochin, Seienchin, Kanku Dai.</li>
           <li><strong>Beginner</strong> — Lower-difficulty kata rarely seen at this level of competition.</li>
         </ul>
-        <p>At the K1 Premier League and World Championship level, virtually all performances are Advanced tier kata.</p>
       </div>
 
       <div class="note-section">
         <h2>WKF Scoring System</h2>
-        <p>Five judges each assign a score from 0–10. The highest and lowest scores are discarded; the remaining three are averaged to produce the final score. This dataset records only this <strong>average score</strong>. A score above <strong>8.0</strong> is generally considered competitive at the K1 Premier League level; top finals performances regularly reach 8.4–9.3.</p>
+        <p>Seven judges each assign a score from 0–10. The highest and lowest scores are discarded; the remaining five are averaged to produce the final score. This dataset records only this <strong>average score</strong>. A score above <strong>8.0</strong> is generally considered competitive at the K1 Premier League level; top finals performances regularly reach 8.5–9.0.</p>
       </div>
 
       <div class="note-section">

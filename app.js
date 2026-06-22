@@ -84,11 +84,35 @@ function init() {
 function renderAll() {
   updateHeaderSub();
   renderWelcomeStats();
+  renderWelcomeVideo();
   renderKataTable();
   renderKaratekaTable();
   renderTournamentsTable();
   renderKataFindings();
   renderKaratekaFindings();
+}
+
+function renderWelcomeVideo() {
+  const videos = {
+    male:   { id: "B8jNtZaZbgY", title: "2024 K1 Premier League Casablanca, Male Kata, Gold Medal Match" },
+    female: { id: "NDp3JTglEKM", title: "2024 K1 Premier League Antalya, Female Kata, Gold Medal Match"  },
+  };
+  const v = videos[gender];
+  document.getElementById("welcome-video-section").innerHTML = `
+    <p class="video-header">${v.title}</p>
+    <div style="display:flex;justify-content:center">
+      <a href="https://www.youtube.com/watch?v=${v.id}${gender === "female" ? "&t=424s" : ""}" target="_blank" rel="noopener"
+         style="display:block;width:50%;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);position:relative;aspect-ratio:16/9">
+        <img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg"
+             alt="Kata performance video"
+             style="width:100%;height:100%;object-fit:cover;object-position:center;display:block">
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+                    background:rgba(0,0,0,0.65);border-radius:50%;width:52px;height:52px;
+                    display:flex;align-items:center;justify-content:center">
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="#fff"><polygon points="9,7 19,12 9,17"/></svg>
+        </div>
+      </a>
+    </div>`;
 }
 
 /* ── Header ────────────────────────────────────────────────────────────────── */
@@ -195,31 +219,31 @@ function renderCompareTab() {
     <!-- Top 5 side by side -->
     <div class="compare-grid">
       <div class="compare-col">
-        <h3 class="compare-head">♂ Top 5 Most Performed — Male</h3>
+        <h3 class="compare-head">Top 5 Most Performed — Male</h3>
         <table class="data-table"><thead><tr><th>#</th><th>Kata</th><th class="num">Performances</th><th class="num">Avg Score</th></tr></thead>
         <tbody>${mTop5.map((k,i) => top5Row(k,i)).join("")}</tbody></table>
       </div>
       <div class="compare-col">
-        <h3 class="compare-head">♀ Top 5 Most Performed — Female</h3>
+        <h3 class="compare-head">Top 5 Most Performed — Female</h3>
         <table class="data-table"><thead><tr><th>#</th><th>Kata</th><th class="num">Performances</th><th class="num">Avg Score</th></tr></thead>
         <tbody>${fTop5.map((k,i) => top5Row(k,i)).join("")}</tbody></table>
       </div>
     </div>
 
     <!-- Exclusive kata -->
-    <div class="compare-grid" style="margin-top:28px">
+    <div class="compare-grid" style="margin-top:48px">
       <div class="compare-col">
-        <h3 class="compare-head">♂ Performed by Males Only (${mOnly.length})</h3>
+        <h3 class="compare-head">Performed by Males Only (${mOnly.length})</h3>
         <div class="pill-list">${onlyPills(mOnly) || "<em style='color:var(--text-muted)'>None</em>"}</div>
       </div>
       <div class="compare-col">
-        <h3 class="compare-head">♀ Performed by Females Only (${fOnly.length})</h3>
+        <h3 class="compare-head">Performed by Females Only (${fOnly.length})</h3>
         <div class="pill-list">${onlyPills(fOnly) || "<em style='color:var(--text-muted)'>None</em>"}</div>
       </div>
     </div>
 
     <!-- Avg score comparison -->
-    <div style="margin-top:28px">
+    <div style="margin-top:48px">
       <h3 class="compare-head">Average Score Comparison — Shared Kata (${compareShared.length})</h3>
       <p style="font-size:12px;color:var(--text-muted);margin-bottom:10px">Click any column header to sort. Diff = Male − Female.</p>
       <div class="table-wrapper table-wrapper--sticky">
@@ -337,6 +361,11 @@ function renderKataTable() {
     const vals = allKata.map(r => r[field]).filter(v => v != null);
     return vals.length ? vals.reduce((s,v) => s+v, 0) / vals.length : null;
   };
+  const absMin = allKata.map(r => r.Min_Score).filter(v => v != null).reduce((m,v) => Math.min(m,v), Infinity);
+  const absMax = allKata.map(r => r.Max_Score).filter(v => v != null).reduce((m,v) => Math.max(m,v), -Infinity);
+  const totalPerfsK = allKata.reduce((s,r) => s + (r.Performances || 0), 0);
+  const totalWinsK  = allKata.reduce((s,r) => s + (r.Win_Rate != null ? r.Win_Rate * r.Performances : 0), 0);
+  const weightedWR  = totalPerfsK ? totalWinsK / totalPerfsK : null;
   const avgDiff = (() => {
     const vals = allKata.map(r => r.Diff).filter(v => v != null);
     return vals.length ? vals.reduce((s,v) => s+v, 0) / vals.length : null;
@@ -349,10 +378,10 @@ function renderKataTable() {
       <td class="num">${fmt2(avg("Unique_Karateka"))}</td>
       <td class="num">${fmt3(avg("Mean_Score"))}</td>
       <td class="num">${fmt2(avg("Median_Score"))}</td>
-      <td class="num">${fmt2(avg("Min_Score"))}</td>
-      <td class="num">${fmt2(avg("Max_Score"))}</td>
+      <td class="num">${fmt2(isFinite(absMin) ? absMin : null)}</td>
+      <td class="num">${fmt2(isFinite(absMax) ? absMax : null)}</td>
       <td class="num">${fmt3(avg("Std_Dev"))}</td>
-      <td class="num">${fmtPct(avg("Win_Rate"))}</td>
+      <td class="num">${fmtPct(weightedWR)}</td>
       <td class="num" style="${avgDiff != null ? (avgDiff >= 0 ? 'color:#3a6e3a' : 'color:var(--red)') : ''}">${avgDiff != null ? (avgDiff >= 0 ? '+' : '') + avgDiff.toFixed(3) : '—'}</td>
     </tr>`;
   document.querySelectorAll("#kata-tbody tr").forEach(tr => {
@@ -496,6 +525,30 @@ function renderKaratekaTable() {
       <td class="num">${fmt2(r.Max_Score)}</td>
       <td class="num">${fmtPct(r.Win_Rate)}</td>
     </tr>`).join("");
+  /* averages row */
+  const allKar = DATA.karateka[gender];
+  const avgK = field => {
+    const vals = allKar.map(r => r[field]).filter(v => v != null);
+    return vals.length ? vals.reduce((s,v) => s+v, 0) / vals.length : null;
+  };
+  const absMinK = allKar.map(r => r.Min_Score).filter(v => v != null).reduce((m,v) => Math.min(m,v), Infinity);
+  const absMaxK = allKar.map(r => r.Max_Score).filter(v => v != null).reduce((m,v) => Math.max(m,v), -Infinity);
+  const totPerfsKar  = allKar.reduce((s,r) => s + (r.Performances || 0), 0);
+  const totWinsKar   = allKar.reduce((s,r) => s + (r.Win_Rate != null ? r.Win_Rate * r.Performances : 0), 0);
+  const wWRKar       = totPerfsKar ? totWinsKar / totPerfsKar : null;
+  document.getElementById("karateka-tfoot").innerHTML = `
+    <tr class="avg-row">
+      <td class="name-cell" style="font-weight:700;color:var(--text)">Average</td>
+      <td></td>
+      <td></td>
+      <td class="num">${fmt2(avgK("Performances"))}</td>
+      <td class="num">${fmt2(avgK("Tournaments_Attended"))}</td>
+      <td class="num">${fmt2(avgK("Mean_Score"))}</td>
+      <td class="num">${fmt2(avgK("Median_Score"))}</td>
+      <td class="num">${fmt2(isFinite(absMinK) ? absMinK : null)}</td>
+      <td class="num">${fmt2(isFinite(absMaxK) ? absMaxK : null)}</td>
+      <td class="num">${fmtPct(wWRKar)}</td>
+    </tr>`;
   document.querySelectorAll("#karateka-tbody tr").forEach(tr => {
     tr.addEventListener("click", () => {
       const row = DATA.karateka[gender].find(r => r.Karateka === tr.dataset.karateka);
@@ -527,14 +580,25 @@ function showKaratekaCard(r) {
       kataAvgMap[p.Kata].n++;
     }
   }
-  const repertoire = (r.Kata_Repertoire || []).map(k => {
+  const repertoireRows = (r.Kata_Repertoire || []).map(k => {
     const kData = DATA.kata[gender]?.find(d => d.Kata === k.Kata);
-    const avg = kataAvgMap[k.Kata] ? (kataAvgMap[k.Kata].sum / kataAvgMap[k.Kata].n).toFixed(2) : null;
-    return `<span class="pill" style="flex-direction:column;align-items:flex-start;gap:1px;padding:5px 11px">
-      <span style="display:flex;align-items:center;gap:5px">${kData ? tierBadge(kData.Kata_Tier) : ""}<span style="font-size:12px">${esc(k.Kata)}</span><span class="pill-count">${k.count}×</span></span>
-      ${avg ? `<span style="font-size:12px;color:var(--text-muted)">Avg Score: ${avg}</span>` : ""}
-    </span>`;
+    const winEntry = kataAvgMap[k.Kata];
+    const avgScore = winEntry ? (winEntry.sum / winEntry.n).toFixed(2) : "—";
+    const kWins = (r.Performances_Detail || []).filter(p => p.Kata === k.Kata && p.Won === true).length;
+    const kPerfs = k.count;
+    const kWR = kPerfs ? fmtPct(kWins / kPerfs) : "—";
+    return `<tr>
+      <td>${kData ? tierBadge(kData.Kata_Tier) : ""} ${esc(k.Kata)}</td>
+      <td class="num">${kPerfs}</td>
+      <td class="num">${avgScore}</td>
+      <td class="num">${kWR}</td>
+    </tr>`;
   }).join("");
+  const repertoire = repertoireRows ? `
+    <table class="data-table" style="margin-top:4px">
+      <thead><tr><th>Kata</th><th class="num">Performances</th><th class="num">Avg Score</th><th class="num">Win Rate</th></tr></thead>
+      <tbody>${repertoireRows}</tbody>
+    </table>` : "";
 
   /* medal count summary */
   const medalCounts = { 1: 0, 2: 0, 3: 0 };
@@ -578,7 +642,7 @@ function showKaratekaCard(r) {
     <div class="pill-list" style="margin-bottom:14px">
       ${r.Medals.map(m => `<span class="pill">${m.Place === 1 ? "🥇" : m.Place === 2 ? "🥈" : "🥉"} ${esc(m.Tournament)}</span>`).join("")}
     </div>` : ""}
-    ${repertoire ? `<div class="card-section-title">Kata Repertoire</div><div class="pill-list" style="margin-bottom:14px">${repertoire}</div>` : ""}
+    ${repertoire ? `<div class="card-section-title">Kata Repertoire</div><div style="margin-bottom:14px">${repertoire}</div>` : ""}
     ${perfRows ? `
     <div class="card-section-title">All Performances</div>
     <div class="card-table-wrap">
@@ -757,9 +821,11 @@ function renderKataFindings() {
   /* 1. Popularity */
   const popSorted = [...kata].sort((a, b) => b.Performances - a.Performances);
   const top1 = popSorted[0];
+  const top5Perfs = popSorted.slice(0,5).reduce((s,r) => s + r.Performances, 0);
+  const totalPerfsAll = DATA.meta[gender+"_performances"];
   document.getElementById("insight-popularity").textContent =
-    `${top1.Kata} was the most performed ${gender} kata with ${top1.Performances} performances across ${top1.Unique_Karateka} athletes. ` +
-    `The top 5 accounted for ${popSorted.slice(0,5).reduce((s,r) => s + r.Performances, 0)} of ${DATA.meta[gender+"_performances"]} total performances.`;
+    `${top1.Kata} was the most performed ${gender === "male" ? "Male" : "Female"} kata with ${top1.Performances} performances across ${top1.Unique_Karateka} athletes. ` +
+    `The top 5 kata accounted for ${top5Perfs} of ${totalPerfsAll}, or ${(top5Perfs/totalPerfsAll*100).toFixed(1)}% of, total performances.`;
   makeHBar("chart-popularity", popSorted.map(r => r.Kata), popSorted.map(r => r.Performances), "Performances", 0);
 
   /* 2. Avg Score */
@@ -946,8 +1012,13 @@ function renderPerformedKata() {
   const ts = DATA.tier_summary[gender];
   document.getElementById("insight-performed").textContent =
     `Lists which Advanced and Intermediate kata were and were not performed during ${gender === "male" ? "Male" : "Female"} kata competition in the 2024–25 season.`;
+  const kataPerfsMap = {};
+  (DATA.kata[gender] || []).forEach(k => { kataPerfsMap[k.Kata] = k.Performances; });
   const makePills = arr => arr.length
-    ? arr.map(k => `<span class="pill">${esc(k)}</span>`).join("")
+    ? arr.map(k => {
+        const cnt = kataPerfsMap[k];
+        return `<span class="pill">${esc(k)}${cnt != null ? ` <span class="pill-count">${cnt}×</span>` : ""}</span>`;
+      }).join("")
     : `<span style="color:var(--text-muted);font-size:12px">None</span>`;
   document.getElementById("performed-kata-grid").innerHTML = `
     <div class="performed-kata-section">
