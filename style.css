@@ -188,7 +188,7 @@ header {
 
 /* ── Welcome tab ──────────────────────────────────────────────────────────── */
 .welcome-layout { display: flex; flex-direction: column; gap: 52px; }
-.welcome-body { display: grid; grid-template-columns: 1fr 340px; gap: 32px; align-items: start; }
+.welcome-body { display: block; }
 
 .welcome-hero { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--red); border-radius: var(--radius); padding: 24px 28px; }
 .welcome-hero h2 { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
@@ -196,7 +196,7 @@ header {
 .welcome-hero p:last-child { margin-bottom: 0; }
 
 .welcome-stats {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
 }
 .welcome-stat-card {
   background: var(--red); border-radius: var(--radius);
@@ -209,7 +209,9 @@ header {
 .welcome-stat-card .stat-num   { font-size: 42px; font-weight: 700; color: #fff; line-height: 1.1; }
 .welcome-stat-card .stat-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.7px; color: rgba(255,255,255,0.8); margin-top: 8px; }
 
-.welcome-section h3 { font-size: 15px; font-weight: 700; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.welcome-section h3, .welcome-section-title { font-size: 15px; font-weight: 700; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.welcome-section-title { font-size: 18px; }
+.video-header { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
 .welcome-section > p { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin-bottom: 10px; }
 .welcome-section > p:last-child { margin-bottom: 0; }
 
@@ -272,6 +274,11 @@ blockquote.dedication {
 .performed-kata-grid > * { min-width: 0; }
 .performed-kata-section h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 10px; }
 
+/* ── Compare tab ──────────────────────────────────────────────────────────── */
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+.compare-col  { min-width: 0; }
+.compare-head { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+
 /* ── References tab ───────────────────────────────────────────────────────── */
 .ref-section-head { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 14px; padding-bottom: 6px; border-bottom: 1px solid var(--border-light); }
 .ref-layout   { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
@@ -288,8 +295,8 @@ blockquote.dedication {
 @media (max-width: 700px) {
   header { padding: 14px 16px; }
   .tab-content { padding: 16px; }
-  .tier-charts, .missing-tables, .performed-kata-grid, .welcome-body,
-  .welcome-stats, .how-to-grid { grid-template-columns: 1fr; }
+  .tier-charts, .missing-tables, .performed-kata-grid,
+  .welcome-stats, .how-to-grid, .compare-grid { grid-template-columns: 1fr; }
   .search-input { width: 100%; }
   .finding-block { padding: 16px; }
   .how-to-grid { grid-template-columns: 1fr; }

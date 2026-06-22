@@ -114,10 +114,9 @@ function renderWelcomeStats() {
   const m = DATA.meta;
   const g = gender === "male";
   document.getElementById("welcome-stats").innerHTML = [
-    [g ? m.male_performances : m.female_performances, "Performances",  "kata"],
-    [9,                                                "Tournaments",   "tournaments"],
-    [g ? m.male_karateka : m.female_karateka,          "Athletes",      "karateka"],
-    [g ? m.male_kata : m.female_kata,                  "Unique Kata",   "kata-findings"],
+    [g ? m.male_performances : m.female_performances, "Performances", "kata"],
+    [g ? m.male_karateka : m.female_karateka,         "Athletes",     "karateka"],
+    [9,                                               "Tournaments",  "tournaments"],
   ].map(([n, label, tab]) => `
     <button class="welcome-stat-card" onclick="switchToTab('${tab}')">
       <div class="stat-num">${n.toLocaleString()}</div>
@@ -156,8 +155,80 @@ function setupTabs() {
       const sec = document.getElementById("tab-" + btn.dataset.tab);
       sec.classList.remove("hidden");
       sec.classList.add("active");
+      if (btn.dataset.tab === "compare") renderCompareTab();
     });
   });
+}
+
+function renderCompareTab() {
+  const mkata = DATA.kata.male   || [];
+  const fkata = DATA.kata.female || [];
+  const mSet = new Set(mkata.map(k => k.Kata));
+  const fSet = new Set(fkata.map(k => k.Kata));
+
+  const mOnly = mkata.filter(k => !fSet.has(k.Kata)).sort((a,b) => b.Performances - a.Performances);
+  const fOnly = fkata.filter(k => !mSet.has(k.Kata)).sort((a,b) => b.Performances - a.Performances);
+
+  const mTop5 = [...mkata].sort((a,b) => b.Performances - a.Performances).slice(0,5);
+  const fTop5 = [...fkata].sort((a,b) => b.Performances - a.Performances).slice(0,5);
+
+  /* avg score comparison for shared kata, sorted by biggest difference */
+  const shared = mkata.filter(k => fSet.has(k.Kata) && k.Mean_Score != null).map(mk => {
+    const fk = fkata.find(k => k.Kata === mk.Kata);
+    return fk && fk.Mean_Score != null
+      ? { Kata: mk.Kata, Male: mk.Mean_Score, Female: fk.Mean_Score, Diff: mk.Mean_Score - fk.Mean_Score }
+      : null;
+  }).filter(Boolean).sort((a,b) => Math.abs(b.Diff) - Math.abs(a.Diff));
+
+  const sign = v => (v >= 0 ? "+" : "") + v.toFixed(3);
+  const diffColor = v => v > 0 ? "#3a6e3a" : v < 0 ? "var(--red)" : "inherit";
+
+  const top5Row = (k, i) => `<tr><td>${i+1}</td><td class="name-cell">${esc(k.Kata)}</td><td class="num">${k.Performances}</td><td class="num">${k.Mean_Score != null ? k.Mean_Score.toFixed(3) : "—"}</td></tr>`;
+  const onlyPills = arr => arr.map(k => `<span class="pill">${tierBadge(k.Kata_Tier)} ${esc(k.Kata)} <span class="pill-count">${k.Performances}×</span></span>`).join("");
+
+  document.getElementById("compare-content").innerHTML = `
+    <!-- Top 5 side by side -->
+    <div class="compare-grid">
+      <div class="compare-col">
+        <h3 class="compare-head">♂ Top 5 Most Performed — Male</h3>
+        <table class="data-table"><thead><tr><th>#</th><th>Kata</th><th class="num">Performances</th><th class="num">Avg Score</th></tr></thead>
+        <tbody>${mTop5.map((k,i) => top5Row(k,i)).join("")}</tbody></table>
+      </div>
+      <div class="compare-col">
+        <h3 class="compare-head">♀ Top 5 Most Performed — Female</h3>
+        <table class="data-table"><thead><tr><th>#</th><th>Kata</th><th class="num">Performances</th><th class="num">Avg Score</th></tr></thead>
+        <tbody>${fTop5.map((k,i) => top5Row(k,i)).join("")}</tbody></table>
+      </div>
+    </div>
+
+    <!-- Exclusive kata -->
+    <div class="compare-grid" style="margin-top:28px">
+      <div class="compare-col">
+        <h3 class="compare-head">♂ Performed by Males Only (${mOnly.length})</h3>
+        <div class="pill-list">${onlyPills(mOnly) || "<em style='color:var(--text-muted)'>None</em>"}</div>
+      </div>
+      <div class="compare-col">
+        <h3 class="compare-head">♀ Performed by Females Only (${fOnly.length})</h3>
+        <div class="pill-list">${onlyPills(fOnly) || "<em style='color:var(--text-muted)'>None</em>"}</div>
+      </div>
+    </div>
+
+    <!-- Avg score comparison -->
+    <div style="margin-top:28px">
+      <h3 class="compare-head">Average Score Comparison — Shared Kata (${shared.length})</h3>
+      <p style="font-size:12px;color:var(--text-muted);margin-bottom:10px">Sorted by largest absolute score difference. Diff = Male − Female.</p>
+      <div class="table-wrapper table-wrapper--sticky">
+        <table class="data-table">
+          <thead><tr><th>Kata</th><th class="num">Male Avg</th><th class="num">Female Avg</th><th class="num">Diff (M−F)</th></tr></thead>
+          <tbody>${shared.map(r => `<tr>
+            <td class="name-cell">${esc(r.Kata)}</td>
+            <td class="num">${r.Male.toFixed(3)}</td>
+            <td class="num">${r.Female.toFixed(3)}</td>
+            <td class="num" style="color:${diffColor(r.Diff)};font-weight:600">${sign(r.Diff)}</td>
+          </tr>`).join("")}</tbody>
+        </table>
+      </div>
+    </div>`;
 }
 
 /* ── Sorting ───────────────────────────────────────────────────────────────── */
@@ -286,7 +357,7 @@ function showKataCard(r) {
            style="color:inherit;text-decoration:none" title="Go to chart">Score Diff ↗</a>
       </div>
       <div class="stat-value" style="color:${diffColor};font-size:16px">${diffVal >= 0 ? "+" : ""}${diffVal.toFixed(3)}</div>
-      ${rank > 0 ? `<div class="stat-rank">${rank}/${total} among all kata${diffTied > 1 ? " (T)" : ""}</div>` : ""}
+      ${rank > 0 ? `<div class="stat-rank">${rank}/${total}${diffTied > 1 ? " (T)" : ""}</div>` : ""}
     </div>` : "";
 
   document.getElementById("kata-card").innerHTML = `
@@ -309,11 +380,11 @@ function showKataCard(r) {
       </div>
       <div class="stat-box">
         <div class="stat-label">Min</div><div class="stat-value">${fmt2(r.Min_Score)}</div>${rk('Min_Score')}
-        ${minK ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">Karateka: ${esc(minK)}</div>` : ""}
+        ${minK ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">Athlete: ${esc(minK)}</div>` : ""}
       </div>
       <div class="stat-box">
         <div class="stat-label">Max</div><div class="stat-value">${fmt2(r.Max_Score)}</div>${rk('Max_Score')}
-        ${maxK ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">Karateka: ${esc(maxK)}</div>` : ""}
+        ${maxK ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">Athlete: ${esc(maxK)}</div>` : ""}
       </div>
       <div class="stat-box">
         <div class="stat-label">Std Dev</div><div class="stat-value">${fmt3(r.Std_Dev)}</div>${rk('Std_Dev', true)}
@@ -434,8 +505,8 @@ function showKaratekaCard(r) {
       <div class="stat-box"><div class="stat-label">Tournaments</div><div class="stat-value">${r.Tournaments_Attended}</div>${rkK('Tournaments_Attended')}</div>
       <div class="stat-box"><div class="stat-label">Avg Score</div><div class="stat-value">${fmt2(r.Mean_Score)}</div>${rkK('Mean_Score')}</div>
       <div class="stat-box"><div class="stat-label">Median</div><div class="stat-value">${fmt2(r.Median_Score)}</div>${rkK('Median_Score')}</div>
-      <div class="stat-box"><div class="stat-label">Worst Score</div><div class="stat-value">${fmt2(r.Min_Score)}</div>${rkK('Min_Score', true)}${worstPerf ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">${esc(worstPerf.Kata)}</div>` : ""}</div>
-      <div class="stat-box"><div class="stat-label">Best Score</div><div class="stat-value">${fmt2(r.Max_Score)}</div>${rkK('Max_Score')}${bestPerf ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">${esc(bestPerf.Kata)}</div>` : ""}</div>
+      <div class="stat-box"><div class="stat-label">Worst Score</div><div class="stat-value">${fmt2(r.Min_Score)}</div>${rkK('Min_Score', true)}${worstPerf ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">Kata: ${esc(worstPerf.Kata)}</div>` : ""}</div>
+      <div class="stat-box"><div class="stat-label">Best Score</div><div class="stat-value">${fmt2(r.Max_Score)}</div>${rkK('Max_Score')}${bestPerf ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">Kata: ${esc(bestPerf.Kata)}</div>` : ""}</div>
       <div class="stat-box"><div class="stat-label">Win Rate</div><div class="stat-value">${fmtPct(r.Win_Rate)}</div>${rkK('Win_Rate')}</div>
     </div>
     ${r.Medals && r.Medals.length ? `
@@ -509,6 +580,17 @@ function tournamentShowList(type) {
 function showTournamentCard(r) {
   lastTournCard = r.Tournament;
   const meta = TOURN_META[r.Tournament] || {};
+  /* collect medalists for this tournament */
+  const medalists = [];
+  for (const k of (DATA.karateka[gender] || [])) {
+    for (const m of (k.Medals || [])) {
+      if (m.Tournament === r.Tournament) medalists.push({ name: k.Karateka, country: k.Country, place: m.Place });
+    }
+  }
+  medalists.sort((a, b) => a.place - b.place);
+  const medalistHtml = medalists.length ? `
+    <div class="card-section-title" style="margin-top:14px">Medalists</div>
+    <div class="pill-list">${medalists.map(m => `<span class="pill">${m.place===1?"🥇":m.place===2?"🥈":"🥉"} ${flagOf(m.country)} ${esc(m.name)}</span>`).join("")}</div>` : "";
   const missingTotal = (r.Missing_Kata || 0) + (r.Missing_Score || 0) + (r.Missing_Both || 0);
   let missingHtml = "";
   if (missingTotal === 0) {
@@ -538,6 +620,7 @@ function showTournamentCard(r) {
       </div>
       <div class="stat-box"><div class="stat-label">Avg Score</div><div class="stat-value">${r.Avg_Score != null ? r.Avg_Score.toFixed(3) : "—"}</div></div>
     </div>
+    ${medalistHtml}
     <div id="tourn-list-panel" style="margin-top:8px"></div>
     ${missingHtml}`;
   document.getElementById("tournaments-card").classList.remove("hidden");
@@ -986,10 +1069,11 @@ function renderKaratekaFindings() {
   makeWinRateHBar("chart-k-winrate", kWinSorted.map(r => r.Karateka), kWinSorted.map(r => +(r.Win_Rate*100).toFixed(1)));
 
   /* 9. Countries */
-  const topCountries = countries.slice(0, 15);
+  const topCountries = countries.filter(r => r.Athletes >= 2).slice(0, 15);
+  const multiCountries = countries.filter(r => r.Athletes >= 2);
   document.getElementById("insight-country").textContent =
     topCountries[0]
-      ? `${countries.length} countries sent ${gender} kata athletes this season. ${topCountries[0].Country} sent the most with ${topCountries[0].Athletes} competitor${topCountries[0].Athletes > 1 ? "s" : ""}.`
+      ? `${countries.length} countries sent ${gender} kata athletes this season; ${multiCountries.length} sent 2 or more. ${topCountries[0].Country} sent the most with ${topCountries[0].Athletes} competitors.`
       : "";
   makeHBar("chart-country", topCountries.map(r => r.Country), topCountries.map(r => r.Athletes), "Athletes", 0);
 }
