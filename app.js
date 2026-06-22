@@ -116,7 +116,7 @@ function renderWelcomeStats() {
   document.getElementById("welcome-stats").innerHTML = [
     [g ? m.male_performances : m.female_performances, "Performances",  "kata"],
     [9,                                                "Tournaments",   "tournaments"],
-    [g ? m.male_karateka : m.female_karateka,          "Karateka",      "karateka"],
+    [g ? m.male_karateka : m.female_karateka,          "Athletes",      "karateka"],
     [g ? m.male_kata : m.female_kata,                  "Unique Kata",   "kata-findings"],
   ].map(([n, label, tab]) => `
     <button class="welcome-stat-card" onclick="switchToTab('${tab}')">
@@ -576,7 +576,7 @@ function makeHBar(id, labels, values, xLabel, minVal) {
   });
 }
 
-function makeWinRateHBar(id, labels, values) {
+function makeWinRateHBar(id, labels, values, axisTitle = "Win Rate (%)") {
   destroyChart(id);
   const ctx = document.getElementById(id); if (!ctx) return;
   charts[id] = new Chart(ctx, {
@@ -586,7 +586,7 @@ function makeWinRateHBar(id, labels, values) {
       indexAxis: "y", responsive: true, maintainAspectRatio: false,
       plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ` ${ctx.raw}%` } } },
       scales: {
-        x: { min: 0, max: 100, grid: { color: GRID }, ticks: { callback: v => v + "%", font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
+        x: { min: 0, max: 100, grid: { color: GRID }, ticks: { callback: v => v + "%", font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, title: { display: true, text: axisTitle, font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
         y: { grid: { display: false }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#1c1c18" } },
       },
     },
@@ -973,7 +973,7 @@ function renderKaratekaFindings() {
   const kScoreSorted = [...kdata].filter(r => r.Mean_Score != null && r.Performances >= 5).sort((a,b) => b.Mean_Score - a.Mean_Score).slice(0, 20);
   document.getElementById("insight-k-avgscore").textContent =
     kScoreSorted[0]
-      ? `${kScoreSorted[0].Karateka} (${kScoreSorted[0].Country}) led ${gender} kata athletes with at least 5 performances in average score: ${kScoreSorted[0].Mean_Score.toFixed(2)} over ${kScoreSorted[0].Performances} performances.`
+      ? `${kScoreSorted[0].Karateka} (${kScoreSorted[0].Country}) led ${gender} kata athletes in average score: ${kScoreSorted[0].Mean_Score.toFixed(2)} over ${kScoreSorted[0].Performances} performances.`
       : "";
   makeHBar("chart-k-avgscore", kScoreSorted.map(r => r.Karateka), kScoreSorted.map(r => r.Mean_Score), "Average Score", 7.5);
 
@@ -981,7 +981,7 @@ function renderKaratekaFindings() {
   const kWinSorted = [...kdata].filter(r => r.Win_Rate != null && r.Performances >= 5).sort((a,b) => b.Win_Rate - a.Win_Rate).slice(0, 20);
   document.getElementById("insight-k-winrate").textContent =
     kWinSorted[0]
-      ? `${kWinSorted[0].Karateka} (${kWinSorted[0].Country}) had the highest win rate among ${gender} athletes with at least 5 performances: ${(kWinSorted[0].Win_Rate*100).toFixed(1)}% over ${kWinSorted[0].Performances} performances.`
+      ? `${kWinSorted[0].Karateka} (${kWinSorted[0].Country}) had the highest win rate among ${gender} athletes: ${(kWinSorted[0].Win_Rate*100).toFixed(1)}% over ${kWinSorted[0].Performances} performances.`
       : "";
   makeWinRateHBar("chart-k-winrate", kWinSorted.map(r => r.Karateka), kWinSorted.map(r => +(r.Win_Rate*100).toFixed(1)));
 
@@ -989,7 +989,7 @@ function renderKaratekaFindings() {
   const topCountries = countries.slice(0, 15);
   document.getElementById("insight-country").textContent =
     topCountries[0]
-      ? `${topCountries[0].Country} sent the most ${gender} kata athletes with ${topCountries[0].Athletes} competitor${topCountries[0].Athletes > 1 ? "s" : ""} this season.`
+      ? `${countries.length} countries sent ${gender} kata athletes this season. ${topCountries[0].Country} sent the most with ${topCountries[0].Athletes} competitor${topCountries[0].Athletes > 1 ? "s" : ""}.`
       : "";
   makeHBar("chart-country", topCountries.map(r => r.Country), topCountries.map(r => r.Athletes), "Athletes", 0);
 }

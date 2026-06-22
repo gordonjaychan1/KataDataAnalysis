@@ -28,10 +28,10 @@
   <nav class="tab-bar">
     <button class="tab-btn active" data-tab="welcome">Welcome</button>
     <button class="tab-btn" data-tab="kata">Kata</button>
-    <button class="tab-btn" data-tab="karateka">Karateka</button>
+    <button class="tab-btn" data-tab="karateka">Athletes</button>
     <button class="tab-btn" data-tab="tournaments">Tournaments</button>
     <button class="tab-btn" data-tab="kata-findings">Kata Findings</button>
-    <button class="tab-btn" data-tab="karateka-findings">Karateka Findings</button>
+    <button class="tab-btn" data-tab="karateka-findings">Athlete Findings</button>
     <button class="tab-btn" data-tab="notes">Important Notes</button>
     <button class="tab-btn" data-tab="about">About</button>
     <button class="tab-btn" data-tab="references">References</button>
@@ -43,17 +43,15 @@
     <div class="welcome-layout">
 
       <div class="welcome-hero">
-        <h2>Welcome</h2>
+        <h2>Welcome!</h2>
         <p>
           This site presents a statistical analysis of all kata performances recorded during the
-          <strong>2024–25 WKF (World Karate Federation) season</strong> — covering both the
-          Male and Female Kata categories across nine international tournaments.
+          2024–25 WKF season — covering both the Male and Female Kata categories across the nine
+          Tier 1 tournaments.
         </p>
         <p>
-          In WKF kata competition, athletes perform a traditional kata (a choreographed sequence of
-          techniques) in head-to-head matches judged by a panel of five judges. This dataset captures
-          every individual performance: which kata was performed, the score received, and whether the
-          athlete won that match.
+          This dataset captures every individual performance: which kata was performed, the score
+          received, and whether the athlete won that match.
         </p>
       </div>
 
@@ -66,28 +64,28 @@
             <div class="how-to-card">
               <div class="how-to-icon">⇄</div>
               <div>
-                <strong>Male / Female toggle</strong>
+                <strong>Male / Female Toggle</strong>
                 <p>The toggle in the top-right corner switches every page — all tables, all charts, all stats — between the male and female kata events.</p>
               </div>
             </div>
             <div class="how-to-card">
               <div class="how-to-icon">表</div>
               <div>
-                <strong>Kata tab</strong>
+                <strong>Kata Tab</strong>
                 <p>Full stats for every kata performed this season. Click any column header to sort. Type in the search bar to filter rows, then click a row to open its detail card.</p>
               </div>
             </div>
             <div class="how-to-card">
               <div class="how-to-icon">人</div>
               <div>
-                <strong>Karateka tab</strong>
+                <strong>Athletes Tab</strong>
                 <p>Same idea, but for individual athletes. Search or click to see country, average score, win rate, kata repertoire, and tournaments attended.</p>
               </div>
             </div>
             <div class="how-to-card">
               <div class="how-to-icon">🏆</div>
               <div>
-                <strong>Tournaments tab</strong>
+                <strong>Tournaments Tab</strong>
                 <p>One row per tournament. Click any row for date, location, and missing-data breakdown. Sortable by any column.</p>
               </div>
             </div>
@@ -101,7 +99,7 @@
             <div class="how-to-card">
               <div class="how-to-icon">📈</div>
               <div>
-                <strong>Karateka Findings</strong>
+                <strong>Athlete Findings</strong>
                 <p>Charts comparing athletes by average score and win rate, plus a breakdown of which countries sent the most competitors.</p>
               </div>
             </div>
@@ -122,24 +120,6 @@
           </div>
         </div>
 
-        <div class="welcome-section welcome-about">
-          <h3>About the Data</h3>
-          <p>
-            Data was manually collected from official WKF scoring sheets and tournament results.
-            The dataset covers <strong>9 tournaments</strong>: the four 2024 Karate1 Premier League events
-            (Paris, Antalya, Cairo, Casablanca), the four 2025 K1 events (Cairo, Hangzhou, Paris, Rabat),
-            and the 2025 World Karate Championships in Abu Dhabi.
-          </p>
-          <p>
-            A small number of entries are missing either the kata name or the score — see
-            <strong>Important Notes</strong> for the full breakdown. All analyses exclude those rows.
-          </p>
-          <p>
-            Kata are classified into three tiers — <strong>Advanced</strong>, <strong>Intermediate</strong>,
-            and <strong>Beginner</strong> — based on the USA Karate - Official Kata List
-            (see <a href="#" onclick="switchToTab('references');return false;" style="color:var(--red)">References</a> for more information).
-          </p>
-        </div>
       </div>
 
       <!-- YouTube thumbnail at bottom of welcome -->
@@ -194,14 +174,14 @@
   <!-- ══════════════════════════════════════════════════ KARATEKA TAB -->
   <section id="tab-karateka" class="tab-content hidden">
     <div class="controls-bar">
-      <input type="text" id="karateka-search" class="search-input" placeholder="Search karateka…" />
+      <input type="text" id="karateka-search" class="search-input" placeholder="Search athletes…" />
     </div>
     <div id="karateka-card" class="detail-card hidden"></div>
     <div class="table-wrapper table-wrapper--sticky">
       <table id="karateka-table" class="data-table">
         <thead>
           <tr>
-            <th data-col="Karateka">Karateka</th>
+            <th data-col="Karateka">Athlete</th>
             <th data-col="Country">Country</th>
             <th class="num">Medals</th>
             <th data-col="Performances" class="num">Performances</th>
@@ -343,13 +323,13 @@
     <div class="findings-grid">
 
       <div class="finding-block">
-        <h2 class="finding-title">Top Karateka by Average Score</h2>
+        <h2 class="finding-title">Top 20 Athletes by Average Score</h2>
         <p class="finding-desc" id="insight-k-avgscore"></p>
         <div class="chart-wrap medium"><canvas id="chart-k-avgscore"></canvas></div>
       </div>
 
       <div class="finding-block">
-        <h2 class="finding-title">Top Karateka by Win Rate</h2>
+        <h2 class="finding-title">Top 20 Athletes by Win Rate</h2>
         <p class="finding-desc" id="insight-k-winrate"></p>
         <div class="chart-wrap medium"><canvas id="chart-k-winrate"></canvas></div>
       </div>
@@ -366,6 +346,21 @@
   <!-- ══════════════════════════════════════════════════ IMPORTANT NOTES TAB -->
   <section id="tab-notes" class="tab-content hidden">
     <div class="notes-content">
+
+      <div class="note-section">
+        <h2>About the Data</h2>
+        <p>
+          Data was manually collected from official WKF scoring sheets and tournament results.
+          The dataset covers <strong>9 tournaments</strong>: the four 2024 Karate1 Premier League events
+          (Paris, Antalya, Cairo, Casablanca), the four 2025 K1 events (Cairo, Hangzhou, Paris, Rabat),
+          and the 2025 World Karate Championships in Abu Dhabi.
+        </p>
+        <p>
+          Kata are classified into three tiers — <strong>Advanced</strong>, <strong>Intermediate</strong>,
+          and <strong>Beginner</strong> — based on the USA Karate - Official Kata List
+          (see <a href="#" onclick="switchToTab('references');return false;" style="color:var(--red)">References</a> for more information).
+        </p>
+      </div>
 
       <div class="note-section">
         <h2>Data Collection</h2>
