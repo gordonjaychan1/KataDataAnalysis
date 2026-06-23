@@ -537,6 +537,9 @@ function setupKaratekaTab() {
 function renderKaratekaTable() {
   const s = sortState.karateka;
   const q = searchQuery.karateka;
+  DATA.karateka[gender].forEach(r => {
+    r.Range = (r.Max_Score != null && r.Min_Score != null) ? r.Max_Score - r.Min_Score : null;
+  });
   let rows = sortData(DATA.karateka[gender], s.col, s.dir);
   if (q) rows = rows.filter(r => r.Karateka && r.Karateka.toLowerCase().includes(q));
   document.getElementById("karateka-tbody").innerHTML = rows.map((r, i) => `
