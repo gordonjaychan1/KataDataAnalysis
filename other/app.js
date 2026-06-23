@@ -630,6 +630,13 @@ function showKataCard(r) {
   };
   const rk = (field, asc) => { const v = rankOf(field, asc); return v ? `<div class="stat-rank">${v}</div>` : ""; };
 
+  const scoreMissing = r.Performances > 0 && r.Mean_Score == null;
+  const dash = scoreMissing
+    ? `<span title="Score missing" style="cursor:help">—</span>`
+    : "—";
+  const fmtS3 = v => v != null ? fmt3(v) : dash;
+  const fmtS2 = v => v != null ? fmt2(v) : dash;
+
   /* country lookup for athlete table */
   const karCountry = Object.fromEntries((DATA.karateka[gender] || []).map(k => [k.Karateka, k.Country]));
 
@@ -657,6 +664,7 @@ function showKataCard(r) {
     <div class="card-header">
       <span class="card-title">${esc(r.Kata)}</span>${tierBadge(r.Kata_Tier)}
     </div>
+    ${scoreMissing ? `<p style="font-size:12px;color:var(--text-muted);background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:var(--radius);padding:8px 12px;margin-bottom:12px">The score for this kata's performance${r.Performances === 1 ? "" : "s"} was not recorded and is missing from the dataset. Score-related statistics are unavailable and shown as —.</p>` : ""}
     <div class="card-stats">
       <div class="stat-box">
         <div class="stat-label">Performances</div><div class="stat-value">${r.Performances}</div>${rk('Performances')}
@@ -665,21 +673,21 @@ function showKataCard(r) {
         <div class="stat-label">Athletes</div><div class="stat-value">${r.Unique_Karateka}</div>${rk('Unique_Karateka')}
       </div>
       <div class="stat-box">
-        <div class="stat-label">Avg Score</div><div class="stat-value">${fmt3(r.Mean_Score)}</div>${rk('Mean_Score')}
+        <div class="stat-label">Avg Score</div><div class="stat-value">${fmtS3(r.Mean_Score)}</div>${rk('Mean_Score')}
       </div>
       <div class="stat-box">
-        <div class="stat-label">Median</div><div class="stat-value">${fmt2(r.Median_Score)}</div>${rk('Median_Score')}
+        <div class="stat-label">Median</div><div class="stat-value">${fmtS2(r.Median_Score)}</div>${rk('Median_Score')}
       </div>
       <div class="stat-box">
-        <div class="stat-label">Min</div><div class="stat-value">${fmt2(r.Min_Score)}</div>${rk('Min_Score')}
+        <div class="stat-label">Min</div><div class="stat-value">${fmtS2(r.Min_Score)}</div>${rk('Min_Score')}
         ${minK ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">Athlete: ${esc(minK)}</div>` : ""}
       </div>
       <div class="stat-box">
-        <div class="stat-label">Max</div><div class="stat-value">${fmt2(r.Max_Score)}</div>${rk('Max_Score')}
+        <div class="stat-label">Max</div><div class="stat-value">${fmtS2(r.Max_Score)}</div>${rk('Max_Score')}
         ${maxK ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">Athlete: ${esc(maxK)}</div>` : ""}
       </div>
       <div class="stat-box">
-        <div class="stat-label">Std Dev</div><div class="stat-value">${fmt3(r.Std_Dev)}</div>${rk('Std_Dev', true)}
+        <div class="stat-label">Std Dev</div><div class="stat-value">${fmtS3(r.Std_Dev)}</div>${rk('Std_Dev', true)}
       </div>
       <div class="stat-box">
         <div class="stat-label">Win Rate</div><div class="stat-value">${fmtPct(r.Win_Rate)}</div>${rk('Win_Rate')}
@@ -704,7 +712,7 @@ function showKataCard(r) {
       <td class="num row-num">${i + 1}</td>
       <td class="name-cell">${flagOf(k._country)} ${esc(k.Karateka)}</td>
       <td class="num">${k.Performances}</td>
-      <td class="num">${k.Avg_Score != null ? k.Avg_Score.toFixed(3) : "—"}</td>
+      <td class="num">${k.Avg_Score != null ? k.Avg_Score.toFixed(3) : dash}</td>
     </tr>`);
   document.getElementById("kata-card").classList.remove("hidden");
 }
