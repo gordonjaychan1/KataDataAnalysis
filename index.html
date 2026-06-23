@@ -160,7 +160,6 @@
       <input type="text" id="kata-search" class="search-input" placeholder="Search kata…" />
     </div>
     <div id="kata-card" class="detail-card hidden"></div>
-    <div id="kata-summary" class="table-summary"></div>
     <div class="table-wrapper table-wrapper--sticky">
       <table id="kata-table" class="data-table">
         <thead>
@@ -177,9 +176,10 @@
             <th data-col="Range" class="num" title="Max score minus Min score — spread of scores for this kata">Range</th>
             <th data-col="Std_Dev" class="num" title="Score consistency — lower means scores are more similar across performances">Std Dev</th>
             <th data-col="Win_Rate" class="num" title="Percentage of performances where the athlete won the match">Win Rate</th>
-            <th data-col="Diff" class="num" title="This kata's avg score minus the performing athletes' overall avg scores — positive means the kata outperforms expectations">Score Differential</th>
+            <th data-col="Diff" class="num" title="How much kata scores deviate from their performers' personal averages, on average (kata avg score − athlete avg score)">Score Differential</th>
           </tr>
         </thead>
+        <tbody id="kata-summary-tbody" class="summary-body"></tbody>
         <tbody id="kata-tbody"></tbody>
       </table>
     </div>
@@ -191,7 +191,6 @@
       <input type="text" id="karateka-search" class="search-input" placeholder="Search athletes…" />
     </div>
     <div id="karateka-card" class="detail-card hidden"></div>
-    <div id="karateka-summary" class="table-summary"></div>
     <div class="table-wrapper table-wrapper--sticky">
       <table id="karateka-table" class="data-table">
         <thead>
@@ -210,6 +209,7 @@
             <th data-col="Win_Rate" class="num" title="Percentage of performances where the athlete won the match">Win Rate</th>
           </tr>
         </thead>
+        <tbody id="karateka-summary-tbody" class="summary-body"></tbody>
         <tbody id="karateka-tbody"></tbody>
       </table>
     </div>
@@ -231,6 +231,7 @@
             <th data-col="Avg_Score" class="num" title="Average score across all performances at this tournament">Avg Score</th>
           </tr>
         </thead>
+        <tbody id="tourn-summary-tbody" class="summary-body"></tbody>
         <tbody id="tournaments-tbody"></tbody>
       </table>
     </div>
@@ -257,6 +258,7 @@
             <th data-col="Medals" class="num" title="Total medals won this season">Medals</th>
           </tr>
         </thead>
+        <tbody id="countries-summary-tbody" class="summary-body"></tbody>
         <tbody id="countries-tbody"></tbody>
       </table>
     </div>

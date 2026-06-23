@@ -493,20 +493,23 @@ function renderKataTable() {
     const vals = allKata.map(r => r.Diff).filter(v => v != null);
     return vals.length ? vals.reduce((s,v) => s+v, 0) / vals.length : null;
   })();
-  const si = (label, value, tip) => `<div class="summary-item" title="${tip}"><span class="summary-label">${label}</span><span class="summary-value">${value}</span></div>`;
   const avgRange = avg("Max_Score") != null && avg("Min_Score") != null ? fmt2(avg("Max_Score") - avg("Min_Score")) : "—";
   const diffDisp = avgDiff != null ? (avgDiff >= 0 ? "+" : "") + avgDiff.toFixed(3) : "—";
-  document.getElementById("kata-summary").innerHTML =
-    si("Performances", medianPerfsKata ?? "—", "Median number of performances per kata — half of all kata were performed more than this, half fewer") +
-    si("Athletes",      fmt2(avg("Unique_Karateka")), "Mean number of unique athletes who performed each kata") +
-    si("Avg Score",     fmt3(avg("Mean_Score")),      "Mean of each kata's average score — the overall average score across all kata") +
-    si("Median Score",  fmt2(avg("Median_Score")),    "Mean of each kata's median score") +
-    si("Min",           fmt2(isFinite(absMin) ? absMin : null), "Absolute lowest score recorded for any kata this season") +
-    si("Max",           fmt2(isFinite(absMax) ? absMax : null), "Absolute highest score recorded for any kata this season") +
-    si("Range",         avgRange,                     "Mean of each kata's range (Max − Min) — average spread of scores within a kata") +
-    si("Std Dev",       fmt3(avg("Std_Dev")),         "Mean standard deviation across all kata — average score consistency") +
-    si("Win Rate",      fmtPct(weightedWR),           "Weighted win rate across all kata and performances — always near 50% since every match has a winner and a loser") +
-    si("Score Diff",    diffDisp,                     "Mean score differential — how much kata scores deviate from their performers' personal averages, on average");
+  const stb = document.getElementById("kata-summary-tbody"); if (stb) stb.innerHTML = `<tr>
+    <td class="num row-num"></td>
+    <td class="name-cell">Average Statistics across All Kata</td>
+    <td></td>
+    <td class="num" title="Median performances per kata — half of all kata were performed more than this, half fewer">${medianPerfsKata ?? "—"}</td>
+    <td class="num" title="Mean number of unique athletes who performed each kata">${fmt2(avg("Unique_Karateka"))}</td>
+    <td class="num" title="Mean of each kata's average score — the overall average score across all kata">${fmt3(avg("Mean_Score"))}</td>
+    <td class="num" title="Mean of each kata's median score">${fmt2(avg("Median_Score"))}</td>
+    <td class="num" title="Absolute lowest score recorded for any kata this season">${fmt2(isFinite(absMin) ? absMin : null)}</td>
+    <td class="num" title="Absolute highest score recorded for any kata this season">${fmt2(isFinite(absMax) ? absMax : null)}</td>
+    <td class="num" title="Mean of each kata's range (Max − Min) — average spread of scores within a kata">${avgRange}</td>
+    <td class="num" title="Mean standard deviation across all kata — average score consistency">${fmt3(avg("Std_Dev"))}</td>
+    <td class="num" title="Weighted win rate across all kata — always near 50% since every match has a winner and a loser">${fmtPct(weightedWR)}</td>
+    <td class="num" title="Mean score differential — how much kata scores deviate from their performers' personal averages, on average (kata avg score − athlete avg score)">${diffDisp}</td>
+  </tr>`;
   document.querySelectorAll("#kata-tbody tr").forEach(tr => {
     tr.addEventListener("click", () => {
       const row = DATA.kata[gender].find(r => r.Kata === tr.dataset.kata);
@@ -684,17 +687,21 @@ function renderKaratekaTable() {
   const totPerfsKar  = allKar.reduce((s,r) => s + (r.Performances || 0), 0);
   const totWinsKar   = allKar.reduce((s,r) => s + (r.Win_Rate != null ? r.Win_Rate * r.Performances : 0), 0);
   const wWRKar       = totPerfsKar ? totWinsKar / totPerfsKar : null;
-  const siK = (label, value, tip) => `<div class="summary-item" title="${tip}"><span class="summary-label">${label}</span><span class="summary-value">${value}</span></div>`;
   const absRangeK = isFinite(absMinK) && isFinite(absMaxK) ? fmt2(absMaxK - absMinK) : "—";
-  document.getElementById("karateka-summary").innerHTML =
-    siK("Performances", medianPerfsKar ?? "—",       "Median number of performances per athlete — half of all athletes competed more than this, half fewer") +
-    siK("Tournaments",  fmt2(avgK("Tournaments_Attended")), "Mean number of tournaments attended per athlete") +
-    siK("Avg Score",    fmt2(avgK("Mean_Score")),     "Mean of each athlete's average score — the overall average score across all athletes") +
-    siK("Median Score", fmt2(avgK("Median_Score")),   "Mean of each athlete's median score") +
-    siK("Min",          fmt2(isFinite(absMinK) ? absMinK : null), "Absolute lowest score recorded by any athlete in any single performance this season") +
-    siK("Max",          fmt2(isFinite(absMaxK) ? absMaxK : null), "Absolute highest score recorded by any athlete in any single performance this season") +
-    siK("Range",        absRangeK,                    "Difference between the season's absolute highest and lowest scores") +
-    siK("Win Rate",     fmtPct(wWRKar),               "Weighted win rate across all athletes and performances — always near 50% since every match has a winner and a loser");
+  const kstb = document.getElementById("karateka-summary-tbody"); if (kstb) kstb.innerHTML = `<tr>
+    <td class="num row-num"></td>
+    <td class="name-cell">Average Statistics across All Athletes</td>
+    <td></td>
+    <td></td>
+    <td class="num" title="Median performances per athlete — half of all athletes competed more than this, half fewer">${medianPerfsKar ?? "—"}</td>
+    <td class="num" title="Mean number of tournaments attended per athlete">${fmt2(avgK("Tournaments_Attended"))}</td>
+    <td class="num" title="Mean of each athlete's average score — the overall average score across all athletes">${fmt2(avgK("Mean_Score"))}</td>
+    <td class="num" title="Mean of each athlete's median score">${fmt2(avgK("Median_Score"))}</td>
+    <td class="num" title="Absolute lowest score recorded by any athlete in any single performance this season">${fmt2(isFinite(absMinK) ? absMinK : null)}</td>
+    <td class="num" title="Absolute highest score recorded by any athlete in any single performance this season">${fmt2(isFinite(absMaxK) ? absMaxK : null)}</td>
+    <td class="num" title="Difference between the season's absolute highest and lowest scores">${absRangeK}</td>
+    <td class="num" title="Weighted win rate across all athletes — always near 50% since every match has a winner and a loser">${fmtPct(wWRKar)}</td>
+  </tr>`;
   document.querySelectorAll("#karateka-tbody tr").forEach(tr => {
     tr.addEventListener("click", () => {
       const row = DATA.karateka[gender].find(r => r.Karateka === tr.dataset.karateka);
@@ -987,7 +994,24 @@ function buildCountryStats() {
 function renderCountriesTable() {
   const s = sortState.countries;
   const q = searchQuery.countries;
-  let all = buildCountryStats();
+  const fullAll = buildCountryStats();
+  const cMean = field => { const v = fullAll.map(r => r[field]).filter(x => x != null && isFinite(x)); return v.length ? v.reduce((s,x)=>s+x,0)/v.length : null; };
+  const cWtAvg = (() => { const tp = fullAll.reduce((s,r)=>s+(r.Performances||0),0); const ts = fullAll.reduce((s,r)=>s+(r.Avg_Score!=null?r.Avg_Score*r.Performances:0),0); return tp ? ts/tp : null; })();
+  const cWtWR  = (() => { const tp = fullAll.reduce((s,r)=>s+(r.Performances||0),0); const tw = fullAll.reduce((s,r)=>s+(r.Win_Rate!=null?r.Win_Rate*r.Performances:0),0); return tp ? tw/tp : null; })();
+  const cBest  = fullAll.map(r => r.Best_Score).filter(x => x != null && isFinite(x)).reduce((m,v)=>Math.max(m,v), -Infinity);
+  const cTotalMedals = fullAll.reduce((s,r) => s + (r.Medals || 0), 0);
+  const cstb = document.getElementById("countries-summary-tbody"); if (cstb) cstb.innerHTML = `<tr>
+    <td class="num row-num"></td>
+    <td class="name-cell">Average Statistics across All Countries</td>
+    <td class="num" title="Mean number of athletes per country">${fmt2(cMean("Athletes"))}</td>
+    <td class="num" title="Mean number of performances per country">${fmt2(cMean("Performances"))}</td>
+    <td class="num" title="Mean number of tournaments attended per country">${fmt2(cMean("Tournaments"))}</td>
+    <td class="num" title="Weighted average score across all countries and performances">${fmt2(cWtAvg)}</td>
+    <td class="num" title="Single highest score recorded by any athlete from any country this season">${isFinite(cBest) ? fmt2(cBest) : "—"}</td>
+    <td class="num" title="Weighted win rate across all countries — always near 50% since every match has a winner and a loser">${fmtPct(cWtWR)}</td>
+    <td class="num" title="Total medals won across all countries this season">${cTotalMedals || "—"}</td>
+  </tr>`;
+  let all = fullAll;
   if (q) all = all.filter(r => r.Country.toLowerCase().includes(q));
   const rows = sortData(all, s.col, s.dir);
   document.getElementById("countries-tbody").innerHTML = rows.map((r, i) => `
@@ -1026,6 +1050,17 @@ function renderTournamentsTable() {
   const baseRows = DATA.tournaments.filter(r => r.Gender.toLowerCase() === gender).map(r => ({
     ...r, Unique_Countries: (tournCountries[r.Tournament]?.size ?? 0),
   }));
+  const tMean = field => { const v = baseRows.map(r => r[field]).filter(x => x != null); return v.length ? v.reduce((s,x)=>s+x,0)/v.length : null; };
+  const tWtAvg = (() => { const tp = baseRows.reduce((s,r)=>s+(r.Total_Performances||0),0); const ts = baseRows.reduce((s,r)=>s+(r.Avg_Score!=null?r.Avg_Score*r.Total_Performances:0),0); return tp ? ts/tp : null; })();
+  const tstb = document.getElementById("tourn-summary-tbody"); if (tstb) tstb.innerHTML = `<tr>
+    <td class="num row-num"></td>
+    <td class="name-cell">Average Statistics across All Tournaments</td>
+    <td class="num" title="Mean number of performances per tournament">${fmt2(tMean("Total_Performances"))}</td>
+    <td class="num" title="Mean number of athletes per tournament">${fmt2(tMean("Unique_Karateka"))}</td>
+    <td class="num" title="Mean number of unique kata performed per tournament">${fmt2(tMean("Unique_Kata"))}</td>
+    <td class="num" title="Mean number of countries represented per tournament">${fmt2(tMean("Unique_Countries"))}</td>
+    <td class="num" title="Weighted average score across all tournaments and performances">${tWtAvg != null ? tWtAvg.toFixed(3) : "—"}</td>
+  </tr>`;
   const rows = sortData(baseRows, s.col, s.dir);
   const tmeta = t => TOURN_META[t] || {};
   document.getElementById("tournaments-tbody").innerHTML = rows.map((r, i) => `

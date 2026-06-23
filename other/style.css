@@ -143,13 +143,9 @@ header {
 .tier-Beginner     { background: var(--beg-bg); color: var(--beg-fg); border: 1px solid var(--border); }
 
 /* ── Tables ───────────────────────────────────────────────────────────────── */
-.table-summary { display: flex; flex-wrap: wrap; gap: 6px 0; align-items: center; background: rgba(240,232,214,0.45); border: 1px solid var(--border); border-radius: var(--radius) var(--radius) 0 0; border-bottom: none; padding: 7px 14px; font-size: 12px; color: var(--text-muted); }
-.table-summary + .table-wrapper { border-radius: 0 0 var(--radius) var(--radius); }
-.summary-item { display: flex; flex-direction: column; padding: 3px 14px; border-right: 1px solid var(--border); cursor: help; }
-.summary-item:first-child { padding-left: 4px; }
-.summary-item:last-child { border-right: none; }
-.summary-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--text-muted); margin-bottom: 1px; }
-.summary-value { font-size: 13px; font-weight: 600; color: var(--text); font-variant-numeric: tabular-nums; }
+.data-table tbody.summary-body td { background: rgba(240,232,214,0.6); border-bottom: 2px solid var(--border); padding: 8px 14px; font-size: 12px; color: var(--text-muted); cursor: default; white-space: nowrap; }
+.data-table tbody.summary-body td.num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--text); }
+.data-table tbody.summary-body td.name-cell { font-weight: 700; color: var(--text); }
 .table-wrapper { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
 .table-wrapper--sticky { max-height: 72vh; overflow-y: auto; }
 .table-wrapper--sticky .data-table thead th { position: sticky; top: 0; z-index: 5; background: var(--bg); box-shadow: 0 1px 0 var(--border); }
