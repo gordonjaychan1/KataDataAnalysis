@@ -1316,7 +1316,7 @@ function renderKaratekaFindings() {
     topCountries[0]
       ? `${countries.length} countries sent ${gender} kata athletes this season; ${multiCountries.length} sent 2 or more. ${topCountries[0].Country} sent the most with ${topCountries[0].Athletes} competitors.`
       : "";
-  makeHBar("chart-country", topCountries.map(r => `${flagEmoji(r.Country)} ${r.Country}`), topCountries.map(r => r.Athletes), "Athletes", 0);
+  makeHBar("chart-country", topCountries.map(r => r.Country), topCountries.map(r => r.Athletes), "Athletes", 0);
 }
 
 /* ════════════════════════════════════════════════════════════════ NOTES */
