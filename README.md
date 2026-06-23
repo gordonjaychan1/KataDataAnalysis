@@ -29,4 +29,4 @@ The toggle is now a red-bordered pill sitting pinned to the right end of the tab
 The red stats badge moved up into the header where the toggle used to be, next to the site title.
 kata, athletes, tournaments, countries tabs now have an averages row
 male vs. female tab: has a "findings" section
-findings tabs have figure labels
+findings tabs and appendix all have figure labels
