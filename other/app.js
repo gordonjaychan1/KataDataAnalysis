@@ -269,6 +269,7 @@ function renderCompareTab() {
       <div class="table-wrapper table-wrapper--sticky">
         <table class="data-table" id="compare-shared-table">
           <thead><tr>
+            <th class="num row-num">#</th>
             <th data-ccol="Kata"   style="cursor:pointer" onclick="sortCompareTable('Kata')">Kata</th>
             <th data-ccol="Male"   class="num" style="cursor:pointer" onclick="sortCompareTable('Male')">Male Avg</th>
             <th data-ccol="Female" class="num" style="cursor:pointer" onclick="sortCompareTable('Female')">Female Avg</th>
@@ -354,7 +355,8 @@ function renderCompareSharedTable() {
   });
   const tbody = document.getElementById("compare-shared-tbody");
   if (!tbody) return;
-  tbody.innerHTML = sorted.map(r => `<tr>
+  tbody.innerHTML = sorted.map((r, i) => `<tr>
+    <td class="num row-num">${i + 1}</td>
     <td class="name-cell">${esc(r.Kata)}</td>
     <td class="num">${r.Male.toFixed(3)}</td>
     <td class="num">${r.Female.toFixed(3)}</td>
