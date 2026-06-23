@@ -30,6 +30,7 @@
     <button class="tab-btn" data-tab="kata">Kata</button>
     <button class="tab-btn" data-tab="karateka">Athletes</button>
     <button class="tab-btn" data-tab="tournaments">Tournaments</button>
+    <button class="tab-btn" data-tab="countries">Countries</button>
     <button class="tab-btn" data-tab="kata-findings">Kata Findings</button>
     <button class="tab-btn" data-tab="karateka-findings">Athlete Findings</button>
     <button class="tab-btn" data-tab="compare">Male vs. Female</button>
@@ -158,6 +159,7 @@
             <th data-col="Median_Score" class="num" title="Middle score when all performances are sorted by score">Median</th>
             <th data-col="Min_Score" class="num" title="Lowest score recorded for this kata">Min</th>
             <th data-col="Max_Score" class="num" title="Highest score recorded for this kata">Max</th>
+            <th data-col="Range" class="num" title="Max score minus Min score — spread of scores for this kata">Range</th>
             <th data-col="Std_Dev" class="num" title="Score consistency — lower means scores are more similar across performances">Std Dev</th>
             <th data-col="Win_Rate" class="num" title="Percentage of performances where the athlete won the match">Win Rate</th>
             <th data-col="Diff" class="num" title="This kata's avg score minus the performing athletes' overall avg scores — positive means the kata outperforms expectations">Score Differential</th>
@@ -188,6 +190,7 @@
             <th data-col="Median_Score" class="num" title="Middle score when all the athlete's scores are sorted">Median</th>
             <th data-col="Min_Score" class="num" title="Lowest score the athlete received in any single performance">Min</th>
             <th data-col="Max_Score" class="num" title="Highest score the athlete received in any single performance">Max</th>
+            <th data-col="Range" class="num" title="Max score minus Min score — spread of the athlete's scores">Range</th>
             <th data-col="Win_Rate" class="num" title="Percentage of performances where the athlete won the match">Win Rate</th>
           </tr>
         </thead>
@@ -212,6 +215,28 @@
           </tr>
         </thead>
         <tbody id="tournaments-tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════ COUNTRIES TAB -->
+  <section id="tab-countries" class="tab-content hidden">
+    <div id="countries-card" class="detail-card hidden"></div>
+    <div class="table-wrapper table-wrapper--sticky">
+      <table id="countries-table" class="data-table">
+        <thead>
+          <tr>
+            <th data-col="Country" title="Country name">Country</th>
+            <th data-col="Athletes" class="num" title="Number of unique athletes who competed">Athletes</th>
+            <th data-col="Performances" class="num" title="Total kata performances by athletes from this country">Performances</th>
+            <th data-col="Tournaments" class="num" title="Number of distinct tournaments athletes from this country attended">Tournaments</th>
+            <th data-col="Avg_Score" class="num" title="Weighted average score across all performances">Avg Score</th>
+            <th data-col="Best_Score" class="num" title="Highest single-performance score by any athlete from this country">Best Score</th>
+            <th data-col="Win_Rate" class="num" title="Weighted win rate across all performances">Win Rate</th>
+            <th data-col="Medals" class="num" title="Total medals won this season">Medals</th>
+          </tr>
+        </thead>
+        <tbody id="countries-tbody"></tbody>
       </table>
     </div>
   </section>
