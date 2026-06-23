@@ -9,7 +9,7 @@ const sortState = {
   countries:   { col: "Athletes",     dir: "desc" },
 };
 
-const searchQuery = { kata: "", karateka: "" };
+const searchQuery = { kata: "", karateka: "", countries: "" };
 let compareShared   = [];   // cached for re-sort
 let compareSortCol  = "Diff";
 let compareSortDir  = "desc";
@@ -83,6 +83,10 @@ function init() {
   setupKaratekaTab();
   setupSortableTable("tournaments-table", "tournaments", renderTournamentsTable);
   setupSortableTable("countries-table",   "countries",   renderCountriesTable);
+  document.getElementById("countries-search").addEventListener("input", e => {
+    searchQuery.countries = e.target.value.trim().toLowerCase();
+    renderCountriesTable();
+  });
   buildMissingTables();
   addKataDiffs();
   renderAll();
@@ -718,7 +722,9 @@ function buildCountryStats() {
 
 function renderCountriesTable() {
   const s = sortState.countries;
-  const all = buildCountryStats();
+  const q = searchQuery.countries;
+  let all = buildCountryStats();
+  if (q) all = all.filter(r => r.Country.toLowerCase().includes(q));
   const rows = sortData(all, s.col, s.dir);
   document.getElementById("countries-tbody").innerHTML = rows.map(r => `
     <tr>
