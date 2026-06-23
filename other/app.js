@@ -250,54 +250,58 @@ function renderCompareTab() {
   const onlyPills = arr => arr.map(k => `<span class="pill">${tierBadge(k.Kata_Tier)} ${esc(k.Kata)} <span class="pill-count">${k.Performances}×</span></span>`).join("");
 
   document.getElementById("compare-content").innerHTML = `
-    <!-- Top 5 side by side -->
-    <div class="compare-grid">
-      <div class="compare-col">
-        <span class="fig-label">Figure G-1</span>
-        <h3 class="compare-head">Top 10 Most Performed — Male</h3>
-        <div class="table-wrapper">
-          <table class="data-table"><thead><tr><th>#</th><th>Kata</th><th class="num">Performances</th><th class="num">Avg Score</th></tr></thead>
-          <tbody>${mTop10.map((k,i) => top5Row(k,i)).join("")}</tbody></table>
-        </div>
-      </div>
-      <div class="compare-col">
-        <h3 class="compare-head">Top 10 Most Performed — Female</h3>
-        <div class="table-wrapper">
-          <table class="data-table"><thead><tr><th>#</th><th>Kata</th><th class="num">Performances</th><th class="num">Avg Score</th></tr></thead>
-          <tbody>${fTop10.map((k,i) => top5Row(k,i)).join("")}</tbody></table>
-        </div>
-      </div>
-    </div>
-
-    <!-- Exclusive kata -->
-    <div class="compare-grid" style="margin-top:48px">
-      <div class="compare-col">
-        <span class="fig-label">Figure G-2</span>
-        <h3 class="compare-head">Performed by Males Only (${mOnly.length})</h3>
-        <div class="pill-list">${onlyPills(mOnly) || "<em style='color:var(--text-muted)'>None</em>"}</div>
-      </div>
-      <div class="compare-col">
-        <h3 class="compare-head">Performed by Females Only (${fOnly.length})</h3>
-        <div class="pill-list">${onlyPills(fOnly) || "<em style='color:var(--text-muted)'>None</em>"}</div>
-      </div>
-    </div>
-
     <!-- Findings -->
-    <div style="margin-top:48px">
+    <div>
       <h3 class="compare-head">Findings</h3>
       <div class="finding-block" style="margin-top:0">
         <ul style="font-size:13px;color:var(--text-muted);line-height:2.2;padding-left:20px">
           <li>Male athletes performed <strong style="color:var(--text)">${mkata.length}</strong> unique kata across the 2024–25 season. Female athletes performed the same number — <strong style="color:var(--text)">${fkata.length}</strong> unique kata.</li>
-          <li>Of those, <strong style="color:var(--text)">${trueSharedCount}</strong> kata were performed by both genders. <strong style="color:var(--text)">${mOnly.length}</strong> kata were performed exclusively by males, and <strong style="color:var(--text)">${fOnly.length}</strong> exclusively by females. See <em>Performed by Males Only</em> and <em>Performed by Females Only</em> above for the specific kata.</li>
-          <li>The most performed kata among male athletes was <strong style="color:var(--text)">${mTop1 ? esc(mTop1.Kata) : "—"}</strong>${mTop1 ? ` with <strong style="color:var(--text)">${mTop1.Performances}</strong> performances` : ""}. For female athletes it was <strong style="color:var(--text)">${fTop1 ? esc(fTop1.Kata) : "—"}</strong>${fTop1 ? ` with <strong style="color:var(--text)">${fTop1.Performances}</strong> performances` : ""}. See <em>Top 10 Most Performed</em> above.</li>
+          <li>Of those, <strong style="color:var(--text)">${trueSharedCount}</strong> kata were performed by both genders. <strong style="color:var(--text)">${mOnly.length}</strong> kata were performed exclusively by males, and <strong style="color:var(--text)">${fOnly.length}</strong> exclusively by females. See <em>Figure G-2</em> below for the specific kata.</li>
+          <li>The most performed kata among male athletes was <strong style="color:var(--text)">${mTop1 ? esc(mTop1.Kata) : "—"}</strong>${mTop1 ? ` with <strong style="color:var(--text)">${mTop1.Performances}</strong> performances` : ""}. For female athletes it was <strong style="color:var(--text)">${fTop1 ? esc(fTop1.Kata) : "—"}</strong>${fTop1 ? ` with <strong style="color:var(--text)">${fTop1.Performances}</strong> performances` : ""}. See <em>Figure G-1</em> below.</li>
           <li>The average score given to any male kata performance was <strong style="color:var(--text)">${mAvgScore != null ? mAvgScore.toFixed(3) : "—"}</strong>. For female kata performances, it was <strong style="color:var(--text)">${fAvgScore != null ? fAvgScore.toFixed(3) : "—"}</strong>.</li>
           <li>Across the season, male athletes recorded <strong style="color:var(--text)">${mTotalPerfs.toLocaleString()}</strong> total kata performances, compared to <strong style="color:var(--text)">${fTotalPerfs.toLocaleString()}</strong> for female athletes.</li>
         </ul>
       </div>
     </div>
 
+    <!-- Top 10 side by side -->
+    <div style="margin-top:64px">
+      <span class="fig-label">Figure G-1</span>
+      <div class="compare-grid">
+        <div class="compare-col">
+          <h3 class="compare-head">Top 10 Most Performed — Male</h3>
+          <div class="table-wrapper">
+            <table class="data-table"><thead><tr><th>#</th><th>Kata</th><th class="num">Performances</th><th class="num">Avg Score</th></tr></thead>
+            <tbody>${mTop10.map((k,i) => top5Row(k,i)).join("")}</tbody></table>
+          </div>
+        </div>
+        <div class="compare-col">
+          <h3 class="compare-head">Top 10 Most Performed — Female</h3>
+          <div class="table-wrapper">
+            <table class="data-table"><thead><tr><th>#</th><th>Kata</th><th class="num">Performances</th><th class="num">Avg Score</th></tr></thead>
+            <tbody>${fTop10.map((k,i) => top5Row(k,i)).join("")}</tbody></table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Exclusive kata -->
+    <div style="margin-top:64px">
+      <span class="fig-label">Figure G-2</span>
+      <div class="compare-grid">
+        <div class="compare-col">
+          <h3 class="compare-head">Performed by Males Only (${mOnly.length})</h3>
+          <div class="pill-list">${onlyPills(mOnly) || "<em style='color:var(--text-muted)'>None</em>"}</div>
+        </div>
+        <div class="compare-col">
+          <h3 class="compare-head">Performed by Females Only (${fOnly.length})</h3>
+          <div class="pill-list">${onlyPills(fOnly) || "<em style='color:var(--text-muted)'>None</em>"}</div>
+        </div>
+      </div>
+    </div>
+
     <!-- Avg score comparison -->
-    <div style="margin-top:48px">
+    <div style="margin-top:64px">
       <span class="fig-label">Figure G-3</span>
       <h3 class="compare-head">Average Score Comparison — Shared Kata (${compareShared.length})</h3>
       <p style="font-size:12px;color:var(--text-muted);margin-bottom:10px">Click any column header to sort. Diff = Male − Female. Green = males scored higher; red = females scored higher.</p>
