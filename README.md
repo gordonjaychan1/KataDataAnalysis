@@ -15,3 +15,4 @@ add a countries tab
 at the top, where it says: "Male Kata · 9 Tournaments · 1006 Performances · 78 Athletes", change it to: "Male Kata · 1006 Performances ·  29 Unique Kata · 78 Athletes · 9 Tournaments · 41 Countries" (and update female to reflect their numbers for these stats)
 kata, athletes, tournaments, countries tabs: add a number to the left of each row
 countries tab: Clicking a country row now opens a detail card with: stat boxes, medals section, athletes table, kata performed table
+male vs female tab: Average Score Comparison — Shared Kata (22): add a graph that graphs the male - female average score difference.
