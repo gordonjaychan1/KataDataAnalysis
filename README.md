@@ -25,3 +25,5 @@ tournament detail card: athletes table: add an avg score column and a performanc
 column headers in ALL tables are now clickable to sort by that header (kata/athlete/country/tournament detail card tables didn't have this functionality before)
 Both tables on the Male vs Female tab now show the top 10 most performed kata (instead of top 5)
 Tab bar now has thin vertical lines separating the four tab groups. 
+The toggle is now a red-bordered pill sitting pinned to the right end of the tab bar.
+The red stats badge moved up into the header where the toggle used to be, next to the site title.
