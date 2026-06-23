@@ -514,8 +514,9 @@ function showKataCard(r) {
   const karCountry = Object.fromEntries((DATA.karateka[gender] || []).map(k => [k.Karateka, k.Country]));
 
   const athletes  = (r.All_Karateka || []);
-  const athleteRows = athletes.map(k => `
+  const athleteRows = athletes.map((k, i) => `
     <tr>
+      <td class="num row-num">${i + 1}</td>
       <td class="name-cell">${flagOf(karCountry[k.Karateka])} ${esc(k.Karateka)}</td>
       <td class="num">${k.Performances}</td>
       <td class="num">${k.Avg_Score != null ? k.Avg_Score.toFixed(3) : "—"}</td>
@@ -569,7 +570,7 @@ function showKataCard(r) {
     <div class="card-section-title">All Athletes</div>
     <div class="card-table-wrap">
       <table class="data-table">
-        <thead><tr><th>Karateka</th><th class="num">Performances</th><th class="num">Avg Score</th></tr></thead>
+        <thead><tr><th class="num row-num">#</th><th>Karateka</th><th class="num">Performances</th><th class="num">Avg Score</th></tr></thead>
         <tbody>${athleteRows}</tbody>
       </table>
     </div>` : ""}`;
@@ -656,8 +657,9 @@ function showKaratekaCard(r) {
   const bestPerf  = scoredPerfs.reduce((best, p)  => (p.Avg_Score > (best?.Avg_Score  ?? -Infinity) ? p : best),  null);
   const worstPerf = scoredPerfs.reduce((worst, p) => (p.Avg_Score < (worst?.Avg_Score ??  Infinity) ? p : worst), null);
   const roundLabel = { rr:"Round Robin", r1:"Round 1", r2:"Round 2", r3:"Round 3", rpc:"Repechage" };
-  const perfRows = perfs.map(p => `
+  const perfRows = perfs.map((p, i) => `
     <tr>
+      <td class="num row-num">${i + 1}</td>
       <td>${esc(p.Tournament || "—")}</td>
       <td>${esc(roundLabel[p.Round] || p.Round || "—")}</td>
       <td class="name-cell">${esc(p.Kata || "—")}</td>
@@ -673,7 +675,7 @@ function showKaratekaCard(r) {
       kataAvgMap[p.Kata].n++;
     }
   }
-  const repertoireRows = (r.Kata_Repertoire || []).map(k => {
+  const repertoireRows = (r.Kata_Repertoire || []).map((k, i) => {
     const kData = DATA.kata[gender]?.find(d => d.Kata === k.Kata);
     const winEntry = kataAvgMap[k.Kata];
     const avgScore = winEntry ? (winEntry.sum / winEntry.n).toFixed(2) : "—";
@@ -681,6 +683,7 @@ function showKaratekaCard(r) {
     const kPerfs = k.count;
     const kWR = kPerfs ? fmtPct(kWins / kPerfs) : "—";
     return `<tr>
+      <td class="num row-num">${i + 1}</td>
       <td>${kData ? tierBadge(kData.Kata_Tier) : ""} ${esc(k.Kata)}</td>
       <td class="num">${kPerfs}</td>
       <td class="num">${avgScore}</td>
@@ -689,7 +692,7 @@ function showKaratekaCard(r) {
   }).join("");
   const repertoire = repertoireRows ? `
     <table class="data-table" style="margin-top:4px">
-      <thead><tr><th>Kata</th><th class="num">Performances</th><th class="num">Avg Score</th><th class="num">Win Rate</th></tr></thead>
+      <thead><tr><th class="num row-num">#</th><th>Kata</th><th class="num">Performances</th><th class="num">Avg Score</th><th class="num">Win Rate</th></tr></thead>
       <tbody>${repertoireRows}</tbody>
     </table>` : "";
 
@@ -740,7 +743,7 @@ function showKaratekaCard(r) {
     <div class="card-section-title">All Performances</div>
     <div class="card-table-wrap">
       <table class="data-table">
-        <thead><tr><th>Tournament</th><th>Round</th><th>Kata</th><th class="num">Score</th><th class="num">Result</th></tr></thead>
+        <thead><tr><th class="num row-num">#</th><th>Tournament</th><th>Round</th><th>Kata</th><th class="num">Score</th><th class="num">Result</th></tr></thead>
         <tbody>${perfRows}</tbody>
       </table>
     </div>` : ""}`;
@@ -770,7 +773,8 @@ function showCountryCard(r, all) {
 
   const athleteRows = (r._athleteObjs || [])
     .sort((a, b) => (b.Mean_Score ?? 0) - (a.Mean_Score ?? 0))
-    .map(k => `<tr>
+    .map((k, i) => `<tr>
+      <td class="num row-num">${i + 1}</td>
       <td class="name-cell">${esc(k.Karateka)}</td>
       <td class="num">${k.Performances ?? "—"}</td>
       <td class="num">${fmt2(k.Mean_Score)}</td>
@@ -814,7 +818,7 @@ function showCountryCard(r, all) {
     <div class="card-section-title">Athletes</div>
     <div class="card-table-wrap" style="margin-bottom:14px">
       <table class="data-table">
-        <thead><tr><th>Athlete</th><th class="num">Performances</th><th class="num">Avg Score</th><th class="num">Best Score</th><th class="num">Win Rate</th><th class="num">Medals</th></tr></thead>
+        <thead><tr><th class="num row-num">#</th><th>Athlete</th><th class="num">Performances</th><th class="num">Avg Score</th><th class="num">Best Score</th><th class="num">Win Rate</th><th class="num">Medals</th></tr></thead>
         <tbody>${athleteRows}</tbody>
       </table>
     </div>
@@ -899,7 +903,20 @@ function renderCountriesTable() {
 
 function renderTournamentsTable() {
   const s = sortState.tournaments;
-  const rows = sortData(DATA.tournaments.filter(r => r.Gender.toLowerCase() === gender), s.col, s.dir);
+  /* compute unique countries per tournament */
+  const tournCountries = {};
+  for (const k of (DATA.karateka[gender] || [])) {
+    for (const p of (k.Performances_Detail || [])) {
+      if (p.Tournament && k.Country) {
+        if (!tournCountries[p.Tournament]) tournCountries[p.Tournament] = new Set();
+        tournCountries[p.Tournament].add(k.Country);
+      }
+    }
+  }
+  const baseRows = DATA.tournaments.filter(r => r.Gender.toLowerCase() === gender).map(r => ({
+    ...r, Unique_Countries: (tournCountries[r.Tournament]?.size ?? 0),
+  }));
+  const rows = sortData(baseRows, s.col, s.dir);
   const tmeta = t => TOURN_META[t] || {};
   document.getElementById("tournaments-tbody").innerHTML = rows.map((r, i) => `
     <tr data-tourn="${esc(r.Tournament)}" style="cursor:pointer">
@@ -908,6 +925,7 @@ function renderTournamentsTable() {
       <td class="num">${r.Total_Performances}</td>
       <td class="num">${r.Unique_Karateka}</td>
       <td class="num">${r.Unique_Kata}</td>
+      <td class="num">${r.Unique_Countries || "—"}</td>
       <td class="num">${r.Avg_Score != null ? r.Avg_Score.toFixed(3) : "—"}</td>
     </tr>`).join("");
   document.querySelectorAll("#tournaments-tbody tr").forEach(tr => {
@@ -950,7 +968,8 @@ function tournamentShowList(type) {
 function showTournamentCard(r) {
   lastTournCard = r.Tournament;
   const meta = TOURN_META[r.Tournament] || {};
-  /* collect medalists for this tournament */
+
+  /* medalists */
   const medalists = [];
   for (const k of (DATA.karateka[gender] || [])) {
     for (const m of (k.Medals || [])) {
@@ -960,7 +979,49 @@ function showTournamentCard(r) {
   medalists.sort((a, b) => a.place - b.place);
   const medalistHtml = medalists.length ? `
     <div class="card-section-title" style="margin-top:14px">Medalists</div>
-    <div class="pill-list">${medalists.map(m => `<span class="pill">${m.place===1?"🥇":m.place===2?"🥈":"🥉"} ${flagOf(m.country)} ${esc(m.name)}</span>`).join("")}</div>` : "";
+    <div class="pill-list" style="margin-bottom:14px">${medalists.map(m => `<span class="pill">${m.place===1?"🥇":m.place===2?"🥈":"🥉"} ${flagOf(m.country)} ${esc(m.name)}</span>`).join("")}</div>` : "";
+
+  /* athletes */
+  const athletes = (DATA.karateka[gender] || [])
+    .filter(k => (k.Tournament_List || []).includes(r.Tournament))
+    .sort((a, b) => a.Karateka.localeCompare(b.Karateka));
+  const athleteRows = athletes.map((k, i) => `<tr>
+    <td class="num row-num">${i + 1}</td>
+    <td class="name-cell">${flagOf(k.Country)} ${esc(k.Karateka)}</td>
+    <td>${esc(k.Country || "—")}</td>
+  </tr>`).join("");
+
+  /* unique kata with tier */
+  const kataCount = {};
+  for (const k of athletes) {
+    for (const p of (k.Performances_Detail || [])) {
+      if (p.Tournament === r.Tournament && p.Kata) kataCount[p.Kata] = (kataCount[p.Kata] || 0) + 1;
+    }
+  }
+  const kataLookup = Object.fromEntries((DATA.kata[gender] || []).map(d => [d.Kata, d]));
+  const kataArr = Object.entries(kataCount).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  const kataRows = kataArr.map(([kata, count], i) => {
+    const kd = kataLookup[kata];
+    return `<tr>
+      <td class="num row-num">${i + 1}</td>
+      <td class="name-cell">${kd ? tierBadge(kd.Kata_Tier) : ""} ${esc(kata)}</td>
+      <td class="num">${count}</td>
+    </tr>`;
+  }).join("");
+
+  /* countries */
+  const countryMap = {};
+  for (const k of athletes) {
+    if (k.Country) countryMap[k.Country] = (countryMap[k.Country] || 0) + 1;
+  }
+  const countryArr = Object.entries(countryMap).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+  const countryRows = countryArr.map(([country, cnt], i) => `<tr>
+    <td class="num row-num">${i + 1}</td>
+    <td class="name-cell">${flagOf(country)} ${esc(country)}</td>
+    <td class="num">${cnt}</td>
+  </tr>`).join("");
+
+  /* missing data */
   const missingTotal = (r.Missing_Kata || 0) + (r.Missing_Score || 0) + (r.Missing_Both || 0);
   let missingHtml = "";
   if (missingTotal === 0) {
@@ -973,6 +1034,7 @@ function showTournamentCard(r) {
     missingHtml = `<div class="card-section-title" style="margin-top:14px">Missing Data</div>
       <ul style="font-size:13px;color:var(--text-muted);padding-left:18px;line-height:1.8">${lines.map(l=>`<li>${l}</li>`).join("")}</ul>`;
   }
+
   document.getElementById("tournaments-card").innerHTML = `
     <button class="card-close-btn" onclick="document.getElementById('tournaments-card').classList.add('hidden')" title="Close">✕</button>
     <div class="card-header">
@@ -982,16 +1044,33 @@ function showTournamentCard(r) {
     ${meta.city ? `<p style="font-size:13px;color:var(--text-muted);margin-bottom:14px">${flagOf(meta.country)} ${esc(meta.city)}, ${esc(meta.country)}</p>` : ""}
     <div class="card-stats">
       <div class="stat-box"><div class="stat-label">Performances</div><div class="stat-value">${r.Total_Performances}</div></div>
-      <div class="stat-box clickable" onclick="tournamentShowList('athletes')" title="Click to see athlete list">
-        <div class="stat-label">Athletes ↓</div><div class="stat-value">${r.Unique_Karateka}</div>
-      </div>
-      <div class="stat-box clickable" onclick="tournamentShowList('kata')" title="Click to see kata list">
-        <div class="stat-label">Unique Kata ↓</div><div class="stat-value">${r.Unique_Kata}</div>
-      </div>
+      <div class="stat-box"><div class="stat-label">Athletes</div><div class="stat-value">${athletes.length}</div></div>
+      <div class="stat-box"><div class="stat-label">Unique Kata</div><div class="stat-value">${kataArr.length}</div></div>
+      <div class="stat-box"><div class="stat-label">Countries</div><div class="stat-value">${countryArr.length}</div></div>
       <div class="stat-box"><div class="stat-label">Avg Score</div><div class="stat-value">${r.Avg_Score != null ? r.Avg_Score.toFixed(3) : "—"}</div></div>
     </div>
     ${medalistHtml}
-    <div id="tourn-list-panel" style="margin-top:8px"></div>
+    <div class="card-section-title">Athletes (${athletes.length})</div>
+    <div class="card-table-wrap" style="margin-bottom:14px">
+      <table class="data-table">
+        <thead><tr><th class="num row-num">#</th><th>Athlete</th><th>Country</th></tr></thead>
+        <tbody>${athleteRows}</tbody>
+      </table>
+    </div>
+    <div class="card-section-title">Kata Performed (${kataArr.length})</div>
+    <div class="card-table-wrap" style="margin-bottom:14px">
+      <table class="data-table">
+        <thead><tr><th class="num row-num">#</th><th>Kata</th><th class="num">Performances</th></tr></thead>
+        <tbody>${kataRows}</tbody>
+      </table>
+    </div>
+    <div class="card-section-title">Countries (${countryArr.length})</div>
+    <div class="card-table-wrap" style="margin-bottom:14px">
+      <table class="data-table">
+        <thead><tr><th class="num row-num">#</th><th>Country</th><th class="num">Athletes</th></tr></thead>
+        <tbody>${countryRows}</tbody>
+      </table>
+    </div>
     ${missingHtml}`;
   document.getElementById("tournaments-card").classList.remove("hidden");
 }
