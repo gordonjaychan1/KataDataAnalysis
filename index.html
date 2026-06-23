@@ -244,6 +244,38 @@
         <div class="chart-wrap chart-wrap--square"><canvas id="chart-scatter"></canvas></div>
       </div>
 
+      <div class="finding-block" id="finding-kk-avg">
+        <h2 class="finding-title">Kata Score vs. Athlete's Average</h2>
+        <p class="finding-desc" id="insight-kk-avg"></p>
+        <div class="table-wrapper" style="max-width:540px">
+          <table class="data-table" id="kata-kk-avg-table">
+            <thead><tr>
+              <th data-col="Kata">Kata</th>
+              <th data-col="Diff" class="num">Diff vs Athlete Avg</th>
+              <th data-col="Performances" class="num">Performances</th>
+            </tr></thead>
+            <tbody id="kata-kk-avg-tbody"></tbody>
+          </table>
+        </div>
+        <div class="chart-wrap" style="margin-top:20px;height:800px"><canvas id="chart-kk-avg"></canvas></div>
+      </div>
+
+      <div class="finding-block">
+        <h2 class="finding-title">Standard Deviation of Kata Scores vs. Number of Performers</h2>
+        <p class="finding-desc" id="insight-stddev"></p>
+        <div class="table-wrapper" style="max-width:480px">
+          <table class="data-table" id="kata-stddev-table">
+            <thead><tr>
+              <th data-col="Kata">Kata</th>
+              <th data-col="Unique_Karateka" class="num">Unique Performers</th>
+              <th data-col="Std_Dev" class="num">Score Std Dev</th>
+            </tr></thead>
+            <tbody id="kata-stddev-tbody"></tbody>
+          </table>
+        </div>
+        <div class="chart-wrap" style="margin-top:20px; height:714px; max-width:70%"><canvas id="chart-stddev"></canvas></div>
+      </div>
+
       <div class="finding-block">
         <h2 class="finding-title">Kata Tier Breakdown</h2>
         <p class="finding-desc" id="insight-tier"></p>
@@ -280,38 +312,6 @@
         <h2 class="finding-title">Performed &amp; Unperformed Kata by Tier</h2>
         <p class="finding-desc" id="insight-performed"></p>
         <div id="performed-kata-grid" class="performed-kata-grid"></div>
-      </div>
-
-      <div class="finding-block" id="finding-kk-avg">
-        <h2 class="finding-title">Kata Score vs. Athlete's Average</h2>
-        <p class="finding-desc" id="insight-kk-avg"></p>
-        <div class="table-wrapper" style="max-width:540px">
-          <table class="data-table" id="kata-kk-avg-table">
-            <thead><tr>
-              <th data-col="Kata">Kata</th>
-              <th data-col="Diff" class="num">Diff vs Athlete Avg</th>
-              <th data-col="Performances" class="num">Performances</th>
-            </tr></thead>
-            <tbody id="kata-kk-avg-tbody"></tbody>
-          </table>
-        </div>
-        <div class="chart-wrap" style="margin-top:20px;height:800px"><canvas id="chart-kk-avg"></canvas></div>
-      </div>
-
-      <div class="finding-block">
-        <h2 class="finding-title">Standard Deviation of Kata Scores vs. Number of Performers</h2>
-        <p class="finding-desc" id="insight-stddev"></p>
-        <div class="table-wrapper" style="max-width:480px">
-          <table class="data-table" id="kata-stddev-table">
-            <thead><tr>
-              <th data-col="Kata">Kata</th>
-              <th data-col="Unique_Karateka" class="num">Unique Performers</th>
-              <th data-col="Std_Dev" class="num">Score Std Dev</th>
-            </tr></thead>
-            <tbody id="kata-stddev-tbody"></tbody>
-          </table>
-        </div>
-        <div class="chart-wrap" style="margin-top:20px; height:714px; max-width:70%"><canvas id="chart-stddev"></canvas></div>
       </div>
 
     </div>
