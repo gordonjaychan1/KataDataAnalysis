@@ -214,8 +214,8 @@ function renderCompareTab() {
   const mOnly = mkata.filter(k => !fSet.has(k.Kata)).sort((a,b) => b.Performances - a.Performances);
   const fOnly = fkata.filter(k => !mSet.has(k.Kata)).sort((a,b) => b.Performances - a.Performances);
 
-  const mTop5 = [...mkata].sort((a,b) => b.Performances - a.Performances).slice(0,5);
-  const fTop5 = [...fkata].sort((a,b) => b.Performances - a.Performances).slice(0,5);
+  const mTop10 = [...mkata].sort((a,b) => b.Performances - a.Performances).slice(0,10);
+  const fTop10 = [...fkata].sort((a,b) => b.Performances - a.Performances).slice(0,10);
 
   /* avg score comparison for shared kata */
   compareShared = mkata.filter(k => fSet.has(k.Kata) && k.Mean_Score != null).map(mk => {
@@ -236,17 +236,17 @@ function renderCompareTab() {
     <!-- Top 5 side by side -->
     <div class="compare-grid">
       <div class="compare-col">
-        <h3 class="compare-head">Top 5 Most Performed — Male</h3>
+        <h3 class="compare-head">Top 10 Most Performed — Male</h3>
         <div class="table-wrapper">
           <table class="data-table"><thead><tr><th>#</th><th>Kata</th><th class="num">Performances</th><th class="num">Avg Score</th></tr></thead>
-          <tbody>${mTop5.map((k,i) => top5Row(k,i)).join("")}</tbody></table>
+          <tbody>${mTop10.map((k,i) => top5Row(k,i)).join("")}</tbody></table>
         </div>
       </div>
       <div class="compare-col">
-        <h3 class="compare-head">Top 5 Most Performed — Female</h3>
+        <h3 class="compare-head">Top 10 Most Performed — Female</h3>
         <div class="table-wrapper">
           <table class="data-table"><thead><tr><th>#</th><th>Kata</th><th class="num">Performances</th><th class="num">Avg Score</th></tr></thead>
-          <tbody>${fTop5.map((k,i) => top5Row(k,i)).join("")}</tbody></table>
+          <tbody>${fTop10.map((k,i) => top5Row(k,i)).join("")}</tbody></table>
         </div>
       </div>
     </div>
@@ -1316,7 +1316,7 @@ function renderKataFindings() {
   /* 1. Popularity */
   const popSorted = [...kata].sort((a, b) => b.Performances - a.Performances);
   const top1 = popSorted[0];
-  const top5Perfs = popSorted.slice(0,5).reduce((s,r) => s + r.Performances, 0);
+  const top5Perfs = popSorted.slice(0,10).reduce((s,r) => s + r.Performances, 0);
   const totalPerfsAll = DATA.meta[gender+"_performances"];
   document.getElementById("insight-popularity").textContent =
     `${top1.Kata} was the most performed ${gender === "male" ? "Male" : "Female"} kata with ${top1.Performances} performances across ${top1.Unique_Karateka} athletes. ` +
