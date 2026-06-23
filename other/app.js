@@ -217,6 +217,23 @@ function renderCompareTab() {
   const mTop10 = [...mkata].sort((a,b) => b.Performances - a.Performances).slice(0,10);
   const fTop10 = [...fkata].sort((a,b) => b.Performances - a.Performances).slice(0,10);
 
+  const mKarAll = DATA.karateka.male || [];
+  const fKarAll = DATA.karateka.female || [];
+  const wtAvg = karAll => {
+    const tp = karAll.reduce((s,k) => s + (k.Performances||0), 0);
+    const ts = karAll.reduce((s,k) => s + (k.Mean_Score != null ? k.Mean_Score * k.Performances : 0), 0);
+    return tp ? ts / tp : null;
+  };
+  const mAvgScore = wtAvg(mKarAll);
+  const fAvgScore = wtAvg(fKarAll);
+
+  /* derived counts for findings */
+  const trueSharedCount = mkata.length - mOnly.length;  // shared by set membership (before score filter)
+  const mTop1 = mTop10[0];
+  const fTop1 = fTop10[0];
+  const mTotalPerfs = mKarAll.reduce((s,k) => s + (k.Performances||0), 0);
+  const fTotalPerfs = fKarAll.reduce((s,k) => s + (k.Performances||0), 0);
+
   /* avg score comparison for shared kata */
   compareShared = mkata.filter(k => fSet.has(k.Kata) && k.Mean_Score != null).map(mk => {
     const fk = fkata.find(k => k.Kata === mk.Kata);
@@ -236,6 +253,7 @@ function renderCompareTab() {
     <!-- Top 5 side by side -->
     <div class="compare-grid">
       <div class="compare-col">
+        <span class="fig-label">Figure G-1</span>
         <h3 class="compare-head">Top 10 Most Performed — Male</h3>
         <div class="table-wrapper">
           <table class="data-table"><thead><tr><th>#</th><th>Kata</th><th class="num">Performances</th><th class="num">Avg Score</th></tr></thead>
@@ -254,6 +272,7 @@ function renderCompareTab() {
     <!-- Exclusive kata -->
     <div class="compare-grid" style="margin-top:48px">
       <div class="compare-col">
+        <span class="fig-label">Figure G-2</span>
         <h3 class="compare-head">Performed by Males Only (${mOnly.length})</h3>
         <div class="pill-list">${onlyPills(mOnly) || "<em style='color:var(--text-muted)'>None</em>"}</div>
       </div>
@@ -263,8 +282,23 @@ function renderCompareTab() {
       </div>
     </div>
 
+    <!-- Findings -->
+    <div style="margin-top:48px">
+      <h3 class="compare-head">Findings</h3>
+      <div class="finding-block" style="margin-top:0">
+        <ul style="font-size:13px;color:var(--text-muted);line-height:2.2;padding-left:20px">
+          <li>Male athletes performed <strong style="color:var(--text)">${mkata.length}</strong> unique kata across the 2024–25 season. Female athletes performed the same number — <strong style="color:var(--text)">${fkata.length}</strong> unique kata.</li>
+          <li>Of those, <strong style="color:var(--text)">${trueSharedCount}</strong> kata were performed by both genders. <strong style="color:var(--text)">${mOnly.length}</strong> kata were performed exclusively by males, and <strong style="color:var(--text)">${fOnly.length}</strong> exclusively by females. See <em>Performed by Males Only</em> and <em>Performed by Females Only</em> above for the specific kata.</li>
+          <li>The most performed kata among male athletes was <strong style="color:var(--text)">${mTop1 ? esc(mTop1.Kata) : "—"}</strong>${mTop1 ? ` with <strong style="color:var(--text)">${mTop1.Performances}</strong> performances` : ""}. For female athletes it was <strong style="color:var(--text)">${fTop1 ? esc(fTop1.Kata) : "—"}</strong>${fTop1 ? ` with <strong style="color:var(--text)">${fTop1.Performances}</strong> performances` : ""}. See <em>Top 10 Most Performed</em> above.</li>
+          <li>The average score given to any male kata performance was <strong style="color:var(--text)">${mAvgScore != null ? mAvgScore.toFixed(3) : "—"}</strong>. For female kata performances, it was <strong style="color:var(--text)">${fAvgScore != null ? fAvgScore.toFixed(3) : "—"}</strong>.</li>
+          <li>Across the season, male athletes recorded <strong style="color:var(--text)">${mTotalPerfs.toLocaleString()}</strong> total kata performances, compared to <strong style="color:var(--text)">${fTotalPerfs.toLocaleString()}</strong> for female athletes.</li>
+        </ul>
+      </div>
+    </div>
+
     <!-- Avg score comparison -->
     <div style="margin-top:48px">
+      <span class="fig-label">Figure G-3</span>
       <h3 class="compare-head">Average Score Comparison — Shared Kata (${compareShared.length})</h3>
       <p style="font-size:12px;color:var(--text-muted);margin-bottom:10px">Click any column header to sort. Diff = Male − Female. Green = males scored higher; red = females scored higher.</p>
       <div style="position:relative;height:${Math.max(300, compareShared.length * 22)}px;margin-bottom:24px">
@@ -497,7 +531,7 @@ function renderKataTable() {
   const diffDisp = avgDiff != null ? (avgDiff >= 0 ? "+" : "") + avgDiff.toFixed(3) : "—";
   const stb = document.getElementById("kata-summary-tbody"); if (stb) stb.innerHTML = `<tr>
     <td class="num row-num"></td>
-    <td class="name-cell">Average Statistics across All Kata</td>
+    <td class="name-cell">Average Statistics Across All Kata</td>
     <td></td>
     <td class="num" title="Median performances per kata — half of all kata were performed more than this, half fewer">${medianPerfsKata ?? "—"}</td>
     <td class="num" title="Mean number of unique athletes who performed each kata">${fmt2(avg("Unique_Karateka"))}</td>
@@ -690,7 +724,7 @@ function renderKaratekaTable() {
   const absRangeK = isFinite(absMinK) && isFinite(absMaxK) ? fmt2(absMaxK - absMinK) : "—";
   const kstb = document.getElementById("karateka-summary-tbody"); if (kstb) kstb.innerHTML = `<tr>
     <td class="num row-num"></td>
-    <td class="name-cell">Average Statistics across All Athletes</td>
+    <td class="name-cell">Average Statistics Across All Athletes</td>
     <td></td>
     <td></td>
     <td class="num" title="Median performances per athlete — half of all athletes competed more than this, half fewer">${medianPerfsKar ?? "—"}</td>
@@ -881,7 +915,8 @@ function showCountryCard(r, all) {
 
   const kataFlat2 = Object.entries(r._kataMap || {}).map(([kata, count]) => {
     const kData = DATA.kata[gender]?.find(d => d.Kata === kata);
-    return { Kata: kata, Kata_Tier: kData?.Kata_Tier || "", Performances: count, _tier: kData ? tierBadge(kData.Kata_Tier) : "" };
+    const sc = r._kataScoreMap?.[kata];
+    return { Kata: kata, Kata_Tier: kData?.Kata_Tier || "", Performances: count, Avg_Score: sc ? sc.sum / sc.n : null, _tier: kData ? tierBadge(kData.Kata_Tier) : "" };
   });
 
   document.getElementById("countries-card").innerHTML = `
@@ -927,6 +962,7 @@ function showCountryCard(r, all) {
           <th class="num row-num">#</th>
           <th data-sort="Kata" data-label="Kata" style="cursor:pointer" onclick="sortCardTable('card-country-kata','Kata')">Kata</th>
           <th data-sort="Performances" data-label="Performances" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-kata','Performances')">Performances ↓</th>
+          <th data-sort="Avg_Score" data-label="Avg Score" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-kata','Avg_Score')">Avg Score</th>
         </tr></thead>
         <tbody></tbody>
       </table>
@@ -946,6 +982,7 @@ function showCountryCard(r, all) {
       <td class="num row-num">${i + 1}</td>
       <td class="name-cell">${k._tier} ${esc(k.Kata)}</td>
       <td class="num">${k.Performances}</td>
+      <td class="num">${k.Avg_Score != null ? k.Avg_Score.toFixed(3) : "—"}</td>
     </tr>`);
   document.getElementById("countries-card").classList.remove("hidden");
 }
@@ -957,7 +994,7 @@ function buildCountryStats() {
   for (const k of karAll) {
     const c = k.Country;
     if (!c) continue;
-    if (!map[c]) map[c] = { Country: c, athleteObjs: [], performances: 0, tournaments: new Set(), scoreSum: 0, scoredPerfs: 0, wins: 0, winPerfs: 0, bestScore: -Infinity, golds: 0, silvers: 0, bronzes: 0, medalsList: [], kataMap: {} };
+    if (!map[c]) map[c] = { Country: c, athleteObjs: [], performances: 0, tournaments: new Set(), scoreSum: 0, scoredPerfs: 0, wins: 0, winPerfs: 0, bestScore: -Infinity, golds: 0, silvers: 0, bronzes: 0, medalsList: [], kataMap: {}, kataScoreMap: {} };
     const m = map[c];
     m.athleteObjs.push(k);
     m.performances += k.Performances || 0;
@@ -974,6 +1011,13 @@ function buildCountryStats() {
     (k.Kata_Repertoire || []).forEach(kr => {
       m.kataMap[kr.Kata] = (m.kataMap[kr.Kata] || 0) + (kr.count || 0);
     });
+    (k.Performances_Detail || []).forEach(p => {
+      if (p.Kata && p.Avg_Score != null) {
+        if (!m.kataScoreMap[p.Kata]) m.kataScoreMap[p.Kata] = { sum: 0, n: 0 };
+        m.kataScoreMap[p.Kata].sum += p.Avg_Score;
+        m.kataScoreMap[p.Kata].n++;
+      }
+    });
   }
   return Object.values(map).map(m => ({
     Country:      m.Country,
@@ -987,7 +1031,8 @@ function buildCountryStats() {
     _medals:      { gold: m.golds, silver: m.silvers, bronze: m.bronzes },
     _medalsList:  m.medalsList,
     _athleteObjs: m.athleteObjs,
-    _kataMap:     m.kataMap,
+    _kataMap:      m.kataMap,
+    _kataScoreMap: m.kataScoreMap,
   }));
 }
 
@@ -1002,7 +1047,7 @@ function renderCountriesTable() {
   const cTotalMedals = fullAll.reduce((s,r) => s + (r.Medals || 0), 0);
   const cstb = document.getElementById("countries-summary-tbody"); if (cstb) cstb.innerHTML = `<tr>
     <td class="num row-num"></td>
-    <td class="name-cell">Average Statistics across All Countries</td>
+    <td class="name-cell">Average Statistics Across All Countries</td>
     <td class="num" title="Mean number of athletes per country">${fmt2(cMean("Athletes"))}</td>
     <td class="num" title="Mean number of performances per country">${fmt2(cMean("Performances"))}</td>
     <td class="num" title="Mean number of tournaments attended per country">${fmt2(cMean("Tournaments"))}</td>
@@ -1054,7 +1099,7 @@ function renderTournamentsTable() {
   const tWtAvg = (() => { const tp = baseRows.reduce((s,r)=>s+(r.Total_Performances||0),0); const ts = baseRows.reduce((s,r)=>s+(r.Avg_Score!=null?r.Avg_Score*r.Total_Performances:0),0); return tp ? ts/tp : null; })();
   const tstb = document.getElementById("tourn-summary-tbody"); if (tstb) tstb.innerHTML = `<tr>
     <td class="num row-num"></td>
-    <td class="name-cell">Average Statistics across All Tournaments</td>
+    <td class="name-cell">Average Statistics Across All Tournaments</td>
     <td class="num" title="Mean number of performances per tournament">${fmt2(tMean("Total_Performances"))}</td>
     <td class="num" title="Mean number of athletes per tournament">${fmt2(tMean("Unique_Karateka"))}</td>
     <td class="num" title="Mean number of unique kata performed per tournament">${fmt2(tMean("Unique_Kata"))}</td>

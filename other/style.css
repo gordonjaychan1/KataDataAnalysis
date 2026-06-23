@@ -149,6 +149,7 @@ header {
 .table-wrapper { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
 .table-wrapper--sticky { max-height: 72vh; overflow-y: auto; }
 .table-wrapper--sticky .data-table thead th { position: sticky; top: 0; z-index: 5; background: var(--bg); box-shadow: 0 1px 0 var(--border); }
+.table-wrapper--sticky .data-table tbody.summary-body td { position: sticky; top: 35px; z-index: 4; }
 .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .data-table thead th {
   padding: 10px 14px; text-align: left; font-weight: 600; font-size: 11px;
@@ -184,6 +185,7 @@ header {
   transition: border-left-color 0.2s;
 }
 .finding-block:hover { border-left-color: var(--red); }
+.fig-label { display: block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px; color: var(--text-muted); margin-bottom: 4px; }
 .finding-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
 .finding-desc  { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.65; }
 
