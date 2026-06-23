@@ -131,10 +131,14 @@ function renderWelcomeVideo() {
 function updateHeaderSub() {
   const m = DATA.meta;
   const g = gender === "male";
+  const uniqueKata  = (DATA.kata[gender] || []).length;
+  const countryCount = buildCountryStats().length;
   document.getElementById("header-sub").textContent =
-    `${g ? "Male" : "Female"} Kata · 9 Tournaments · ` +
+    `${g ? "Male" : "Female"} Kata · ` +
     `${g ? m.male_performances : m.female_performances} Performances · ` +
-    `${g ? m.male_karateka : m.female_karateka} Athletes`;
+    `${uniqueKata} Unique Kata · ` +
+    `${g ? m.male_karateka : m.female_karateka} Athletes · ` +
+    `9 Tournaments · ${countryCount} Countries`;
 }
 
 /* ── Tab switch helper ─────────────────────────────────────────────────────── */
@@ -353,8 +357,9 @@ function renderKataTable() {
   const q = searchQuery.kata;
   let rows = sortData(DATA.kata[gender], s.col, s.dir);
   if (q) rows = rows.filter(r => r.Kata && r.Kata.toLowerCase().includes(q));
-  document.getElementById("kata-tbody").innerHTML = rows.map(r => `
+  document.getElementById("kata-tbody").innerHTML = rows.map((r, i) => `
     <tr data-kata="${esc(r.Kata)}">
+      <td class="num row-num">${i + 1}</td>
       <td class="name-cell">${esc(r.Kata)}</td>
       <td>${tierBadge(r.Kata_Tier)}</td>
       <td class="num">${r.Performances}</td>
@@ -392,6 +397,7 @@ function renderKataTable() {
   })();
   document.getElementById("kata-tfoot").innerHTML = `
     <tr class="avg-row">
+      <td></td>
       <td class="name-cell" style="font-weight:700;color:var(--text)">Average</td>
       <td></td>
       <td class="num" title="Median performances per kata across all kata">${medianPerfsKata ?? "—"}</td>
@@ -533,8 +539,9 @@ function renderKaratekaTable() {
   const q = searchQuery.karateka;
   let rows = sortData(DATA.karateka[gender], s.col, s.dir);
   if (q) rows = rows.filter(r => r.Karateka && r.Karateka.toLowerCase().includes(q));
-  document.getElementById("karateka-tbody").innerHTML = rows.map(r => `
+  document.getElementById("karateka-tbody").innerHTML = rows.map((r, i) => `
     <tr data-karateka="${esc(r.Karateka)}">
+      <td class="num row-num">${i + 1}</td>
       <td class="name-cell">${esc(r.Karateka)}</td>
       <td>${flagOf(r.Country)} ${esc(r.Country || "—")}</td>
       <td class="num">${medalEmoji(r.Medals)}</td>
@@ -567,6 +574,7 @@ function renderKaratekaTable() {
   const wWRKar       = totPerfsKar ? totWinsKar / totPerfsKar : null;
   document.getElementById("karateka-tfoot").innerHTML = `
     <tr class="avg-row">
+      <td></td>
       <td class="name-cell" style="font-weight:700;color:var(--text)">Average</td>
       <td></td>
       <td></td>
@@ -726,8 +734,9 @@ function renderCountriesTable() {
   let all = buildCountryStats();
   if (q) all = all.filter(r => r.Country.toLowerCase().includes(q));
   const rows = sortData(all, s.col, s.dir);
-  document.getElementById("countries-tbody").innerHTML = rows.map(r => `
+  document.getElementById("countries-tbody").innerHTML = rows.map((r, i) => `
     <tr>
+      <td class="num row-num">${i + 1}</td>
       <td class="name-cell">${flagOf(r.Country)} ${esc(r.Country)}</td>
       <td class="num">${r.Athletes}</td>
       <td class="num">${r.Performances}</td>
@@ -743,8 +752,9 @@ function renderTournamentsTable() {
   const s = sortState.tournaments;
   const rows = sortData(DATA.tournaments.filter(r => r.Gender.toLowerCase() === gender), s.col, s.dir);
   const tmeta = t => TOURN_META[t] || {};
-  document.getElementById("tournaments-tbody").innerHTML = rows.map(r => `
+  document.getElementById("tournaments-tbody").innerHTML = rows.map((r, i) => `
     <tr data-tourn="${esc(r.Tournament)}" style="cursor:pointer">
+      <td class="num row-num">${i + 1}</td>
       <td class="name-cell">${flagOf(tmeta(r.Tournament).country)} ${esc(r.Tournament)}</td>
       <td class="num">${r.Total_Performances}</td>
       <td class="num">${r.Unique_Karateka}</td>
@@ -1316,7 +1326,7 @@ function renderKaratekaFindings() {
     topCountries[0]
       ? `${countries.length} countries sent ${gender} kata athletes this season; ${multiCountries.length} sent 2 or more. ${topCountries[0].Country} sent the most with ${topCountries[0].Athletes} competitors.`
       : "";
-  makeHBar("chart-country", topCountries.map(r => r.Country), topCountries.map(r => r.Athletes), "Athletes", 0);
+  makeHBar("chart-country", topCountries.map(r => `${flagEmoji(r.Country)} ${r.Country}`), topCountries.map(r => r.Athletes), "Athletes", 0);
 }
 
 /* ════════════════════════════════════════════════════════════════ NOTES */
