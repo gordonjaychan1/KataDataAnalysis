@@ -235,6 +235,18 @@ function renderCompareTab() {
   const mTotalPerfs = mKarAll.reduce((s,k) => s + (k.Performances||0), 0);
   const fTotalPerfs = fKarAll.reduce((s,k) => s + (k.Performances||0), 0);
 
+  /* athlete spotlight */
+  const minPerfs = 3;
+  const mByScore = [...mKarAll].filter(k => k.Mean_Score != null && k.Performances >= minPerfs).sort((a,b) => b.Mean_Score - a.Mean_Score);
+  const fByScore = [...fKarAll].filter(k => k.Mean_Score != null && k.Performances >= minPerfs).sort((a,b) => b.Mean_Score - a.Mean_Score);
+  const mKakeru = mKarAll.find(k => k.Karateka === "Kakeru Nishiyama");
+  const fGrace  = fKarAll.find(k => k.Karateka === "Grace Lau");
+  const fMaho   = fKarAll.find(k => k.Karateka === "Maho Ono");
+  const mNo2    = mByScore.find(k => k.Karateka !== "Kakeru Nishiyama");
+  const medalCount = k => (k?.Medals || []).length;
+  const goldCount  = k => (k?.Medals || []).filter(m => m.Place === 1).length;
+  const fmtWR = k => k?.Win_Rate != null ? (k.Win_Rate * 100).toFixed(1) + "%" : "—";
+
   /* avg score comparison for shared kata */
   compareShared = mkata.filter(k => fSet.has(k.Kata) && k.Mean_Score != null).map(mk => {
     const fk = fkata.find(k => k.Kata === mk.Kata);
@@ -268,6 +280,12 @@ function renderCompareTab() {
           <li>The most performed kata among male athletes was <strong style="color:var(--text)">${mTop1 ? esc(mTop1.Kata) : "—"}</strong>${mTop1 ? ` with <strong style="color:var(--text)">${mTop1.Performances}</strong> performances` : ""}. For female athletes it was <strong style="color:var(--text)">${fTop1 ? esc(fTop1.Kata) : "—"}</strong>${fTop1 ? ` with <strong style="color:var(--text)">${fTop1.Performances}</strong> performances` : ""}. See <em>Figure G-1</em> below.</li>
           <li>The average score given to any male kata performance was <strong style="color:var(--text)">${mAvgScore != null ? mAvgScore.toFixed(3) : "—"}</strong>. For female kata performances, it was <strong style="color:var(--text)">${fAvgScore != null ? fAvgScore.toFixed(3) : "—"}</strong>.</li>
           <li>Across the season, male athletes recorded <strong style="color:var(--text)">${mTotalPerfs.toLocaleString()}</strong> total kata performances, compared to <strong style="color:var(--text)">${fTotalPerfs.toLocaleString()}</strong> for female athletes.</li>
+        </ul>
+
+        <p style="font-size:13px;font-weight:700;color:var(--text);margin:20px 0 6px">Athlete Spotlight</p>
+        <ul style="font-size:13px;color:var(--text-muted);line-height:2.2;padding-left:20px">
+          ${mKakeru ? `<li>Male kata competition was largely dominated by <strong style="color:var(--text)">Kakeru Nishiyama</strong> (Japan), who averaged <strong style="color:var(--text)">${mKakeru.Mean_Score?.toFixed(3) ?? "—"}</strong> across <strong style="color:var(--text)">${mKakeru.Performances}</strong> performances — a win rate of <strong style="color:var(--text)">${fmtWR(mKakeru)}</strong> and <strong style="color:var(--text)">${medalCount(mKakeru)}</strong> medal${medalCount(mKakeru) !== 1 ? "s" : ""} on the season, including <strong style="color:var(--text)">${goldCount(mKakeru)}</strong> gold${goldCount(mKakeru) !== 1 ? "s" : ""}. The next-highest averaging male athlete${mNo2 ? `, <strong style="color:var(--text)">${esc(mNo2.Karateka)}</strong>, averaged <strong style="color:var(--text)">${mNo2.Mean_Score.toFixed(3)}</strong> — a gap of <strong style="color:var(--text)">${(mKakeru.Mean_Score - mNo2.Mean_Score).toFixed(3)}</strong> below Nishiyama` : " also posted a strong season"}.</li>` : ""}
+          ${fGrace && fMaho ? `<li>Female kata saw a more competitive dynamic at the top, with <strong style="color:var(--text)">Grace Lau</strong> (Hong Kong) and <strong style="color:var(--text)">Maho Ono</strong> (Japan) as the two clear frontrunners. Lau averaged <strong style="color:var(--text)">${fGrace.Mean_Score?.toFixed(3) ?? "—"}</strong> across <strong style="color:var(--text)">${fGrace.Performances}</strong> performances (win rate: <strong style="color:var(--text)">${fmtWR(fGrace)}</strong>; <strong style="color:var(--text)">${medalCount(fGrace)}</strong> medal${medalCount(fGrace) !== 1 ? "s" : ""}, <strong style="color:var(--text)">${goldCount(fGrace)}</strong> gold${goldCount(fGrace) !== 1 ? "s" : ""}). Ono averaged <strong style="color:var(--text)">${fMaho.Mean_Score?.toFixed(3) ?? "—"}</strong> across <strong style="color:var(--text)">${fMaho.Performances}</strong> performances (win rate: <strong style="color:var(--text)">${fmtWR(fMaho)}</strong>; <strong style="color:var(--text)">${medalCount(fMaho)}</strong> medal${medalCount(fMaho) !== 1 ? "s" : ""}, <strong style="color:var(--text)">${goldCount(fMaho)}</strong> gold${goldCount(fMaho) !== 1 ? "s" : ""}). ${fGrace.Mean_Score != null && fMaho.Mean_Score != null ? `The gap between them was <strong style="color:var(--text)">${Math.abs(fGrace.Mean_Score - fMaho.Mean_Score).toFixed(3)}</strong> in average score, with ${fGrace.Mean_Score > fMaho.Mean_Score ? "Lau" : "Ono"} leading.` : ""}</li>` : ""}
         </ul>
       </div>
     </div>
