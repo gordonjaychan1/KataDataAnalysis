@@ -27,3 +27,6 @@ Both tables on the Male vs Female tab now show the top 10 most performed kata (i
 Tab bar now has thin vertical lines separating the four tab groups. 
 The toggle is now a red-bordered pill sitting pinned to the right end of the tab bar.
 The red stats badge moved up into the header where the toggle used to be, next to the site title.
+kata, athletes, tournaments, countries tabs now have an averages row
+male vs. female tab: has a "findings" section
+findings tabs have figure labels
