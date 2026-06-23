@@ -1349,7 +1349,7 @@ function renderKataFindings() {
         data: rows.map(r => ({ x: r.Performances, y: r.Mean_Score, kata: r.Kata })),
         backgroundColor: TIER_COLORS[tier].bg,
         borderColor: TIER_COLORS[tier].border,
-        borderWidth: 1.5, pointRadius: 6, pointHoverRadius: 8,
+        borderWidth: 1.5, pointRadius: 4, pointHoverRadius: 6,
       };
     }).filter(Boolean);
     const scatterLabelPlugin = {
@@ -1499,8 +1499,11 @@ function renderTierCountsTable() {
 
 function renderPerformedKata() {
   const ts = DATA.tier_summary[gender];
-  document.getElementById("insight-performed").textContent =
-    `Lists which Advanced and Intermediate kata were and were not performed during ${gender === "male" ? "Male" : "Female"} kata competition in the 2024–25 season.`;
+  const g = gender === "male" ? "Male" : "Female";
+  const other = gender === "male" ? "Female" : "Male";
+  document.getElementById("insight-performed").innerHTML =
+    `Lists which Advanced and Intermediate kata were and were not performed during ${g} kata competition in the 2024–25 season. ` +
+    `To compare which kata were performed by ${g} versus ${other} athletes, see the <a href="#" onclick="switchToTab('compare');return false;" style="color:var(--red)">Male vs. Female tab</a>.`;
   const kataPerfsMap = {};
   (DATA.kata[gender] || []).forEach(k => { kataPerfsMap[k.Kata] = k.Performances; });
   const makePills = arr => arr.length
