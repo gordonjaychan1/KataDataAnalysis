@@ -262,7 +262,10 @@ function renderCompareTab() {
     <!-- Avg score comparison -->
     <div style="margin-top:48px">
       <h3 class="compare-head">Average Score Comparison — Shared Kata (${compareShared.length})</h3>
-      <p style="font-size:12px;color:var(--text-muted);margin-bottom:10px">Click any column header to sort. Diff = Male − Female.</p>
+      <p style="font-size:12px;color:var(--text-muted);margin-bottom:10px">Click any column header to sort. Diff = Male − Female. Green = males scored higher; red = females scored higher.</p>
+      <div style="position:relative;height:${Math.max(300, compareShared.length * 22)}px;margin-bottom:24px">
+        <canvas id="chart-compare-diff"></canvas>
+      </div>
       <div class="table-wrapper table-wrapper--sticky">
         <table class="data-table" id="compare-shared-table">
           <thead><tr>
@@ -276,6 +279,54 @@ function renderCompareTab() {
       </div>
     </div>`;
   renderCompareSharedTable();
+  renderCompareDiffChart();
+}
+
+function renderCompareDiffChart() {
+  destroyChart("chart-compare-diff");
+  const ctx = document.getElementById("chart-compare-diff"); if (!ctx) return;
+  const sorted = [...compareShared].sort((a, b) => b.Diff - a.Diff);
+  const bgColors = sorted.map(r => r.Diff >= 0 ? "rgba(58,110,58,0.8)" : RED);
+  const bdColors = sorted.map(r => r.Diff >= 0 ? "rgba(40,85,40,1)"   : RED_BORDER);
+  const diffLabelPlugin = {
+    id: "diffLabels",
+    afterDatasetsDraw(chart) {
+      const c = chart.ctx;
+      c.save();
+      c.font = `9px ${CHART_FONT}`;
+      c.textBaseline = "middle";
+      const meta = chart.getDatasetMeta(0);
+      sorted.forEach((row, i) => {
+        const el = meta.data[i]; if (!el) return;
+        if (row.Diff >= 0) {
+          c.textAlign = "left"; c.fillStyle = "#3a6e3a";
+          c.fillText(row.Kata, el.x + 5, el.y);
+        } else {
+          c.textAlign = "right"; c.fillStyle = "#c0392b";
+          c.fillText(row.Kata, el.x - 5, el.y);
+        }
+      });
+      c.restore();
+    },
+  };
+  charts["chart-compare-diff"] = new Chart(ctx, {
+    type: "bar",
+    data: { labels: sorted.map(r => r.Kata), datasets: [{ data: sorted.map(r => r.Diff), backgroundColor: bgColors, borderColor: bdColors, borderWidth: 1, borderRadius: 3 }] },
+    options: {
+      indexAxis: "y", responsive: true, maintainAspectRatio: false,
+      layout: { padding: { left: 160, right: 160 } },
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: c => ` ${c.raw >= 0 ? "+" : ""}${c.raw.toFixed(3)} (M ${(compareShared.find(r=>r.Kata===sorted[c.dataIndex]?.Kata)?.Male??0).toFixed(3)} / F ${(compareShared.find(r=>r.Kata===sorted[c.dataIndex]?.Kata)?.Female??0).toFixed(3)})` } },
+        diffLabels: {},
+      },
+      scales: {
+        x: { grid: { color: c => c.tick.value === 0 ? "rgba(0,0,0,0.75)" : GRID, lineWidth: c => c.tick.value === 0 ? 1.5 : 1 }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, title: { display: true, text: "Male Avg − Female Avg", font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
+        y: { grid: { display: false }, ticks: { display: false } },
+      },
+    },
+    plugins: [diffLabelPlugin],
+  });
 }
 
 function sortCompareTable(col) {
