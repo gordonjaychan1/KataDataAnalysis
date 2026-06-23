@@ -22,3 +22,6 @@ tournaments tab: added a "countries" column to the tournaments master table and 
 tournament detail card: athletes table: add an avg score column and a performances column, kata performed table: add an avg score column, countries table: add an avg score column and win rate column
 "Male Kata · 1006 Performances · 29 Unique Kata · 78 Athletes · 9 Tournaments · 41 Countries" now appears as a  red pill with white bold text
 "how to use this site" updated
+column headers in ALL tables are now clickable to sort by that header (kata/athlete/country/tournament detail card tables didn't have this functionality before)
+Both tables on the Male vs Female tab now show the top 10 most performed kata (instead of top 5)
+Tab bar now has thin vertical lines separating the four tab groups. 
