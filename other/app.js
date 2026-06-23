@@ -10,7 +10,8 @@ const sortState = {
 };
 
 const searchQuery = { kata: "", karateka: "", countries: "" };
-let compareShared   = [];   // cached for re-sort
+let compareShared     = [];   // cached for re-sort
+let compareIncomplete = [];   // shared kata missing a score for one gender
 let compareSortCol  = "Diff";
 let compareSortDir  = "desc";
 let lastTournCard = "";
@@ -241,6 +242,13 @@ function renderCompareTab() {
       ? { Kata: mk.Kata, Male: mk.Mean_Score, Female: fk.Mean_Score, Diff: mk.Mean_Score - fk.Mean_Score }
       : null;
   }).filter(Boolean);
+  compareIncomplete = mkata.filter(k => fSet.has(k.Kata)).filter(mk => {
+    const fk = fkata.find(k => k.Kata === mk.Kata);
+    return mk.Mean_Score == null || !fk || fk.Mean_Score == null;
+  }).map(mk => {
+    const fk = fkata.find(k => k.Kata === mk.Kata);
+    return { Kata: mk.Kata, Male: mk.Mean_Score ?? null, Female: fk?.Mean_Score ?? null, Diff: null };
+  });
   compareSortCol = "Diff"; compareSortDir = "desc";
 
   const sign = v => (v >= 0 ? "+" : "") + v.toFixed(3);
@@ -303,7 +311,7 @@ function renderCompareTab() {
     <!-- Avg score comparison -->
     <div style="margin-top:64px">
       <span class="fig-label">Figure G-3</span>
-      <h3 class="compare-head">Average Score Comparison — Shared Kata (${compareShared.length})</h3>
+      <h3 class="compare-head">Average Score Comparison — Shared Kata (${compareShared.length + compareIncomplete.length})</h3>
       <p style="font-size:12px;color:var(--text-muted);margin-bottom:10px">Click any column header to sort. Diff = Male − Female. Green = males scored higher; red = females scored higher.</p>
       <div style="position:relative;height:${Math.max(300, compareShared.length * 22)}px;margin-bottom:24px">
         <canvas id="chart-compare-diff"></canvas>
@@ -397,13 +405,22 @@ function renderCompareSharedTable() {
   });
   const tbody = document.getElementById("compare-shared-tbody");
   if (!tbody) return;
+  const missingTip = gender => `title="No average score recorded for ${gender} performances of this kata"`;
+  const diffTip = `title="Score differential not available — average score is missing for one gender"`;
+  const incompleteRows = compareIncomplete.map((r, j) => `<tr>
+    <td class="num row-num" style="color:var(--text-muted)">${sorted.length + j + 1}</td>
+    <td class="name-cell">${esc(r.Kata)}</td>
+    <td class="num">${r.Male != null ? r.Male.toFixed(3) : `<span style="color:var(--text-muted);cursor:help" ${missingTip("male")}>—</span>`}</td>
+    <td class="num">${r.Female != null ? r.Female.toFixed(3) : `<span style="color:var(--text-muted);cursor:help" ${missingTip("female")}>—</span>`}</td>
+    <td class="num"><span style="color:var(--text-muted);cursor:help" ${diffTip}>—</span></td>
+  </tr>`).join("");
   tbody.innerHTML = sorted.map((r, i) => `<tr>
     <td class="num row-num">${i + 1}</td>
     <td class="name-cell">${esc(r.Kata)}</td>
     <td class="num">${r.Male.toFixed(3)}</td>
     <td class="num">${r.Female.toFixed(3)}</td>
     <td class="num" style="color:${diffColor(r.Diff)};font-weight:600">${sign(r.Diff)}</td>
-  </tr>`).join("");
+  </tr>`).join("") + incompleteRows;
 }
 
 /* ── Sorting ───────────────────────────────────────────────────────────────── */
