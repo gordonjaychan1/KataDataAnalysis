@@ -13,4 +13,5 @@ Athlete Findings tab: Athletes by Country Chart: add country flag emojis next to
 kata and athletes tabs: add range as a column (max minus min)
 add a countries tab
 at the top, where it says: "Male Kata · 9 Tournaments · 1006 Performances · 78 Athletes", change it to: "Male Kata · 1006 Performances ·  29 Unique Kata · 78 Athletes · 9 Tournaments · 41 Countries" (and update female to reflect their numbers for these stats)
-on kata, athletes, tournaments, countries tabs: add a number to the left of each row
+kata, athletes, tournaments, countries tabs: add a number to the left of each row
+countries tab: Clicking a country row now opens a detail card with: stat boxes, medals section, athletes table, kata performed table
