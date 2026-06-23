@@ -19,3 +19,4 @@ male vs female tab: Average Score Comparison — Shared Kata (22): add a graph t
 tournaments tab: tournament detail card: make an athletes table and a unique kata table with numbers to the left of each row, and make it so these tables show up without you having to click the athletes/unique kata buttons. also add a "countries" column to the master table and a "countries" table to the tournament detail card.
 tournaments tab: tournament detail card: now has an athletes table and a unique kata table instead of clickable athletes and unique kata buttons. the tables are more readable than the lists that were there before.
 tournaments tab: added a "countries" column to the tournaments master table and a "countries" table to the tournament detail card.
+tournament detail card: athletes table: add an avg score column and a performances column, kata performed table: add an avg score column, countries table: add an avg score column and win rate column
