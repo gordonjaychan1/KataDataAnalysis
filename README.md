@@ -20,3 +20,4 @@ tournaments tab: tournament detail card: make an athletes table and a unique kat
 tournaments tab: tournament detail card: now has an athletes table and a unique kata table instead of clickable athletes and unique kata buttons. the tables are more readable than the lists that were there before.
 tournaments tab: added a "countries" column to the tournaments master table and a "countries" table to the tournament detail card.
 tournament detail card: athletes table: add an avg score column and a performances column, kata performed table: add an avg score column, countries table: add an avg score column and win rate column
+"Male Kata · 1006 Performances · 29 Unique Kata · 78 Athletes · 9 Tournaments · 41 Countries" now appears as a  red pill with white bold text
