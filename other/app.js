@@ -1,3 +1,62 @@
+/* ── Navigation confirmation modal ─────────────────────────────────────────── */
+let _pendingNav = null;
+
+function confirmNav(type, name) {
+  _pendingNav = { type, name };
+  const existing = document.getElementById("nav-modal");
+  if (existing) existing.remove();
+  const labels = { kata: "Kata", karateka: "Athlete", tournament: "Tournament", country: "Country" };
+  const overlay = document.createElement("div");
+  overlay.id = "nav-modal";
+  overlay.className = "nav-modal-overlay";
+  overlay.innerHTML = `<div class="nav-modal-box">
+    <p class="nav-modal-msg">Navigate to <strong>${name}</strong> ${labels[type] || ""} Details?</p>
+    <div class="nav-modal-btns">
+      <button class="nav-modal-cancel" onclick="document.getElementById('nav-modal').remove()">Cancel</button>
+      <button class="nav-modal-go" onclick="document.getElementById('nav-modal').remove();_doNav()">Go</button>
+    </div>
+  </div>`;
+  overlay.addEventListener("click", e => { if (e.target === overlay) overlay.remove(); });
+  document.body.appendChild(overlay);
+}
+
+function _doNav() {
+  if (!_pendingNav) return;
+  const { type, name } = _pendingNav;
+  _pendingNav = null;
+  if (type === "kata") {
+    switchToTab("kata");
+    setTimeout(() => {
+      const row = DATA.kata[gender].find(r => r.Kata === name);
+      if (row) { showKataCard(row); highlightRow("kata-tbody", "data-kata", name); }
+    }, 50);
+  } else if (type === "karateka") {
+    switchToTab("karateka");
+    setTimeout(() => {
+      const row = DATA.karateka[gender].find(r => r.Karateka === name);
+      if (row) { showKaratekaCard(row); highlightRow("karateka-tbody", "data-karateka", name); }
+    }, 50);
+  } else if (type === "tournament") {
+    switchToTab("tournaments");
+    setTimeout(() => {
+      const row = (DATA.tournaments || []).find(r => r.Tournament === name);
+      if (row) showTournamentCard(row);
+    }, 50);
+  } else if (type === "country") {
+    switchToTab("countries");
+    setTimeout(() => {
+      const all = buildCountryStats();
+      const row = all.find(r => r.Country === name);
+      if (row) { showCountryCard(row, all); highlightRow("countries-tbody", "data-country", name); }
+    }, 50);
+  }
+}
+
+function navLink(type, name, display) {
+  const d = display !== undefined ? display : name;
+  return `<a class="nav-link" onclick="confirmNav(${JSON.stringify(type)},${JSON.stringify(name)});event.stopPropagation();return false">${d}</a>`;
+}
+
 /* ── State ─────────────────────────────────────────────────────────────────── */
 let DATA   = null;
 let gender = "male";
@@ -327,8 +386,8 @@ function renderCompareTab() {
   const sign = v => (v >= 0 ? "+" : "") + v.toFixed(3);
   const diffColor = v => v > 0 ? "#3a6e3a" : v < 0 ? "var(--red)" : "inherit";
 
-  const top5Row = (k, i) => `<tr><td>${i+1}</td><td class="name-cell">${esc(k.Kata)}</td><td class="num">${k.Performances}</td><td class="num">${k.Mean_Score != null ? k.Mean_Score.toFixed(3) : "—"}</td></tr>`;
-  const onlyPills = arr => arr.map(k => `<span class="pill">${tierBadge(k.Kata_Tier)} ${esc(k.Kata)} <span class="pill-count">${k.Performances}×</span></span>`).join("");
+  const top5Row = (k, i) => `<tr><td>${i+1}</td><td class="name-cell">${navLink("kata", k.Kata)}</td><td class="num">${k.Performances}</td><td class="num">${k.Mean_Score != null ? k.Mean_Score.toFixed(3) : "—"}</td></tr>`;
+  const onlyPills = arr => arr.map(k => `<span class="pill" onclick="confirmNav('kata',${JSON.stringify(k.Kata)});event.stopPropagation()" style="cursor:pointer">${tierBadge(k.Kata_Tier)} ${esc(k.Kata)} <span class="pill-count">${k.Performances}×</span></span>`).join("");
 
   document.getElementById("compare-content").innerHTML = `
     <!-- Findings -->
@@ -392,7 +451,7 @@ function renderCompareTab() {
         return '<span class="ks-pill ks-pill-none">Not performed</span>';
       };
       const rows = (list, mSet, fSet, offset = 0) => list.map((k, i) =>
-        `<tr><td class="num row-num">${offset + i + 1}</td><td>${esc(k)}</td><td>${pill(mSet.has(k), fSet.has(k))}</td></tr>`
+        `<tr><td class="num row-num">${offset + i + 1}</td><td>${navLink("kata", k)}</td><td>${pill(mSet.has(k), fSet.has(k))}</td></tr>`
       ).join("");
       const col = (header, bodyRows) => `<div class="table-wrapper"><table class="data-table">
         <thead><tr><th class="num row-num">#</th><th>${header}</th><th>Status</th></tr></thead>
@@ -544,14 +603,14 @@ function renderCompareSharedTable() {
   const diffTip = `title="Score differential not available — average score is missing for one gender"`;
   const incompleteRows = compareIncomplete.map((r, j) => `<tr>
     <td class="num row-num" style="color:var(--text-muted)">${sorted.length + j + 1}</td>
-    <td class="name-cell">${esc(r.Kata)}</td>
+    <td class="name-cell">${navLink("kata", r.Kata)}</td>
     <td class="num">${r.Male != null ? r.Male.toFixed(3) : `<span style="color:var(--text-muted);cursor:help" ${missingTip("male")}>—</span>`}</td>
     <td class="num">${r.Female != null ? r.Female.toFixed(3) : `<span style="color:var(--text-muted);cursor:help" ${missingTip("female")}>—</span>`}</td>
     <td class="num"><span style="color:var(--text-muted);cursor:help" ${diffTip}>—</span></td>
   </tr>`).join("");
   tbody.innerHTML = sorted.map((r, i) => `<tr>
     <td class="num row-num">${i + 1}</td>
-    <td class="name-cell">${esc(r.Kata)}</td>
+    <td class="name-cell">${navLink("kata", r.Kata)}</td>
     <td class="num">${r.Male.toFixed(3)}</td>
     <td class="num">${r.Female.toFixed(3)}</td>
     <td class="num" style="color:${diffColor(r.Diff)};font-weight:600">${sign(r.Diff)}</td>
@@ -649,7 +708,7 @@ function renderKataTable() {
   document.getElementById("kata-tbody").innerHTML = rows.map((r, i) => `
     <tr data-kata="${esc(r.Kata)}">
       <td class="num row-num">${i + 1}</td>
-      <td class="name-cell">${esc(r.Kata)}</td>
+      <td class="name-cell">${navLink("kata", r.Kata)}</td>
       <td>${tierBadge(r.Kata_Tier)}</td>
       <td class="num">${r.Performances}</td>
       <td class="num">${r.Unique_Karateka}</td>
@@ -828,7 +887,7 @@ function showKataCard(r) {
   if (athleteFlat.length) initCardTable("card-kata-athletes", athleteFlat, "Avg_Score", "desc",
     (k, i) => `<tr>
       <td class="num row-num">${i + 1}</td>
-      <td class="name-cell">${flagOf(k._country)} ${esc(k.Karateka)}</td>
+      <td class="name-cell">${flagOf(k._country)} ${navLink("karateka", k.Karateka)}</td>
       <td class="num">${k.Performances}</td>
       <td class="num">${k.Avg_Score != null ? k.Avg_Score.toFixed(3) : dash}</td>
     </tr>`);
@@ -856,8 +915,8 @@ function renderKaratekaTable() {
   document.getElementById("karateka-tbody").innerHTML = rows.map((r, i) => `
     <tr data-karateka="${esc(r.Karateka)}">
       <td class="num row-num">${i + 1}</td>
-      <td class="name-cell">${esc(r.Karateka)}</td>
-      <td>${flagOf(r.Country)} ${esc(r.Country || "—")}</td>
+      <td class="name-cell">${navLink("karateka", r.Karateka)}</td>
+      <td>${flagOf(r.Country)} ${navLink("country", r.Country)}</td>
       <td class="num">${medalEmoji(r.Medals)}</td>
       <td class="num">${r.Performances}</td>
       <td class="num">${r.Tournaments_Attended}</td>
@@ -1031,7 +1090,7 @@ function showKaratekaCard(r) {
   if (repertoireFlat.length) initCardTable("card-kar-repertoire", repertoireFlat, "Performances", "desc",
     (k, i) => `<tr>
       <td class="num row-num">${i + 1}</td>
-      <td>${k._tier} ${esc(k.Kata)}</td>
+      <td>${k._tier} ${navLink("kata", k.Kata)}</td>
       <td class="num">${k.Performances}</td>
       <td class="num">${k.Avg_Score != null ? k.Avg_Score.toFixed(2) : "—"}</td>
       <td class="num">${k.Win_Rate != null ? fmtPct(k.Win_Rate) : "—"}</td>
@@ -1039,9 +1098,9 @@ function showKaratekaCard(r) {
   if (perfsFlat.length) initCardTable("card-kar-performances", perfsFlat, "Tournament", "asc",
     (p, i) => `<tr>
       <td class="num row-num">${i + 1}</td>
-      <td>${esc(p.Tournament)}</td>
+      <td>${navLink("tournament", p.Tournament)}</td>
       <td>${esc(p.Round)}</td>
-      <td class="name-cell">${esc(p.Kata)}</td>
+      <td class="name-cell">${navLink("kata", p.Kata)}</td>
       <td class="num">${p.Avg_Score != null ? p.Avg_Score.toFixed(2) : "—"}</td>
       <td class="num" style="color:${p._won ? "#3a6e3a" : p._won === false ? "var(--red)" : "inherit"};font-weight:600">${p._won == null ? "—" : p._won ? "Win" : "Loss"}</td>
     </tr>`);
@@ -1136,7 +1195,7 @@ function showCountryCard(r, all) {
   initCardTable("card-country-athletes", athleteFlat2, "Avg_Score", "desc",
     (k, i) => `<tr>
       <td class="num row-num">${i + 1}</td>
-      <td class="name-cell">${esc(k.Karateka)}</td>
+      <td class="name-cell">${navLink("karateka", k.Karateka)}</td>
       <td class="num">${k.Performances}</td>
       <td class="num">${k.Avg_Score != null ? k.Avg_Score.toFixed(2) : "—"}</td>
       <td class="num">${k.Best_Score != null ? k.Best_Score.toFixed(2) : "—"}</td>
@@ -1146,7 +1205,7 @@ function showCountryCard(r, all) {
   if (kataFlat2.length) initCardTable("card-country-kata", kataFlat2, "Performances", "desc",
     (k, i) => `<tr>
       <td class="num row-num">${i + 1}</td>
-      <td class="name-cell">${k._tier} ${esc(k.Kata)}</td>
+      <td class="name-cell">${k._tier} ${navLink("kata", k.Kata)}</td>
       <td class="num">${k.Performances}</td>
       <td class="num">${k.Avg_Score != null ? k.Avg_Score.toFixed(3) : "—"}</td>
     </tr>`);
@@ -1228,7 +1287,7 @@ function renderCountriesTable() {
   document.getElementById("countries-tbody").innerHTML = rows.map((r, i) => `
     <tr data-country="${esc(r.Country)}" style="cursor:pointer">
       <td class="num row-num">${i + 1}</td>
-      <td class="name-cell">${flagOf(r.Country)} ${esc(r.Country)}</td>
+      <td class="name-cell">${flagOf(r.Country)} ${navLink("country", r.Country)}</td>
       <td class="num">${r.Athletes}</td>
       <td class="num">${r.Performances}</td>
       <td class="num">${r.Tournaments}</td>
@@ -1277,7 +1336,7 @@ function renderTournamentsTable() {
   document.getElementById("tournaments-tbody").innerHTML = rows.map((r, i) => `
     <tr data-tourn="${esc(r.Tournament)}" style="cursor:pointer">
       <td class="num row-num">${i + 1}</td>
-      <td class="name-cell">${flagOf(tmeta(r.Tournament).country)} ${esc(r.Tournament)}</td>
+      <td class="name-cell">${flagOf(tmeta(r.Tournament).country)} ${navLink("tournament", r.Tournament)}</td>
       <td class="num">${r.Total_Performances}</td>
       <td class="num">${r.Unique_Karateka}</td>
       <td class="num">${r.Unique_Kata}</td>
@@ -1465,22 +1524,22 @@ function showTournamentCard(r) {
   initCardTable("card-tourn-athletes", athleteFlat3, "Karateka", "asc",
     (k, i) => `<tr>
       <td class="num row-num">${i + 1}</td>
-      <td class="name-cell">${k._flag} ${esc(k.Karateka)}</td>
-      <td>${esc(k.Country)}</td>
+      <td class="name-cell">${k._flag} ${navLink("karateka", k.Karateka)}</td>
+      <td>${navLink("country", k.Country)}</td>
       <td class="num">${k.Performances}</td>
       <td class="num">${k.Avg_Score != null ? k.Avg_Score.toFixed(3) : "—"}</td>
     </tr>`);
   initCardTable("card-tourn-kata", kataFlat3, "Performances", "desc",
     (k, i) => `<tr>
       <td class="num row-num">${i + 1}</td>
-      <td class="name-cell">${k._tier} ${esc(k.Kata)}</td>
+      <td class="name-cell">${k._tier} ${navLink("kata", k.Kata)}</td>
       <td class="num">${k.Performances}</td>
       <td class="num">${k.Avg_Score != null ? k.Avg_Score.toFixed(3) : "—"}</td>
     </tr>`);
   initCardTable("card-tourn-countries", countryFlat3, "Athletes", "desc",
     (k, i) => `<tr>
       <td class="num row-num">${i + 1}</td>
-      <td class="name-cell">${k._flag} ${esc(k.Country)}</td>
+      <td class="name-cell">${k._flag} ${navLink("country", k.Country)}</td>
       <td class="num">${k.Athletes}</td>
       <td class="num">${k.Avg_Score != null ? k.Avg_Score.toFixed(3) : "—"}</td>
       <td class="num">${k.Win_Rate != null ? fmtPct(k.Win_Rate) : "—"}</td>
