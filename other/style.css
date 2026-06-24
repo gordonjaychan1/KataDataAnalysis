@@ -147,9 +147,8 @@ header {
 .data-table tbody.summary-body td.num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--text); }
 .data-table tbody.summary-body td.name-cell { font-weight: 700; color: var(--text); }
 .table-wrapper { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
-.table-wrapper--sticky { max-height: 72vh; overflow-y: auto; background: linear-gradient(var(--red) 35px, var(--surface) 35px); }
-.table-wrapper--sticky .data-table thead th { position: sticky; top: 0; z-index: 5; background: var(--red); box-shadow: 0 1px 0 var(--border); }
-.table-wrapper--sticky .data-table tbody.summary-body td { position: sticky; top: 35px; z-index: 4; }
+.table-wrapper--sticky { max-height: 72vh; overflow: hidden; display: flex; flex-direction: column; }
+.table-wrapper--sticky .data-table tbody.summary-body td { position: sticky; top: 0; z-index: 4; }
 .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .data-table thead th {
   padding: 10px 14px; text-align: left; font-weight: 600; font-size: 11px;
@@ -245,11 +244,13 @@ header {
 .how-to-card p { font-size: 12px; color: var(--text-muted); line-height: 1.6; margin: 0; }
 .how-to-q { margin-top: 14px !important; padding-top: 10px; border-top: 1px solid var(--border-light); color: var(--text) !important; font-style: italic; }
 
-/* ── Custom scrollbar (sticky table wrappers) ─────────────────────────────── */
-.table-wrapper--sticky::-webkit-scrollbar { width: 6px; height: 6px; }
-.table-wrapper--sticky::-webkit-scrollbar-track { background: transparent; }
-.table-wrapper--sticky::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-.table-wrapper--sticky::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+/* ── Split table: fixed header + scrollable body ─────────────────────────── */
+.dt-fixed-header { overflow-x: hidden; flex-shrink: 0; }
+.dt-scroll-body  { flex: 1; overflow-y: auto; overflow-x: auto; min-height: 0; }
+.dt-scroll-body::-webkit-scrollbar { width: 6px; height: 6px; }
+.dt-scroll-body::-webkit-scrollbar-track { background: transparent; }
+.dt-scroll-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.dt-scroll-body::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
 /* ── About tab ────────────────────────────────────────────────────────────── */
 .about-layout { display: grid; grid-template-columns: 1fr 260px; gap: 40px; align-items: start; }
@@ -289,12 +290,7 @@ blockquote.dedication {
 
 /* ── Responsive ───────────────────────────────────────────────────────────── */
 /* ── Card inner table ─────────────────────────────────────────────────────── */
-.card-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); margin-top: 6px; max-height: 340px; overflow-y: auto; background: linear-gradient(var(--red) 35px, var(--surface) 35px); }
-.card-table-wrap .data-table thead th { position: sticky; top: 0; z-index: 5; }
-.card-table-wrap::-webkit-scrollbar { width: 6px; height: 6px; }
-.card-table-wrap::-webkit-scrollbar-track { background: transparent; }
-.card-table-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-.card-table-wrap::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+.card-table-wrap { border: 1px solid var(--border); border-radius: var(--radius); margin-top: 6px; max-height: 340px; overflow: hidden; display: flex; flex-direction: column; }
 .card-table-wrap .data-table tbody tr:hover { background: var(--row-hover); cursor: default; }
 
 /* ── Performed/unperformed kata grid ──────────────────────────────────────── */

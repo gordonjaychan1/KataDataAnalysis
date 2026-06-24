@@ -93,6 +93,52 @@ function init() {
   renderAll();
 }
 
+function splitTableScroll(tableId) {
+  const table = document.getElementById(tableId);
+  if (!table) return;
+  const wrapper = table.closest('.table-wrapper--sticky, .card-table-wrap');
+  if (!wrapper || wrapper.dataset.split === tableId) return;
+  const thead = table.querySelector('thead');
+  if (!thead) return;
+
+  const ths = Array.from(thead.querySelectorAll('th'));
+  const widths = ths.map(th => th.getBoundingClientRect().width);
+  if (widths.every(w => w === 0)) return; // not yet laid out
+
+  const totalW = widths.reduce((s, w) => s + w, 0);
+  const makeColGroup = () => {
+    const cg = document.createElement('colgroup');
+    widths.forEach(w => { const c = document.createElement('col'); c.style.width = w + 'px'; cg.appendChild(c); });
+    return cg;
+  };
+
+  // Build non-scrolling header table (move actual thead to keep onclick handlers)
+  const headerTable = document.createElement('table');
+  headerTable.className = table.className;
+  headerTable.style.cssText = `width:${totalW}px;table-layout:fixed;border-collapse:collapse;`;
+  headerTable.appendChild(makeColGroup());
+  headerTable.appendChild(thead);
+
+  const headerWrap = document.createElement('div');
+  headerWrap.className = 'dt-fixed-header';
+  headerWrap.appendChild(headerTable);
+
+  // Body table keeps colgroup for alignment
+  table.insertBefore(makeColGroup(), table.firstChild);
+  table.style.cssText += `width:${totalW}px;table-layout:fixed;`;
+
+  const bodyWrap = document.createElement('div');
+  bodyWrap.className = 'dt-scroll-body';
+  bodyWrap.appendChild(table);
+
+  // Sync horizontal scroll: body → header
+  bodyWrap.addEventListener('scroll', () => { headerWrap.scrollLeft = bodyWrap.scrollLeft; });
+
+  wrapper.insertBefore(headerWrap, wrapper.firstChild);
+  wrapper.appendChild(bodyWrap);
+  wrapper.dataset.split = tableId;
+}
+
 function renderAll() {
   updateHeaderSub();
   renderWelcomeStats();
@@ -103,6 +149,9 @@ function renderAll() {
   renderCountriesTable();
   renderKataFindings();
   renderKaratekaFindings();
+  setTimeout(() => {
+    ['kata-table','karateka-table','tournaments-table','countries-table'].forEach(splitTableScroll);
+  }, 0);
 }
 
 function renderWelcomeVideo() {
@@ -558,6 +607,7 @@ function initCardTable(tableId, rows, defaultCol, defaultDir, renderRow) {
   _cardData[tableId] = { rows, renderRow };
   _cardSort[tableId] = { col: defaultCol, dir: defaultDir };
   _refreshCardTable(tableId);
+  setTimeout(() => splitTableScroll(tableId), 0);
 }
 
 /* ── Formatting ────────────────────────────────────────────────────────────── */
