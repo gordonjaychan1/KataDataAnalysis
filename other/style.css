@@ -178,6 +178,7 @@ header {
 
 /* ── Findings ─────────────────────────────────────────────────────────────── */
 .findings-grid { display: flex; flex-direction: column; gap: 36px; }
+.findings-page-subtitle { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6; }
 .finding-block {
   background: var(--surface); border: 1px solid var(--border);
   border-left: 3px solid var(--border); border-radius: var(--radius);

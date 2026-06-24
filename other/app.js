@@ -273,7 +273,7 @@ function renderCompareTab() {
     <!-- Findings -->
     <div>
       <div class="finding-block" style="margin-top:0">
-      <h2 class="finding-title">Findings</h2>
+      <h3 class="compare-head">Findings</h3>
         <ul style="font-size:13px;color:var(--text-muted);line-height:2.2;padding-left:20px">
           <li>Male athletes performed <strong style="color:var(--text)">${mkata.length}</strong> unique kata across the 2024–25 season. Female athletes performed the same number — <strong style="color:var(--text)">${fkata.length}</strong> unique kata.</li>
           <li>Of those, <strong style="color:var(--text)">${trueSharedCount}</strong> kata were performed by both genders. <strong style="color:var(--text)">${mOnly.length}</strong> kata were performed exclusively by males, and <strong style="color:var(--text)">${fOnly.length}</strong> exclusively by females. See <em>Figure G-2</em> below for the specific kata.</li>
@@ -1492,8 +1492,8 @@ function renderKataFindings() {
   const kata   = DATA.kata[gender];
   const tourns = DATA.tournaments.filter(r => r.Gender.toLowerCase() === gender);
   const g = gender === "male" ? "male" : "female";
-  const introEl = document.getElementById("kata-findings-intro");
-  if (introEl) introEl.textContent = `Statistical breakdowns for all ${kata.length} kata performed by ${g} athletes across 9 tournaments in the 2024–25 WKF season.`;
+  const subEl = document.getElementById("kata-findings-subtitle");
+  if (subEl) subEl.textContent = `Statistical breakdowns for all ${kata.length} kata performed by ${g} athletes across 9 tournaments in the 2024–25 WKF season.`;
 
   /* Findings section */
   const diffSorted  = [...kata].filter(r => r.Diff != null).sort((a,b) => a.Diff - b.Diff);
@@ -1510,13 +1510,13 @@ function renderKataFindings() {
   const kf = document.getElementById("kata-findings-text");
   if (kf) kf.innerHTML = `
     <div class="finding-block" style="margin-top:0">
-      <h3 class="compare-head">Findings</h3>
+      <h3 class="compare-head">Kata Findings</h3>
       <ul style="font-size:13px;color:var(--text-muted);line-height:2.2;padding-left:20px">
         <li>The overall performance-weighted average score for ${gender} kata this season was <strong style="color:var(--text)">${wtAvgAll != null ? wtAvgAll.toFixed(3) : "—"}</strong>.</li>
         <li>The most performed ${gender} kata was <strong style="color:var(--text)">${esc(popSorted0[0].Kata)}</strong> with <strong style="color:var(--text)">${popSorted0[0].Performances}</strong> performances. The second most performed was <strong style="color:var(--text)">${esc(popSorted0[1].Kata)}</strong> with <strong style="color:var(--text)">${popSorted0[1].Performances}</strong>. See <em>Figure K-1</em> for the full breakdown.</li>
         ${lowestDiff && highestDiff ? `<li>An interesting pattern emerges when comparing the <em>kata differential</em> (how much athletes score on a kata relative to their personal average) to win rate. <strong style="color:var(--text)">${esc(lowestDiff.Kata)}</strong> had the lowest differential (<strong style="color:var(--text)">${lowestDiff.Diff >= 0 ? "+" : ""}${lowestDiff.Diff.toFixed(3)}</strong>) — meaning athletes performing it scored well below their personal average — yet it had a win rate of <strong style="color:var(--text)">${(lowestDiff.Win_Rate * 100).toFixed(1)}%</strong>. Meanwhile, <strong style="color:var(--text)">${esc(highestDiff.Kata)}</strong> had the highest differential (<strong style="color:var(--text)">+${highestDiff.Diff.toFixed(3)}</strong>) — athletes scored <em>above</em> their personal average performing it — yet its win rate was only <strong style="color:var(--text)">${(highestDiff.Win_Rate * 100).toFixed(1)}%</strong>.</li>` : ""}
         ${lowestDiff && highestDiff ? `<li>This apparent contradiction reveals a key limitation of the data: the kata differential measures how an athlete scores on a kata <em>relative to their own average</em>, not relative to their opponent's score. ${esc(lowestDiff.Kata)}'s negative differential likely reflects that it is chosen predominantly by elite athletes whose personal averages are already very high — even scoring "below average" for them is competitive. ${esc(highestDiff.Kata)}'s high differential but low win rate suggests that the athletes who perform it score well in isolation, but face opponents who score even higher.</li>` : ""}
-        ${highestWR && lowestWR ? `<li>Among kata performed at least 5 times, <strong style="color:var(--text)">${esc(highestWR.Kata)}</strong> had the highest win rate (<strong style="color:var(--text)">${(highestWR.Win_Rate*100).toFixed(1)}%</strong> across ${highestWR.Performances} performances) and <strong style="color:var(--text)">${esc(lowestWR.Kata)}</strong> had the lowest (<strong style="color:var(--text)">${(lowestWR.Win_Rate*100).toFixed(1)}%</strong> across ${lowestWR.Performances} performances). Win rate should be interpreted with caution: it reflects the outcomes of specific matchups in a given season, not an intrinsic property of the kata. See <em>Figure K-3</em> for win rates across all kata.</li>` : ""}
+        <li>Win rate should be interpreted with caution — it reflects the outcomes of specific matchups and is influenced by opponent strength and bracket luck, not kata choice alone. See <em>Figure K-3</em> for win rates across all kata.</li>
         <li>Small sample sizes for rarely performed kata make their statistics unreliable. Kata with fewer than 5 performances may show extreme win rates or differentials simply due to limited data — these should not be over-interpreted.</li>
       </ul>
     </div>`;
@@ -1913,8 +1913,8 @@ function renderKaratekaFindings() {
   const kdata     = DATA.karateka[gender];
   const countries = DATA.countries[gender];
   const g = gender === "male" ? "male" : "female";
-  const introEl = document.getElementById("athlete-findings-intro");
-  if (introEl) introEl.textContent = `Rankings and country breakdowns for all ${kdata.length} ${g} athletes who competed across 9 tournaments in the 2024–25 WKF season.`;
+  const subElA = document.getElementById("athlete-findings-subtitle");
+  if (subElA) subElA.textContent = `Rankings and country breakdowns for all ${kdata.length} ${g} athletes who competed across 9 tournaments in the 2024–25 WKF season.`;
 
   /* Findings section */
   const byScore5  = [...kdata].filter(k => k.Mean_Score != null && k.Performances >= 5).sort((a,b) => b.Mean_Score - a.Mean_Score);
@@ -1926,7 +1926,7 @@ function renderKaratekaFindings() {
   const af = document.getElementById("athlete-findings-text");
   if (af) af.innerHTML = `
     <div class="finding-block" style="margin-top:0">
-      <h3 class="compare-head">Findings</h3>
+      <h3 class="compare-head">Athlete Findings</h3>
       <ul style="font-size:13px;color:var(--text-muted);line-height:2.2;padding-left:20px">
         ${gender === "male" ? `
         <li>Male kata competition this season was largely dominated by <strong style="color:var(--text)">Kakeru Nishiyama</strong> (Japan), who led all male athletes with an average score of <strong style="color:var(--text)">${top1k ? top1k.Mean_Score.toFixed(3) : "—"}</strong> across <strong style="color:var(--text)">${top1k ? top1k.Performances : "—"}</strong> performances and a win rate of <strong style="color:var(--text)">${byWR5[0] && byWR5[0].Karateka === "Kakeru Nishiyama" ? (byWR5[0].Win_Rate*100).toFixed(1)+"%" : "—"}</strong>. No other male athlete came close in consistency — the second-highest averaging athlete (minimum 5 performances) was <strong style="color:var(--text)">${top2k ? esc(top2k.Karateka) : "—"}</strong> (${top2k ? esc(top2k.Country) : "—"}) at <strong style="color:var(--text)">${top2k ? top2k.Mean_Score.toFixed(3) : "—"}</strong>, a gap of <strong style="color:var(--text)">${top1k && top2k ? (top1k.Mean_Score - top2k.Mean_Score).toFixed(3) : "—"}</strong>. See <em>Figure A-1</em>.</li>
@@ -1937,7 +1937,7 @@ function renderKaratekaFindings() {
         <li>Japan dominated female kata representation with <strong style="color:var(--text)">${topC ? topC.Athletes : "—"}</strong> athletes. Egypt sent <strong style="color:var(--text)">${byCountry[1] ? byCountry[1].Athletes : "—"}</strong> and Italy sent <strong style="color:var(--text)">${byCountry[2] ? byCountry[2].Athletes : "—"}</strong>. See <em>Figure A-3</em>.</li>
         <li>The most active female athlete by total performances was <strong style="color:var(--text)">${byPerfs[0] ? esc(byPerfs[0].Karateka) : "—"}</strong> (${byPerfs[0] ? esc(byPerfs[0].Country) : "—"}) with <strong style="color:var(--text)">${byPerfs[0] ? byPerfs[0].Performances : "—"}</strong> performances, followed by <strong style="color:var(--text)">${byPerfs[1] ? esc(byPerfs[1].Karateka) : "—"}</strong> (${byPerfs[1] ? esc(byPerfs[1].Country) : "—"}) with <strong style="color:var(--text)">${byPerfs[1] ? byPerfs[1].Performances : "—"}</strong>.</li>
         `}
-        <li>Win rate among ${gender} athletes ranged considerably. Among athletes with at least 5 performances, <strong style="color:var(--text)">${byWR5[0] ? esc(byWR5[0].Karateka) : "—"}</strong> had the highest win rate at <strong style="color:var(--text)">${byWR5[0] ? (byWR5[0].Win_Rate*100).toFixed(1)+"%" : "—"}</strong> and <strong style="color:var(--text)">${byWR5[byWR5.length-1] ? esc(byWR5[byWR5.length-1].Karateka) : "—"}</strong> had the lowest at <strong style="color:var(--text)">${byWR5[byWR5.length-1] ? (byWR5[byWR5.length-1].Win_Rate*100).toFixed(1)+"%" : "—"}</strong>. See <em>Figure A-2</em>.</li>
+        <li>Win rate reflects match outcomes against specific opponents and is shaped by bracket draw — not kata choice or athlete skill alone. See <em>Figure A-2</em>.</li>
       </ul>
     </div>`;
 
