@@ -320,7 +320,8 @@ function setupTabs() {
       if (btn.dataset.tab === "compare") renderCompareTab();
       const tabTableMap = {
         kata: "kata-table", karateka: "karateka-table",
-        tournaments: "tournaments-table", countries: "countries-table"
+        tournaments: "tournaments-table", countries: "countries-table",
+        compare: "compare-shared-table"
       };
       const tid = tabTableMap[btn.dataset.tab];
       if (tid) setTimeout(() => splitTableScroll(tid), 0);
