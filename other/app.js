@@ -2815,8 +2815,14 @@ function renderWorldMap() {
       const proj = d3.geoNaturalEarth1().scale(w / 6.28).translate([w / 2, h / 2]);
       const path = d3.geoPath(proj);
 
-      const colorScale = d3.scaleSqrt().domain([0, maxAthletes]).range([0, 1]);
-      const color = n => n ? d3.interpolateRgb("#f5b8b8", "#9a1c1c")(colorScale(n)) : "#e8dcc8";
+      /* log scale: 1 athlete → light pink, max athletes → very dark red.
+         Log compresses the low end less than sqrt, making 5–10 athletes
+         visually much darker than 1–3. */
+      const logScale = d3.scaleLog()
+        .domain([1, Math.max(maxAthletes, 2)])
+        .range([0.08, 1])
+        .clamp(true);
+      const color = n => n ? d3.interpolateRgb("#f5c0c0", "#700f0f")(logScale(n)) : "#e8dcc8";
 
       const svg = d3.create("svg").attr("viewBox", `0 0 ${w} ${h}`).style("width","100%").style("height","auto");
 
