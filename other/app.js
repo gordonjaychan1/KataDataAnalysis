@@ -1134,12 +1134,32 @@ function showKaratekaCard(r) {
       _tier:        kData ? tierBadge(kData.Kata_Tier) : "",
     };
   });
-  const perfsFlat = perfs.map(p => ({
+  /* score-match each performance to its 1v1 opponent for the Opponent column */
+  const perfOpponentNames = perfs.map(p => {
+    if (!p.Tournament || !p.Round || p.Avg_Score == null) return null;
+    const rWon = p.Won === true;
+    let bestK = null, bestDiff = Infinity;
+    for (const k of (DATA.karateka[gender] || [])) {
+      if (k.Karateka === r.Karateka) continue;
+      for (const p2 of (k.Performances_Detail || [])) {
+        if (p2.Tournament !== p.Tournament || p2.Round !== p.Round || p2.Avg_Score == null) continue;
+        if ((p2.Won === true) === rWon) continue;
+        if (rWon && p.Avg_Score <= p2.Avg_Score) continue;
+        if (!rWon && p.Avg_Score >= p2.Avg_Score) continue;
+        const diff = Math.abs(p.Avg_Score - p2.Avg_Score);
+        if (diff < bestDiff) { bestDiff = diff; bestK = k; }
+      }
+    }
+    return bestK ? bestK.Karateka : null;
+  });
+
+  const perfsFlat = perfs.map((p, i) => ({
     Tournament: p.Tournament || "",
     Round:      roundLabel[p.Round] || p.Round || "",
     Kata:       p.Kata || "",
     Avg_Score:  p.Avg_Score,
     Won_Sort:   p.Won === true ? "0_win" : p.Won === false ? "1_loss" : "2_none",
+    Opponent:   perfOpponentNames[i] || "",
     _won:       p.Won,
     _flag:      flagOf((TOURN_META[p.Tournament] || {}).country),
   }));
@@ -1214,6 +1234,7 @@ function showKaratekaCard(r) {
           <th data-sort="Kata" data-label="Kata" style="cursor:pointer" onclick="sortCardTable('card-kar-performances','Kata')">Kata</th>
           <th data-sort="Avg_Score" data-label="Score" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-performances','Avg_Score')">Score</th>
           <th data-sort="Won_Sort" data-label="Result" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-performances','Won_Sort')">Result</th>
+          <th data-sort="Opponent" data-label="Opponent" style="cursor:pointer" onclick="sortCardTable('card-kar-performances','Opponent')" title="Inferred 1v1 opponent based on score matching">Opponent</th>
         </tr></thead>
         <tbody></tbody>
       </table>
@@ -1234,6 +1255,7 @@ function showKaratekaCard(r) {
       <td class="name-cell">${navLink("kata", p.Kata)}</td>
       <td class="num">${p.Avg_Score != null ? p.Avg_Score.toFixed(2) : "—"}</td>
       <td class="num" style="color:${p._won ? "#3a6e3a" : p._won === false ? "var(--red)" : "inherit"};font-weight:600">${p._won == null ? "—" : p._won ? "Win" : "Loss"}</td>
+      <td>${p.Opponent ? navLink("karateka", p.Opponent) : "—"}</td>
     </tr>`);
   document.getElementById("karateka-card").classList.remove("hidden");
   _currentCard = { type: "karateka", name: r.Karateka };
@@ -1275,7 +1297,7 @@ function showKaratekaCard(r) {
     .filter(o => o.Meetings > 0)
     .map(o => ({ ...o, Win_Rate: o.Meetings > 0 ? o.Wins / o.Meetings : null }))
     .sort((a,b) => b.Meetings - a.Meetings)
-    .slice(0, 10);
+    .slice(0, 15);
   if (oppFlat.length) {
     const oppSection = document.createElement("div");
     oppSection.innerHTML = `
