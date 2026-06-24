@@ -18,11 +18,10 @@
         <h1>2024–25 WKF Season — Kata Analysis</h1>
       </div>
       <div class="header-right">
-        <div class="global-search-wrap" style="position:relative;margin-right:12px">
-          <input id="global-search" type="text" placeholder="Search kata, athletes, countries, tournaments…" autocomplete="off" />
+        <div class="global-search-wrap" style="position:relative">
+          <input id="global-search" type="text" placeholder="Search Kata, Athletes, Tournaments, Countries, etc." autocomplete="off" />
           <div id="global-search-dropdown" class="global-search-dropdown" style="display:none"></div>
         </div>
-        <p class="header-sub" id="header-sub">Loading…</p>
       </div>
     </div>
   </header>
@@ -48,6 +47,7 @@
         <button class="gender-btn active" data-gender="male">Male</button>
         <button class="gender-btn" data-gender="female">Female</button>
       </div>
+      <button id="nav-back-btn" style="display:none">← Back</button>
     </div>
   </nav>
   </div><!-- /.sticky-top -->
@@ -298,7 +298,9 @@
 
   <!-- ══════════════════════════════════════════════════ MEDALS TAB -->
   <section id="tab-medals" class="tab-content hidden">
-    <div id="medals-content"></div>
+    <div class="section-inner">
+      <div id="medals-content"></div>
+    </div>
   </section>
 
   <!-- ══════════════════════════════════════════════════ KATA FINDINGS TAB -->

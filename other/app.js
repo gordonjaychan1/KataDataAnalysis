@@ -306,15 +306,16 @@ function renderWelcomeVideo() {
 /* ── Header ────────────────────────────────────────────────────────────────── */
 function updateHeaderSub() {
   const m = DATA.meta;
-  const g = gender === "male";
-  const uniqueKata  = (DATA.kata[gender] || []).length;
-  const countryCount = buildCountryStats().length;
-  document.getElementById("header-sub").textContent =
-    `${g ? "Male" : "Female"} Kata · ` +
-    `${g ? m.male_performances : m.female_performances} Performances · ` +
-    `${uniqueKata} Unique Kata · ` +
-    `${g ? m.male_karateka : m.female_karateka} Athletes · ` +
-    `9 Tournaments · ${countryCount} Countries`;
+  const mKata = (DATA.kata.male || []).length;
+  const fKata = (DATA.kata.female || []).length;
+  const mCountries = new Set((DATA.karateka.male || []).map(k => k.Country)).size;
+  const fCountries = new Set((DATA.karateka.female || []).map(k => k.Country)).size;
+  const mText = `Male Kata · ${m.male_performances} Performances · ${mKata} Unique Kata · ${m.male_karateka} Athletes · 9 Tournaments · ${mCountries} Countries`;
+  const fText = `Female Kata · ${m.female_performances} Performances · ${fKata} Unique Kata · ${m.female_karateka} Athletes · 9 Tournaments · ${fCountries} Countries`;
+  const mBtn = document.querySelector('#global-gender .gender-btn[data-gender="male"]');
+  const fBtn = document.querySelector('#global-gender .gender-btn[data-gender="female"]');
+  if (mBtn) mBtn.title = mText;
+  if (fBtn) fBtn.title = fText;
 }
 
 /* ── Tab switch helper ─────────────────────────────────────────────────────── */
@@ -1242,11 +1243,11 @@ function showKaratekaCard(r) {
       }
     }
   }
-  const oppFlat = Object.values(opponents).filter(o => o.Meetings > 0).sort((a,b) => b.Meetings - a.Meetings).slice(0, 20);
+  const oppFlat = Object.values(opponents).filter(o => o.Meetings > 0).sort((a,b) => b.Meetings - a.Meetings).slice(0, 5);
   if (oppFlat.length) {
     const oppSection = document.createElement("div");
     oppSection.innerHTML = `
-      <div class="card-section-title">Common Opponents (top ${oppFlat.length})</div>
+      <div class="card-section-title">Most Common Opponents (Top ${oppFlat.length})</div>
       <div class="card-table-wrap">
         <table class="data-table" id="card-kar-opponents">
           <thead><tr>
@@ -1381,19 +1382,30 @@ function showCountryCard(r, all) {
   }
   const tournFlat = [...tournSet].sort().map(t => {
     const meta = TOURN_META[t] || {};
-    /* per-tournament stats for this country */
     let scoreSum = 0, scoredN = 0, wins = 0, winN = 0;
+    const athSent = new Set();
     for (const k of (r._athleteObjs || [])) {
+      let appeared = false;
       for (const p of (k.Performances_Detail || [])) {
         if (p.Tournament === t) {
+          appeared = true;
           if (p.Avg_Score != null) { scoreSum += p.Avg_Score; scoredN++; }
           if (p.Won != null) { wins += p.Won ? 1 : 0; winN++; }
         }
       }
+      if (appeared) athSent.add(k.Karateka);
     }
+    const medals = (r._medalsList || []).filter(m => m.Tournament === t);
+    const gold   = medals.filter(m => m.Place === 1).length;
+    const silver = medals.filter(m => m.Place === 2).length;
+    const bronze = medals.filter(m => m.Place === 3).length;
     return {
-      Tournament: t,
-      _flag: flagOf(meta.country),
+      Tournament:    t,
+      Athletes_Sent: athSent.size,
+      Gold:   gold,
+      Silver: silver,
+      Bronze: bronze,
+      _flag:     flagOf(meta.country),
       Avg_Score: scoredN ? scoreSum / scoredN : null,
       Win_Rate:  winN   ? wins / winN        : null,
     };
@@ -1407,6 +1419,10 @@ function showCountryCard(r, all) {
           <thead><tr>
             <th class="num row-num">#</th>
             <th data-sort="Tournament" data-label="Tournament" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Tournament')">Tournament</th>
+            <th data-sort="Athletes_Sent" data-label="Athletes Sent" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Athletes_Sent')">Athletes</th>
+            <th data-sort="Gold" data-label="Gold" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Gold')">🥇</th>
+            <th data-sort="Silver" data-label="Silver" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Silver')">🥈</th>
+            <th data-sort="Bronze" data-label="Bronze" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Bronze')">🥉</th>
             <th data-sort="Avg_Score" data-label="Avg Score" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Avg_Score')">Avg Score</th>
             <th data-sort="Win_Rate" data-label="Win Rate" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Win_Rate')">Win Rate</th>
           </tr></thead>
@@ -1418,6 +1434,10 @@ function showCountryCard(r, all) {
       (t, i) => `<tr>
         <td class="num row-num">${i + 1}</td>
         <td>${t._flag} ${navLink("tournament", t.Tournament)}</td>
+        <td class="num">${t.Athletes_Sent || "—"}</td>
+        <td class="num">${t.Gold  || "—"}</td>
+        <td class="num">${t.Silver || "—"}</td>
+        <td class="num">${t.Bronze || "—"}</td>
         <td class="num">${t.Avg_Score != null ? t.Avg_Score.toFixed(3) : "—"}</td>
         <td class="num">${t.Win_Rate != null ? fmtPct(t.Win_Rate) : "—"}</td>
       </tr>`);
@@ -2538,14 +2558,9 @@ function renderScoreHistogram(canvasId, scores, chartKey) {
 }
 
 /* ══════════════════════════════════════════════════════ MEDALS TAB */
-function renderMedalsTab() {
-  const el = document.getElementById("medals-content");
-  if (!el) return;
-
-  /* combine both genders or respect toggle? Per spec: respect gender toggle */
-  const karData = DATA.karateka[gender] || [];
+function _buildMedalRows(g) {
   const medalMap = {};
-  for (const k of karData) {
+  for (const k of (DATA.karateka[g] || [])) {
     const c = k.Country;
     if (!c) continue;
     if (!medalMap[c]) medalMap[c] = { Country: c, Gold: 0, Silver: 0, Bronze: 0 };
@@ -2555,33 +2570,33 @@ function renderMedalsTab() {
       else medalMap[c].Bronze++;
     }
   }
-  const rows = Object.values(medalMap)
+  return Object.values(medalMap)
     .filter(r => r.Gold + r.Silver + r.Bronze > 0)
     .sort((a,b) => b.Gold - a.Gold || b.Silver - a.Silver || b.Bronze - a.Bronze || a.Country.localeCompare(b.Country));
+}
 
-  if (!rows.length) {
-    el.innerHTML = `<p style="color:var(--text-muted);padding:32px 0">No medal data available for ${gender} athletes.</p>`;
-    return;
-  }
+let _medalSort = { male: { col: "Gold", dir: "desc" }, female: { col: "Gold", dir: "desc" } };
 
-  el.innerHTML = `
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:18px">${gender === "male" ? "Male" : "Female"} kata medals across the 2024–25 WKF season. Toggle the gender switch to compare.</p>
-    <div class="table-wrapper" style="max-width:600px">
-      <table class="data-table" id="medals-table">
-        <thead><tr>
-          <th class="num row-num">Rank</th>
-          <th>Country</th>
-          <th class="num">🥇</th>
-          <th class="num">🥈</th>
-          <th class="num">🥉</th>
-          <th class="num">Total</th>
-        </tr></thead>
-        <tbody id="medals-tbody"></tbody>
-      </table>
-    </div>`;
-  document.getElementById("medals-tbody").innerHTML = rows.map((r, i) => `
+function sortMedalTable(g, col) {
+  const s = _medalSort[g];
+  if (s.col === col) s.dir = s.dir === "desc" ? "asc" : "desc";
+  else { s.col = col; s.dir = "desc"; }
+  _renderMedalBody(g);
+}
+
+function _renderMedalBody(g) {
+  const s = _medalSort[g];
+  let rows = _buildMedalRows(g);
+  rows = rows.sort((a, b) => {
+    const av = a[s.col], bv = b[s.col];
+    if (typeof av === "string") return s.dir === "asc" ? av.localeCompare(bv) : bv.localeCompare(av);
+    return s.dir === "asc" ? av - bv : bv - av;
+  }).map((r, i) => ({ ...r, _rank: i + 1 }));
+  const tbody = document.getElementById(`medals-tbody-${g}`);
+  if (!tbody) return;
+  tbody.innerHTML = rows.map(r => `
     <tr>
-      <td class="num row-num">${i + 1}</td>
+      <td class="num row-num">${r._rank}</td>
       <td>${flagOf(r.Country)} ${navLink("country", r.Country)}</td>
       <td class="num" style="font-weight:${r.Gold ? 700 : 400}">${r.Gold || "—"}</td>
       <td class="num" style="font-weight:${r.Silver ? 700 : 400}">${r.Silver || "—"}</td>
@@ -2590,37 +2605,107 @@ function renderMedalsTab() {
     </tr>`).join("");
 }
 
+function _medalTableHTML(g, label) {
+  return `
+    <div>
+      <h3 class="compare-head" style="margin-bottom:10px">${label}</h3>
+      <div class="table-wrapper">
+        <table class="data-table">
+          <thead><tr>
+            <th class="num row-num" style="cursor:pointer" onclick="sortMedalTable('${g}','_rank')">#</th>
+            <th style="cursor:pointer" onclick="sortMedalTable('${g}','Country')">Country</th>
+            <th class="num" style="cursor:pointer" onclick="sortMedalTable('${g}','Gold')">🥇</th>
+            <th class="num" style="cursor:pointer" onclick="sortMedalTable('${g}','Silver')">🥈</th>
+            <th class="num" style="cursor:pointer" onclick="sortMedalTable('${g}','Bronze')">🥉</th>
+            <th class="num" style="cursor:pointer" onclick="sortMedalTable('${g}','Total')">Total</th>
+          </tr></thead>
+          <tbody id="medals-tbody-${g}"></tbody>
+        </table>
+      </div>
+    </div>`;
+}
+
+function renderMedalsTab() {
+  const el = document.getElementById("medals-content");
+  if (!el || el.dataset.built) return;
+  el.dataset.built = "1";
+  el.innerHTML = `<div class="medals-two-col">${_medalTableHTML("male","Male Kata Medals by Country")}${_medalTableHTML("female","Female Kata Medals by Country")}</div>`;
+  _renderMedalBody("male");
+  _renderMedalBody("female");
+}
+
 /* ══════════════════════════════════════════════════════ TOURNAMENT TIMELINE */
 function renderTournamentTimeline() {
   const wrap = document.getElementById("tourn-timeline-wrap");
   if (!wrap) return;
   const key = gender;
-  if (_timelineRendered === key && wrap.children.length) return; /* don't rebuild on every switch */
+  if (_timelineRendered === key && wrap.children.length) return;
   _timelineRendered = key;
 
   const tourns = DATA.tournaments.filter(r => r.Gender.toLowerCase() === gender);
-  /* group by year */
-  const byYear = {};
-  for (const t of tourns) {
-    const m = t.Tournament.match(/(\d{4})/);
-    const yr = m ? m[1] : "Other";
-    if (!byYear[yr]) byYear[yr] = [];
-    byYear[yr].push(t);
+
+  /* Parse a month index (0 = Jan 2024) from TOURN_META date string */
+  const MON = { Jan:0, Feb:1, Mar:2, Apr:3, May:4, Jun:5, Jul:6, Aug:7, Sep:8, Oct:9, Nov:10, Dec:11 };
+  const monthIdx = name => {
+    const d = (TOURN_META[name] || {}).date || "";
+    const m = d.match(/([A-Z][a-z]{2}).*?(\d{4})/);
+    if (!m) return null;
+    return (parseInt(m[2]) - 2024) * 12 + (MON[m[1]] ?? 0);
+  };
+
+  /* Timeline: Jan 2024 (idx 0) → Oct 2025 (idx 21) */
+  const FIRST = 0, LAST = 21;
+  const pct = idx => ((idx - FIRST) / (LAST - FIRST) * 100).toFixed(2);
+
+  const positioned = tourns
+    .map(t => ({ t, idx: monthIdx(t.Tournament) }))
+    .filter(x => x.idx !== null)
+    .sort((a, b) => a.idx - b.idx);
+
+  /* Stagger chips that are within 2 months of each other */
+  const rows = positioned.map((x, i) => {
+    const prev = positioned[i - 1];
+    return prev && x.idx - prev.idx <= 2 ? 1 : 0;
+  });
+
+  /* Quarter ticks: every 3 months */
+  const ticks = [];
+  for (let i = FIRST; i <= LAST; i += 3) {
+    const yr = 2024 + Math.floor(i / 12);
+    const mon = i % 12;
+    const label = Object.keys(MON)[mon];
+    ticks.push({ i, label: mon === 0 ? `${label} ${yr}` : label });
   }
 
-  let html = `<div class="tourn-timeline">`;
-  for (const [yr, list] of Object.entries(byYear).sort((a,b) => a[0].localeCompare(b[0]))) {
-    html += `<div class="tl-year-group"><span class="tl-year">${yr}</span>`;
-    for (const t of list) {
-      const meta = TOURN_META[t.Tournament] || {};
-      html += `<button class="tl-chip" data-tourn="${esc(t.Tournament)}">${flagOf(meta.country)} ${esc(t.Tournament)}</button>`;
-    }
-    html += `</div>`;
-  }
+  const AXIS = 110; /* px from top to axis line */
+  const H    = 170;
+
+  let html = `<div class="tl-real" style="height:${H}px;position:relative;width:100%">`;
+  /* Axis */
+  html += `<div style="position:absolute;left:0;right:0;top:${AXIS}px;height:2px;background:var(--border)"></div>`;
+  /* Ticks */
+  ticks.forEach(({ i, label }) => {
+    const p = pct(i);
+    html += `<div style="position:absolute;left:${p}%;top:${AXIS - 4}px;width:1px;height:10px;background:var(--border-light);transform:translateX(-50%)"></div>`;
+    html += `<div style="position:absolute;left:${p}%;top:${AXIS + 10}px;font-size:10px;color:var(--text-muted);transform:translateX(-50%);white-space:nowrap">${label}</div>`;
+  });
+
+  /* Chips */
+  positioned.forEach(({ t, idx }, i) => {
+    const meta = TOURN_META[t.Tournament] || {};
+    const p = pct(idx);
+    const row = rows[i];
+    const chipTop = row === 1 ? AXIS - 92 : AXIS - 54;
+    const connTop = chipTop + 36;
+    const connH   = AXIS - connTop;
+    html += `<button class="tl-chip-real" data-tourn="${esc(t.Tournament)}" style="position:absolute;left:${p}%;top:${chipTop}px;transform:translateX(-50%)">${flagOf(meta.country)} ${esc(t.Tournament)}</button>`;
+    if (connH > 0) html += `<div style="position:absolute;left:${p}%;top:${connTop}px;width:1px;height:${connH}px;background:var(--border-light);transform:translateX(-50%)"></div>`;
+  });
+
   html += `</div>`;
   wrap.innerHTML = html;
 
-  wrap.querySelectorAll(".tl-chip").forEach(btn => {
+  wrap.querySelectorAll(".tl-chip-real").forEach(btn => {
     btn.addEventListener("click", () => {
       const row = DATA.tournaments.find(r => r.Tournament === btn.dataset.tourn && r.Gender.toLowerCase() === gender);
       if (row) showTournamentCard(row);
@@ -2657,7 +2742,7 @@ function renderWorldMap() {
   };
   const resolve = name => NAME_MAP[name] || name;
 
-  wrap.innerHTML = `<div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">Athletes per country — ${gender === "male" ? "Male" : "Female"} · click a country to navigate</div><div id="world-map-svg-wrap" style="width:100%;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);overflow:hidden"></div>`;
+  wrap.innerHTML = `<h3 class="compare-head" style="margin-bottom:8px">Athletes per Country — ${gender === "male" ? "Male" : "Female"}</h3><div id="world-map-svg-wrap" style="width:80%;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);overflow:hidden"></div>`;
   const svgWrap = document.getElementById("world-map-svg-wrap");
   const tooltip = document.getElementById("map-tooltip");
 
@@ -2670,9 +2755,8 @@ function renderWorldMap() {
       const proj = d3.geoNaturalEarth1().scale(w / 6.28).translate([w / 2, h / 2]);
       const path = d3.geoPath(proj);
 
-      const color = d3.scaleSequential()
-        .domain([0, maxAthletes])
-        .interpolator(d3.interpolateRgb("#f0e8d6", "#9a1c1c"));
+      const colorScale = d3.scaleSqrt().domain([0, maxAthletes]).range([0, 1]);
+      const color = n => n ? d3.interpolateRgb("#f5b8b8", "#9a1c1c")(colorScale(n)) : "#e8dcc8";
 
       const svg = d3.create("svg").attr("viewBox", `0 0 ${w} ${h}`).style("width","100%").style("height","auto");
 
@@ -2681,11 +2765,7 @@ function renderWorldMap() {
         .data(countries.features)
         .join("path")
         .attr("d", path)
-        .attr("fill", d => {
-          const name = resolve(d.properties.name);
-          const n = athleteMap[name];
-          return n ? color(n) : "#e8dcc8";
-        })
+        .attr("fill", d => color(athleteMap[resolve(d.properties.name)] || 0))
         .attr("stroke", "#fff")
         .attr("stroke-width", 0.3)
         .style("cursor", d => {
