@@ -60,6 +60,9 @@ function navLink(type, name, display) {
 document.addEventListener("click", e => {
   const link = e.target.closest(".nav-link");
   if (!link || !link.dataset.navType) return;
+  const activeTab = document.querySelector(".tab-btn.active")?.dataset.tab;
+  const sameTab = { kata: "kata", karateka: "karateka", tournaments: "tournament", countries: "country" };
+  if (sameTab[activeTab] === link.dataset.navType) return;
   e.stopPropagation();
   e.preventDefault();
   confirmNav(link.dataset.navType, link.dataset.navName);
