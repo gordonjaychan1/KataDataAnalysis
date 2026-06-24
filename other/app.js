@@ -1350,6 +1350,15 @@ function showCountryCard(r, all) {
   const sortedMedals = [...medals].sort((a, b) => (TOURN_ORDER[a.Tournament] ?? 99) - (TOURN_ORDER[b.Tournament] ?? 99) || a.Place - b.Place);
   const medalCounts = { 1: 0, 2: 0, 3: 0 };
   medals.forEach(m => medalCounts[m.Place] = (medalCounts[m.Place] || 0) + 1);
+  const medalsByAthlete = {};
+  sortedMedals.forEach(m => {
+    if (!medalsByAthlete[m.Athlete]) medalsByAthlete[m.Athlete] = { Athlete: m.Athlete, Gold: 0, Silver: 0, Bronze: 0 };
+    if (m.Place === 1) medalsByAthlete[m.Athlete].Gold++;
+    else if (m.Place === 2) medalsByAthlete[m.Athlete].Silver++;
+    else medalsByAthlete[m.Athlete].Bronze++;
+  });
+  const athleteMedalRows = Object.values(medalsByAthlete).sort((a, b) => b.Gold - a.Gold || b.Silver - a.Silver || b.Bronze - a.Bronze);
+  const fmtMedalCell = a => [a.Gold ? `${a.Gold}x 🥇` : "", a.Silver ? `${a.Silver}x 🥈` : "", a.Bronze ? `${a.Bronze}x 🥉` : ""].filter(Boolean).join(", ");
   const medalSummaryParts = [];
   if (medalCounts[1]) medalSummaryParts.push(`${medalCounts[1]}× Gold`);
   if (medalCounts[2]) medalSummaryParts.push(`${medalCounts[2]}× Silver`);
@@ -1389,22 +1398,22 @@ function showCountryCard(r, all) {
     <div class="card-section-title">Medals</div>
     ${medalSummaryParts.length ? `<p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px">${medalSummaryParts.join(" &nbsp;·&nbsp; ")}</p>` : ""}
     <div class="card-table-wrap" style="margin-bottom:14px">
-      <table class="data-table">
-        <thead><tr>
-          <th class="num row-num">#</th>
-          <th>Tournament</th>
-          <th>Athlete</th>
-          <th>Medal</th>
-        </tr></thead>
-        <tbody>
-          ${sortedMedals.map((m, i) => `<tr>
-            <td class="num row-num">${i + 1}</td>
-            <td class="name-cell">${navLink("tournament", m.Tournament)}</td>
-            <td class="name-cell"><strong>${navLink("karateka", m.Athlete)}</strong></td>
-            <td>${m.Place===1?"🥇 Gold":m.Place===2?"🥈 Silver":"🥉 Bronze"}</td>
-          </tr>`).join("")}
-        </tbody>
-      </table>
+      <div class="dt-scroll-body">
+        <table class="data-table">
+          <thead><tr>
+            <th class="num row-num">#</th>
+            <th>Athlete</th>
+            <th>Medal(s)</th>
+          </tr></thead>
+          <tbody>
+            ${athleteMedalRows.map((a, i) => `<tr>
+              <td class="num row-num">${i + 1}</td>
+              <td class="name-cell"><strong>${navLink("karateka", a.Athlete)}</strong></td>
+              <td>${fmtMedalCell(a)}</td>
+            </tr>`).join("")}
+          </tbody>
+        </table>
+      </div>
     </div>` : ""}
     <div class="card-section-title">Athletes</div>
     <div class="card-table-wrap" style="margin-bottom:14px">
