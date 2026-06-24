@@ -108,14 +108,14 @@ function splitTableScroll(tableId) {
   const totalW = widths.reduce((s, w) => s + w, 0);
   const makeColGroup = () => {
     const cg = document.createElement('colgroup');
-    widths.forEach(w => { const c = document.createElement('col'); c.style.width = w + 'px'; cg.appendChild(c); });
+    widths.forEach(w => { const c = document.createElement('col'); c.style.width = (w / totalW * 100).toFixed(3) + '%'; cg.appendChild(c); });
     return cg;
   };
 
   // Build non-scrolling header table (move actual thead to keep onclick handlers)
   const headerTable = document.createElement('table');
   headerTable.className = table.className;
-  headerTable.style.cssText = `width:${totalW}px;table-layout:fixed;border-collapse:collapse;`;
+  headerTable.style.cssText = `width:100%;table-layout:fixed;border-collapse:collapse;`;
   headerTable.appendChild(makeColGroup());
   headerTable.appendChild(thead);
 
@@ -125,7 +125,7 @@ function splitTableScroll(tableId) {
 
   // Body table keeps colgroup for alignment
   table.insertBefore(makeColGroup(), table.firstChild);
-  table.style.cssText += `width:${totalW}px;table-layout:fixed;`;
+  table.style.cssText += `width:100%;table-layout:fixed;`;
 
   const bodyWrap = document.createElement('div');
   bodyWrap.className = 'dt-scroll-body';
