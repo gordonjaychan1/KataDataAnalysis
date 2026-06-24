@@ -24,6 +24,10 @@ function _doNav() {
   if (!_pendingNav) return;
   const { type, name } = _pendingNav;
   _pendingNav = null;
+  /* save current state to history */
+  const activeTab = document.querySelector(".tab-btn.active")?.dataset.tab;
+  _navHistory.push({ tab: activeTab, card: _currentCard ? { ..._currentCard } : null });
+  _updateBackBtn();
   if (type === "kata") {
     switchToTab("kata");
     setTimeout(() => {
@@ -50,6 +54,45 @@ function _doNav() {
       if (row) { showCountryCard(row, all); highlightRow("countries-tbody", "data-country", name); }
     }, 50);
   }
+  /* update hash */
+  window.location.hash = `${type}/${encodeURIComponent(name)}`;
+}
+
+function _updateBackBtn() {
+  const btn = document.getElementById("nav-back-btn");
+  if (btn) btn.style.display = _navHistory.length > 0 ? "block" : "none";
+}
+
+function _navBack() {
+  if (!_navHistory.length) return;
+  const prev = _navHistory.pop();
+  _updateBackBtn();
+  switchToTab(prev.tab);
+  if (prev.card) {
+    setTimeout(() => {
+      const { type, name } = prev.card;
+      if (type === "kata") {
+        const row = DATA.kata[gender].find(r => r.Kata === name);
+        if (row) { showKataCard(row); highlightRow("kata-tbody", "data-kata", name); }
+      } else if (type === "karateka") {
+        const row = DATA.karateka[gender].find(r => r.Karateka === name);
+        if (row) { showKaratekaCard(row); highlightRow("karateka-tbody", "data-karateka", name); }
+      } else if (type === "tournament") {
+        const row = (DATA.tournaments || []).find(r => r.Tournament === name && r.Gender.toLowerCase() === gender);
+        if (row) showTournamentCard(row);
+      } else if (type === "country") {
+        const all = buildCountryStats();
+        const row = all.find(r => r.Country === name);
+        if (row) { showCountryCard(row, all); highlightRow("countries-tbody", "data-country", name); }
+      }
+    }, 50);
+  }
+  /* update hash */
+  if (prev.card) {
+    window.location.hash = `${prev.card.type}/${encodeURIComponent(prev.card.name)}`;
+  } else {
+    window.location.hash = prev.tab ? `tab/${prev.tab}` : "";
+  }
 }
 
 function navLink(type, name, display) {
@@ -71,6 +114,12 @@ document.addEventListener("click", e => {
 /* ── State ─────────────────────────────────────────────────────────────────── */
 let DATA   = null;
 let gender = "male";
+let _navHistory  = [];
+let _currentCard = null;
+let _kataHistChart = null;
+let _karHistChart  = null;
+let _timelineRendered = "";
+let _mapRendered = "";
 
 const sortState = {
   kata:        { col: "Performances", dir: "desc" },
@@ -160,7 +209,10 @@ function init() {
   });
   buildMissingTables();
   addKataDiffs();
+  setupBackButton();
+  setupGlobalSearch();
   renderAll();
+  parseDeepLink();
 }
 
 function splitTableScroll(tableId) {
@@ -219,6 +271,13 @@ function renderAll() {
   renderCountriesTable();
   renderKataFindings();
   renderKaratekaFindings();
+  /* re-render gender-dependent tabs if currently active */
+  _timelineRendered = "";
+  _mapRendered = "";
+  const activeTab = document.querySelector(".tab-btn.active")?.dataset.tab;
+  if (activeTab === "tournaments") renderTournamentTimeline();
+  if (activeTab === "countries")   renderWorldMap();
+  if (activeTab === "medals")      renderMedalsTab();
 }
 
 function renderWelcomeVideo() {
@@ -317,7 +376,11 @@ function setupTabs() {
       sec.classList.add("active");
       /* close any open detail cards when switching tabs */
       ["kata-card", "karateka-card", "tournaments-card", "countries-card"].forEach(id => clearCard(id));
+      _currentCard = null;
       if (btn.dataset.tab === "compare") renderCompareTab();
+      if (btn.dataset.tab === "medals") renderMedalsTab();
+      if (btn.dataset.tab === "tournaments") renderTournamentTimeline();
+      if (btn.dataset.tab === "countries") renderWorldMap();
       const tabTableMap = {
         kata: "kata-table", karateka: "karateka-table",
         tournaments: "tournaments-table", countries: "countries-table",
@@ -733,6 +796,10 @@ function renderKataTable() {
   const q = searchQuery.kata;
   let rows = sortData(DATA.kata[gender], s.col, s.dir);
   if (q) rows = rows.filter(r => r.Kata && r.Kata.toLowerCase().includes(q));
+  if (!rows.length) {
+    document.getElementById("kata-tbody").innerHTML = `<tr><td colspan="13" style="text-align:center;padding:32px;color:var(--text-muted)">No kata match "${esc(q)}"</td></tr>`;
+    return;
+  }
   document.getElementById("kata-tbody").innerHTML = rows.map((r, i) => `
     <tr data-kata="${esc(r.Kata)}">
       <td class="num row-num">${i + 1}</td>
@@ -899,6 +966,9 @@ function showKataCard(r) {
       </div>
       ${diffStat}
     </div>
+    ${r.Mean_Score != null ? `
+    <div class="card-section-title">Score Distribution</div>
+    <div style="height:140px;position:relative;margin-bottom:14px"><canvas id="chart-kata-histogram"></canvas></div>` : ""}
     ${athleteFlat.length ? `
     <div class="card-section-title">All Athletes</div>
     <div class="card-table-wrap">
@@ -920,6 +990,16 @@ function showKataCard(r) {
       <td class="num">${k.Avg_Score != null ? k.Avg_Score.toFixed(3) : dash}</td>
     </tr>`);
   document.getElementById("kata-card").classList.remove("hidden");
+  _currentCard = { type: "kata", name: r.Kata };
+  window.location.hash = `kata/${encodeURIComponent(r.Kata)}`;
+  /* score histogram */
+  const allScores = [];
+  for (const k of (DATA.karateka[gender] || [])) {
+    for (const p of (k.Performances_Detail || [])) {
+      if (p.Kata === r.Kata && p.Avg_Score != null) allScores.push(p.Avg_Score);
+    }
+  }
+  renderScoreHistogram("chart-kata-histogram", allScores, "_kataHistChart");
 }
 
 /* ════════════════════════════════════════════════════════════════ KARATEKA TAB */
@@ -940,6 +1020,10 @@ function renderKaratekaTable() {
   });
   let rows = sortData(DATA.karateka[gender], s.col, s.dir);
   if (q) rows = rows.filter(r => r.Karateka && r.Karateka.toLowerCase().includes(q));
+  if (!rows.length) {
+    document.getElementById("karateka-tbody").innerHTML = `<tr><td colspan="12" style="text-align:center;padding:32px;color:var(--text-muted)">No athletes match "${esc(q)}"</td></tr>`;
+    return;
+  }
   document.getElementById("karateka-tbody").innerHTML = rows.map((r, i) => `
     <tr data-karateka="${esc(r.Karateka)}">
       <td class="num row-num">${i + 1}</td>
@@ -1087,6 +1171,9 @@ function showKaratekaCard(r) {
     <div class="pill-list" style="margin-bottom:14px">
       ${r.Medals.map(m => `<span class="pill">${m.Place === 1 ? "🥇" : m.Place === 2 ? "🥈" : "🥉"} ${esc(m.Tournament)}</span>`).join("")}
     </div>` : ""}
+    ${r.Mean_Score != null ? `
+    <div class="card-section-title">Score Distribution</div>
+    <div style="height:140px;position:relative;margin-bottom:14px"><canvas id="chart-kar-histogram"></canvas></div>` : ""}
     ${repertoireFlat.length ? `
     <div class="card-section-title">Kata Repertoire</div>
     <div class="card-table-wrap" style="margin-bottom:14px">
@@ -1134,6 +1221,52 @@ function showKaratekaCard(r) {
       <td class="num" style="color:${p._won ? "#3a6e3a" : p._won === false ? "var(--red)" : "inherit"};font-weight:600">${p._won == null ? "—" : p._won ? "Win" : "Loss"}</td>
     </tr>`);
   document.getElementById("karateka-card").classList.remove("hidden");
+  _currentCard = { type: "karateka", name: r.Karateka };
+  window.location.hash = `karateka/${encodeURIComponent(r.Karateka)}`;
+  /* score histogram */
+  const karScores = (r.Performances_Detail || []).map(p => p.Avg_Score).filter(s => s != null);
+  renderScoreHistogram("chart-kar-histogram", karScores, "_karHistChart");
+
+  /* common opponents table */
+  const opponents = {};
+  for (const p of (r.Performances_Detail || [])) {
+    if (!p.Tournament || !p.Round) continue;
+    for (const k of (DATA.karateka[gender] || [])) {
+      if (k.Karateka === r.Karateka) continue;
+      for (const p2 of (k.Performances_Detail || [])) {
+        if (p2.Tournament === p.Tournament && p2.Round === p.Round) {
+          if (!opponents[k.Karateka]) opponents[k.Karateka] = { Karateka: k.Karateka, Country: k.Country, Meetings: 0, Wins: 0 };
+          opponents[k.Karateka].Meetings++;
+          if (p.Won === true) opponents[k.Karateka].Wins++;
+        }
+      }
+    }
+  }
+  const oppFlat = Object.values(opponents).filter(o => o.Meetings > 0).sort((a,b) => b.Meetings - a.Meetings).slice(0, 20);
+  if (oppFlat.length) {
+    const oppSection = document.createElement("div");
+    oppSection.innerHTML = `
+      <div class="card-section-title">Common Opponents (top ${oppFlat.length})</div>
+      <div class="card-table-wrap">
+        <table class="data-table" id="card-kar-opponents">
+          <thead><tr>
+            <th class="num row-num">#</th>
+            <th data-sort="Karateka" data-label="Opponent" style="cursor:pointer" onclick="sortCardTable('card-kar-opponents','Karateka')">Opponent</th>
+            <th data-sort="Meetings" data-label="Meetings" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-opponents','Meetings')">Meetings ↓</th>
+            <th data-sort="Wins" data-label="Wins" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-opponents','Wins')">Wins vs.</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>`;
+    document.getElementById("karateka-card").appendChild(oppSection);
+    initCardTable("card-kar-opponents", oppFlat, "Meetings", "desc",
+      (o, i) => `<tr>
+        <td class="num row-num">${i + 1}</td>
+        <td class="name-cell">${flagOf(o.Country)} ${navLink("karateka", o.Karateka)}</td>
+        <td class="num">${o.Meetings}</td>
+        <td class="num">${o.Wins}</td>
+      </tr>`);
+  }
 }
 
 function showCountryCard(r, all) {
@@ -1238,6 +1371,59 @@ function showCountryCard(r, all) {
       <td class="num">${k.Performances}</td>
       <td class="num">${k.Avg_Score != null ? k.Avg_Score.toFixed(3) : "—"}</td>
     </tr>`);
+
+  /* tournaments attended */
+  const tournSet = new Set();
+  for (const k of (r._athleteObjs || [])) {
+    for (const p of (k.Performances_Detail || [])) {
+      if (p.Tournament) tournSet.add(p.Tournament);
+    }
+  }
+  const tournFlat = [...tournSet].sort().map(t => {
+    const meta = TOURN_META[t] || {};
+    /* per-tournament stats for this country */
+    let scoreSum = 0, scoredN = 0, wins = 0, winN = 0;
+    for (const k of (r._athleteObjs || [])) {
+      for (const p of (k.Performances_Detail || [])) {
+        if (p.Tournament === t) {
+          if (p.Avg_Score != null) { scoreSum += p.Avg_Score; scoredN++; }
+          if (p.Won != null) { wins += p.Won ? 1 : 0; winN++; }
+        }
+      }
+    }
+    return {
+      Tournament: t,
+      _flag: flagOf(meta.country),
+      Avg_Score: scoredN ? scoreSum / scoredN : null,
+      Win_Rate:  winN   ? wins / winN        : null,
+    };
+  });
+  if (tournFlat.length) {
+    const ts = document.createElement("div");
+    ts.innerHTML = `
+      <div class="card-section-title">Tournaments Attended (${tournFlat.length})</div>
+      <div class="card-table-wrap">
+        <table class="data-table" id="card-country-tournaments">
+          <thead><tr>
+            <th class="num row-num">#</th>
+            <th data-sort="Tournament" data-label="Tournament" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Tournament')">Tournament</th>
+            <th data-sort="Avg_Score" data-label="Avg Score" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Avg_Score')">Avg Score</th>
+            <th data-sort="Win_Rate" data-label="Win Rate" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Win_Rate')">Win Rate</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>`;
+    document.getElementById("countries-card").appendChild(ts);
+    initCardTable("card-country-tournaments", tournFlat, "Tournament", "asc",
+      (t, i) => `<tr>
+        <td class="num row-num">${i + 1}</td>
+        <td>${t._flag} ${navLink("tournament", t.Tournament)}</td>
+        <td class="num">${t.Avg_Score != null ? t.Avg_Score.toFixed(3) : "—"}</td>
+        <td class="num">${t.Win_Rate != null ? fmtPct(t.Win_Rate) : "—"}</td>
+      </tr>`);
+  }
+  _currentCard = { type: "country", name: r.Country };
+  window.location.hash = `country/${encodeURIComponent(r.Country)}`;
   document.getElementById("countries-card").classList.remove("hidden");
 }
 
@@ -1313,6 +1499,10 @@ function renderCountriesTable() {
   let all = fullAll;
   if (q) all = all.filter(r => r.Country.toLowerCase().includes(q));
   const rows = sortData(all, s.col, s.dir);
+  if (!rows.length) {
+    document.getElementById("countries-tbody").innerHTML = `<tr><td colspan="9" style="text-align:center;padding:32px;color:var(--text-muted)">No countries match "${esc(q)}"</td></tr>`;
+    return;
+  }
   document.getElementById("countries-tbody").innerHTML = rows.map((r, i) => `
     <tr data-country="${esc(r.Country)}" style="cursor:pointer">
       <td class="num row-num">${i + 1}</td>
@@ -1573,6 +1763,8 @@ function showTournamentCard(r) {
       <td class="num">${k.Avg_Score != null ? k.Avg_Score.toFixed(3) : "—"}</td>
       <td class="num">${k.Win_Rate != null ? fmtPct(k.Win_Rate) : "—"}</td>
     </tr>`);
+  _currentCard = { type: "tournament", name: r.Tournament };
+  window.location.hash = `tournament/${encodeURIComponent(r.Tournament)}`;
   document.getElementById("tournaments-card").classList.remove("hidden");
 }
 
@@ -2199,3 +2391,327 @@ function highlightRow(tbodyId, attr, value) {
   );
 }
 function pct(n, total) { return (n / total * 100).toFixed(2) + "%"; }
+
+/* ══════════════════════════════════════════════════════ BACK BUTTON */
+function setupBackButton() {
+  const btn = document.getElementById("nav-back-btn");
+  if (!btn) return;
+  btn.style.display = "none";
+  btn.addEventListener("click", _navBack);
+}
+
+/* ══════════════════════════════════════════════════════ DEEP LINK */
+function parseDeepLink() {
+  const hash = window.location.hash.replace(/^#/, "");
+  if (!hash) return;
+  const parts = hash.split("/");
+  if (parts[0] === "tab" && parts[1]) {
+    switchToTab(parts[1]);
+    return;
+  }
+  const type = parts[0];
+  const name = parts.slice(1).map(decodeURIComponent).join("/");
+  if (!name) return;
+  const typeToTab = { kata: "kata", karateka: "karateka", tournament: "tournaments", country: "countries" };
+  const tab = typeToTab[type];
+  if (!tab) return;
+  switchToTab(tab);
+  setTimeout(() => {
+    if (type === "kata") {
+      const row = DATA.kata[gender].find(r => r.Kata === name);
+      if (row) { showKataCard(row); highlightRow("kata-tbody", "data-kata", name); }
+    } else if (type === "karateka") {
+      const row = DATA.karateka[gender].find(r => r.Karateka === name);
+      if (row) { showKaratekaCard(row); highlightRow("karateka-tbody", "data-karateka", name); }
+    } else if (type === "tournament") {
+      const row = (DATA.tournaments || []).find(r => r.Tournament === name);
+      if (row) showTournamentCard(row);
+    } else if (type === "country") {
+      const all = buildCountryStats();
+      const row = all.find(r => r.Country === name);
+      if (row) { showCountryCard(row, all); highlightRow("countries-tbody", "data-country", name); }
+    }
+  }, 100);
+}
+
+/* ══════════════════════════════════════════════════════ GLOBAL SEARCH */
+function setupGlobalSearch() {
+  const input = document.getElementById("global-search");
+  const dropdown = document.getElementById("global-search-dropdown");
+  if (!input || !dropdown) return;
+
+  input.addEventListener("input", () => {
+    const q = input.value.trim().toLowerCase();
+    if (!q || q.length < 2) { dropdown.style.display = "none"; return; }
+    const results = [];
+
+    /* kata */
+    (DATA.kata[gender] || []).filter(r => r.Kata.toLowerCase().includes(q)).slice(0, 5)
+      .forEach(r => results.push({ type: "kata", name: r.Kata, sub: `${r.Kata_Tier || ""} · ${r.Performances} performances` }));
+
+    /* karateka */
+    (DATA.karateka[gender] || []).filter(r => r.Karateka.toLowerCase().includes(q)).slice(0, 5)
+      .forEach(r => results.push({ type: "karateka", name: r.Karateka, sub: `${r.Country} · ${r.Performances} performances` }));
+
+    /* countries */
+    buildCountryStats().filter(r => r.Country.toLowerCase().includes(q)).slice(0, 3)
+      .forEach(r => results.push({ type: "country", name: r.Country, sub: `${r.Athletes} athletes` }));
+
+    /* tournaments */
+    (DATA.tournaments || []).filter(r => r.Tournament.toLowerCase().includes(q) && r.Gender.toLowerCase() === gender).slice(0, 3)
+      .forEach(r => results.push({ type: "tournament", name: r.Tournament, sub: `${r.Total_Performances} performances` }));
+
+    if (!results.length) {
+      dropdown.innerHTML = `<div class="gsd-empty">No results for "${esc(q)}"</div>`;
+      dropdown.style.display = "block";
+      return;
+    }
+
+    const groupLabels = { kata: "Kata", karateka: "Athletes", country: "Countries", tournament: "Tournaments" };
+    const grouped = {};
+    results.forEach(r => { if (!grouped[r.type]) grouped[r.type] = []; grouped[r.type].push(r); });
+    let html = "";
+    for (const [type, items] of Object.entries(grouped)) {
+      html += `<div class="gsd-group-label">${groupLabels[type]}</div>`;
+      items.forEach(item => {
+        html += `<div class="gsd-item" data-type="${esc(item.type)}" data-name="${esc(item.name)}">
+          <span class="gsd-name">${esc(item.name)}</span>
+          <span class="gsd-sub">${esc(item.sub)}</span>
+        </div>`;
+      });
+    }
+    dropdown.innerHTML = html;
+    dropdown.style.display = "block";
+  });
+
+  dropdown.addEventListener("click", e => {
+    const item = e.target.closest(".gsd-item");
+    if (!item) return;
+    input.value = "";
+    dropdown.style.display = "none";
+    confirmNav(item.dataset.type, item.dataset.name);
+  });
+
+  document.addEventListener("click", e => {
+    if (!e.target.closest(".global-search-wrap")) dropdown.style.display = "none";
+  });
+
+  input.addEventListener("keydown", e => {
+    if (e.key === "Escape") { dropdown.style.display = "none"; input.blur(); }
+  });
+}
+
+/* ══════════════════════════════════════════════════════ SCORE HISTOGRAM */
+function renderScoreHistogram(canvasId, scores, chartKey) {
+  if (_kataHistChart && chartKey === "_kataHistChart") { _kataHistChart.destroy(); _kataHistChart = null; }
+  if (_karHistChart  && chartKey === "_karHistChart")  { _karHistChart.destroy();  _karHistChart  = null; }
+  const ctx = document.getElementById(canvasId); if (!ctx || !scores.length) return;
+  /* build bins of width 0.1 from floor to ceil of data */
+  const BIN_W = 0.1;
+  const minV = Math.floor(scores.reduce((m,v)=>Math.min(m,v), Infinity) / BIN_W) * BIN_W;
+  const maxV = Math.ceil( scores.reduce((m,v)=>Math.max(m,v), -Infinity) / BIN_W) * BIN_W;
+  const bins = [];
+  for (let b = minV; b < maxV + BIN_W/2; b = +(b + BIN_W).toFixed(2)) {
+    const lo = b, hi = +(b + BIN_W).toFixed(2);
+    bins.push({ lo, hi, count: scores.filter(s => s >= lo && s < hi).length });
+  }
+  const chart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: bins.map(b => b.lo.toFixed(1)),
+      datasets: [{ data: bins.map(b => b.count), backgroundColor: RED, borderColor: RED_BORDER, borderWidth: 1, borderRadius: 2 }],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { title: i => `${bins[i[0].dataIndex].lo.toFixed(2)} – ${bins[i[0].dataIndex].hi.toFixed(2)}`, label: c => ` ${c.raw} performance${c.raw !== 1 ? "s" : ""}` } },
+      },
+      scales: {
+        x: { grid: { display: false }, ticks: { font: { family: CHART_FONT, size: 10 }, color: "#7a7060" }, title: { display: true, text: "Score", font: { family: CHART_FONT, size: 10 }, color: "#7a7060" } },
+        y: { grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 10 }, color: "#7a7060", stepSize: 1 } },
+      },
+    },
+  });
+  if (chartKey === "_kataHistChart") _kataHistChart = chart;
+  else _karHistChart = chart;
+}
+
+/* ══════════════════════════════════════════════════════ MEDALS TAB */
+function renderMedalsTab() {
+  const el = document.getElementById("medals-content");
+  if (!el) return;
+
+  /* combine both genders or respect toggle? Per spec: respect gender toggle */
+  const karData = DATA.karateka[gender] || [];
+  const medalMap = {};
+  for (const k of karData) {
+    const c = k.Country;
+    if (!c) continue;
+    if (!medalMap[c]) medalMap[c] = { Country: c, Gold: 0, Silver: 0, Bronze: 0 };
+    for (const m of (k.Medals || [])) {
+      if (m.Place === 1) medalMap[c].Gold++;
+      else if (m.Place === 2) medalMap[c].Silver++;
+      else medalMap[c].Bronze++;
+    }
+  }
+  const rows = Object.values(medalMap)
+    .filter(r => r.Gold + r.Silver + r.Bronze > 0)
+    .sort((a,b) => b.Gold - a.Gold || b.Silver - a.Silver || b.Bronze - a.Bronze || a.Country.localeCompare(b.Country));
+
+  if (!rows.length) {
+    el.innerHTML = `<p style="color:var(--text-muted);padding:32px 0">No medal data available for ${gender} athletes.</p>`;
+    return;
+  }
+
+  el.innerHTML = `
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:18px">${gender === "male" ? "Male" : "Female"} kata medals across the 2024–25 WKF season. Toggle the gender switch to compare.</p>
+    <div class="table-wrapper" style="max-width:600px">
+      <table class="data-table" id="medals-table">
+        <thead><tr>
+          <th class="num row-num">Rank</th>
+          <th>Country</th>
+          <th class="num">🥇</th>
+          <th class="num">🥈</th>
+          <th class="num">🥉</th>
+          <th class="num">Total</th>
+        </tr></thead>
+        <tbody id="medals-tbody"></tbody>
+      </table>
+    </div>`;
+  document.getElementById("medals-tbody").innerHTML = rows.map((r, i) => `
+    <tr>
+      <td class="num row-num">${i + 1}</td>
+      <td>${flagOf(r.Country)} ${navLink("country", r.Country)}</td>
+      <td class="num" style="font-weight:${r.Gold ? 700 : 400}">${r.Gold || "—"}</td>
+      <td class="num" style="font-weight:${r.Silver ? 700 : 400}">${r.Silver || "—"}</td>
+      <td class="num" style="font-weight:${r.Bronze ? 700 : 400}">${r.Bronze || "—"}</td>
+      <td class="num" style="font-weight:700">${r.Gold + r.Silver + r.Bronze}</td>
+    </tr>`).join("");
+}
+
+/* ══════════════════════════════════════════════════════ TOURNAMENT TIMELINE */
+function renderTournamentTimeline() {
+  const wrap = document.getElementById("tourn-timeline-wrap");
+  if (!wrap) return;
+  const key = gender;
+  if (_timelineRendered === key && wrap.children.length) return; /* don't rebuild on every switch */
+  _timelineRendered = key;
+
+  const tourns = DATA.tournaments.filter(r => r.Gender.toLowerCase() === gender);
+  /* group by year */
+  const byYear = {};
+  for (const t of tourns) {
+    const m = t.Tournament.match(/(\d{4})/);
+    const yr = m ? m[1] : "Other";
+    if (!byYear[yr]) byYear[yr] = [];
+    byYear[yr].push(t);
+  }
+
+  let html = `<div class="tourn-timeline">`;
+  for (const [yr, list] of Object.entries(byYear).sort((a,b) => a[0].localeCompare(b[0]))) {
+    html += `<div class="tl-year-group"><span class="tl-year">${yr}</span>`;
+    for (const t of list) {
+      const meta = TOURN_META[t.Tournament] || {};
+      html += `<button class="tl-chip" data-tourn="${esc(t.Tournament)}">${flagOf(meta.country)} ${esc(t.Tournament)}</button>`;
+    }
+    html += `</div>`;
+  }
+  html += `</div>`;
+  wrap.innerHTML = html;
+
+  wrap.querySelectorAll(".tl-chip").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const row = DATA.tournaments.find(r => r.Tournament === btn.dataset.tourn && r.Gender.toLowerCase() === gender);
+      if (row) showTournamentCard(row);
+    });
+  });
+}
+
+/* ══════════════════════════════════════════════════════ WORLD MAP */
+function renderWorldMap() {
+  const wrap = document.getElementById("world-map-wrap");
+  if (!wrap) return;
+  const key = gender;
+  if (_mapRendered === key && wrap.querySelector("svg")) return;
+  _mapRendered = key;
+
+  /* athlete counts per country */
+  const countryStats = buildCountryStats();
+  const athleteMap = {};
+  countryStats.forEach(r => { athleteMap[r.Country] = r.Athletes; });
+  const maxAthletes = Math.max(...Object.values(athleteMap), 1);
+
+  /* name mapping from topojson country names → our DATA.countries names */
+  const NAME_MAP = {
+    "United States of America": "USA",
+    "United Kingdom": "England",
+    "Republic of Korea": "South Korea",
+    "Iran (Islamic Republic of)": "Iran",
+    "Taiwan": "Taiwan",
+    "Hong Kong S.A.R.": "Hong Kong",
+    "United Arab Emirates": "UAE",
+    "Czech Republic": "Czech Republic",
+    "Slovakia": "Slovakia",
+    "Montenegro": "Montenegro",
+  };
+  const resolve = name => NAME_MAP[name] || name;
+
+  wrap.innerHTML = `<div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">Athletes per country — ${gender === "male" ? "Male" : "Female"} · click a country to navigate</div><div id="world-map-svg-wrap" style="width:100%;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);overflow:hidden"></div>`;
+  const svgWrap = document.getElementById("world-map-svg-wrap");
+  const tooltip = document.getElementById("map-tooltip");
+
+  fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
+    .then(r => r.json())
+    .then(world => {
+      const countries = topojson.feature(world, world.objects.countries);
+      const w = svgWrap.getBoundingClientRect().width || 700;
+      const h = Math.round(w * 0.5);
+      const proj = d3.geoNaturalEarth1().scale(w / 6.28).translate([w / 2, h / 2]);
+      const path = d3.geoPath(proj);
+
+      const color = d3.scaleSequential()
+        .domain([0, maxAthletes])
+        .interpolator(d3.interpolateRgb("#f0e8d6", "#9a1c1c"));
+
+      const svg = d3.create("svg").attr("viewBox", `0 0 ${w} ${h}`).style("width","100%").style("height","auto");
+
+      svg.append("g")
+        .selectAll("path")
+        .data(countries.features)
+        .join("path")
+        .attr("d", path)
+        .attr("fill", d => {
+          const name = resolve(d.properties.name);
+          const n = athleteMap[name];
+          return n ? color(n) : "#e8dcc8";
+        })
+        .attr("stroke", "#fff")
+        .attr("stroke-width", 0.3)
+        .style("cursor", d => {
+          const name = resolve(d.properties.name);
+          return athleteMap[name] ? "pointer" : "default";
+        })
+        .on("mousemove", (event, d) => {
+          const name = resolve(d.properties.name);
+          const n = athleteMap[name];
+          if (!tooltip) return;
+          tooltip.style.display = "block";
+          tooltip.style.left = (event.clientX + 12) + "px";
+          tooltip.style.top  = (event.clientY - 28) + "px";
+          tooltip.innerHTML = n
+            ? `<strong>${esc(name)}</strong> · ${n} athlete${n !== 1 ? "s" : ""}`
+            : `<span style="color:var(--text-muted)">${esc(name)}</span>`;
+        })
+        .on("mouseleave", () => { if (tooltip) tooltip.style.display = "none"; })
+        .on("click", (event, d) => {
+          const name = resolve(d.properties.name);
+          if (athleteMap[name]) confirmNav("country", name);
+        });
+
+      svgWrap.appendChild(svg.node());
+    })
+    .catch(() => {
+      svgWrap.innerHTML = `<p style="padding:24px;color:var(--text-muted);font-size:13px">Could not load world map.</p>`;
+    });
+}

@@ -6,6 +6,8 @@
   <title>2024–25 WKF Kata Analysis</title>
   <link rel="stylesheet" href="other/style.css" />
   <script src="other/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
 </head>
 <body>
 
@@ -16,6 +18,10 @@
         <h1>2024–25 WKF Season — Kata Analysis</h1>
       </div>
       <div class="header-right">
+        <div class="global-search-wrap" style="position:relative;margin-right:12px">
+          <input id="global-search" type="text" placeholder="Search kata, athletes, countries, tournaments…" autocomplete="off" />
+          <div id="global-search-dropdown" class="global-search-dropdown" style="display:none"></div>
+        </div>
         <p class="header-sub" id="header-sub">Loading…</p>
       </div>
     </div>
@@ -28,6 +34,7 @@
     <button class="tab-btn" data-tab="karateka">Athletes</button>
     <button class="tab-btn" data-tab="tournaments">Tournaments</button>
     <button class="tab-btn" data-tab="countries">Countries</button>
+    <button class="tab-btn" data-tab="medals">Medals</button>
     <span class="tab-sep"></span>
     <button class="tab-btn" data-tab="kata-findings">Kata Findings</button>
     <button class="tab-btn" data-tab="karateka-findings">Athlete Findings</button>
@@ -240,6 +247,7 @@
 
   <!-- ══════════════════════════════════════════════════ TOURNAMENTS TAB -->
   <section id="tab-tournaments" class="tab-content hidden">
+    <div id="tourn-timeline-wrap"></div>
     <div id="tournaments-card" class="detail-card hidden"></div>
     <div class="table-wrapper">
       <table id="tournaments-table" class="data-table">
@@ -262,6 +270,7 @@
 
   <!-- ══════════════════════════════════════════════════ COUNTRIES TAB -->
   <section id="tab-countries" class="tab-content hidden">
+    <div id="world-map-wrap" style="margin-bottom:32px"></div>
     <div class="controls-bar">
       <input type="text" id="countries-search" class="search-input" placeholder="Search countries…" />
     </div>
@@ -285,6 +294,11 @@
         <tbody id="countries-tbody"></tbody>
       </table>
     </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════ MEDALS TAB -->
+  <section id="tab-medals" class="tab-content hidden">
+    <div id="medals-content"></div>
   </section>
 
   <!-- ══════════════════════════════════════════════════ KATA FINDINGS TAB -->
@@ -662,6 +676,8 @@
 
   </section>
 
+  <button id="nav-back-btn">← Back</button>
+  <div id="map-tooltip" style="position:fixed;display:none;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:6px 10px;font-size:12px;pointer-events:none;z-index:2000;box-shadow:0 2px 8px rgba(0,0,0,0.15)"></div>
   <script src="other/app.js"></script>
 </body>
 </html>
