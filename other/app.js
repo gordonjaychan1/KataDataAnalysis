@@ -32,27 +32,27 @@ function _doNav() {
     switchToTab("kata");
     setTimeout(() => {
       const row = DATA.kata[gender].find(r => r.Kata === name);
-      if (row) { showKataCard(row); highlightRow("kata-tbody", "data-kata", name); }
-    }, 50);
+      if (row) { showKataCard(row); highlightRow("kata-tbody", "data-kata", name); scrollToCard("kata-card"); }
+    }, 80);
   } else if (type === "karateka") {
     switchToTab("karateka");
     setTimeout(() => {
       const row = DATA.karateka[gender].find(r => r.Karateka === name);
-      if (row) { showKaratekaCard(row); highlightRow("karateka-tbody", "data-karateka", name); }
-    }, 50);
+      if (row) { showKaratekaCard(row); highlightRow("karateka-tbody", "data-karateka", name); scrollToCard("karateka-card"); }
+    }, 80);
   } else if (type === "tournament") {
     switchToTab("tournaments");
     setTimeout(() => {
       const row = (DATA.tournaments || []).find(r => r.Tournament === name);
-      if (row) showTournamentCard(row);
-    }, 50);
+      if (row) { showTournamentCard(row); scrollToCard("tournaments-card"); }
+    }, 80);
   } else if (type === "country") {
     switchToTab("countries");
     setTimeout(() => {
       const all = buildCountryStats();
       const row = all.find(r => r.Country === name);
-      if (row) { showCountryCard(row, all); highlightRow("countries-tbody", "data-country", name); }
-    }, 50);
+      if (row) { showCountryCard(row, all); highlightRow("countries-tbody", "data-country", name); scrollToCard("countries-card"); }
+    }, 80);
   }
   /* update hash */
   window.location.hash = `${type}/${encodeURIComponent(name)}`;
@@ -61,6 +61,15 @@ function _doNav() {
 function _updateBackBtn() {
   const btn = document.getElementById("nav-back-btn");
   if (btn) btn.style.display = _navHistory.length > 0 ? "block" : "none";
+}
+
+function scrollToCard(cardId) {
+  const el = document.getElementById(cardId);
+  if (!el || el.classList.contains("hidden")) return;
+  const sticky = document.querySelector(".sticky-top");
+  const offset = sticky ? sticky.offsetHeight + 12 : 80;
+  const y = el.getBoundingClientRect().top + window.scrollY - offset;
+  window.scrollTo({ top: Math.max(0, y), behavior: "smooth" });
 }
 
 function _navBack() {
@@ -73,19 +82,19 @@ function _navBack() {
       const { type, name } = prev.card;
       if (type === "kata") {
         const row = DATA.kata[gender].find(r => r.Kata === name);
-        if (row) { showKataCard(row); highlightRow("kata-tbody", "data-kata", name); }
+        if (row) { showKataCard(row); highlightRow("kata-tbody", "data-kata", name); scrollToCard("kata-card"); }
       } else if (type === "karateka") {
         const row = DATA.karateka[gender].find(r => r.Karateka === name);
-        if (row) { showKaratekaCard(row); highlightRow("karateka-tbody", "data-karateka", name); }
+        if (row) { showKaratekaCard(row); highlightRow("karateka-tbody", "data-karateka", name); scrollToCard("karateka-card"); }
       } else if (type === "tournament") {
         const row = (DATA.tournaments || []).find(r => r.Tournament === name && r.Gender.toLowerCase() === gender);
-        if (row) showTournamentCard(row);
+        if (row) { showTournamentCard(row); scrollToCard("tournaments-card"); }
       } else if (type === "country") {
         const all = buildCountryStats();
         const row = all.find(r => r.Country === name);
-        if (row) { showCountryCard(row, all); highlightRow("countries-tbody", "data-country", name); }
+        if (row) { showCountryCard(row, all); highlightRow("countries-tbody", "data-country", name); scrollToCard("countries-card"); }
       }
-    }, 50);
+    }, 80);
   }
   /* update hash */
   if (prev.card) {
@@ -380,6 +389,7 @@ function setupTabs() {
       /* close any open detail cards when switching tabs */
       ["kata-card", "karateka-card", "tournaments-card", "countries-card"].forEach(id => clearCard(id));
       _currentCard = null;
+      _navHistory = []; _updateBackBtn();
       if (btn.dataset.tab === "compare") renderCompareTab();
       if (btn.dataset.tab === "medals") renderMedalsTab();
       if (btn.dataset.tab === "tournaments") renderTournamentTimeline();
@@ -995,6 +1005,7 @@ function showKataCard(r) {
   document.getElementById("kata-card").classList.remove("hidden");
   _currentCard = { type: "kata", name: r.Kata };
   window.location.hash = `kata/${encodeURIComponent(r.Kata)}`;
+  scrollToCard("kata-card");
   /* score histogram */
   const allScores = [];
   for (const k of (DATA.karateka[gender] || [])) {
@@ -1226,6 +1237,7 @@ function showKaratekaCard(r) {
   document.getElementById("karateka-card").classList.remove("hidden");
   _currentCard = { type: "karateka", name: r.Karateka };
   window.location.hash = `karateka/${encodeURIComponent(r.Karateka)}`;
+  scrollToCard("karateka-card");
   /* score histogram */
   const karScores = (r.Performances_Detail || []).map(p => p.Avg_Score).filter(s => s != null);
   renderScoreHistogram("chart-kar-histogram", karScores, "_karHistChart");
@@ -1452,6 +1464,7 @@ function showCountryCard(r, all) {
   }
   _currentCard = { type: "country", name: r.Country };
   window.location.hash = `country/${encodeURIComponent(r.Country)}`;
+  scrollToCard("countries-card");
   document.getElementById("countries-card").classList.remove("hidden");
 }
 
@@ -1793,6 +1806,7 @@ function showTournamentCard(r) {
     </tr>`);
   _currentCard = { type: "tournament", name: r.Tournament };
   window.location.hash = `tournament/${encodeURIComponent(r.Tournament)}`;
+  scrollToCard("tournaments-card");
   document.getElementById("tournaments-card").classList.remove("hidden");
 }
 
@@ -2694,14 +2708,14 @@ function renderTournamentTimeline() {
   const AXIS = 110; /* px from top to axis line */
   const H    = 170;
 
-  let html = `<div class="tl-real" style="height:${H}px;position:relative;width:80%;margin:0 auto">`;
+  let html = `<div class="tl-real" style="height:${H}px;position:relative;width:88%;margin:0 auto">`;
   /* Axis */
-  html += `<div style="position:absolute;left:0;right:0;top:${AXIS}px;height:2px;background:var(--border)"></div>`;
+  html += `<div style="position:absolute;left:0;right:0;top:${AXIS}px;height:3px;background:var(--border)"></div>`;
   /* Ticks */
   ticks.forEach(({ i, label }) => {
     const p = pct(i);
     html += `<div style="position:absolute;left:${p}%;top:${AXIS - 4}px;width:1px;height:10px;background:var(--border-light);transform:translateX(-50%)"></div>`;
-    html += `<div style="position:absolute;left:${p}%;top:${AXIS + 10}px;font-size:10px;color:var(--text-muted);transform:translateX(-50%);white-space:nowrap">${label}</div>`;
+    html += `<div style="position:absolute;left:${p}%;top:${AXIS + 10}px;font-size:12px;color:var(--text-muted);transform:translateX(-50%);white-space:nowrap">${label}</div>`;
   });
 
   /* Chips */
