@@ -1026,6 +1026,7 @@ function showKaratekaCard(r) {
     Avg_Score:  p.Avg_Score,
     Won_Sort:   p.Won === true ? "0_win" : p.Won === false ? "1_loss" : "2_none",
     _won:       p.Won,
+    _flag:      flagOf((TOURN_META[p.Tournament] || {}).country),
   }));
 
   /* medal count summary */
@@ -1110,7 +1111,7 @@ function showKaratekaCard(r) {
   if (perfsFlat.length) initCardTable("card-kar-performances", perfsFlat, "Tournament", "asc",
     (p, i) => `<tr>
       <td class="num row-num">${i + 1}</td>
-      <td>${navLink("tournament", p.Tournament)}</td>
+      <td>${p._flag}${navLink("tournament", p.Tournament)}</td>
       <td>${esc(p.Round)}</td>
       <td class="name-cell">${navLink("kata", p.Kata)}</td>
       <td class="num">${p.Avg_Score != null ? p.Avg_Score.toFixed(2) : "—"}</td>
