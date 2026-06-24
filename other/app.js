@@ -149,9 +149,6 @@ function renderAll() {
   renderCountriesTable();
   renderKataFindings();
   renderKaratekaFindings();
-  setTimeout(() => {
-    ['kata-table','karateka-table','tournaments-table','countries-table'].forEach(splitTableScroll);
-  }, 0);
 }
 
 function renderWelcomeVideo() {
@@ -251,6 +248,12 @@ function setupTabs() {
       /* close any open detail cards when switching tabs */
       ["kata-card", "karateka-card", "tournaments-card", "countries-card"].forEach(id => clearCard(id));
       if (btn.dataset.tab === "compare") renderCompareTab();
+      const tabTableMap = {
+        kata: "kata-table", karateka: "karateka-table",
+        tournaments: "tournaments-table", countries: "countries-table"
+      };
+      const tid = tabTableMap[btn.dataset.tab];
+      if (tid) setTimeout(() => splitTableScroll(tid), 0);
     });
   });
 }
