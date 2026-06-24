@@ -172,6 +172,7 @@ header {
 .data-table td { padding: 9px 14px; vertical-align: middle; }
 .data-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
 .data-table .row-num { color: var(--text-muted); font-size: 11px; width: 32px; padding-right: 8px; }
+.data-table thead .row-num { color: #fff; }
 .data-table td.name-cell { font-weight: 500; }
 #missing-table-male tbody tr:hover,
 #missing-table-female tbody tr:hover { background: none; cursor: default; }
