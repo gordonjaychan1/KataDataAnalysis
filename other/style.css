@@ -147,7 +147,7 @@ header {
 .data-table tbody.summary-body td.num { text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--text); }
 .data-table tbody.summary-body td.name-cell { font-weight: 700; color: var(--text); }
 .table-wrapper { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
-.table-wrapper--sticky { max-height: 72vh; overflow-y: auto; }
+.table-wrapper--sticky { max-height: 72vh; overflow-y: auto; background: linear-gradient(var(--red) 35px, var(--surface) 35px); }
 .table-wrapper--sticky .data-table thead th { position: sticky; top: 0; z-index: 5; background: var(--red); box-shadow: 0 1px 0 var(--border); }
 .table-wrapper--sticky .data-table tbody.summary-body td { position: sticky; top: 35px; z-index: 4; }
 .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
@@ -288,7 +288,11 @@ blockquote.dedication {
 
 /* ── Responsive ───────────────────────────────────────────────────────────── */
 /* ── Card inner table ─────────────────────────────────────────────────────── */
-.card-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); margin-top: 6px; max-height: 340px; overflow-y: auto; }
+.card-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); margin-top: 6px; max-height: 340px; overflow-y: auto; background: linear-gradient(var(--red) 35px, var(--surface) 35px); }
+.card-table-wrap::-webkit-scrollbar { width: 6px; height: 6px; }
+.card-table-wrap::-webkit-scrollbar-track { background: var(--bg); }
+.card-table-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.card-table-wrap::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 .card-table-wrap .data-table tbody tr:hover { background: var(--row-hover); cursor: default; }
 
 /* ── Performed/unperformed kata grid ──────────────────────────────────────── */
