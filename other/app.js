@@ -392,8 +392,11 @@ function renderCompareTab() {
         return '<span class="ks-pill ks-pill-none">Not performed</span>';
       };
       const rows = (list, mSet, fSet, offset = 0) => list.map((k, i) =>
-        `<div class="ks-row ${i % 2 === 0 ? 'ks-row-even' : 'ks-row-odd'}"><span class="ks-num">${offset + i + 1}</span><span class="ks-name">${esc(k)}</span><span class="ks-status">${pill(mSet.has(k), fSet.has(k))}</span></div>`
+        `<tr><td class="num row-num">${offset + i + 1}</td><td>${esc(k)}</td><td>${pill(mSet.has(k), fSet.has(k))}</td></tr>`
       ).join("");
+      const col = (header, bodyRows) => `<div class="table-wrapper"><table class="data-table">
+        <thead><tr><th class="num row-num">#</th><th>${header}</th><th>Status</th></tr></thead>
+        <tbody>${bodyRows}</tbody></table></div>`;
       return `<div id="fig-g2" style="margin-top:64px">
         <span class="fig-label">Figure G-2</span>
         <h3 class="compare-head">Kata Performed by Gender</h3>
@@ -404,18 +407,10 @@ function renderCompareTab() {
           <span class="ks-pill ks-pill-none">Not performed</span>
         </div>
         <div class="ks-three-col">
-          <div>
-            <div class="ks-tier-head">Advanced</div>
-            <div class="ks-list ks-table-border">${rows(allAdv.slice(0, mid), mAdvSet, fAdvSet, 0)}</div>
+          ${col('Advanced', rows(allAdv.slice(0, mid), mAdvSet, fAdvSet, 0))}
+          ${col('Advanced (cont.)', rows(allAdv.slice(mid), mAdvSet, fAdvSet, mid))}
           </div>
-          <div>
-            <div class="ks-tier-head">&nbsp;</div>
-            <div class="ks-list ks-table-border">${rows(allAdv.slice(mid), mAdvSet, fAdvSet, mid)}</div>
-          </div>
-          <div>
-            <div class="ks-tier-head">Intermediate <span class="ks-tier-note">(performed only)</span></div>
-            <div class="ks-list ks-table-border">${rows(allInt, mIntSet, fIntSet, 0)}</div>
-          </div>
+          ${col('Intermediate (performed only)', rows(allInt, mIntSet, fIntSet, 0))}
         </div>
         <div class="compare-grid" style="margin-top:32px">
           <div class="compare-col">
