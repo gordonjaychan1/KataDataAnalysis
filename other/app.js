@@ -835,6 +835,7 @@ function showKaratekaCard(r) {
     Round:      roundLabel[p.Round] || p.Round || "",
     Kata:       p.Kata || "",
     Avg_Score:  p.Avg_Score,
+    Won_Sort:   p.Won === true ? "0_win" : p.Won === false ? "1_loss" : "2_none",
     _won:       p.Won,
   }));
 
@@ -904,7 +905,7 @@ function showKaratekaCard(r) {
           <th data-sort="Round" data-label="Round" style="cursor:pointer" onclick="sortCardTable('card-kar-performances','Round')">Round</th>
           <th data-sort="Kata" data-label="Kata" style="cursor:pointer" onclick="sortCardTable('card-kar-performances','Kata')">Kata</th>
           <th data-sort="Avg_Score" data-label="Score" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-performances','Avg_Score')">Score</th>
-          <th class="num">Result</th>
+          <th data-sort="Won_Sort" data-label="Result" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-performances','Won_Sort')">Result</th>
         </tr></thead>
         <tbody></tbody>
       </table>
@@ -1407,6 +1408,62 @@ function makeHBar(id, labels, values, xLabel, minVal, perfs = null) {
   });
 }
 
+function makeCountryHBar(id, countries, athletes) {
+  destroyChart(id);
+  const ctx = document.getElementById(id); if (!ctx) return;
+  const imgs = {};
+  let pending = countries.length;
+  countries.forEach(country => {
+    const iso = ISO2[country]?.toLowerCase();
+    if (!iso) { if (--pending <= 0 && charts[id]) charts[id].update(); return; }
+    const img = new Image(20, 15);
+    img.onload = () => { imgs[country] = img; if (--pending <= 0 && charts[id]) charts[id].update(); };
+    img.onerror = () => { if (--pending <= 0 && charts[id]) charts[id].update(); };
+    img.src = `https://flagcdn.com/20x15/${iso}.png`;
+  });
+  const flagPlugin = {
+    id: "flagLabels",
+    afterDraw(chart) {
+      const yAxis = chart.scales.y;
+      const c2d = chart.ctx;
+      c2d.save();
+      c2d.font = `11px ${CHART_FONT}`;
+      c2d.textBaseline = "middle";
+      c2d.fillStyle = "#1c1c18";
+      countries.forEach((country, i) => {
+        const y = yAxis.getPixelForTick(i);
+        const img = imgs[country];
+        const flagW = 20, flagH = 15, gap = 5;
+        const rightEdge = yAxis.left - 8;
+        const nameW = c2d.measureText(country).width;
+        if (img && img.complete && img.naturalWidth > 0) {
+          const startX = rightEdge - flagW - gap - nameW;
+          c2d.drawImage(img, startX, y - flagH / 2, flagW, flagH);
+          c2d.textAlign = "left";
+          c2d.fillText(country, startX + flagW + gap, y);
+        } else {
+          c2d.textAlign = "right";
+          c2d.fillText(country, rightEdge, y);
+        }
+      });
+      c2d.restore();
+    }
+  };
+  charts[id] = new Chart(ctx, {
+    type: "bar",
+    data: { labels: countries, datasets: [{ data: athletes, backgroundColor: RED, borderColor: RED_BORDER, borderWidth: 1, borderRadius: 3 }] },
+    options: {
+      indexAxis: "y", responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { label: c2 => ` ${c2.raw}` } } },
+      scales: {
+        x: { min: 0, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, title: { display: true, text: "Athletes", font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
+        y: { grid: { display: false }, ticks: { display: false }, afterFit(axis) { axis.width = 165; } },
+      },
+    },
+    plugins: [flagPlugin],
+  });
+}
+
 function makeWinRateHBar(id, labels, values, axisTitle = "Win Rate (%)", perfs = null) {
   destroyChart(id);
   const ctx = document.getElementById(id); if (!ctx) return;
@@ -1752,7 +1809,7 @@ function renderKataStdDev() {
       data: subset.map(r => ({ x: r.Unique_Karateka, y: r.Std_Dev, kata: r.Kata })),
       backgroundColor: TIER_COLORS[tier].bg,
       borderColor: TIER_COLORS[tier].border,
-      borderWidth: 1.5, pointRadius: 6, pointHoverRadius: 8,
+      borderWidth: 1.5, pointRadius: 4, pointHoverRadius: 6,
     };
   }).filter(Boolean);
 
@@ -1851,7 +1908,7 @@ function renderKaratekaFindings() {
     topCountries[0]
       ? `${countries.length} countries sent ${gender} kata athletes this season; ${multiCountries.length} sent 2 or more. ${topCountries[0].Country} sent the most with ${topCountries[0].Athletes} competitors.`
       : "";
-  makeHBar("chart-country", topCountries.map(r => `${flagEmoji(r.Country)} ${r.Country}`), topCountries.map(r => r.Athletes), "Athletes", 0);
+  makeCountryHBar("chart-country", topCountries.map(r => r.Country), topCountries.map(r => r.Athletes));
 }
 
 /* ════════════════════════════════════════════════════════════════ NOTES */
