@@ -267,13 +267,18 @@ blockquote.dedication {
 .download-link:hover { background: var(--red-light); border-color: var(--red); }
 
 /* ── Important Notes ──────────────────────────────────────────────────────── */
-.notes-content { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+.notes-content { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
 .note-section.full-width { grid-column: 1 / -1; }
-.note-section h2 { font-size: 15px; font-weight: 700; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.note-section {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 18px 20px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05); color: var(--text);
+}
+.note-section h2 { font-size: 14px; font-weight: 700; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border); color: var(--text); }
 .note-section h3 { font-size: 13px; font-weight: 700; margin-bottom: 10px; color: var(--text-muted); }
-.note-section p  { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin-bottom: 10px; }
+.note-section p  { font-size: 13px; color: var(--text); line-height: 1.7; margin-bottom: 10px; }
 .note-section p:last-child { margin-bottom: 0; }
-.note-section ul { font-size: 13px; color: var(--text-muted); line-height: 1.7; padding-left: 20px; }
+.note-section ul { font-size: 13px; color: var(--text); line-height: 1.7; padding-left: 20px; }
 .note-section li { margin-bottom: 6px; }
 .note-section strong { color: var(--text); font-weight: 600; }
 .missing-tables { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
