@@ -1242,20 +1242,31 @@ function showKaratekaCard(r) {
   const karScores = (r.Performances_Detail || []).map(p => p.Avg_Score).filter(s => s != null);
   renderScoreHistogram("chart-kar-histogram", karScores, "_karHistChart");
 
-  /* common opponents table */
-  const opponents = {};
+  /* common opponents table — deduplicated by unique (tournament|round) pairs */
+  const rRoundSet = new Set(
+    (r.Performances_Detail || [])
+      .filter(p => p.Tournament && p.Round)
+      .map(p => `${p.Tournament}|||${p.Round}`)
+  );
+  /* map round key → Won flag for subject athlete */
+  const rWonMap = {};
   for (const p of (r.Performances_Detail || [])) {
     if (!p.Tournament || !p.Round) continue;
-    for (const k of (DATA.karateka[gender] || [])) {
-      if (k.Karateka === r.Karateka) continue;
-      for (const p2 of (k.Performances_Detail || [])) {
-        if (p2.Tournament === p.Tournament && p2.Round === p.Round) {
-          if (!opponents[k.Karateka]) opponents[k.Karateka] = { Karateka: k.Karateka, Country: k.Country, Meetings: 0, Wins: 0 };
-          opponents[k.Karateka].Meetings++;
-          if (p.Won === true) opponents[k.Karateka].Wins++;
-        }
-      }
-    }
+    const key = `${p.Tournament}|||${p.Round}`;
+    if (!(key in rWonMap)) rWonMap[key] = p.Won === true;
+  }
+  const opponents = {};
+  for (const k of (DATA.karateka[gender] || [])) {
+    if (k.Karateka === r.Karateka) continue;
+    const kRoundSet = new Set(
+      (k.Performances_Detail || [])
+        .filter(p => p.Tournament && p.Round)
+        .map(p => `${p.Tournament}|||${p.Round}`)
+    );
+    const shared = [...rRoundSet].filter(key => kRoundSet.has(key));
+    if (!shared.length) continue;
+    const wins = shared.filter(key => rWonMap[key]).length;
+    opponents[k.Karateka] = { Karateka: k.Karateka, Country: k.Country, Meetings: shared.length, Wins: wins };
   }
   const oppFlat = Object.values(opponents)
     .filter(o => o.Meetings > 0)
@@ -1269,11 +1280,11 @@ function showKaratekaCard(r) {
       <div class="card-table-wrap">
         <table class="data-table" id="card-kar-opponents">
           <thead><tr>
-            <th class="num row-num">#</th>
-            <th data-sort="Karateka" data-label="Opponent" style="cursor:pointer" onclick="sortCardTable('card-kar-opponents','Karateka')">Opponent</th>
-            <th data-sort="Meetings" data-label="Meetings" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-opponents','Meetings')">Meetings ↓</th>
-            <th data-sort="Wins" data-label="Wins" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-opponents','Wins')">Wins vs.</th>
-            <th data-sort="Win_Rate" data-label="Win Rate" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-opponents','Win_Rate')">Win Rate</th>
+            <th class="num row-num" title="Rank by meetings">#</th>
+            <th data-sort="Karateka" data-label="Opponent" style="cursor:pointer" onclick="sortCardTable('card-kar-opponents','Karateka')" title="Opponent's name and country">Opponent</th>
+            <th data-sort="Meetings" data-label="Meetings" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-opponents','Meetings')" title="Number of rounds competed head-to-head in the same tournament round">Meetings ↓</th>
+            <th data-sort="Wins" data-label="Wins" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-opponents','Wins')" title="Rounds won against this opponent">Wins vs.</th>
+            <th data-sort="Win_Rate" data-label="Win Rate" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-opponents','Win_Rate')" title="Win rate against this opponent (Wins ÷ Meetings)">Win Rate</th>
           </tr></thead>
           <tbody></tbody>
         </table>
