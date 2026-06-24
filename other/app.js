@@ -943,6 +943,10 @@ function showKataCard(r) {
     return `${better + 1}/${total}${suffix}`;
   };
   const rk = (field, asc) => { const v = rankOf(field, asc); return v ? `<div class="stat-rank">${v}</div>` : ""; };
+  const rkFig = (field, asc, tab, figId) => {
+    const v = rankOf(field, asc);
+    return v ? `<div class="stat-rank"><a href="#" onclick="switchToTab('${tab}');setTimeout(()=>document.getElementById('${figId}')?.scrollIntoView({behavior:'smooth',block:'start'}),80);return false;" style="color:var(--red);text-decoration:none" title="See Figure ${figId.replace('finding-','').toUpperCase()}">${v}</a></div>` : "";
+  };
 
   const scoreMissing = r.Performances > 0 && r.Mean_Score == null;
   const dash = scoreMissing
@@ -981,13 +985,13 @@ function showKataCard(r) {
     ${scoreMissing ? `<p style="font-size:12px;color:var(--text-muted);background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:var(--radius);padding:8px 12px;margin-bottom:12px">The score for this kata's performance${r.Performances === 1 ? "" : "s"} was not recorded and is missing from the dataset. Score-related statistics are unavailable and shown as —.</p>` : ""}
     <div class="card-stats">
       <div class="stat-box">
-        <div class="stat-label">Performances</div><div class="stat-value">${r.Performances}</div>${rk('Performances')}
+        <div class="stat-label">Performances</div><div class="stat-value">${r.Performances}</div>${rkFig('Performances', false, 'kata-findings', 'finding-k1')}
       </div>
       <div class="stat-box">
         <div class="stat-label">Athletes</div><div class="stat-value">${r.Unique_Karateka}</div>${rk('Unique_Karateka')}
       </div>
       <div class="stat-box">
-        <div class="stat-label">Avg Score</div><div class="stat-value">${fmtS3(r.Mean_Score)}</div>${rk('Mean_Score')}
+        <div class="stat-label">Avg Score</div><div class="stat-value">${fmtS3(r.Mean_Score)}</div>${rkFig('Mean_Score', false, 'kata-findings', 'finding-k2')}
       </div>
       <div class="stat-box">
         <div class="stat-label">Median</div><div class="stat-value">${fmtS2(r.Median_Score)}</div>${rk('Median_Score')}
@@ -1004,7 +1008,7 @@ function showKataCard(r) {
         <div class="stat-label">Std Dev</div><div class="stat-value">${fmtS3(r.Std_Dev)}</div>${rk('Std_Dev', true)}
       </div>
       <div class="stat-box">
-        <div class="stat-label">Win Rate</div><div class="stat-value">${fmtPct(r.Win_Rate)}</div>${rk('Win_Rate')}
+        <div class="stat-label">Win Rate</div><div class="stat-value">${fmtPct(r.Win_Rate)}</div>${rkFig('Win_Rate', false, 'kata-findings', 'finding-k3')}
       </div>
       ${diffStat}
     </div>
@@ -1184,6 +1188,17 @@ function showKaratekaCard(r) {
 
   /* rank among all karateka — competition-style (ties share same rank) */
   const karAll = DATA.karateka[gender] || [];
+  const rkKFig = (field, asc, tab, figId) => {
+    const vals  = karAll.filter(d => d[field] != null);
+    const total = vals.length;
+    const myVal = r[field];
+    if (myVal == null || !total) return "";
+    const better = vals.filter(d => asc ? d[field] < myVal : d[field] > myVal).length;
+    const tied   = vals.filter(d => d[field] === myVal).length;
+    const suffix = tied > 1 ? " (T)" : "";
+    const v = `${better + 1}/${total}${suffix}`;
+    return `<div class="stat-rank"><a href="#" onclick="switchToTab('${tab}');setTimeout(()=>document.getElementById('${figId}')?.scrollIntoView({behavior:'smooth',block:'start'}),80);return false;" style="color:var(--red);text-decoration:none" title="See Figure ${figId.replace('finding-','').toUpperCase()}">${v}</a></div>`;
+  };
   const rkK = (field, asc = false) => {
     const vals  = karAll.filter(d => d[field] != null);
     const total = vals.length;
@@ -1204,17 +1219,17 @@ function showKaratekaCard(r) {
     <div class="card-stats">
       <div class="stat-box"><div class="stat-label">Performances</div><div class="stat-value">${r.Performances}</div>${rkK('Performances')}</div>
       <div class="stat-box"><div class="stat-label">Tournaments</div><div class="stat-value">${r.Tournaments_Attended}</div>${rkK('Tournaments_Attended')}</div>
-      <div class="stat-box"><div class="stat-label">Avg Score</div><div class="stat-value">${fmt2(r.Mean_Score)}</div>${rkK('Mean_Score')}</div>
+      <div class="stat-box"><div class="stat-label">Avg Score</div><div class="stat-value">${fmt2(r.Mean_Score)}</div>${rkKFig('Mean_Score', false, 'athlete-findings', 'finding-a1')}</div>
       <div class="stat-box"><div class="stat-label">Median</div><div class="stat-value">${fmt2(r.Median_Score)}</div>${rkK('Median_Score')}</div>
       <div class="stat-box"><div class="stat-label">Worst Score</div><div class="stat-value">${fmt2(r.Min_Score)}</div>${rkK('Min_Score', true)}${worstPerf ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">Kata: ${esc(worstPerf.Kata)}</div>` : ""}</div>
       <div class="stat-box"><div class="stat-label">Best Score</div><div class="stat-value">${fmt2(r.Max_Score)}</div>${rkK('Max_Score')}${bestPerf ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">Kata: ${esc(bestPerf.Kata)}</div>` : ""}</div>
-      <div class="stat-box"><div class="stat-label">Win Rate</div><div class="stat-value">${fmtPct(r.Win_Rate)}</div>${rkK('Win_Rate')}</div>
+      <div class="stat-box"><div class="stat-label">Win Rate</div><div class="stat-value">${fmtPct(r.Win_Rate)}</div>${rkKFig('Win_Rate', false, 'athlete-findings', 'finding-a2')}</div>
     </div>
     ${r.Medals && r.Medals.length ? `
     <div class="card-section-title">Medals</div>
     ${medalSummaryParts.length ? `<p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px">${medalSummaryParts.join(" &nbsp;·&nbsp; ")}</p>` : ""}
     <div class="pill-list" style="margin-bottom:14px">
-      ${r.Medals.map(m => `<span class="pill">${m.Place === 1 ? "🥇" : m.Place === 2 ? "🥈" : "🥉"} ${esc(m.Tournament)}</span>`).join("")}
+      ${r.Medals.map(m => `<span class="pill">${m.Place === 1 ? "🥇" : m.Place === 2 ? "🥈" : "🥉"} ${navLink("tournament", m.Tournament)}</span>`).join("")}
     </div>` : ""}
     ${r.Mean_Score != null ? `
     <div class="card-section-title">Score Distribution</div>
