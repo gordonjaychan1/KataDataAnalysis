@@ -303,26 +303,24 @@ blockquote.dedication {
 
 /* ── Kata status table (Figure G-2 combined) ─────────────────────────────── */
 .ks-legend { display: flex; gap: 8px; flex-wrap: wrap; font-size: 12px; margin-bottom: 20px; }
-.ks-legend .pill { display: inline-flex; align-items: center; gap: 5px; }
+.ks-pill { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; color: #000; white-space: nowrap; }
+.ks-pill-both   { background: #bbf7d0; }
+.ks-pill-male   { background: #bfdbfe; }
+.ks-pill-female { background: #e9d5ff; }
+.ks-pill-none   { background: #fecaca; }
 .ks-three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
 .ks-three-col > div + div { border-left: 1px solid var(--border); }
-.ks-tier-head { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text); padding: 8px 10px; background: var(--bg); border-bottom: 2px solid var(--border); }
-.ks-tier-note { font-size: 11px; font-weight: 400; text-transform: none; letter-spacing: 0; color: var(--text-muted); }
+.ks-tier-head { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--text); padding: 8px 10px; background: #c8b898; border-bottom: 2px solid var(--border); }
+.ks-tier-note { font-size: 11px; font-weight: 400; text-transform: none; letter-spacing: 0; color: #6b5f4e; }
 .ks-list { display: flex; flex-direction: column; }
 .ks-table-border .ks-row { border-bottom: 1px solid var(--border-light); }
 .ks-table-border .ks-row:last-child { border-bottom: none; }
 .ks-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 10px; font-size: 12px; }
 .ks-row-even { background: var(--surface); }
 .ks-row-odd  { background: var(--bg); }
-.ks-name { color: var(--text); }
-.ks-status { display: flex; align-items: center; gap: 4px; white-space: nowrap; flex-shrink: 0; padding-left: 8px; }
-.ks-dot { font-size: 12px; line-height: 1; }
-.ks-lbl { font-size: 11px; color: var(--text-muted); min-width: 76px; }
-.ks-none-lbl { color: #b8b0a0; }
-.ks-both   { color: #1c1c18; }
-.ks-male   { color: #2563eb; }
-.ks-female { color: #9333ea; }
-.ks-none   { color: #ccc5b5; }
+.ks-num  { font-size: 11px; color: var(--text-muted); min-width: 20px; flex-shrink: 0; }
+.ks-name { color: var(--text); flex: 1; padding: 0 8px; }
+.ks-status { flex-shrink: 0; }
 @media (max-width: 700px) { .ks-three-col { grid-template-columns: 1fr; } .ks-three-col > div + div { border-left: none; border-top: 1px solid var(--border); } }
 
 /* ── References tab ───────────────────────────────────────────────────────── */
