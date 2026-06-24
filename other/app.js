@@ -109,7 +109,7 @@ function medalEmoji(medals) {
 function flagOf(country) {
   const iso = ISO2[country];
   if (!iso) return "";
-  return `<img src="https://flagcdn.com/16x12/${iso.toLowerCase()}.png" width="16" height="12" alt="${iso}" style="vertical-align:middle;margin-right:4px;border-radius:1px">`;
+  return `<img src="https://flagcdn.com/16x12/${iso.toLowerCase()}.png" width="16" height="12" alt="${iso}" title="${country}" style="vertical-align:middle;margin-right:4px;border-radius:1px">`;
 }
 function flagEmoji(country) {
   const iso = ISO2[country];
@@ -489,15 +489,16 @@ function renderCompareTab() {
     <div style="margin-top:64px">
       <span class="fig-label">Figure G-3</span>
       <h3 class="compare-head">Exclusive Kata by Gender</h3>
-      <svg viewBox="0 0 480 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:520px;display:block;margin:0 auto 32px">
-        <circle cx="175" cy="80" r="72" fill="#bfdbfe" fill-opacity="0.7" stroke="#2563eb" stroke-width="1.5"/>
-        <circle cx="305" cy="80" r="72" fill="#e9d5ff" fill-opacity="0.7" stroke="#9333ea" stroke-width="1.5"/>
-        <text x="108" y="70" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="#1e40af">Men only</text>
-        <text x="108" y="98" text-anchor="middle" font-family="system-ui,sans-serif" font-size="30" font-weight="700" fill="#1e40af">${mOnly.length}</text>
-        <text x="240" y="70" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="#374151">Both</text>
-        <text x="240" y="98" text-anchor="middle" font-family="system-ui,sans-serif" font-size="30" font-weight="700" fill="#374151">${trueSharedCount}</text>
-        <text x="372" y="70" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="#6b21a8">Women only</text>
-        <text x="372" y="98" text-anchor="middle" font-family="system-ui,sans-serif" font-size="30" font-weight="700" fill="#6b21a8">${fOnly.length}</text>
+      <p style="text-align:center;font-size:13px;color:var(--text-muted);margin:0 0 12px">Total unique kata performed: <strong style="color:var(--text)">${mOnly.length + fOnly.length + trueSharedCount}</strong></p>
+      <svg viewBox="0 0 480 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:520px;display:block;margin:0 auto 32px">
+        <circle cx="185" cy="90" r="100" fill="#bfdbfe" fill-opacity="0.65" stroke="#2563eb" stroke-width="1.5"/>
+        <circle cx="295" cy="90" r="100" fill="#e9d5ff" fill-opacity="0.65" stroke="#9333ea" stroke-width="1.5"/>
+        <text x="135" y="83" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="#1e40af">Men only</text>
+        <text x="135" y="113" text-anchor="middle" font-family="system-ui,sans-serif" font-size="34" font-weight="700" fill="#1e40af">${mOnly.length}</text>
+        <text x="240" y="83" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="#374151">Both</text>
+        <text x="240" y="113" text-anchor="middle" font-family="system-ui,sans-serif" font-size="34" font-weight="700" fill="#374151">${trueSharedCount}</text>
+        <text x="345" y="83" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="#6b21a8">Women only</text>
+        <text x="345" y="113" text-anchor="middle" font-family="system-ui,sans-serif" font-size="34" font-weight="700" fill="#6b21a8">${fOnly.length}</text>
       </svg>
       <div class="compare-grid">
         <div class="compare-col">
