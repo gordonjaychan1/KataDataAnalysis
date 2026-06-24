@@ -272,8 +272,8 @@ function renderCompareTab() {
   document.getElementById("compare-content").innerHTML = `
     <!-- Findings -->
     <div>
-      <h3 class="compare-head">Findings</h3>
       <div class="finding-block" style="margin-top:0">
+      <h2 class="finding-title">Findings</h2>
         <ul style="font-size:13px;color:var(--text-muted);line-height:2.2;padding-left:20px">
           <li>Male athletes performed <strong style="color:var(--text)">${mkata.length}</strong> unique kata across the 2024–25 season. Female athletes performed the same number — <strong style="color:var(--text)">${fkata.length}</strong> unique kata.</li>
           <li>Of those, <strong style="color:var(--text)">${trueSharedCount}</strong> kata were performed by both genders. <strong style="color:var(--text)">${mOnly.length}</strong> kata were performed exclusively by males, and <strong style="color:var(--text)">${fOnly.length}</strong> exclusively by females. See <em>Figure G-2</em> below for the specific kata.</li>
@@ -1491,6 +1491,9 @@ function makeWinRateHBar(id, labels, values, axisTitle = "Win Rate (%)", perfs =
 function renderKataFindings() {
   const kata   = DATA.kata[gender];
   const tourns = DATA.tournaments.filter(r => r.Gender.toLowerCase() === gender);
+  const g = gender === "male" ? "male" : "female";
+  const introEl = document.getElementById("kata-findings-intro");
+  if (introEl) introEl.textContent = `Statistical breakdowns for all ${kata.length} kata performed by ${g} athletes across 9 tournaments in the 2024–25 WKF season.`;
 
   /* Findings section */
   const diffSorted  = [...kata].filter(r => r.Diff != null).sort((a,b) => a.Diff - b.Diff);
@@ -1541,9 +1544,7 @@ function renderKataFindings() {
   /* 3. Win Rate */
   const winSorted = [...kata].filter(r => r.Win_Rate != null && r.Performances >= 5).sort((a, b) => b.Win_Rate - a.Win_Rate);
   document.getElementById("insight-winrate").textContent =
-    `Among kata with at least 5 performances, ${winSorted[0].Kata} had the highest win rate ` +
-    `(${(winSorted[0].Win_Rate*100).toFixed(1)}%) and ${winSorted[winSorted.length-1].Kata} had the lowest ` +
-    `(${(winSorted[winSorted.length-1].Win_Rate*100).toFixed(1)}%). Win rate is influenced by opponent strength and athlete skill, not kata choice alone.`;
+    `Win rates are heavily influenced by opponent strength and bracket luck — not kata choice alone. All kata with at least 5 performances are shown.`;
   makeWinRateHBar("chart-winrate", winSorted.map(r => r.Kata), winSorted.map(r => +(r.Win_Rate*100).toFixed(1)), "Win Rate (%)", winSorted.map(r => r.Performances));
 
   /* 4. Scatter: Performances vs Avg Score — Advanced & Intermediate only */
@@ -1911,6 +1912,9 @@ function renderKataStdDev() {
 function renderKaratekaFindings() {
   const kdata     = DATA.karateka[gender];
   const countries = DATA.countries[gender];
+  const g = gender === "male" ? "male" : "female";
+  const introEl = document.getElementById("athlete-findings-intro");
+  if (introEl) introEl.textContent = `Rankings and country breakdowns for all ${kdata.length} ${g} athletes who competed across 9 tournaments in the 2024–25 WKF season.`;
 
   /* Findings section */
   const byScore5  = [...kdata].filter(k => k.Mean_Score != null && k.Performances >= 5).sort((a,b) => b.Mean_Score - a.Mean_Score);
@@ -1948,9 +1952,7 @@ function renderKaratekaFindings() {
   /* 8. Top 20 by win rate (min 5 perfs) */
   const kWinSorted = [...kdata].filter(r => r.Win_Rate != null && r.Performances >= 5).sort((a,b) => b.Win_Rate - a.Win_Rate).slice(0, 20);
   document.getElementById("insight-k-winrate").textContent =
-    kWinSorted[0]
-      ? `${kWinSorted[0].Karateka} (${kWinSorted[0].Country}) had the highest win rate among ${gender} athletes: ${(kWinSorted[0].Win_Rate*100).toFixed(1)}% over ${kWinSorted[0].Performances} performances.`
-      : "";
+    `Win rates reflect match outcomes against specific opponents and are shaped by bracket draw and athlete skill — not kata choice alone. Athletes with at least 5 performances are shown.`;
   makeWinRateHBar("chart-k-winrate", kWinSorted.map(r => r.Karateka), kWinSorted.map(r => +(r.Win_Rate*100).toFixed(1)));
 
   /* 9. Countries */
