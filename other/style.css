@@ -246,7 +246,7 @@ header {
 
 /* ── Custom scrollbar (sticky table wrappers) ─────────────────────────────── */
 .table-wrapper--sticky::-webkit-scrollbar { width: 6px; height: 6px; }
-.table-wrapper--sticky::-webkit-scrollbar-track { background: var(--bg); }
+.table-wrapper--sticky::-webkit-scrollbar-track { background: transparent; }
 .table-wrapper--sticky::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 .table-wrapper--sticky::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
@@ -289,8 +289,9 @@ blockquote.dedication {
 /* ── Responsive ───────────────────────────────────────────────────────────── */
 /* ── Card inner table ─────────────────────────────────────────────────────── */
 .card-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); margin-top: 6px; max-height: 340px; overflow-y: auto; background: linear-gradient(var(--red) 35px, var(--surface) 35px); }
+.card-table-wrap .data-table thead th { position: sticky; top: 0; z-index: 5; }
 .card-table-wrap::-webkit-scrollbar { width: 6px; height: 6px; }
-.card-table-wrap::-webkit-scrollbar-track { background: var(--bg); }
+.card-table-wrap::-webkit-scrollbar-track { background: transparent; }
 .card-table-wrap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 .card-table-wrap::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 .card-table-wrap .data-table tbody tr:hover { background: var(--row-hover); cursor: default; }
