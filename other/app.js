@@ -2822,17 +2822,24 @@ function initHowToCards() {
     header.appendChild(title);
     header.appendChild(toggle);
 
-    /* wrap remaining content (paragraphs) in a detail div */
+    /* collect siblings after header, separating q from detail paragraphs */
+    const siblings = [];
+    while (header.nextSibling) siblings.push(header.nextSibling);
+
     const detail = document.createElement("div");
     detail.className = "how-to-detail";
-    while (body.firstChild && body.firstChild !== header) {
-      detail.appendChild(body.firstChild);
-    }
-    /* move any siblings after header into detail */
-    while (header.nextSibling) {
-      detail.appendChild(header.nextSibling);
-    }
+    let qEl = null;
+    siblings.forEach(el => {
+      if (el.classList && el.classList.contains("how-to-q")) {
+        qEl = el;
+      } else {
+        detail.appendChild(el);
+      }
+    });
+
+    /* question stays visible outside detail; content paragraphs are hidden */
     body.appendChild(detail);
+    if (qEl) body.appendChild(qEl);
 
     /* toggle on card click */
     card.addEventListener("click", () => {
