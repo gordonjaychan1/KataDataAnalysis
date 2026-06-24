@@ -310,7 +310,10 @@ blockquote.dedication {
 .ks-pill-male   { background: #bfdbfe; }
 .ks-pill-female { background: #e9d5ff; }
 .ks-pill-none   { background: #fecaca; }
-.ks-three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.ks-three-col { display: grid; grid-template-columns: 5fr 5fr 6fr; gap: 16px; }
+.ks-three-col > * { min-width: 0; }
+.ks-three-col .data-table { table-layout: fixed; width: 100%; }
+.ks-three-col .data-table td, .ks-three-col .data-table th { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 @media (max-width: 700px) { .ks-three-col { grid-template-columns: 1fr; } }
 
 /* ── References tab ───────────────────────────────────────────────────────── */
