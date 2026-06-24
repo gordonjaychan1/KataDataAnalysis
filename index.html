@@ -82,18 +82,50 @@
               <div class="how-to-icon">▤</div>
               <div class="how-to-body">
                 <strong>Reading the Tables</strong>
-                <p>All tables are sortable — click any column header to sort by that column ascending or descending. Hover over a column header to see a tooltip explaining what it represents.</p>
-                <p>The small number below a stat value in a detail card (e.g., <em>3/42</em>) is a rank: it shows where that entry places among all entries for that column. <em>(T)</em> means the rank is tied with at least one other entry.</p>
-                <p>Kata are classified into tiers (Advanced, Intermediate, Beginner) based on the USA Karate Kata List. See Figure App-2 in the References tab for the full tier list.</p>
-                <p class="how-to-q"><em>How do I sort tables, read rank numbers, or understand kata tiers?</em></p>
+                <p>All tables are sortable — click any column header to sort ascending or descending. Click again to reverse the sort. Hover over any column header to see a tooltip explaining what it represents.</p>
+                <p>In detail cards, a small number below a stat value (e.g., <em>3/42</em>) is a rank: it shows where that entry places among all entries for that stat. <em>(T)</em> means the rank is tied with at least one other entry.</p>
+                <p>Kata are classified into tiers — Advanced, Intermediate, or Beginner — based on the USA Karate Kata List. A colour-coded badge appears next to each kata name. See Figure App-2 in the References tab for the full tier list.</p>
+                <p class="how-to-q"><em>How do I sort, read ranks, or understand kata tiers?</em></p>
               </div>
             </div>
+
+            <div class="how-to-card">
+              <div class="how-to-icon">🔗</div>
+              <div class="how-to-body">
+                <strong>Red Links &amp; Navigation</strong>
+                <p>Any kata name, athlete name, tournament, or country that appears in <span style="color:var(--red);font-weight:600">red</span> is a clickable link. Hovering underlines it; clicking opens a prompt asking if you want to navigate to that entry's detail card.</p>
+                <p>This works everywhere — inside detail cards, inside tables on the findings tabs, and in the search results. It lets you jump freely between related entries without losing your place: you can always use the <strong>← Back</strong> button (bottom-left) to return to where you came from.</p>
+                <p class="how-to-q"><em>How do I jump from an athlete's profile to the kata they performed, or from a kata to the athlete who scored highest?</em></p>
+              </div>
+            </div>
+
             <div class="how-to-card">
               <div class="how-to-icon">⇄</div>
               <div class="how-to-body">
-                <strong>Male/Female Toggle</strong>
-                <p>The toggle in the top-right corner switches every page between male and female kata. All tables, charts, and stats update instantly.</p>
+                <strong>Male / Female Toggle</strong>
+                <p>The <strong>Male</strong> / <strong>Female</strong> buttons in the top-right corner switch every page between the male and female kata datasets. All tables, charts, and stats update instantly — no reload needed.</p>
+                <p>Hover over either button to see a tooltip with a full season summary for that gender: total performances, unique kata, athletes, tournaments, and countries.</p>
                 <p class="how-to-q"><em>Do I want to explore male kata results or female kata results?</em></p>
+              </div>
+            </div>
+
+            <div class="how-to-card">
+              <div class="how-to-icon">🔍</div>
+              <div class="how-to-body">
+                <strong>Global Search Bar</strong>
+                <p>The search bar in the top-right (next to the gender toggle) searches across all four data types at once — kata, athletes, tournaments, and countries. Results appear in a dropdown as you type; click any result to navigate directly to that entry's detail card.</p>
+                <p>The search bar is available from every tab, so you can jump to any entry without first switching to the right tab manually.</p>
+                <p class="how-to-q"><em>I know the name of the kata or athlete I'm looking for — how do I get there fast?</em></p>
+              </div>
+            </div>
+
+            <div class="how-to-card">
+              <div class="how-to-icon">↩</div>
+              <div class="how-to-body">
+                <strong>Back Button &amp; Navigation History</strong>
+                <p>Whenever you follow a red link to a new detail card, a <strong>← Back</strong> button appears in the bottom-left corner. Clicking it returns you to the previous card or tab, so you can explore freely without getting lost.</p>
+                <p>The back button disappears once you've returned to the start of a navigation chain, or when you manually click a tab in the nav bar.</p>
+                <p class="how-to-q"><em>I clicked through several linked cards and want to go back — where's the back button?</em></p>
               </div>
             </div>
 
@@ -103,32 +135,40 @@
               <div class="how-to-icon">表</div>
               <div class="how-to-body">
                 <strong>Kata</strong>
-                <p>Full statistics for every kata performed this season. Sort by any column, search by name, and click any row for a deep breakdown: all athletes who performed it, scores, and rankings.</p>
-                <p class="how-to-q"><em>What are the stats for a specific kata this season?</em></p>
+                <p>Full statistics for every kata performed this season: total performances, unique athletes, average score, median, min/max, standard deviation, win rate, and how the kata compares to performers' personal scoring baselines. Search by name, sort by any column.</p>
+                <p>Click any row to open a <strong>kata detail card</strong> showing: a score distribution histogram, a ranked table of every athlete who performed it with their individual stats, and a score comparison table for shared kata across genders.</p>
+                <p class="how-to-q"><em>What are the stats for a specific kata? Who performs it best?</em></p>
               </div>
             </div>
+
             <div class="how-to-card">
               <div class="how-to-icon">人</div>
               <div class="how-to-body">
                 <strong>Athletes</strong>
-                <p>Browse every athlete who competed this season. Each row shows country, performance count, average score, and win rate. Click any row for a full profile: kata repertoire, score history, and tournament results.</p>
-                <p class="how-to-q"><em>How did a specific athlete perform across the season?</em></p>
+                <p>Every athlete who competed this season, with columns for country, performances, tournaments attended, average score, median, best score, and win rate. Search by name, sort by any column.</p>
+                <p>Click any row to open an <strong>athlete detail card</strong> showing: season stats with rankings, a score histogram, their kata repertoire with per-kata averages and win rates, a full chronological performance log (with tournament, round, kata, score, result, and opponent for each bout), and a table of all opponents they faced with head-to-head records.</p>
+                <p class="how-to-q"><em>How did a specific athlete perform across the season? Who did they face most often?</em></p>
               </div>
             </div>
+
             <div class="how-to-card">
               <div class="how-to-icon">🏆</div>
               <div class="how-to-body">
                 <strong>Tournaments</strong>
-                <p>One row per tournament, including a country count. Click any row for a detail card showing medalists, plus full tables of every athlete, kata performed, and country that appeared at that event.</p>
+                <p>One row per tournament in chronological order, with columns for total performances, athletes, unique kata, countries represented, and average score. An interactive timeline at the top of this page shows all nine events across the season — click any chip to jump straight to that tournament's detail card.</p>
+                <p>Click any table row to open a <strong>tournament detail card</strong> showing: medalists (gold, silver, bronze), plus full tables of every athlete, kata, and country that appeared at that event.</p>
                 <p class="how-to-q"><em>Who competed and who medalled at a specific tournament?</em></p>
               </div>
             </div>
+
             <div class="how-to-card">
               <div class="how-to-icon">🌍</div>
               <div class="how-to-body">
                 <strong>Countries</strong>
-                <p>Every country that sent athletes this season, with columns for athlete count, performances, tournaments attended, average score, best score, win rate, and medals. Sort by any column, search by name, and click any row for a full breakdown: athletes, kata performed, and medal details.</p>
-                <p class="how-to-q"><em>Which countries were most represented, and how did they perform?</em></p>
+                <p>Every country that sent athletes this season, with columns for athlete count, total performances, tournaments attended, average score, best score, win rate, and medal totals. Sort by any column or search by name.</p>
+                <p>The <strong>world map</strong> at the top of the tab colour-codes every country by athlete count (darker red = more athletes). Click any highlighted country and confirm to jump straight to that country's detail card.</p>
+                <p>Click any table row to open a <strong>country detail card</strong> with a full breakdown: individual athletes, kata performed, tournaments attended (with athletes sent and medals won at each), and a medal summary.</p>
+                <p class="how-to-q"><em>Which countries were most represented? How did a specific country perform across the season?</em></p>
               </div>
             </div>
 
@@ -138,24 +178,35 @@
               <div class="how-to-icon">📊</div>
               <div class="how-to-body">
                 <strong>Kata Findings</strong>
-                <p>Data visualizations for kata trends: which kata are most popular, which score highest on average, win rates, tier breakdowns, and how each kata compares to athletes' personal baselines.</p>
-                <p class="how-to-q"><em>Which kata are athletes performing well with, and which are they struggling with?</em></p>
+                <p>Data visualisations for kata trends: popularity rankings, average score rankings, win rate charts, tier breakdowns (how often Advanced vs. Intermediate kata are chosen and how they score), and a chart showing how each kata compares to performers' personal scoring baselines — a rough measure of whether a kata is "harder" or "easier" than an athlete's norm.</p>
+                <p class="how-to-q"><em>Which kata are athletes performing well with? Which do top athletes choose most?</em></p>
               </div>
             </div>
+
             <div class="how-to-card">
               <div class="how-to-icon">📈</div>
               <div class="how-to-body">
                 <strong>Athlete Findings</strong>
-                <p>Charts ranking athletes by average score and win rate, plus a breakdown of which countries sent the most competitors this season.</p>
+                <p>Charts ranking athletes by average score and win rate, scatter plots showing score vs. win rate, and a breakdown of which countries sent the most competitors. Each bar is clickable and navigates to that athlete's or country's detail card.</p>
                 <p class="how-to-q"><em>Who are the top-scoring athletes? Which countries dominated?</em></p>
               </div>
             </div>
+
             <div class="how-to-card">
               <div class="how-to-icon">⚖️</div>
               <div class="how-to-body">
                 <strong>Male vs. Female</strong>
-                <p>Side-by-side gender comparison: kata performed exclusively by one gender, the top 5 most popular kata per gender, a bar chart showing the Male − Female average score difference for every shared kata, and a sortable table of the same data.</p>
-                <p class="how-to-q"><em>Are there kata that only males perform, or only females perform?</em></p>
+                <p>Side-by-side gender comparison: kata performed exclusively by males, kata performed exclusively by females (shown as tables), a Venn diagram of the overlap, and the top 5 most popular kata per gender. A bar chart and sortable table show the Male − Female average score difference for every kata performed by both genders.</p>
+                <p class="how-to-q"><em>Are there kata only one gender performs? Which kata do males and females score most differently on?</em></p>
+              </div>
+            </div>
+
+            <div class="how-to-card">
+              <div class="how-to-icon">🥇</div>
+              <div class="how-to-body">
+                <strong>Medals</strong>
+                <p>Side-by-side medal tables for male and female kata, sorted by gold medals by default. Shows each country's gold, silver, bronze, and total medal count across all nine tournaments. Click any column header to re-sort.</p>
+                <p class="how-to-q"><em>Which countries won the most medals this season?</em></p>
               </div>
             </div>
 
@@ -165,16 +216,17 @@
               <div class="how-to-icon">📋</div>
               <div class="how-to-body">
                 <strong>Important Notes</strong>
-                <p>How the data was collected, what's missing and why, kata tier definitions, WKF scoring rules, and guidance on how to interpret win rate.</p>
+                <p>How the data was collected, what is missing and why, kata tier definitions, WKF scoring rules, and guidance on interpreting win rate. Read this if anything on the site seems unclear or unexpected.</p>
                 <p class="how-to-q"><em>How was this data collected? What do the stats actually mean?</em></p>
               </div>
             </div>
+
             <div class="how-to-card">
               <div class="how-to-icon">👤</div>
               <div class="how-to-body">
                 <strong>About</strong>
-                <p>Background on the author and the motivation behind this project, along with methodology notes.</p>
-                <p class="how-to-q"><em>Who made this site and why?</em></p>
+                <p>Background on the author and the motivation behind this project, along with methodology notes and links to download the raw CSV data used to build the site.</p>
+                <p class="how-to-q"><em>Who made this site and why? Where can I get the raw data?</em></p>
               </div>
             </div>
 

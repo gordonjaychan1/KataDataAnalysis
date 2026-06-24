@@ -1269,11 +1269,10 @@ function showKaratekaCard(r) {
     .filter(o => o.Meetings > 0)
     .map(o => ({ ...o, Win_Rate: o.Meetings > 0 ? o.Wins / o.Meetings : null }))
     .sort((a,b) => b.Meetings - a.Meetings)
-    .slice(0, 15);
   if (oppFlat.length) {
     const oppSection = document.createElement("div");
     oppSection.innerHTML = `
-      <div class="card-section-title">Most Common Opponents (Top ${oppFlat.length})</div>
+      <div class="card-section-title">All Opponents (${oppFlat.length})</div>
       <div class="card-table-wrap">
         <table class="data-table" id="card-kar-opponents">
           <thead><tr>
