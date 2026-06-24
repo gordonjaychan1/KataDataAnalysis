@@ -223,6 +223,7 @@ function init() {
   setupBackButton();
   setupGlobalSearch();
   renderAll();
+  renderWelcomeTimeline();
   parseDeepLink();
 }
 
@@ -2671,16 +2672,9 @@ function renderMedalsTab() {
 }
 
 /* ══════════════════════════════════════════════════════ TOURNAMENT TIMELINE */
-function renderTournamentTimeline() {
-  const wrap = document.getElementById("tourn-timeline-wrap");
-  if (!wrap) return;
-  const key = gender;
-  if (_timelineRendered === key && wrap.children.length) return;
-  _timelineRendered = key;
-
-  const tourns = DATA.tournaments.filter(r => r.Gender.toLowerCase() === gender);
-
-  /* Parse a month index (0 = Jan 2024) from TOURN_META date string */
+/* Shared timeline rendering core. tournNames = array of unique tournament name strings.
+   onChipClick(tournName) is called when a chip is clicked. */
+function _buildTimelineHTML(tournNames) {
   const MON = { Jan:0, Feb:1, Mar:2, Apr:3, May:4, Jun:5, Jul:6, Aug:7, Sep:8, Oct:9, Nov:10, Dec:11 };
   const monthIdx = name => {
     const d = (TOURN_META[name] || {}).date || "";
@@ -2689,19 +2683,15 @@ function renderTournamentTimeline() {
     return (parseInt(m[2]) - 2024) * 12 + (MON[m[1]] ?? 0);
   };
 
-  /* Timeline: Jan 2024 (idx 0) → Nov 2025 (idx 22) */
   const FIRST = 0, LAST = 22;
   const pct = idx => ((idx - FIRST) / (LAST - FIRST) * 100).toFixed(2);
 
-  const positioned = tourns
-    .map(t => ({ t, idx: monthIdx(t.Tournament) }))
+  const positioned = tournNames
+    .map(name => ({ name, idx: monthIdx(name) }))
     .filter(x => x.idx !== null)
     .sort((a, b) => a.idx - b.idx);
 
-  /* 3-row greedy stagger: assign each chip to the lowest row with no
-     conflict (previous chip on that row was more than 2 months ago). */
-  const PROX = 2;
-  const NUM_ROWS = 3;
+  const PROX = 2, NUM_ROWS = 3;
   const rowLast = new Array(NUM_ROWS).fill(-Infinity);
   const rows = positioned.map(({ idx }) => {
     let assigned = -1;
@@ -2713,54 +2703,77 @@ function renderTournamentTimeline() {
     return assigned;
   });
 
-  /* Quarter ticks: every 3 months */
   const ticks = [];
   for (let i = FIRST; i <= LAST; i += 3) {
     const yr = 2024 + Math.floor(i / 12);
     const mon = i % 12;
-    const label = Object.keys(MON)[mon];
-    ticks.push({ i, label: mon === 0 ? `${label} ${yr}` : label });
+    ticks.push({ i, label: mon === 0 ? `${Object.keys(MON)[mon]} ${yr}` : Object.keys(MON)[mon] });
   }
   if (!ticks.find(t => t.i === LAST)) {
     const yr = 2024 + Math.floor(LAST / 12);
-    const mon = LAST % 12;
-    ticks.push({ i: LAST, label: `${Object.keys(MON)[mon]} ${yr}` });
+    ticks.push({ i: LAST, label: `${Object.keys(MON)[LAST % 12]} ${yr}` });
   }
 
-  const AXIS    = 140; /* px from top to axis line */
-  const H       = 210;
-  const CHIP_H  = 32;  /* approximate chip height */
-  /* row 0 = closest to axis, row 2 = furthest */
-  const rowOffsets = [44, 82, 120]; /* chipTop = AXIS - offset */
+  const AXIS = 140, H = 210, CHIP_H = 32;
+  const rowOffsets = [44, 82, 120];
 
   let html = `<div class="tl-real" style="height:${H}px;position:relative;width:88%;margin:0 auto">`;
-  /* Axis */
   html += `<div style="position:absolute;left:0;right:0;top:${AXIS}px;height:3px;background:#b0a090"></div>`;
-  /* Ticks */
   ticks.forEach(({ i, label }) => {
     const p = pct(i);
     html += `<div style="position:absolute;left:${p}%;top:${AXIS - 5}px;width:1px;height:12px;background:#b0a090;transform:translateX(-50%)"></div>`;
     html += `<div style="position:absolute;left:${p}%;top:${AXIS + 14}px;font-size:12px;color:var(--text-muted);transform:translateX(-50%);white-space:nowrap">${label}</div>`;
   });
-
-  /* Chips */
-  positioned.forEach(({ t, idx }, i) => {
-    const meta = TOURN_META[t.Tournament] || {};
+  positioned.forEach(({ name, idx }, i) => {
+    const meta = TOURN_META[name] || {};
     const p = pct(idx);
     const chipTop = AXIS - rowOffsets[rows[i]];
     const connTop = chipTop + CHIP_H;
     const connH   = AXIS - connTop;
-    html += `<button class="tl-chip-real" data-tourn="${esc(t.Tournament)}" style="position:absolute;left:${p}%;top:${chipTop}px;transform:translateX(-50%)">${flagOf(meta.country)} ${esc(t.Tournament)}</button>`;
+    html += `<button class="tl-chip-real" data-tourn="${esc(name)}" style="position:absolute;left:${p}%;top:${chipTop}px;transform:translateX(-50%)">${flagOf(meta.country)} ${esc(name)}</button>`;
     if (connH > 0) html += `<div style="position:absolute;left:${p}%;top:${connTop}px;width:1px;height:${connH}px;background:#b0a090;transform:translateX(-50%)"></div>`;
   });
-
   html += `</div>`;
-  wrap.innerHTML = html;
+  return html;
+}
+
+function renderTournamentTimeline() {
+  const wrap = document.getElementById("tourn-timeline-wrap");
+  if (!wrap) return;
+  const key = gender;
+  if (_timelineRendered === key && wrap.children.length) return;
+  _timelineRendered = key;
+
+  const names = DATA.tournaments
+    .filter(r => r.Gender.toLowerCase() === gender)
+    .map(r => r.Tournament);
+  wrap.innerHTML = _buildTimelineHTML(names);
 
   wrap.querySelectorAll(".tl-chip-real").forEach(btn => {
     btn.addEventListener("click", () => {
       const row = DATA.tournaments.find(r => r.Tournament === btn.dataset.tourn && r.Gender.toLowerCase() === gender);
       if (row) showTournamentCard(row);
+    });
+  });
+}
+
+function renderWelcomeTimeline() {
+  const wrap = document.getElementById("welcome-timeline-wrap");
+  if (!wrap || wrap.children.length) return;
+
+  /* Deduplicate: same 9 tournaments appear for both genders */
+  const seen = new Set();
+  const names = DATA.tournaments.map(r => r.Tournament).filter(n => seen.has(n) ? false : (seen.add(n), true));
+  wrap.innerHTML = _buildTimelineHTML(names);
+
+  wrap.querySelectorAll(".tl-chip-real").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const tourn = btn.dataset.tourn;
+      switchToTab("tournaments");
+      setTimeout(() => {
+        const row = DATA.tournaments.find(r => r.Tournament === tourn && r.Gender.toLowerCase() === gender);
+        if (row) { showTournamentCard(row); highlightRow("tourn-table", row.Tournament, "Tournament"); }
+      }, 80);
     });
   });
 }

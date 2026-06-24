@@ -203,6 +203,7 @@ header {
 .welcome-layout { display: flex; flex-direction: column; gap: 52px; }
 .welcome-body { display: block; }
 
+.welcome-timeline-section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px 28px; }
 .welcome-hero { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--red); border-radius: var(--radius); padding: 24px 28px; }
 .welcome-hero h2 { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
 .welcome-hero p  { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin-bottom: 10px; }
