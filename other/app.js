@@ -337,7 +337,7 @@ function renderCompareTab() {
       <h3 class="compare-head">Findings</h3>
         <ul style="font-size:13px;color:var(--text-muted);line-height:2.2;padding-left:20px">
           <li>Male athletes performed <strong style="color:var(--text)">${mkata.length}</strong> unique kata across the 2024–25 season. Female athletes performed the same number — <strong style="color:var(--text)">${fkata.length}</strong> unique kata.</li>
-          <li>Of those, <strong style="color:var(--text)">${trueSharedCount}</strong> kata were performed by both genders. <strong style="color:var(--text)">${mOnly.length}</strong> kata were performed exclusively by males, and <strong style="color:var(--text)">${fOnly.length}</strong> exclusively by females. See <em>Figure G-2</em> below for the specific kata.</li>
+          <li>Of those, <strong style="color:var(--text)">${trueSharedCount}</strong> kata were performed by both genders. <strong style="color:var(--text)">${mOnly.length}</strong> kata were performed exclusively by males, and <strong style="color:var(--text)">${fOnly.length}</strong> exclusively by females. See <em>Figure G-2</em> for the full breakdown and <em>Figure G-3</em> for the exclusive kata.</li>
           <li>The most performed kata among male athletes was <strong style="color:var(--text)">${mTop1 ? esc(mTop1.Kata) : "—"}</strong>${mTop1 ? ` with <strong style="color:var(--text)">${mTop1.Performances}</strong> performances` : ""}. For female athletes it was <strong style="color:var(--text)">${fTop1 ? esc(fTop1.Kata) : "—"}</strong>${fTop1 ? ` with <strong style="color:var(--text)">${fTop1.Performances}</strong> performances` : ""}${fTop1 && fTop2 ? ` — significantly more than the second most performed female kata, <strong style="color:var(--text)">${esc(fTop2.Kata)}</strong>, at <strong style="color:var(--text)">${fTop2.Performances}</strong> performances. The male top kata are closer together (${mTop10.slice(0,3).map(k => k.Performances).join(" / ")} for the top three)` : ""}. See <em>Figure G-1</em> below.</li>
           <li>The average score given to any male kata performance was <strong style="color:var(--text)">${mAvgScore != null ? mAvgScore.toFixed(3) : "—"}</strong>. For female kata performances, it was <strong style="color:var(--text)">${fAvgScore != null ? fAvgScore.toFixed(3) : "—"}</strong>.</li>
           <li>Female kata minimum scores feature two outliers — <strong style="color:var(--text)">${fMin1 ? esc(fMin1.Kata) : "—"}</strong> (${fMin1 ? fMin1.Min_Score.toFixed(2) : "—"}) and <strong style="color:var(--text)">${fMin2 ? esc(fMin2.Kata) : "—"}</strong> (${fMin2 ? fMin2.Min_Score.toFixed(2) : "—"}) — that sit well below the rest. The third-lowest female minimum, <strong style="color:var(--text)">${fMin3 ? esc(fMin3.Kata) : "—"}</strong> (${fMin3 ? fMin3.Min_Score.toFixed(2) : "—"}), is comparable to the lowest male minimum of <strong style="color:var(--text)">${mMin1 ? mMin1.Min_Score.toFixed(2) : "—"}</strong> (${mMin1 ? esc(mMin1.Kata) : "—"}).</li>
@@ -412,22 +412,38 @@ function renderCompareTab() {
           </div>
           ${col('Intermediate (performed only)', rows(allInt, mIntSet, fIntSet, 0))}
         </div>
-        <div class="compare-grid" style="margin-top:32px">
-          <div class="compare-col">
-            <h3 class="compare-head">Performed by Males Only (${mOnly.length})</h3>
-            <div class="pill-list">${onlyPills(mOnly) || "<em style='color:var(--text-muted)'>None</em>"}</div>
-          </div>
-          <div class="compare-col">
-            <h3 class="compare-head">Performed by Females Only (${fOnly.length})</h3>
-            <div class="pill-list">${onlyPills(fOnly) || "<em style='color:var(--text-muted)'>None</em>"}</div>
-          </div>
-        </div>
       </div>`;
     })()}
 
-    <!-- Avg score comparison -->
+    <!-- Exclusive kata + Venn diagram -->
     <div style="margin-top:64px">
       <span class="fig-label">Figure G-3</span>
+      <h3 class="compare-head">Exclusive Kata by Gender</h3>
+      <svg viewBox="0 0 480 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:520px;display:block;margin:0 auto 32px">
+        <circle cx="175" cy="80" r="72" fill="#bfdbfe" fill-opacity="0.7" stroke="#2563eb" stroke-width="1.5"/>
+        <circle cx="305" cy="80" r="72" fill="#e9d5ff" fill-opacity="0.7" stroke="#9333ea" stroke-width="1.5"/>
+        <text x="108" y="70" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="#1e40af">Men only</text>
+        <text x="108" y="98" text-anchor="middle" font-family="system-ui,sans-serif" font-size="30" font-weight="700" fill="#1e40af">${mOnly.length}</text>
+        <text x="240" y="70" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="#374151">Both</text>
+        <text x="240" y="98" text-anchor="middle" font-family="system-ui,sans-serif" font-size="30" font-weight="700" fill="#374151">${trueSharedCount}</text>
+        <text x="372" y="70" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="#6b21a8">Women only</text>
+        <text x="372" y="98" text-anchor="middle" font-family="system-ui,sans-serif" font-size="30" font-weight="700" fill="#6b21a8">${fOnly.length}</text>
+      </svg>
+      <div class="compare-grid">
+        <div class="compare-col">
+          <h3 class="compare-head">Performed by Males Only (${mOnly.length})</h3>
+          <div class="pill-list">${onlyPills(mOnly) || "<em style='color:var(--text-muted)'>None</em>"}</div>
+        </div>
+        <div class="compare-col">
+          <h3 class="compare-head">Performed by Females Only (${fOnly.length})</h3>
+          <div class="pill-list">${onlyPills(fOnly) || "<em style='color:var(--text-muted)'>None</em>"}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Avg score comparison -->
+    <div style="margin-top:64px">
+      <span class="fig-label">Figure G-4</span>
       <h3 class="compare-head">Average Score Comparison — Shared Kata (${compareShared.length + compareIncomplete.length})</h3>
       <p style="font-size:12px;color:var(--text-muted);margin-bottom:10px">Click any column header to sort. Diff = Male − Female. Green = males scored higher; red = females scored higher.</p>
       <div style="position:relative;height:${Math.max(300, compareShared.length * 22)}px;margin-bottom:24px">
