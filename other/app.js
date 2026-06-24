@@ -574,7 +574,7 @@ function renderKataTable() {
     <td></td>
     <td class="num" title="Median performances per kata — half of all kata were performed more than this, half fewer">${medianPerfsKata ?? "—"}</td>
     <td class="num" title="Mean number of unique athletes who performed each kata">${fmt2(avg("Unique_Karateka"))}</td>
-    <td class="num" title="Mean of each kata's average score — the overall average score across all kata">${fmt3(avg("Mean_Score"))}</td>
+    <td class="num" title="Performance-weighted average score across all kata and performances">${fmt3((() => { const sp = allKata.filter(r => r.Mean_Score != null); const tw = sp.reduce((s,r) => s + r.Performances, 0); return tw ? sp.reduce((s,r) => s + r.Mean_Score * r.Performances, 0) / tw : null; })())}</td>
     <td class="num" title="Mean of each kata's median score">${fmt2(avg("Median_Score"))}</td>
     <td class="num" title="Absolute lowest score recorded for any kata this season">${fmt2(isFinite(absMin) ? absMin : null)}</td>
     <td class="num" title="Absolute highest score recorded for any kata this season">${fmt2(isFinite(absMax) ? absMax : null)}</td>
