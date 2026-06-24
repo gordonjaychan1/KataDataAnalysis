@@ -479,7 +479,6 @@ function renderCompareTab() {
         <div class="ks-three-col">
           ${col('Advanced', rows(allAdv.slice(0, mid), mAdvSet, fAdvSet, 0))}
           ${col('Advanced (cont.)', rows(allAdv.slice(mid), mAdvSet, fAdvSet, mid))}
-          </div>
           ${col('Intermediate (performed only)', rows(allInt, mIntSet, fIntSet, 0))}
         </div>
       </div>`;
@@ -490,15 +489,15 @@ function renderCompareTab() {
       <span class="fig-label">Figure G-3</span>
       <h3 class="compare-head">Exclusive Kata by Gender</h3>
       <p style="text-align:center;font-size:13px;color:var(--text-muted);margin:0 0 12px">Total unique kata performed: <strong style="color:var(--text)">${mOnly.length + fOnly.length + trueSharedCount}</strong></p>
-      <svg viewBox="0 0 480 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:520px;display:block;margin:0 auto 32px">
-        <circle cx="185" cy="90" r="100" fill="#bfdbfe" fill-opacity="0.65" stroke="#2563eb" stroke-width="1.5"/>
-        <circle cx="295" cy="90" r="100" fill="#e9d5ff" fill-opacity="0.65" stroke="#9333ea" stroke-width="1.5"/>
-        <text x="135" y="83" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="#1e40af">Men only</text>
-        <text x="135" y="113" text-anchor="middle" font-family="system-ui,sans-serif" font-size="34" font-weight="700" fill="#1e40af">${mOnly.length}</text>
-        <text x="240" y="83" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="#374151">Both</text>
-        <text x="240" y="113" text-anchor="middle" font-family="system-ui,sans-serif" font-size="34" font-weight="700" fill="#374151">${trueSharedCount}</text>
-        <text x="345" y="83" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="#6b21a8">Women only</text>
-        <text x="345" y="113" text-anchor="middle" font-family="system-ui,sans-serif" font-size="34" font-weight="700" fill="#6b21a8">${fOnly.length}</text>
+      <svg viewBox="0 0 480 210" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:520px;display:block;margin:0 auto 32px">
+        <circle cx="185" cy="105" r="100" fill="#bfdbfe" fill-opacity="0.65" stroke="#2563eb" stroke-width="1.5"/>
+        <circle cx="295" cy="105" r="100" fill="#e9d5ff" fill-opacity="0.65" stroke="#9333ea" stroke-width="1.5"/>
+        <text x="135" y="98" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="#1e40af">Men only</text>
+        <text x="135" y="128" text-anchor="middle" font-family="system-ui,sans-serif" font-size="34" font-weight="700" fill="#1e40af">${mOnly.length}</text>
+        <text x="240" y="98" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="#374151">Both</text>
+        <text x="240" y="128" text-anchor="middle" font-family="system-ui,sans-serif" font-size="34" font-weight="700" fill="#374151">${trueSharedCount}</text>
+        <text x="345" y="98" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="#6b21a8">Women only</text>
+        <text x="345" y="128" text-anchor="middle" font-family="system-ui,sans-serif" font-size="34" font-weight="700" fill="#6b21a8">${fOnly.length}</text>
       </svg>
       <div class="compare-grid">
         <div class="compare-col">
