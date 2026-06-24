@@ -16,13 +16,14 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 
 def find_csv(name):
     candidates = [
+        os.path.join(script_dir, "..", "data", name),  # ../data/ (preferred)
         os.path.join(script_dir, name),
         os.path.join(os.path.expanduser("~"), "Downloads", name),
     ]
     for p in candidates:
         if os.path.exists(p):
             return p
-    raise FileNotFoundError(f"Cannot find {name}. Place it next to this script or in ~/Downloads.")
+    raise FileNotFoundError(f"Cannot find {name}. Place it in the data/ folder next to this script.")
 
 df_m = pd.read_csv(find_csv("Male2425Season.csv"))
 df_f = pd.read_csv(find_csv("Female2425Season.csv"))
@@ -36,7 +37,10 @@ for col in ["Kata", "Karateka", "Tournament"]:
 
 df["Score"]     = pd.to_numeric(df["Score"],     errors="coerce")
 df["Avg Score"] = pd.to_numeric(df["Avg Score"], errors="coerce")
-df_with_round = df.copy()          # keep Round # for performance history
+df_with_round = df.copy()
+for col in ["Kata", "Karateka", "Tournament", "Opponent"]:
+    if col in df_with_round.columns:
+        df_with_round[col] = df_with_round[col].str.strip().str.title()          # keep Round # for performance history
 df = df.drop(columns=["Score", "Round #"])
 
 replacements = {
@@ -256,9 +260,12 @@ def build_karateka_master(df_all, df_scores, df_rounds_g=None):
     if df_rounds_g is not None:
         rnd = df_rounds_g.rename(columns={"Round #": "Round", "Won?": "Won", "Avg Score": "Avg_Score"})
         rnd["Avg_Score"] = rnd["Avg_Score"].round(3)
+        cols = ["Tournament", "Round", "Kata", "Avg_Score", "Won"]
+        if "Opponent" in rnd.columns:
+            cols.append("Opponent")
         perf_detail = (
             rnd.groupby("Karateka")
-            .apply(lambda g: g[["Tournament", "Round", "Kata", "Avg_Score", "Won"]].to_dict("records"), include_groups=False)
+            .apply(lambda g: g[cols].to_dict("records"), include_groups=False)
             .reset_index(name="Performances_Detail")
         )
         km = km.merge(perf_detail, on="Karateka", how="left")
@@ -271,7 +278,7 @@ karateka_f = build_karateka_master(df[df["Gender"] == "Female"], df_clean[df_cle
 
 # ── Placements / medals ───────────────────────────────────────────────────────
 try:
-    pldf = pd.read_csv(find_csv("Placements - Sheet1.csv"))
+    pldf = pd.read_csv(find_csv("Placements.csv"))
     medals = {"male": {}, "female": {}}
     for _, row in pldf.iterrows():
         tourn = str(row.iloc[0]).strip().title()

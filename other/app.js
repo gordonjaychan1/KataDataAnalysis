@@ -1134,32 +1134,13 @@ function showKaratekaCard(r) {
       _tier:        kData ? tierBadge(kData.Kata_Tier) : "",
     };
   });
-  /* score-match each performance to its 1v1 opponent for the Opponent column */
-  const perfOpponentNames = perfs.map(p => {
-    if (!p.Tournament || !p.Round || p.Avg_Score == null) return null;
-    const rWon = p.Won === true;
-    let bestK = null, bestDiff = Infinity;
-    for (const k of (DATA.karateka[gender] || [])) {
-      if (k.Karateka === r.Karateka) continue;
-      for (const p2 of (k.Performances_Detail || [])) {
-        if (p2.Tournament !== p.Tournament || p2.Round !== p.Round || p2.Avg_Score == null) continue;
-        if ((p2.Won === true) === rWon) continue;
-        if (rWon && p.Avg_Score <= p2.Avg_Score) continue;
-        if (!rWon && p.Avg_Score >= p2.Avg_Score) continue;
-        const diff = Math.abs(p.Avg_Score - p2.Avg_Score);
-        if (diff < bestDiff) { bestDiff = diff; bestK = k; }
-      }
-    }
-    return bestK ? bestK.Karateka : null;
-  });
-
   const perfsFlat = perfs.map((p, i) => ({
     Tournament: p.Tournament || "",
     Round:      roundLabel[p.Round] || p.Round || "",
     Kata:       p.Kata || "",
     Avg_Score:  p.Avg_Score,
     Won_Sort:   p.Won === true ? "0_win" : p.Won === false ? "1_loss" : "2_none",
-    Opponent:   perfOpponentNames[i] || "",
+    Opponent:   p.Opponent || "",
     _won:       p.Won,
     _flag:      flagOf((TOURN_META[p.Tournament] || {}).country),
   }));
@@ -1265,33 +1246,17 @@ function showKaratekaCard(r) {
   const karScores = (r.Performances_Detail || []).map(p => p.Avg_Score).filter(s => s != null);
   renderScoreHistogram("chart-kar-histogram", karScores, "_karHistChart");
 
-  /* common opponents table — score-match each bout to its 1v1 opponent.
-     Each performance row is one bout. The true opponent has the opposite
-     Won value and a score consistent with who won (lower if they lost,
-     higher if they won). Among all candidates, pick the smallest gap. */
+  /* common opponents — read directly from Opponent field in Performances_Detail */
   const opponents = {};
   for (const p of (r.Performances_Detail || [])) {
-    if (!p.Tournament || !p.Round || p.Avg_Score == null) continue;
-    const rWon = p.Won === true;
-    let bestK = null, bestDiff = Infinity;
-    for (const k of (DATA.karateka[gender] || [])) {
-      if (k.Karateka === r.Karateka) continue;
-      for (const p2 of (k.Performances_Detail || [])) {
-        if (p2.Tournament !== p.Tournament || p2.Round !== p.Round) continue;
-        if (p2.Avg_Score == null) continue;
-        if ((p2.Won === true) === rWon) continue; // same result → not this bout's opponent
-        // score must be consistent: winner > loser
-        if (rWon && p.Avg_Score <= p2.Avg_Score) continue;
-        if (!rWon && p.Avg_Score >= p2.Avg_Score) continue;
-        const diff = Math.abs(p.Avg_Score - p2.Avg_Score);
-        if (diff < bestDiff) { bestDiff = diff; bestK = k; }
-      }
+    if (!p.Opponent) continue;
+    const oppName = p.Opponent;
+    if (!opponents[oppName]) {
+      const oppRow = (DATA.karateka[gender] || []).find(k => k.Karateka === oppName);
+      opponents[oppName] = { Karateka: oppName, Country: oppRow?.Country || "", Meetings: 0, Wins: 0 };
     }
-    if (bestK) {
-      if (!opponents[bestK.Karateka]) opponents[bestK.Karateka] = { Karateka: bestK.Karateka, Country: bestK.Country, Meetings: 0, Wins: 0 };
-      opponents[bestK.Karateka].Meetings++;
-      if (rWon) opponents[bestK.Karateka].Wins++;
-    }
+    opponents[oppName].Meetings++;
+    if (p.Won === true) opponents[oppName].Wins++;
   }
   const oppFlat = Object.values(opponents)
     .filter(o => o.Meetings > 0)
