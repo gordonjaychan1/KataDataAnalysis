@@ -105,7 +105,9 @@ document.addEventListener("click", e => {
   if (!link || !link.dataset.navType) return;
   const activeTab = document.querySelector(".tab-btn.active")?.dataset.tab;
   const sameTab = { kata: "kata", karateka: "karateka", tournaments: "tournament", countries: "country" };
-  if (sameTab[activeTab] === link.dataset.navType) return;
+  // Only skip modal for same-type links in the main table, not inside detail cards
+  const inCard = !!e.target.closest(".card-table-wrap, .card-section, .card-body");
+  if (!inCard && sameTab[activeTab] === link.dataset.navType) return;
   e.stopPropagation();
   e.preventDefault();
   confirmNav(link.dataset.navType, link.dataset.navName);
@@ -168,15 +170,15 @@ function flagEmoji(country) {
 
 /* ── Tournament metadata ───────────────────────────────────────────────────── */
 const TOURN_META = {
-  "2024 Paris":      { city:"Paris",      country:"France",  flag:"🇫🇷", date:"Jan 11–14, 2024" },
-  "2024 Antalya":    { city:"Antalya",    country:"Turkey",  flag:"🇹🇷", date:"Apr 18–21, 2024" },
-  "2024 Cairo":      { city:"Cairo",      country:"Egypt",   flag:"🇪🇬", date:"Oct 17–20, 2024" },
-  "2024 Casablanca": { city:"Casablanca", country:"Morocco", flag:"🇲🇦", date:"Nov  7–10, 2024" },
-  "2025 Cairo":      { city:"Cairo",      country:"Egypt",   flag:"🇪🇬", date:"Jan 30–Feb 2, 2025" },
-  "2025 Hangzhou":   { city:"Hangzhou",   country:"China",   flag:"🇨🇳", date:"Mar 2025"          },
-  "2025 Paris":      { city:"Paris",      country:"France",  flag:"🇫🇷", date:"May 2025"          },
-  "2025 Rabat":      { city:"Rabat",      country:"Morocco", flag:"🇲🇦", date:"Jun 2025"          },
-  "2025 Worlds":     { city:"Cairo",      country:"Egypt",   flag:"🇪🇬", date:"Oct 2025"          },
+  "2024 Paris":      { city:"Paris",      country:"France",  flag:"🇫🇷", date:"Jan 26–28, 2024"    },
+  "2024 Antalya":    { city:"Antalya",    country:"Turkey",  flag:"🇹🇷", date:"Mar 15–17, 2024"    },
+  "2024 Cairo":      { city:"Cairo",      country:"Egypt",   flag:"🇪🇬", date:"Apr 19–21, 2024"    },
+  "2024 Casablanca": { city:"Casablanca", country:"Morocco", flag:"🇲🇦", date:"May 31–Jun 2, 2024"  },
+  "2025 Paris":      { city:"Paris",      country:"France",  flag:"🇫🇷", date:"Jan 24–26, 2025"    },
+  "2025 Hangzhou":   { city:"Hangzhou",   country:"China",   flag:"🇨🇳", date:"Mar 14–16, 2025"    },
+  "2025 Cairo":      { city:"Cairo",      country:"Egypt",   flag:"🇪🇬", date:"Apr 18–20, 2025"    },
+  "2025 Rabat":      { city:"Rabat",      country:"Morocco", flag:"🇲🇦", date:"May 30–Jun 1, 2025"  },
+  "2025 Worlds":     { city:"Cairo",      country:"Egypt",   flag:"🇪🇬", date:"Nov 27–30, 2025"    },
 };
 
 const charts = {};
@@ -1243,7 +1245,11 @@ function showKaratekaCard(r) {
       }
     }
   }
-  const oppFlat = Object.values(opponents).filter(o => o.Meetings > 0).sort((a,b) => b.Meetings - a.Meetings).slice(0, 5);
+  const oppFlat = Object.values(opponents)
+    .filter(o => o.Meetings > 0)
+    .map(o => ({ ...o, Win_Rate: o.Meetings > 0 ? o.Wins / o.Meetings : null }))
+    .sort((a,b) => b.Meetings - a.Meetings)
+    .slice(0, 10);
   if (oppFlat.length) {
     const oppSection = document.createElement("div");
     oppSection.innerHTML = `
@@ -1255,6 +1261,7 @@ function showKaratekaCard(r) {
             <th data-sort="Karateka" data-label="Opponent" style="cursor:pointer" onclick="sortCardTable('card-kar-opponents','Karateka')">Opponent</th>
             <th data-sort="Meetings" data-label="Meetings" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-opponents','Meetings')">Meetings ↓</th>
             <th data-sort="Wins" data-label="Wins" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-opponents','Wins')">Wins vs.</th>
+            <th data-sort="Win_Rate" data-label="Win Rate" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-opponents','Win_Rate')">Win Rate</th>
           </tr></thead>
           <tbody></tbody>
         </table>
@@ -1263,9 +1270,10 @@ function showKaratekaCard(r) {
     initCardTable("card-kar-opponents", oppFlat, "Meetings", "desc",
       (o, i) => `<tr>
         <td class="num row-num">${i + 1}</td>
-        <td class="name-cell">${flagOf(o.Country)} ${navLink("karateka", o.Karateka)}</td>
+        <td class="name-cell">${flagOf(o.Country)} <a class="nav-link" data-nav-type="karateka" data-nav-name="${esc(o.Karateka)}">${esc(o.Karateka)}</a></td>
         <td class="num">${o.Meetings}</td>
         <td class="num">${o.Wins}</td>
+        <td class="num">${o.Win_Rate != null ? fmtPct(o.Win_Rate) : "—"}</td>
       </tr>`);
   }
 }
@@ -1435,9 +1443,9 @@ function showCountryCard(r, all) {
         <td class="num row-num">${i + 1}</td>
         <td>${t._flag} ${navLink("tournament", t.Tournament)}</td>
         <td class="num">${t.Athletes_Sent || "—"}</td>
-        <td class="num">${t.Gold  || "—"}</td>
-        <td class="num">${t.Silver || "—"}</td>
-        <td class="num">${t.Bronze || "—"}</td>
+        <td class="num">${t.Gold   ? `${t.Gold}× 🥇`   : "—"}</td>
+        <td class="num">${t.Silver ? `${t.Silver}× 🥈` : "—"}</td>
+        <td class="num">${t.Bronze ? `${t.Bronze}× 🥉` : "—"}</td>
         <td class="num">${t.Avg_Score != null ? t.Avg_Score.toFixed(3) : "—"}</td>
         <td class="num">${t.Win_Rate != null ? fmtPct(t.Win_Rate) : "—"}</td>
       </tr>`);
@@ -2572,6 +2580,7 @@ function _buildMedalRows(g) {
   }
   return Object.values(medalMap)
     .filter(r => r.Gold + r.Silver + r.Bronze > 0)
+    .map(r => ({ ...r, Total: r.Gold + r.Silver + r.Bronze }))
     .sort((a,b) => b.Gold - a.Gold || b.Silver - a.Silver || b.Bronze - a.Bronze || a.Country.localeCompare(b.Country));
 }
 
@@ -2613,7 +2622,7 @@ function _medalTableHTML(g, label) {
         <table class="data-table">
           <thead><tr>
             <th class="num row-num" style="cursor:pointer" onclick="sortMedalTable('${g}','_rank')">#</th>
-            <th style="cursor:pointer" onclick="sortMedalTable('${g}','Country')">Country</th>
+            <th style="cursor:pointer;min-width:140px" onclick="sortMedalTable('${g}','Country')">Country</th>
             <th class="num" style="cursor:pointer" onclick="sortMedalTable('${g}','Gold')">🥇</th>
             <th class="num" style="cursor:pointer" onclick="sortMedalTable('${g}','Silver')">🥈</th>
             <th class="num" style="cursor:pointer" onclick="sortMedalTable('${g}','Bronze')">🥉</th>
@@ -2653,8 +2662,8 @@ function renderTournamentTimeline() {
     return (parseInt(m[2]) - 2024) * 12 + (MON[m[1]] ?? 0);
   };
 
-  /* Timeline: Jan 2024 (idx 0) → Oct 2025 (idx 21) */
-  const FIRST = 0, LAST = 21;
+  /* Timeline: Jan 2024 (idx 0) → Nov 2025 (idx 22) */
+  const FIRST = 0, LAST = 22;
   const pct = idx => ((idx - FIRST) / (LAST - FIRST) * 100).toFixed(2);
 
   const positioned = tourns
@@ -2676,11 +2685,16 @@ function renderTournamentTimeline() {
     const label = Object.keys(MON)[mon];
     ticks.push({ i, label: mon === 0 ? `${label} ${yr}` : label });
   }
+  if (!ticks.find(t => t.i === LAST)) {
+    const yr = 2024 + Math.floor(LAST / 12);
+    const mon = LAST % 12;
+    ticks.push({ i: LAST, label: `${Object.keys(MON)[mon]} ${yr}` });
+  }
 
   const AXIS = 110; /* px from top to axis line */
   const H    = 170;
 
-  let html = `<div class="tl-real" style="height:${H}px;position:relative;width:100%">`;
+  let html = `<div class="tl-real" style="height:${H}px;position:relative;width:80%;margin:0 auto">`;
   /* Axis */
   html += `<div style="position:absolute;left:0;right:0;top:${AXIS}px;height:2px;background:var(--border)"></div>`;
   /* Ticks */
@@ -2742,7 +2756,7 @@ function renderWorldMap() {
   };
   const resolve = name => NAME_MAP[name] || name;
 
-  wrap.innerHTML = `<h3 class="compare-head" style="margin-bottom:8px">Athletes per Country — ${gender === "male" ? "Male" : "Female"}</h3><div id="world-map-svg-wrap" style="width:80%;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);overflow:hidden"></div>`;
+  wrap.innerHTML = `<h3 class="compare-head" style="margin-bottom:8px">Athletes per Country — ${gender === "male" ? "Male" : "Female"}</h3><div id="world-map-svg-wrap" style="width:80%;margin:0 auto;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);overflow:hidden"></div>`;
   const svgWrap = document.getElementById("world-map-svg-wrap");
   const tooltip = document.getElementById("map-tooltip");
 
