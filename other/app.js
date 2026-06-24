@@ -220,13 +220,13 @@ function renderCompareTab() {
 
   const mKarAll = DATA.karateka.male || [];
   const fKarAll = DATA.karateka.female || [];
-  const wtAvg = karAll => {
-    const tp = karAll.reduce((s,k) => s + (k.Performances||0), 0);
-    const ts = karAll.reduce((s,k) => s + (k.Mean_Score != null ? k.Mean_Score * k.Performances : 0), 0);
-    return tp ? ts / tp : null;
+  const wtAvgKata = kataArr => {
+    const scored = kataArr.filter(r => r.Mean_Score != null);
+    const tw = scored.reduce((s,r) => s + r.Performances, 0);
+    return tw ? scored.reduce((s,r) => s + r.Mean_Score * r.Performances, 0) / tw : null;
   };
-  const mAvgScore = wtAvg(mKarAll);
-  const fAvgScore = wtAvg(fKarAll);
+  const mAvgScore = wtAvgKata(mkata);
+  const fAvgScore = wtAvgKata(fkata);
 
   /* derived counts for findings */
   const trueSharedCount = mkata.length - mOnly.length;  // shared by set membership (before score filter)
