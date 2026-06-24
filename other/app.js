@@ -227,6 +227,7 @@ function init() {
   setupGlobalSearch();
   renderAll();
   renderWelcomeTimeline();
+  initHowToCards();
   parseDeepLink();
 }
 
@@ -2748,6 +2749,42 @@ function renderTournamentTimeline() {
     btn.addEventListener("click", () => {
       const row = DATA.tournaments.find(r => r.Tournament === btn.dataset.tourn && r.Gender.toLowerCase() === gender);
       if (row) showTournamentCard(row);
+    });
+  });
+}
+
+function initHowToCards() {
+  document.querySelectorAll(".how-to-card").forEach(card => {
+    const body = card.querySelector(".how-to-body");
+    if (!body) return;
+    const title = body.querySelector("strong");
+    if (!title) return;
+
+    /* wrap title + toggle in a header row */
+    const header = document.createElement("div");
+    header.className = "how-to-header";
+    const toggle = document.createElement("span");
+    toggle.className = "how-to-toggle";
+    toggle.textContent = "+";
+    title.parentNode.insertBefore(header, title);
+    header.appendChild(title);
+    header.appendChild(toggle);
+
+    /* wrap remaining content (paragraphs) in a detail div */
+    const detail = document.createElement("div");
+    detail.className = "how-to-detail";
+    while (body.firstChild && body.firstChild !== header) {
+      detail.appendChild(body.firstChild);
+    }
+    /* move any siblings after header into detail */
+    while (header.nextSibling) {
+      detail.appendChild(header.nextSibling);
+    }
+    body.appendChild(detail);
+
+    /* toggle on card click */
+    card.addEventListener("click", () => {
+      card.classList.toggle("open");
     });
   });
 }
