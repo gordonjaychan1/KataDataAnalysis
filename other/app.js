@@ -502,11 +502,27 @@ function renderCompareTab() {
       <div class="compare-grid">
         <div class="compare-col">
           <h3 class="compare-head">Performed by Males Only (${mOnly.length})</h3>
-          <div class="pill-list">${onlyPills(mOnly) || "<em style='color:var(--text-muted)'>None</em>"}</div>
+          ${mOnly.length ? `<div class="table-wrapper"><table class="data-table">
+            <thead><tr><th class="num row-num">#</th><th>Kata</th><th>Tier</th><th class="num">Performances</th></tr></thead>
+            <tbody>${mOnly.map((k, i) => `<tr>
+              <td class="num row-num">${i + 1}</td>
+              <td class="name-cell">${navLink("kata", k.Kata)}</td>
+              <td>${tierBadge(k.Kata_Tier)}</td>
+              <td class="num">${k.Performances}</td>
+            </tr>`).join("")}</tbody>
+          </table></div>` : "<em style='color:var(--text-muted)'>None</em>"}
         </div>
         <div class="compare-col">
           <h3 class="compare-head">Performed by Females Only (${fOnly.length})</h3>
-          <div class="pill-list">${onlyPills(fOnly) || "<em style='color:var(--text-muted)'>None</em>"}</div>
+          ${fOnly.length ? `<div class="table-wrapper"><table class="data-table">
+            <thead><tr><th class="num row-num">#</th><th>Kata</th><th>Tier</th><th class="num">Performances</th></tr></thead>
+            <tbody>${fOnly.map((k, i) => `<tr>
+              <td class="num row-num">${i + 1}</td>
+              <td class="name-cell">${navLink("kata", k.Kata)}</td>
+              <td>${tierBadge(k.Kata_Tier)}</td>
+              <td class="num">${k.Performances}</td>
+            </tr>`).join("")}</tbody>
+          </table></div>` : "<em style='color:var(--text-muted)'>None</em>"}
         </div>
       </div>
     </div>
