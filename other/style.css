@@ -448,4 +448,3 @@ blockquote.dedication {
 .tl-chip-real:hover { background: var(--red-light); border-color: var(--red); color: var(--red); }
 
 /* ── Medals tab ───────────────────────────────────────────────────────────── */
-#medals-content { max-width: 640px; }
