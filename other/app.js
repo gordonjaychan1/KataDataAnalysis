@@ -53,9 +53,17 @@ function _doNav() {
 }
 
 function navLink(type, name, display) {
-  const d = display !== undefined ? display : name;
-  return `<a class="nav-link" onclick="confirmNav(${JSON.stringify(type)},${JSON.stringify(name)});event.stopPropagation();return false">${d}</a>`;
+  const d = display !== undefined ? display : esc(name);
+  return `<a class="nav-link" data-nav-type="${type}" data-nav-name="${esc(name)}">${d}</a>`;
 }
+
+document.addEventListener("click", e => {
+  const link = e.target.closest(".nav-link");
+  if (!link || !link.dataset.navType) return;
+  e.stopPropagation();
+  e.preventDefault();
+  confirmNav(link.dataset.navType, link.dataset.navName);
+});
 
 /* ── State ─────────────────────────────────────────────────────────────────── */
 let DATA   = null;
@@ -387,7 +395,7 @@ function renderCompareTab() {
   const diffColor = v => v > 0 ? "#3a6e3a" : v < 0 ? "var(--red)" : "inherit";
 
   const top5Row = (k, i) => `<tr><td>${i+1}</td><td class="name-cell">${navLink("kata", k.Kata)}</td><td class="num">${k.Performances}</td><td class="num">${k.Mean_Score != null ? k.Mean_Score.toFixed(3) : "—"}</td></tr>`;
-  const onlyPills = arr => arr.map(k => `<span class="pill" onclick="confirmNav('kata',${JSON.stringify(k.Kata)});event.stopPropagation()" style="cursor:pointer">${tierBadge(k.Kata_Tier)} ${esc(k.Kata)} <span class="pill-count">${k.Performances}×</span></span>`).join("");
+  const onlyPills = arr => arr.map(k => `<span class="pill nav-link" data-nav-type="kata" data-nav-name="${esc(k.Kata)}" style="cursor:pointer">${tierBadge(k.Kata_Tier)} ${esc(k.Kata)} <span class="pill-count">${k.Performances}×</span></span>`).join("");
 
   document.getElementById("compare-content").innerHTML = `
     <!-- Findings -->
