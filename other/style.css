@@ -241,7 +241,7 @@ header {
 .how-to-card:hover { box-shadow: 0 3px 10px rgba(0,0,0,0.09); transform: translateY(-1px); border-color: var(--border); }
 .how-to-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; width: 28px; text-align: center; }
 .how-to-body { display: flex; flex-direction: column; flex: 1; min-width: 0; }
-.how-to-card strong { display: block; font-size: 13px; font-weight: 700; margin-bottom: 5px; }
+.how-to-body > strong { display: block; font-size: 13px; font-weight: 700; margin-bottom: 5px; }
 .how-to-card p { font-size: 12px; color: var(--text-muted); line-height: 1.6; margin: 0; }
 .how-to-q { margin-top: 14px !important; padding-top: 10px; border-top: 1px solid var(--border-light); color: var(--text) !important; font-style: italic; }
 
