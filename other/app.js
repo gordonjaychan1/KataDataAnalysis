@@ -1219,11 +1219,11 @@ function showKaratekaCard(r) {
     <div class="card-stats">
       <div class="stat-box"><div class="stat-label">Performances</div><div class="stat-value">${r.Performances}</div>${rkK('Performances')}</div>
       <div class="stat-box"><div class="stat-label">Tournaments</div><div class="stat-value">${r.Tournaments_Attended}</div>${rkK('Tournaments_Attended')}</div>
-      <div class="stat-box"><div class="stat-label">Avg Score</div><div class="stat-value">${fmt2(r.Mean_Score)}</div>${rkKFig('Mean_Score', false, 'athlete-findings', 'finding-a1')}</div>
+      <div class="stat-box"><div class="stat-label">Avg Score</div><div class="stat-value">${fmt2(r.Mean_Score)}</div>${rkKFig('Mean_Score', false, 'karateka-findings', 'finding-a1')}</div>
       <div class="stat-box"><div class="stat-label">Median</div><div class="stat-value">${fmt2(r.Median_Score)}</div>${rkK('Median_Score')}</div>
       <div class="stat-box"><div class="stat-label">Worst Score</div><div class="stat-value">${fmt2(r.Min_Score)}</div>${rkK('Min_Score', true)}${worstPerf ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">Kata: <strong>${navLink("kata", worstPerf.Kata)}</strong></div>` : ""}</div>
       <div class="stat-box"><div class="stat-label">Best Score</div><div class="stat-value">${fmt2(r.Max_Score)}</div>${rkK('Max_Score')}${bestPerf ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">Kata: <strong>${navLink("kata", bestPerf.Kata)}</strong></div>` : ""}</div>
-      <div class="stat-box"><div class="stat-label">Win Rate</div><div class="stat-value">${fmtPct(r.Win_Rate)}</div>${rkKFig('Win_Rate', false, 'athlete-findings', 'finding-a2')}</div>
+      <div class="stat-box"><div class="stat-label">Win Rate</div><div class="stat-value">${fmtPct(r.Win_Rate)}</div>${rkKFig('Win_Rate', false, 'karateka-findings', 'finding-a2')}</div>
     </div>
     ${r.Medals && r.Medals.length ? `
     <div class="card-section-title">Medals</div>
