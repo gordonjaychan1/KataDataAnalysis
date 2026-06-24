@@ -1242,31 +1242,33 @@ function showKaratekaCard(r) {
   const karScores = (r.Performances_Detail || []).map(p => p.Avg_Score).filter(s => s != null);
   renderScoreHistogram("chart-kar-histogram", karScores, "_karHistChart");
 
-  /* common opponents table — deduplicated by unique (tournament|round) pairs */
-  const rRoundSet = new Set(
-    (r.Performances_Detail || [])
-      .filter(p => p.Tournament && p.Round)
-      .map(p => `${p.Tournament}|||${p.Round}`)
-  );
-  /* map round key → Won flag for subject athlete */
-  const rWonMap = {};
-  for (const p of (r.Performances_Detail || [])) {
-    if (!p.Tournament || !p.Round) continue;
-    const key = `${p.Tournament}|||${p.Round}`;
-    if (!(key in rWonMap)) rWonMap[key] = p.Won === true;
-  }
+  /* common opponents table — score-match each bout to its 1v1 opponent.
+     Each performance row is one bout. The true opponent has the opposite
+     Won value and a score consistent with who won (lower if they lost,
+     higher if they won). Among all candidates, pick the smallest gap. */
   const opponents = {};
-  for (const k of (DATA.karateka[gender] || [])) {
-    if (k.Karateka === r.Karateka) continue;
-    const kRoundSet = new Set(
-      (k.Performances_Detail || [])
-        .filter(p => p.Tournament && p.Round)
-        .map(p => `${p.Tournament}|||${p.Round}`)
-    );
-    const shared = [...rRoundSet].filter(key => kRoundSet.has(key));
-    if (!shared.length) continue;
-    const wins = shared.filter(key => rWonMap[key]).length;
-    opponents[k.Karateka] = { Karateka: k.Karateka, Country: k.Country, Meetings: shared.length, Wins: wins };
+  for (const p of (r.Performances_Detail || [])) {
+    if (!p.Tournament || !p.Round || p.Avg_Score == null) continue;
+    const rWon = p.Won === true;
+    let bestK = null, bestDiff = Infinity;
+    for (const k of (DATA.karateka[gender] || [])) {
+      if (k.Karateka === r.Karateka) continue;
+      for (const p2 of (k.Performances_Detail || [])) {
+        if (p2.Tournament !== p.Tournament || p2.Round !== p.Round) continue;
+        if (p2.Avg_Score == null) continue;
+        if ((p2.Won === true) === rWon) continue; // same result → not this bout's opponent
+        // score must be consistent: winner > loser
+        if (rWon && p.Avg_Score <= p2.Avg_Score) continue;
+        if (!rWon && p.Avg_Score >= p2.Avg_Score) continue;
+        const diff = Math.abs(p.Avg_Score - p2.Avg_Score);
+        if (diff < bestDiff) { bestDiff = diff; bestK = k; }
+      }
+    }
+    if (bestK) {
+      if (!opponents[bestK.Karateka]) opponents[bestK.Karateka] = { Karateka: bestK.Karateka, Country: bestK.Country, Meetings: 0, Wins: 0 };
+      opponents[bestK.Karateka].Meetings++;
+      if (rWon) opponents[bestK.Karateka].Wins++;
+    }
   }
   const oppFlat = Object.values(opponents)
     .filter(o => o.Meetings > 0)
@@ -2696,10 +2698,19 @@ function renderTournamentTimeline() {
     .filter(x => x.idx !== null)
     .sort((a, b) => a.idx - b.idx);
 
-  /* Stagger chips that are within 2 months of each other */
-  const rows = positioned.map((x, i) => {
-    const prev = positioned[i - 1];
-    return prev && x.idx - prev.idx <= 2 ? 1 : 0;
+  /* 3-row greedy stagger: assign each chip to the lowest row with no
+     conflict (previous chip on that row was more than 2 months ago). */
+  const PROX = 2;
+  const NUM_ROWS = 3;
+  const rowLast = new Array(NUM_ROWS).fill(-Infinity);
+  const rows = positioned.map(({ idx }) => {
+    let assigned = -1;
+    for (let r = 0; r < NUM_ROWS; r++) {
+      if (idx - rowLast[r] > PROX) { assigned = r; break; }
+    }
+    if (assigned === -1) assigned = rowLast.indexOf(Math.min(...rowLast));
+    rowLast[assigned] = idx;
+    return assigned;
   });
 
   /* Quarter ticks: every 3 months */
@@ -2716,29 +2727,31 @@ function renderTournamentTimeline() {
     ticks.push({ i: LAST, label: `${Object.keys(MON)[mon]} ${yr}` });
   }
 
-  const AXIS = 110; /* px from top to axis line */
-  const H    = 170;
+  const AXIS    = 140; /* px from top to axis line */
+  const H       = 210;
+  const CHIP_H  = 32;  /* approximate chip height */
+  /* row 0 = closest to axis, row 2 = furthest */
+  const rowOffsets = [44, 82, 120]; /* chipTop = AXIS - offset */
 
   let html = `<div class="tl-real" style="height:${H}px;position:relative;width:88%;margin:0 auto">`;
   /* Axis */
-  html += `<div style="position:absolute;left:0;right:0;top:${AXIS}px;height:3px;background:var(--border)"></div>`;
+  html += `<div style="position:absolute;left:0;right:0;top:${AXIS}px;height:3px;background:#b0a090"></div>`;
   /* Ticks */
   ticks.forEach(({ i, label }) => {
     const p = pct(i);
-    html += `<div style="position:absolute;left:${p}%;top:${AXIS - 4}px;width:1px;height:10px;background:var(--border-light);transform:translateX(-50%)"></div>`;
-    html += `<div style="position:absolute;left:${p}%;top:${AXIS + 10}px;font-size:12px;color:var(--text-muted);transform:translateX(-50%);white-space:nowrap">${label}</div>`;
+    html += `<div style="position:absolute;left:${p}%;top:${AXIS - 5}px;width:1px;height:12px;background:#b0a090;transform:translateX(-50%)"></div>`;
+    html += `<div style="position:absolute;left:${p}%;top:${AXIS + 14}px;font-size:12px;color:var(--text-muted);transform:translateX(-50%);white-space:nowrap">${label}</div>`;
   });
 
   /* Chips */
   positioned.forEach(({ t, idx }, i) => {
     const meta = TOURN_META[t.Tournament] || {};
     const p = pct(idx);
-    const row = rows[i];
-    const chipTop = row === 1 ? AXIS - 92 : AXIS - 54;
-    const connTop = chipTop + 36;
+    const chipTop = AXIS - rowOffsets[rows[i]];
+    const connTop = chipTop + CHIP_H;
     const connH   = AXIS - connTop;
     html += `<button class="tl-chip-real" data-tourn="${esc(t.Tournament)}" style="position:absolute;left:${p}%;top:${chipTop}px;transform:translateX(-50%)">${flagOf(meta.country)} ${esc(t.Tournament)}</button>`;
-    if (connH > 0) html += `<div style="position:absolute;left:${p}%;top:${connTop}px;width:1px;height:${connH}px;background:var(--border-light);transform:translateX(-50%)"></div>`;
+    if (connH > 0) html += `<div style="position:absolute;left:${p}%;top:${connTop}px;width:1px;height:${connH}px;background:#b0a090;transform:translateX(-50%)"></div>`;
   });
 
   html += `</div>`;
