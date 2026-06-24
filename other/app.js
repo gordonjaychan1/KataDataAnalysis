@@ -322,20 +322,61 @@ function renderCompareTab() {
       </div>
     </div>
 
-    <!-- Exclusive kata -->
-    <div id="fig-g2" style="margin-top:64px">
-      <span class="fig-label">Figure G-2</span>
-      <div class="compare-grid">
-        <div class="compare-col">
-          <h3 class="compare-head">Performed by Males Only (${mOnly.length})</h3>
-          <div class="pill-list">${onlyPills(mOnly) || "<em style='color:var(--text-muted)'>None</em>"}</div>
+    <!-- Kata status + exclusive kata (combined G-2) -->
+    ${(() => {
+      const mts = DATA.tier_summary.male   || {};
+      const fts = DATA.tier_summary.female || {};
+      const mAdvSet  = new Set(mts.adv_performed   || []);
+      const fAdvSet  = new Set(fts.adv_performed   || []);
+      const mIntSet  = new Set(mts.interm_performed || []);
+      const fIntSet  = new Set(fts.interm_performed || []);
+      const allAdv   = [...new Set([...(mts.adv_performed || []), ...(mts.adv_unperformed || [])])].sort();
+      const allInt   = [...new Set([...(mts.interm_performed || []), ...(fts.interm_performed || [])])].sort();
+      const mid      = Math.ceil(allAdv.length / 2);
+      const dot = (inM, inF) => {
+        if (inM && inF) return '<span class="ks-dot ks-both">●</span><span class="ks-lbl">Both</span>';
+        if (inM)        return '<span class="ks-dot ks-male">●</span><span class="ks-lbl">Men</span>';
+        if (inF)        return '<span class="ks-dot ks-female">●</span><span class="ks-lbl">Women</span>';
+        return '<span class="ks-dot ks-none">●</span><span class="ks-lbl ks-none-lbl">Not performed</span>';
+      };
+      const rows = (list, mSet, fSet) => list.map((k, i) =>
+        `<div class="ks-row ${i % 2 === 0 ? 'ks-row-even' : 'ks-row-odd'}"><span class="ks-name">${esc(k)}</span><span class="ks-status">${dot(mSet.has(k), fSet.has(k))}</span></div>`
+      ).join("");
+      return `<div id="fig-g2" style="margin-top:64px">
+        <span class="fig-label">Figure G-2</span>
+        <h3 class="compare-head">Kata Performed by Gender</h3>
+        <div class="ks-legend">
+          <span class="pill"><span class="ks-dot ks-both">●</span> Both</span>
+          <span class="pill"><span class="ks-dot ks-male">●</span> Men only</span>
+          <span class="pill"><span class="ks-dot ks-female">●</span> Women only</span>
+          <span class="pill"><span class="ks-dot ks-none">●</span> Not performed</span>
         </div>
-        <div class="compare-col">
-          <h3 class="compare-head">Performed by Females Only (${fOnly.length})</h3>
-          <div class="pill-list">${onlyPills(fOnly) || "<em style='color:var(--text-muted)'>None</em>"}</div>
+        <div class="ks-three-col">
+          <div>
+            <div class="ks-tier-head">Advanced</div>
+            <div class="ks-list ks-table-border">${rows(allAdv.slice(0, mid), mAdvSet, fAdvSet)}</div>
+          </div>
+          <div>
+            <div class="ks-tier-head">&nbsp;</div>
+            <div class="ks-list ks-table-border">${rows(allAdv.slice(mid), mAdvSet, fAdvSet)}</div>
+          </div>
+          <div>
+            <div class="ks-tier-head">Intermediate <span class="ks-tier-note">(performed only)</span></div>
+            <div class="ks-list ks-table-border">${rows(allInt, mIntSet, fIntSet)}</div>
+          </div>
         </div>
-      </div>
-    </div>
+        <div class="compare-grid" style="margin-top:32px">
+          <div class="compare-col">
+            <h3 class="compare-head">Performed by Males Only (${mOnly.length})</h3>
+            <div class="pill-list">${onlyPills(mOnly) || "<em style='color:var(--text-muted)'>None</em>"}</div>
+          </div>
+          <div class="compare-col">
+            <h3 class="compare-head">Performed by Females Only (${fOnly.length})</h3>
+            <div class="pill-list">${onlyPills(fOnly) || "<em style='color:var(--text-muted)'>None</em>"}</div>
+          </div>
+        </div>
+      </div>`;
+    })()}
 
     <!-- Avg score comparison -->
     <div style="margin-top:64px">
@@ -359,46 +400,7 @@ function renderCompareTab() {
       </div>
     </div>
 
-    <!-- Kata status overview -->
-    ${(() => {
-      const mts = DATA.tier_summary.male   || {};
-      const fts = DATA.tier_summary.female || {};
-      const mAdvSet  = new Set(mts.adv_performed   || []);
-      const fAdvSet  = new Set(fts.adv_performed   || []);
-      const mIntSet  = new Set(mts.interm_performed || []);
-      const fIntSet  = new Set(fts.interm_performed || []);
-      const allAdv   = [...new Set([...(mts.adv_performed || []), ...(mts.adv_unperformed || [])])].sort();
-      const allInt   = [...new Set([...(mts.interm_performed || []), ...(fts.interm_performed || [])])].sort();
-      const dot = (inM, inF) => {
-        if (inM && inF) return '<span class="ks-dot ks-both">●</span><span class="ks-lbl">Both</span>';
-        if (inM)        return '<span class="ks-dot ks-male">●</span><span class="ks-lbl">Men</span>';
-        if (inF)        return '<span class="ks-dot ks-female">●</span><span class="ks-lbl">Women</span>';
-        return '<span class="ks-dot ks-none">●</span><span class="ks-lbl ks-none-lbl">Not performed</span>';
-      };
-      const rows = (list, mSet, fSet) => list.map(k =>
-        `<div class="ks-row"><span class="ks-name">${esc(k)}</span><span class="ks-status">${dot(mSet.has(k), fSet.has(k))}</span></div>`
-      ).join("");
-      return `<div style="margin-top:64px">
-        <span class="fig-label">Figure G-4</span>
-        <h3 class="compare-head">Kata Performed by Gender</h3>
-        <div class="ks-legend">
-          <span><span class="ks-dot ks-both">●</span> Both</span>
-          <span><span class="ks-dot ks-male">●</span> Men only</span>
-          <span><span class="ks-dot ks-female">●</span> Women only</span>
-          <span><span class="ks-dot ks-none">●</span> Not performed</span>
-        </div>
-        <div class="compare-grid">
-          <div class="compare-col">
-            <div class="ks-tier-head">Advanced</div>
-            <div class="ks-list">${rows(allAdv, mAdvSet, fAdvSet)}</div>
-          </div>
-          <div class="compare-col">
-            <div class="ks-tier-head">Intermediate <span class="ks-tier-note">(performed only)</span></div>
-            <div class="ks-list">${rows(allInt, mIntSet, fIntSet)}</div>
-          </div>
-        </div>
-      </div>`;
-    })()}`;
+    `;
   renderCompareSharedTable();
   renderCompareDiffChart();
 }
