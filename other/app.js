@@ -312,7 +312,7 @@ function renderCompareTab() {
     </div>
 
     <!-- Exclusive kata -->
-    <div style="margin-top:64px">
+    <div id="fig-g2" style="margin-top:64px">
       <span class="fig-label">Figure G-2</span>
       <div class="compare-grid">
         <div class="compare-col">
@@ -1454,10 +1454,11 @@ function makeCountryHBar(id, countries, athletes) {
     data: { labels: countries, datasets: [{ data: athletes, backgroundColor: RED, borderColor: RED_BORDER, borderWidth: 1, borderRadius: 3 }] },
     options: {
       indexAxis: "y", responsive: true, maintainAspectRatio: false,
+      layout: { padding: { left: 175 } },
       plugins: { legend: { display: false }, tooltip: { callbacks: { label: c2 => ` ${c2.raw}` } } },
       scales: {
         x: { min: 0, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, title: { display: true, text: "Athletes", font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
-        y: { grid: { display: false }, ticks: { display: false }, afterFit(axis) { axis.width = 165; } },
+        y: { grid: { display: false }, ticks: { display: false } },
       },
     },
     plugins: [flagPlugin],
@@ -1687,7 +1688,7 @@ function renderPerformedKata() {
   const other = gender === "male" ? "Female" : "Male";
   document.getElementById("insight-performed").innerHTML =
     `Lists which Advanced and Intermediate kata were and were not performed during ${g} kata competition in the 2024–25 season. ` +
-    `To compare which kata were performed by ${g} versus ${other} athletes, see the <a href="#" onclick="switchToTab('compare');return false;" style="color:var(--red)">Male vs. Female tab</a>.`;
+    `To compare which kata were performed by ${g} versus ${other} athletes, see <a href="#" onclick="switchToTab('compare');setTimeout(()=>{const el=document.getElementById('fig-g2');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},150);return false;" style="color:var(--red)">Figure G-2</a> in the Male vs. Female tab.`;
   const kataPerfsMap = {};
   (DATA.kata[gender] || []).forEach(k => { kataPerfsMap[k.Kata] = k.Performances; });
   const makePills = arr => arr.length
