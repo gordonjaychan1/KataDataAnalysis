@@ -135,7 +135,7 @@ let _mapRendered = "";
 const sortState = {
   kata:        { col: "Performances", dir: "desc" },
   karateka:    { col: "Performances", dir: "desc" },
-  tournaments: { col: "Tournament",   dir: "asc"  },
+  tournaments: { col: "Tourn_Order",  dir: "asc"  },
   countries:   { col: "Athletes",     dir: "desc" },
 };
 
@@ -189,6 +189,9 @@ const TOURN_META = {
   "2025 Rabat":      { city:"Rabat",      country:"Morocco", flag:"🇲🇦", date:"May 30–Jun 1, 2025"  },
   "2025 Worlds":     { city:"Cairo",      country:"Egypt",   flag:"🇪🇬", date:"Nov 27–30, 2025"    },
 };
+
+/* Chronological index for each tournament name (0 = earliest) */
+const TOURN_ORDER = Object.fromEntries(Object.keys(TOURN_META).map((k, i) => [k, i]));
 
 const charts = {};
 
@@ -1138,14 +1141,15 @@ function showKaratekaCard(r) {
     };
   });
   const perfsFlat = perfs.map((p, i) => ({
-    Tournament: p.Tournament || "",
-    Round:      roundLabel[p.Round] || p.Round || "",
-    Kata:       p.Kata || "",
-    Avg_Score:  p.Avg_Score,
-    Won_Sort:   p.Won === true ? "0_win" : p.Won === false ? "1_loss" : "2_none",
-    Opponent:   p.Opponent || "",
-    _won:       p.Won,
-    _flag:      flagOf((TOURN_META[p.Tournament] || {}).country),
+    Tournament:  p.Tournament || "",
+    Tourn_Order: TOURN_ORDER[p.Tournament] ?? 99,
+    Round:       roundLabel[p.Round] || p.Round || "",
+    Kata:        p.Kata || "",
+    Avg_Score:   p.Avg_Score,
+    Won_Sort:    p.Won === true ? "0_win" : p.Won === false ? "1_loss" : "2_none",
+    Opponent:    p.Opponent || "",
+    _won:        p.Won,
+    _flag:       flagOf((TOURN_META[p.Tournament] || {}).country),
   }));
 
   /* medal count summary */
@@ -1231,7 +1235,7 @@ function showKaratekaCard(r) {
       <td class="num">${k.Avg_Score != null ? k.Avg_Score.toFixed(2) : "—"}</td>
       <td class="num">${k.Win_Rate != null ? fmtPct(k.Win_Rate) : "—"}</td>
     </tr>`);
-  if (perfsFlat.length) initCardTable("card-kar-performances", perfsFlat, "Tournament", "asc",
+  if (perfsFlat.length) initCardTable("card-kar-performances", perfsFlat, "Tourn_Order", "asc",
     (p, i) => `<tr>
       <td class="num row-num">${i + 1}</td>
       <td>${p._flag}${navLink("tournament", p.Tournament)}</td>
@@ -1582,7 +1586,9 @@ function renderTournamentsTable() {
     }
   }
   const baseRows = DATA.tournaments.filter(r => r.Gender.toLowerCase() === gender).map(r => ({
-    ...r, Unique_Countries: (tournCountries[r.Tournament]?.size ?? 0),
+    ...r,
+    Unique_Countries: (tournCountries[r.Tournament]?.size ?? 0),
+    Tourn_Order: TOURN_ORDER[r.Tournament] ?? 99,
   }));
   const tMean = field => { const v = baseRows.map(r => r[field]).filter(x => x != null); return v.length ? v.reduce((s,x)=>s+x,0)/v.length : null; };
   const tWtAvg = (() => { const tp = baseRows.reduce((s,r)=>s+(r.Total_Performances||0),0); const ts = baseRows.reduce((s,r)=>s+(r.Avg_Score!=null?r.Avg_Score*r.Total_Performances:0),0); return tp ? ts/tp : null; })();
