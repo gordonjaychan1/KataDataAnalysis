@@ -1347,7 +1347,7 @@ function showCountryCard(r, all) {
   };
 
   const medals = r._medalsList || [];
-  const sortedMedals = [...medals].sort((a, b) => a.Place - b.Place || a.Tournament.localeCompare(b.Tournament));
+  const sortedMedals = [...medals].sort((a, b) => (TOURN_ORDER[a.Tournament] ?? 99) - (TOURN_ORDER[b.Tournament] ?? 99) || a.Place - b.Place);
   const medalCounts = { 1: 0, 2: 0, 3: 0 };
   medals.forEach(m => medalCounts[m.Place] = (medalCounts[m.Place] || 0) + 1);
   const medalSummaryParts = [];
@@ -1388,8 +1388,23 @@ function showCountryCard(r, all) {
     ${medals.length ? `
     <div class="card-section-title">Medals</div>
     ${medalSummaryParts.length ? `<p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px">${medalSummaryParts.join(" &nbsp;·&nbsp; ")}</p>` : ""}
-    <div class="pill-list" style="margin-bottom:14px">
-      ${sortedMedals.map(m => `<span class="pill">${m.Place===1?"🥇":m.Place===2?"🥈":"🥉"} ${esc(m.Tournament)} — ${esc(m.Athlete)}</span>`).join("")}
+    <div class="card-table-wrap" style="margin-bottom:14px">
+      <table class="data-table">
+        <thead><tr>
+          <th class="num row-num">#</th>
+          <th>Tournament</th>
+          <th>Athlete</th>
+          <th>Medal</th>
+        </tr></thead>
+        <tbody>
+          ${sortedMedals.map((m, i) => `<tr>
+            <td class="num row-num">${i + 1}</td>
+            <td class="name-cell">${navLink("tournament", m.Tournament)}</td>
+            <td class="name-cell"><strong>${navLink("karateka", m.Athlete)}</strong></td>
+            <td>${m.Place===1?"🥇 Gold":m.Place===2?"🥈 Silver":"🥉 Bronze"}</td>
+          </tr>`).join("")}
+        </tbody>
+      </table>
     </div>` : ""}
     <div class="card-section-title">Athletes</div>
     <div class="card-table-wrap" style="margin-bottom:14px">
