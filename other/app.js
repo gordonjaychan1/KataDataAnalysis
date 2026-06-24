@@ -263,6 +263,15 @@ function renderCompareTab() {
   });
   compareSortCol = "Diff"; compareSortDir = "desc";
 
+  /* min/max findings */
+  const fSortedByMin = [...fkata].filter(k => k.Min_Score != null).sort((a,b) => a.Min_Score - b.Min_Score);
+  const mSortedByMin = [...mkata].filter(k => k.Min_Score != null).sort((a,b) => a.Min_Score - b.Min_Score);
+  const fMin1 = fSortedByMin[0], fMin2 = fSortedByMin[1], fMin3 = fSortedByMin[2];
+  const mMin1 = mSortedByMin[0];
+  const fMaxKata = [...fkata].filter(k => k.Max_Score != null).sort((a,b) => b.Max_Score - a.Max_Score)[0];
+  const mMaxKata = [...mkata].filter(k => k.Max_Score != null).sort((a,b) => b.Max_Score - a.Max_Score)[0];
+  const fTop2 = fTop10[1];
+
   const sign = v => (v >= 0 ? "+" : "") + v.toFixed(3);
   const diffColor = v => v > 0 ? "#3a6e3a" : v < 0 ? "var(--red)" : "inherit";
 
@@ -277,8 +286,10 @@ function renderCompareTab() {
         <ul style="font-size:13px;color:var(--text-muted);line-height:2.2;padding-left:20px">
           <li>Male athletes performed <strong style="color:var(--text)">${mkata.length}</strong> unique kata across the 2024–25 season. Female athletes performed the same number — <strong style="color:var(--text)">${fkata.length}</strong> unique kata.</li>
           <li>Of those, <strong style="color:var(--text)">${trueSharedCount}</strong> kata were performed by both genders. <strong style="color:var(--text)">${mOnly.length}</strong> kata were performed exclusively by males, and <strong style="color:var(--text)">${fOnly.length}</strong> exclusively by females. See <em>Figure G-2</em> below for the specific kata.</li>
-          <li>The most performed kata among male athletes was <strong style="color:var(--text)">${mTop1 ? esc(mTop1.Kata) : "—"}</strong>${mTop1 ? ` with <strong style="color:var(--text)">${mTop1.Performances}</strong> performances` : ""}. For female athletes it was <strong style="color:var(--text)">${fTop1 ? esc(fTop1.Kata) : "—"}</strong>${fTop1 ? ` with <strong style="color:var(--text)">${fTop1.Performances}</strong> performances` : ""}. See <em>Figure G-1</em> below.</li>
+          <li>The most performed kata among male athletes was <strong style="color:var(--text)">${mTop1 ? esc(mTop1.Kata) : "—"}</strong>${mTop1 ? ` with <strong style="color:var(--text)">${mTop1.Performances}</strong> performances` : ""}. For female athletes it was <strong style="color:var(--text)">${fTop1 ? esc(fTop1.Kata) : "—"}</strong>${fTop1 ? ` with <strong style="color:var(--text)">${fTop1.Performances}</strong> performances` : ""}${fTop1 && fTop2 ? ` — significantly more than the second most performed female kata, <strong style="color:var(--text)">${esc(fTop2.Kata)}</strong>, at <strong style="color:var(--text)">${fTop2.Performances}</strong> performances. The male top kata are closer together (${mTop10.slice(0,3).map(k => k.Performances).join(" / ")} for the top three)` : ""}. See <em>Figure G-1</em> below.</li>
           <li>The average score given to any male kata performance was <strong style="color:var(--text)">${mAvgScore != null ? mAvgScore.toFixed(3) : "—"}</strong>. For female kata performances, it was <strong style="color:var(--text)">${fAvgScore != null ? fAvgScore.toFixed(3) : "—"}</strong>.</li>
+          <li>Female kata minimum scores feature two outliers — <strong style="color:var(--text)">${fMin1 ? esc(fMin1.Kata) : "—"}</strong> (${fMin1 ? fMin1.Min_Score.toFixed(2) : "—"}) and <strong style="color:var(--text)">${fMin2 ? esc(fMin2.Kata) : "—"}</strong> (${fMin2 ? fMin2.Min_Score.toFixed(2) : "—"}) — that sit well below the rest. The third-lowest female minimum, <strong style="color:var(--text)">${fMin3 ? esc(fMin3.Kata) : "—"}</strong> (${fMin3 ? fMin3.Min_Score.toFixed(2) : "—"}), is comparable to the lowest male minimum of <strong style="color:var(--text)">${mMin1 ? mMin1.Min_Score.toFixed(2) : "—"}</strong> (${mMin1 ? esc(mMin1.Kata) : "—"}).</li>
+          <li>The single highest score recorded in female competition was <strong style="color:var(--text)">${fMaxKata ? fMaxKata.Max_Score.toFixed(2) : "—"}</strong> (${fMaxKata ? esc(fMaxKata.Kata) : "—"}), nearly matching the male peak of <strong style="color:var(--text)">${mMaxKata ? mMaxKata.Max_Score.toFixed(2) : "—"}</strong> (${mMaxKata ? esc(mMaxKata.Kata) : "—"}).</li>
           <li>Across the season, male athletes recorded <strong style="color:var(--text)">${mTotalPerfs.toLocaleString()}</strong> total kata performances, compared to <strong style="color:var(--text)">${fTotalPerfs.toLocaleString()}</strong> for female athletes.</li>
         </ul>
 
