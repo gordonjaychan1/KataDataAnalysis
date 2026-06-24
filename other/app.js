@@ -391,6 +391,9 @@ function setupTabs() {
       ["kata-card", "karateka-card", "tournaments-card", "countries-card"].forEach(id => clearCard(id));
       _currentCard = null;
       _navHistory = []; _updateBackBtn();
+      /* update URL so reload stays on the current tab */
+      const tabId = btn.dataset.tab;
+      history.replaceState(null, "", tabId === "welcome" ? window.location.pathname : `#tab/${tabId}`);
       if (btn.dataset.tab === "compare") renderCompareTab();
       if (btn.dataset.tab === "medals") renderMedalsTab();
       if (btn.dataset.tab === "tournaments") renderTournamentTimeline();

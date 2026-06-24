@@ -291,7 +291,7 @@ blockquote.dedication {
 
 /* ── Responsive ───────────────────────────────────────────────────────────── */
 /* ── Card inner table ─────────────────────────────────────────────────────── */
-.card-table-wrap { border: 1px solid var(--border); border-radius: var(--radius); margin-top: 6px; margin-bottom: 20px; max-height: 340px; overflow: hidden; display: flex; flex-direction: column; }
+.card-table-wrap { border: 1px solid var(--border); border-radius: var(--radius); margin-top: 6px; margin-bottom: 14px; max-height: 340px; overflow: hidden; display: flex; flex-direction: column; }
 .card-table-wrap .data-table tbody tr:hover { background: var(--row-hover); cursor: default; }
 
 /* ── Performed/unperformed kata grid ──────────────────────────────────────── */
