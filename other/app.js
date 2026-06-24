@@ -1700,7 +1700,7 @@ function showTournamentCard(r) {
   medalists.sort((a, b) => a.place - b.place);
   const medalistHtml = medalists.length ? `
     <div class="card-section-title" style="margin-top:14px">Medalists</div>
-    <div class="pill-list" style="margin-bottom:14px">${medalists.map(m => `<span class="pill">${m.place===1?"🥇":m.place===2?"🥈":"🥉"} ${flagOf(m.country)} ${esc(m.name)}</span>`).join("")}</div>` : "";
+    <div class="pill-list" style="margin-bottom:14px">${medalists.map(m => `<span class="pill">${m.place===1?"🥇":m.place===2?"🥈":"🥉"} ${flagOf(m.country)} <strong>${navLink("karateka", m.name)}</strong></span>`).join("")}</div>` : "";
 
   /* athletes — with tournament-specific stats */
   const athletes = (DATA.karateka[gender] || [])
