@@ -2835,7 +2835,7 @@ function initHowToCards() {
 
     /* collect siblings after header, separating q from detail paragraphs */
     const siblings = [];
-    while (header.nextSibling) siblings.push(header.nextSibling);
+    for (let node = header.nextSibling; node; node = node.nextSibling) siblings.push(node);
 
     const detail = document.createElement("div");
     detail.className = "how-to-detail";
