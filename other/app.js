@@ -201,7 +201,8 @@ fetch("other/data.json")
   .then(d => { DATA = d; init(); })
   .catch(err => {
     console.error(err);
-    document.body.innerHTML = "<p style='padding:40px;color:#9a1c1c'>Error: " + (err && err.message ? err.message : String(err)) + "</p>";
+    const stack = err && err.stack ? "<pre style='font-size:11px;white-space:pre-wrap;margin-top:12px'>" + err.stack + "</pre>" : "";
+    document.body.innerHTML = "<div style='padding:40px'><p style='color:#9a1c1c;font-weight:700'>Error: " + (err && err.message ? err.message : String(err)) + "</p>" + stack + "</div>";
   });
 
 function addKataDiffs() {
