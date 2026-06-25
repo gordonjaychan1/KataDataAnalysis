@@ -197,10 +197,11 @@ const charts = {};
 
 /* ── Boot ──────────────────────────────────────────────────────────────────── */
 fetch("other/data.json")
-  .then(r => r.json())
+  .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
   .then(d => { DATA = d; init(); })
-  .catch(() => {
-    document.body.innerHTML = "<p style='padding:40px;color:#9a1c1c'>Could not load data.json.</p>";
+  .catch(err => {
+    console.error(err);
+    document.body.innerHTML = "<p style='padding:40px;color:#9a1c1c'>Error: " + (err && err.message ? err.message : String(err)) + "</p>";
   });
 
 function addKataDiffs() {
