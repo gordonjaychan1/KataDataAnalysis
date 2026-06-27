@@ -15,11 +15,11 @@
   <header>
     <div class="header-inner">
       <div class="header-left">
-        <h1>2024–25 WKF Season — Kata Analysis</h1>
+        <h1 data-i18n="site.title">2024–25 WKF Season — Kata Analysis</h1>
       </div>
       <div class="header-right">
         <div class="global-search-wrap" style="position:relative">
-          <input id="global-search" type="text" placeholder="Search Kata, Athletes, Tournaments, Countries, etc." autocomplete="off" />
+          <input id="global-search" type="text" placeholder="Search Kata, Athletes, Tournaments, Countries, etc." data-i18n-ph="ph.globalSearch" autocomplete="off" />
           <div id="global-search-dropdown" class="global-search-dropdown" style="display:none"></div>
         </div>
       </div>
@@ -27,38 +27,42 @@
   </header>
 
   <nav class="tab-bar">
-    <button class="tab-btn active" data-tab="welcome">Welcome</button>
+    <button class="tab-btn active" data-tab="welcome" data-i18n="tab.welcome">Welcome</button>
     <span class="tab-sep"></span>
-    <button class="tab-btn" data-tab="kata">Kata</button>
-    <button class="tab-btn" data-tab="karateka">Athletes</button>
-    <button class="tab-btn" data-tab="tournaments">Tournaments</button>
-    <button class="tab-btn" data-tab="countries">Countries</button>
-    <button class="tab-btn" data-tab="medals">Medals</button>
+    <button class="tab-btn" data-tab="kata" data-i18n="tab.kata">Kata</button>
+    <button class="tab-btn" data-tab="karateka" data-i18n="tab.athletes">Athletes</button>
+    <button class="tab-btn" data-tab="tournaments" data-i18n="tab.tournaments">Tournaments</button>
+    <button class="tab-btn" data-tab="countries" data-i18n="tab.countries">Countries</button>
+    <button class="tab-btn" data-tab="medals" data-i18n="tab.medals">Medals</button>
     <span class="tab-sep"></span>
-    <button class="tab-btn" data-tab="kata-findings">Kata Findings</button>
-    <button class="tab-btn" data-tab="karateka-findings">Athlete Findings</button>
-    <button class="tab-btn" data-tab="compare">Male vs. Female</button>
+    <button class="tab-btn" data-tab="kata-findings" data-i18n="tab.kataFindings">Kata Findings</button>
+    <button class="tab-btn" data-tab="karateka-findings" data-i18n="tab.athleteFindings">Athlete Findings</button>
+    <button class="tab-btn" data-tab="compare" data-i18n="tab.compare">Male vs. Female</button>
     <span class="tab-sep"></span>
-    <button class="tab-btn" data-tab="notes">Important Notes</button>
-    <button class="tab-btn" data-tab="about">About</button>
-    <button class="tab-btn" data-tab="references">References</button>
-    <div class="tab-bar-toggle">
+    <button class="tab-btn" data-tab="notes" data-i18n="tab.notes">Important Notes</button>
+    <button class="tab-btn" data-tab="about" data-i18n="tab.about">About</button>
+    <button class="tab-btn" data-tab="references" data-i18n="tab.references">References</button>
+    <div class="tab-bar-toggle" style="display:flex;gap:8px;align-items:center">
+      <div class="gender-toggle" id="global-lang">
+        <button class="gender-btn active" data-lang="en">EN</button>
+        <button class="gender-btn" data-lang="jp">JP</button>
+      </div>
       <div class="gender-toggle" id="global-gender">
-        <button class="gender-btn active" data-gender="male">Male</button>
-        <button class="gender-btn" data-gender="female">Female</button>
+        <button class="gender-btn active" data-gender="male" data-i18n="toggle.male">Male</button>
+        <button class="gender-btn" data-gender="female" data-i18n="toggle.female">Female</button>
       </div>
     </div>
   </nav>
   </div><!-- /.sticky-top -->
-  <button id="nav-back-btn" style="display:none">← Back</button>
+  <button id="nav-back-btn" style="display:none" data-i18n="btn.back">← Back</button>
 
   <!-- ═══════════════════════════════════════════════════════════ WELCOME -->
   <section id="tab-welcome" class="tab-content active">
     <div class="welcome-layout">
 
       <div class="welcome-hero">
-        <h2>Welcome!</h2>
-        <p>
+        <h2 data-i18n="welcome.heading">Welcome!</h2>
+        <p data-i18n="welcome.intro">
           This site presents a statistical analysis of all kata performances recorded during the nine Tier 1 tournaments in the 2024–25 WKF season — covering both the Male and Female Kata categories.
         </p>
       </div>
@@ -66,21 +70,21 @@
       <div class="welcome-stats" id="welcome-stats"><!-- filled by JS --></div>
 
       <div class="welcome-timeline-section">
-        <h3 class="welcome-section-title" style="margin-bottom:6px">2024–25 Season Timeline</h3>
-        <p style="font-size:13px;color:var(--text-muted);margin:0 0 14px">Click any tournament to explore its results.</p>
+        <h3 class="welcome-section-title" style="margin-bottom:6px" data-i18n="welcome.timelineTitle">2024–25 Season Timeline</h3>
+        <p style="font-size:13px;color:var(--text-muted);margin:0 0 14px" data-i18n="welcome.timelineSub">Click any tournament to explore its results.</p>
         <div id="welcome-timeline-wrap"></div>
       </div>
 
       <div class="welcome-body">
         <div class="welcome-section">
-          <h3 class="welcome-section-title">How to Use This Site</h3>
+          <h3 class="welcome-section-title" data-i18n="welcome.howToTitle">How to Use This Site</h3>
           <div class="how-to-grid">
 
-            <div class="how-to-group">Functionalities</div>
+            <div class="how-to-group" data-i18n="howto.group.func">Functionalities</div>
 
             <div class="how-to-card">
               <div class="how-to-icon">▤</div>
-              <div class="how-to-body">
+              <div class="how-to-body" data-i18n="howto.tables">
                 <strong>Reading the Tables</strong>
                 <p>All tables are sortable: click any column header to sort ascending or descending. Click again to reverse the sort. Hover over any column header to see a tooltip explaining what it represents.</p>
                 <p>In detail cards, a small number below a stat value (e.g., <em>3/42</em>) is a rank: it shows where that entry places among all entries for that stat. <em>(T)</em> means the rank is tied with at least one other entry.</p>
@@ -92,7 +96,7 @@
 
             <div class="how-to-card">
               <div class="how-to-icon">🔗</div>
-              <div class="how-to-body">
+              <div class="how-to-body" data-i18n="howto.links">
                 <strong>Red Links &amp; Navigation</strong>
                 <p>Any kata name, athlete name, tournament, or country that appears in <span style="color:var(--red);font-weight:600">red</span> is a clickable link. Hovering underlines it; clicking opens a prompt asking if you want to navigate to that entry's detail card.</p>
                 <p>This works everywhere: inside detail cards, inside tables on the findings tabs, and in the search results. It lets you jump freely between related entries without losing your place; you can always use the <strong>← Back</strong> button (bottom-left) to return to where you came from.</p>
@@ -102,17 +106,28 @@
 
             <div class="how-to-card">
               <div class="how-to-icon">⇄</div>
-              <div class="how-to-body">
+              <div class="how-to-body" data-i18n="howto.genderToggle">
                 <strong>Male / Female Toggle</strong>
                 <p>The <strong>Male</strong> / <strong>Female</strong> buttons in the top-right corner switch every page between the male and female kata datasets. All tables, charts, and stats update instantly, with no reload needed.</p>
                 <p>Hover over either button to see a tooltip with a full season summary for that gender: total performances, unique kata, athletes, tournaments, and countries.</p>
+                <p>Figures are labelled by gender so you can cite them precisely: male figures are numbered <em>K-1, A-1, …</em> while the same female figures are numbered <em>FK-1, FA-1, …</em></p>
                 <p class="how-to-q"><em>Do I want to explore male kata results or female kata results?</em></p>
               </div>
             </div>
 
             <div class="how-to-card">
+              <div class="how-to-icon">あ</div>
+              <div class="how-to-body" data-i18n="howto.langToggle">
+                <strong>Language (EN / JP)</strong>
+                <p>The <strong>EN</strong> / <strong>JP</strong> buttons in the top-right corner switch the site between English and Japanese. Navigation, table headers, tooltips, the findings narratives, the reference pages, and these help cards are all translated. Data values such as athlete, kata, country, and tournament names are kept in their original form.</p>
+                <p>Your language choice is remembered the next time you visit.</p>
+                <p class="how-to-q"><em>Can I read this site in Japanese? 日本語で読めますか？</em></p>
+              </div>
+            </div>
+
+            <div class="how-to-card">
               <div class="how-to-icon">🔍</div>
-              <div class="how-to-body">
+              <div class="how-to-body" data-i18n="howto.search">
                 <strong>Global Search Bar</strong>
                 <p>The search bar in the top-right (next to the gender toggle) searches across all four data types at once: kata, athletes, tournaments, and countries. Results appear in a dropdown as you type; click any result to navigate directly to that entry's detail card.</p>
                 <p>The search bar is available from every tab, so you can jump to any entry without first switching to the right tab manually.</p>
@@ -122,7 +137,7 @@
 
             <div class="how-to-card">
               <div class="how-to-icon">↩</div>
-              <div class="how-to-body">
+              <div class="how-to-body" data-i18n="howto.back">
                 <strong>Back Button &amp; Navigation History</strong>
                 <p>Whenever you follow a red link to a new detail card, a <strong>← Back</strong> button appears in the bottom-left corner. Clicking it returns you to the previous card or tab, so you can explore freely without getting lost.</p>
                 <p>The back button disappears once you've returned to the start of a navigation chain, or when you manually click a tab in the nav bar.</p>
@@ -130,11 +145,11 @@
               </div>
             </div>
 
-            <div class="how-to-group">Data Tabs</div>
+            <div class="how-to-group" data-i18n="howto.group.data">Data Tabs</div>
 
             <div class="how-to-card">
               <div class="how-to-icon">表</div>
-              <div class="how-to-body">
+              <div class="how-to-body" data-i18n="howto.dataKata">
                 <strong>Kata</strong>
                 <p>Full statistics for every kata performed this season: total performances, unique athletes, average score, median, min/max, standard deviation, win rate, and how the kata compares to performers' personal scoring baselines. Search by name, sort by any column.</p>
                 <p>Click any row to open a <strong>kata detail card</strong> showing: a score distribution histogram, a ranked table of every athlete who performed it with their individual stats, and a score comparison table for shared kata across genders.</p>
@@ -144,17 +159,17 @@
 
             <div class="how-to-card">
               <div class="how-to-icon">人</div>
-              <div class="how-to-body">
+              <div class="how-to-body" data-i18n="howto.dataAthletes">
                 <strong>Athletes</strong>
-                <p>Every athlete who competed this season, with columns for country, performances, tournaments attended, average score, median, best score, and win rate. Search by name, sort by any column.</p>
-                <p>Click any row to open an <strong>athlete detail card</strong> showing: season stats with rankings, a score histogram, their kata repertoire with per-kata averages and win rates, a full chronological performance log (with tournament, round, kata, score, result, and opponent for each bout), and a table of all opponents they faced with head-to-head records.</p>
+                <p>Every athlete who competed this season, with columns for country, performances, tournaments attended, average score, median, min/max, win rate, and an overall <strong>differential</strong> (their score minus the opponent's, averaged across all of their matches). Search by name, sort by any column.</p>
+                <p>Click any row to open an <strong>athlete detail card</strong> showing: season stats with rankings, a score histogram, their kata repertoire with per-kata averages and win rates, a full chronological performance log (with tournament, round, kata, score, result, opponent, and the score difference vs. that opponent for each bout), and a table of all opponents they faced with head-to-head records. Medals are listed in the order the tournaments took place.</p>
                 <p class="how-to-q"><em>How did a specific athlete perform across the season? Who did they face most often?</em></p>
               </div>
             </div>
 
             <div class="how-to-card">
               <div class="how-to-icon">🏆</div>
-              <div class="how-to-body">
+              <div class="how-to-body" data-i18n="howto.dataTournaments">
                 <strong>Tournaments</strong>
                 <p>One row per tournament in chronological order, with columns for total performances, athletes, unique kata, countries represented, and average score. An interactive timeline at the top of this page shows all nine events across the season; click any chip to jump straight to that tournament's detail card.</p>
                 <p>Click any table row to open a <strong>tournament detail card</strong> showing: medalists (gold, silver, bronze), plus full tables of every athlete, kata, and country that appeared at that event.</p>
@@ -164,7 +179,7 @@
 
             <div class="how-to-card">
               <div class="how-to-icon">🌍</div>
-              <div class="how-to-body">
+              <div class="how-to-body" data-i18n="howto.dataCountries">
                 <strong>Countries</strong>
                 <p>Every country that sent athletes this season, with columns for athlete count, total performances, tournaments attended, average score, best score, win rate, and medal totals. Sort by any column or search by name.</p>
                 <p>The <strong>world map</strong> at the top of the tab colour-codes every country by athlete count (darker red = more athletes). Click any highlighted country and confirm to jump straight to that country's detail card.</p>
@@ -173,29 +188,31 @@
               </div>
             </div>
 
-            <div class="how-to-group">Findings Tabs</div>
+            <div class="how-to-group" data-i18n="howto.group.findings">Findings Tabs</div>
 
             <div class="how-to-card">
               <div class="how-to-icon">📊</div>
-              <div class="how-to-body">
+              <div class="how-to-body" data-i18n="howto.findKata">
                 <strong>Kata Findings</strong>
-                <p>Data visualisations for kata trends: popularity rankings, average score rankings, win rate charts, tier breakdowns (how often Advanced vs. Intermediate kata are chosen and how they score), and a chart showing how each kata compares to performers' personal scoring baselines (a rough measure of whether a kata is "harder" or "easier" than an athlete's norm).</p>
+                <p>Data visualisations for kata trends: popularity rankings, average score rankings, win rate charts (covering every kata performed this season), tier breakdowns (how often Advanced vs. Intermediate kata are chosen and how they score), and a chart showing how each kata compares to performers' personal scoring baselines (a rough measure of whether a kata is "harder" or "easier" than an athlete's norm).</p>
+                <p>The written findings above the charts summarise the season's most notable kata storylines.</p>
                 <p class="how-to-q"><em>Which kata are athletes performing well with? Which do top athletes choose most?</em></p>
               </div>
             </div>
 
             <div class="how-to-card">
               <div class="how-to-icon">📈</div>
-              <div class="how-to-body">
+              <div class="how-to-body" data-i18n="howto.findAthlete">
                 <strong>Athlete Findings</strong>
                 <p>Charts ranking athletes by average score and win rate, scatter plots showing score vs. win rate, and a breakdown of which countries sent the most competitors. Each bar is clickable and navigates to that athlete's or country's detail card.</p>
+                <p>An <strong>Athlete Spotlight</strong> write-up above the charts highlights the season's standout performers.</p>
                 <p class="how-to-q"><em>Who are the top-scoring athletes? Which countries dominated?</em></p>
               </div>
             </div>
 
             <div class="how-to-card">
               <div class="how-to-icon">⚖️</div>
-              <div class="how-to-body">
+              <div class="how-to-body" data-i18n="howto.compare">
                 <strong>Male vs. Female</strong>
                 <p>Side-by-side gender comparison: kata performed exclusively by males, kata performed exclusively by females (shown as tables), a Venn diagram of the overlap, and the top 5 most popular kata per gender. A bar chart and sortable table show the Male − Female average score difference for every kata performed by both genders.</p>
                 <p class="how-to-q"><em>Are there kata only one gender performs? Which kata do males and females score most differently on?</em></p>
@@ -204,18 +221,18 @@
 
             <div class="how-to-card">
               <div class="how-to-icon">🥇</div>
-              <div class="how-to-body">
+              <div class="how-to-body" data-i18n="howto.medals">
                 <strong>Medals</strong>
                 <p>Side-by-side medal tables for male and female kata, sorted by gold medals by default. Shows each country's gold, silver, bronze, and total medal count across all nine tournaments. Click any column header to re-sort.</p>
                 <p class="how-to-q"><em>Which countries won the most medals this season?</em></p>
               </div>
             </div>
 
-            <div class="how-to-group">Reference</div>
+            <div class="how-to-group" data-i18n="howto.group.reference">Reference</div>
 
             <div class="how-to-card">
               <div class="how-to-icon">📋</div>
-              <div class="how-to-body">
+              <div class="how-to-body" data-i18n="howto.notesCard">
                 <strong>Important Notes</strong>
                 <p>How the data was collected, what is missing and why, kata tier definitions, WKF scoring rules, and guidance on interpreting win rate. Read this if anything on the site seems unclear or unexpected.</p>
                 <p class="how-to-q"><em>How was this data collected? What do the stats actually mean?</em></p>
@@ -224,7 +241,7 @@
 
             <div class="how-to-card">
               <div class="how-to-icon">👤</div>
-              <div class="how-to-body">
+              <div class="how-to-body" data-i18n="howto.aboutCard">
                 <strong>About</strong>
                 <p>Background on the author and the motivation behind this project, along with methodology notes and links to download the raw CSV data used to build the site.</p>
                 <p class="how-to-q"><em>Who made this site and why? Where can I get the raw data?</em></p>
@@ -254,18 +271,18 @@
         <thead>
           <tr>
             <th class="num row-num">#</th>
-            <th data-col="Kata" title="Name of the kata">Kata</th>
-            <th data-col="Kata_Tier" title="Classification by technical difficulty: Advanced or Intermediate">Tier</th>
-            <th data-col="Performances" class="num" title="Total times this kata was performed this season">Performances</th>
-            <th data-col="Unique_Karateka" class="num" title="Number of unique athletes who performed this kata">Athletes</th>
-            <th data-col="Mean_Score" class="num" title="Average score across all performances of this kata">Avg Score</th>
-            <th data-col="Median_Score" class="num" title="Middle score when all performances are sorted by score">Median</th>
-            <th data-col="Min_Score" class="num" title="Lowest score recorded for this kata">Min</th>
-            <th data-col="Max_Score" class="num" title="Highest score recorded for this kata">Max</th>
-            <th data-col="Range" class="num" title="Max score minus Min score — spread of scores for this kata">Range</th>
-            <th data-col="Std_Dev" class="num" title="Score consistency — lower means scores are more similar across performances">Std Dev</th>
-            <th data-col="Win_Rate" class="num" title="Percentage of performances where the athlete won the match">Win Rate</th>
-            <th data-col="Diff" class="num" title="How much kata scores deviate from their performers' personal averages, on average (kata avg score − athlete avg score)">Score Differential</th>
+            <th data-col="Kata" title="Name of the kata" data-i18n="col.kata" data-i18n-title="tip.kataName">Kata</th>
+            <th data-col="Kata_Tier" title="Classification by technical difficulty: Advanced or Intermediate" data-i18n="col.tier" data-i18n-title="tip.tier">Tier</th>
+            <th data-col="Performances" class="num" title="Total times this kata was performed this season" data-i18n="col.performances" data-i18n-title="tip.kataPerf">Performances</th>
+            <th data-col="Unique_Karateka" class="num" title="Number of unique athletes who performed this kata" data-i18n="col.athletes" data-i18n-title="tip.kataAthletes">Athletes</th>
+            <th data-col="Mean_Score" class="num" title="Average score across all performances of this kata" data-i18n="col.avgScore" data-i18n-title="tip.kataAvg">Avg Score</th>
+            <th data-col="Median_Score" class="num" title="Middle score when all performances are sorted by score" data-i18n="col.median" data-i18n-title="tip.kataMedian">Median</th>
+            <th data-col="Min_Score" class="num" title="Lowest score recorded for this kata" data-i18n="col.min" data-i18n-title="tip.kataMin">Min</th>
+            <th data-col="Max_Score" class="num" title="Highest score recorded for this kata" data-i18n="col.max" data-i18n-title="tip.kataMax">Max</th>
+            <th data-col="Range" class="num" title="Max score minus Min score — spread of scores for this kata" data-i18n="col.range" data-i18n-title="tip.kataRange">Range</th>
+            <th data-col="Std_Dev" class="num" title="Score consistency — lower means scores are more similar across performances" data-i18n="col.stdDev" data-i18n-title="tip.kataStd">Std Dev</th>
+            <th data-col="Win_Rate" class="num" title="Percentage of performances where the athlete won the match" data-i18n="col.winRate" data-i18n-title="tip.winRatePerf">Win Rate</th>
+            <th data-col="Diff" class="num" title="How much kata scores deviate from their performers' personal averages, on average (kata avg score − athlete avg score)" data-i18n="col.scoreDifferential" data-i18n-title="tip.kataScoreDiff">Score Differential</th>
           </tr>
         </thead>
         <tbody id="kata-summary-tbody" class="summary-body"></tbody>
@@ -285,18 +302,18 @@
         <thead>
           <tr>
             <th class="num row-num">#</th>
-            <th data-col="Karateka" title="Athlete's name">Athlete</th>
-            <th data-col="Country" title="Athlete's country">Country</th>
-            <th class="num" title="Medals won this season">Medals</th>
-            <th data-col="Performances" class="num" title="Total number of individual kata performances this season">Performances</th>
-            <th data-col="Tournaments_Attended" class="num" title="Number of tournaments the athlete competed in">Tournaments</th>
-            <th data-col="Mean_Score" class="num" title="Average score across all of the athlete's performances">Avg Score</th>
-            <th data-col="Median_Score" class="num" title="Middle score when all the athlete's scores are sorted">Median</th>
-            <th data-col="Min_Score" class="num" title="Lowest score the athlete received in any single performance">Min</th>
-            <th data-col="Max_Score" class="num" title="Highest score the athlete received in any single performance">Max</th>
-            <th data-col="Range" class="num" title="Max score minus Min score — spread of the athlete's scores">Range</th>
-            <th data-col="Win_Rate" class="num" title="Percentage of performances where the athlete won the match">Win Rate</th>
-            <th data-col="Differential" class="num" title="Average of the athlete's score minus the opponent's score across all their matches">Differential</th>
+            <th data-col="Karateka" title="Athlete's name" data-i18n="col.athlete" data-i18n-title="tip.athleteName">Athlete</th>
+            <th data-col="Country" title="Athlete's country" data-i18n="col.country" data-i18n-title="tip.athleteCountry">Country</th>
+            <th class="num" title="Medals won this season" data-i18n="col.medals" data-i18n-title="tip.medalsWon">Medals</th>
+            <th data-col="Performances" class="num" title="Total number of individual kata performances this season" data-i18n="col.performances" data-i18n-title="tip.athletePerf">Performances</th>
+            <th data-col="Tournaments_Attended" class="num" title="Number of tournaments the athlete competed in" data-i18n="col.tournaments" data-i18n-title="tip.athleteTourns">Tournaments</th>
+            <th data-col="Mean_Score" class="num" title="Average score across all of the athlete's performances" data-i18n="col.avgScore" data-i18n-title="tip.athleteAvg">Avg Score</th>
+            <th data-col="Median_Score" class="num" title="Middle score when all the athlete's scores are sorted" data-i18n="col.median" data-i18n-title="tip.athleteMedian">Median</th>
+            <th data-col="Min_Score" class="num" title="Lowest score the athlete received in any single performance" data-i18n="col.min" data-i18n-title="tip.athleteMin">Min</th>
+            <th data-col="Max_Score" class="num" title="Highest score the athlete received in any single performance" data-i18n="col.max" data-i18n-title="tip.athleteMax">Max</th>
+            <th data-col="Range" class="num" title="Max score minus Min score — spread of the athlete's scores" data-i18n="col.range" data-i18n-title="tip.athleteRange">Range</th>
+            <th data-col="Win_Rate" class="num" title="Percentage of performances where the athlete won the match" data-i18n="col.winRate" data-i18n-title="tip.winRatePerf">Win Rate</th>
+            <th data-col="Differential" class="num" title="Average of the athlete's score minus the opponent's score across all their matches" data-i18n="col.differential" data-i18n-title="tip.athleteDiff">Differential</th>
           </tr>
         </thead>
         <tbody id="karateka-summary-tbody" class="summary-body"></tbody>
@@ -314,12 +331,12 @@
         <thead>
           <tr>
             <th class="num row-num">#</th>
-            <th data-col="Tournament" title="Tournament name">Tournament</th>
-            <th data-col="Total_Performances" class="num" title="Total kata performances recorded at this tournament">Performances</th>
-            <th data-col="Unique_Karateka" class="num" title="Number of unique athletes who competed">Athletes</th>
-            <th data-col="Unique_Kata" class="num" title="Number of distinct kata performed at this tournament">Unique Kata</th>
-            <th data-col="Unique_Countries" class="num" title="Number of countries represented at this tournament">Countries</th>
-            <th data-col="Avg_Score" class="num" title="Average score across all performances at this tournament">Avg Score</th>
+            <th data-col="Tournament" title="Tournament name" data-i18n="col.tournament" data-i18n-title="tip.tournName">Tournament</th>
+            <th data-col="Total_Performances" class="num" title="Total kata performances recorded at this tournament" data-i18n="col.performances" data-i18n-title="tip.tournPerf">Performances</th>
+            <th data-col="Unique_Karateka" class="num" title="Number of unique athletes who competed" data-i18n="col.athletes" data-i18n-title="tip.uniqueAthletes">Athletes</th>
+            <th data-col="Unique_Kata" class="num" title="Number of distinct kata performed at this tournament" data-i18n="col.uniqueKata" data-i18n-title="tip.tournUniqueKata">Unique Kata</th>
+            <th data-col="Unique_Countries" class="num" title="Number of countries represented at this tournament" data-i18n="col.countries" data-i18n-title="tip.tournCountries">Countries</th>
+            <th data-col="Avg_Score" class="num" title="Average score across all performances at this tournament" data-i18n="col.avgScore" data-i18n-title="tip.tournAvg">Avg Score</th>
           </tr>
         </thead>
         <tbody id="tourn-summary-tbody" class="summary-body"></tbody>
@@ -340,14 +357,14 @@
         <thead>
           <tr>
             <th class="num row-num">#</th>
-            <th data-col="Country" title="Country name">Country</th>
-            <th data-col="Athletes" class="num" title="Number of unique athletes who competed">Athletes</th>
-            <th data-col="Performances" class="num" title="Total kata performances by athletes from this country">Performances</th>
-            <th data-col="Tournaments" class="num" title="Number of distinct tournaments athletes from this country attended">Tournaments</th>
-            <th data-col="Avg_Score" class="num" title="Weighted average score across all performances">Avg Score</th>
-            <th data-col="Best_Score" class="num" title="Highest single-performance score by any athlete from this country">Best Score</th>
-            <th data-col="Win_Rate" class="num" title="Weighted win rate across all performances">Win Rate</th>
-            <th data-col="Medals" class="num" title="Total medals won this season">Medals</th>
+            <th data-col="Country" title="Country name" data-i18n="col.country" data-i18n-title="tip.countryName">Country</th>
+            <th data-col="Athletes" class="num" title="Number of unique athletes who competed" data-i18n="col.athletes" data-i18n-title="tip.uniqueAthletes">Athletes</th>
+            <th data-col="Performances" class="num" title="Total kata performances by athletes from this country" data-i18n="col.performances" data-i18n-title="tip.countryPerf">Performances</th>
+            <th data-col="Tournaments" class="num" title="Number of distinct tournaments athletes from this country attended" data-i18n="col.tournaments" data-i18n-title="tip.countryTourns">Tournaments</th>
+            <th data-col="Avg_Score" class="num" title="Weighted average score across all performances" data-i18n="col.avgScore" data-i18n-title="tip.weightedAvg">Avg Score</th>
+            <th data-col="Best_Score" class="num" title="Highest single-performance score by any athlete from this country" data-i18n="col.bestScore" data-i18n-title="tip.countryBest">Best Score</th>
+            <th data-col="Win_Rate" class="num" title="Weighted win rate across all performances" data-i18n="col.winRate" data-i18n-title="tip.weightedWinRate">Win Rate</th>
+            <th data-col="Medals" class="num" title="Total medals won this season" data-i18n="col.medals" data-i18n-title="tip.totalMedals">Medals</th>
           </tr>
         </thead>
         <tbody id="countries-summary-tbody" class="summary-body"></tbody>
@@ -372,14 +389,14 @@
 
       <div class="finding-block" id="finding-k1">
         <span class="fig-label" data-fig="K-1">Figure K-1</span>
-        <h2 class="finding-title">Kata Popularity</h2>
+        <h2 class="finding-title" data-i18n="fig.kataPopularity">Kata Popularity</h2>
         <p class="finding-desc" id="insight-popularity"></p>
         <div class="chart-wrap tall"><canvas id="chart-popularity"></canvas></div>
       </div>
 
       <div class="finding-block" id="finding-k2">
         <span class="fig-label" data-fig="K-2">Figure K-2</span>
-        <h2 class="finding-title">Kata Average Score</h2>
+        <h2 class="finding-title" data-i18n="fig.kataAvgScore">Kata Average Score</h2>
         <p class="finding-desc" id="insight-avgscore"></p>
         <p class="finding-note" id="note-avgscore" style="font-size:12px;color:var(--text-muted);font-style:italic;margin-top:8px"></p>
         <div class="chart-wrap tall"><canvas id="chart-avgscore"></canvas></div>
@@ -387,28 +404,28 @@
 
       <div class="finding-block" id="finding-k3">
         <span class="fig-label" data-fig="K-3">Figure K-3</span>
-        <h2 class="finding-title">Kata Win Rate</h2>
+        <h2 class="finding-title" data-i18n="fig.kataWinRate">Kata Win Rate</h2>
         <p class="finding-desc" id="insight-winrate"></p>
         <div class="chart-wrap tall"><canvas id="chart-winrate"></canvas></div>
       </div>
 
       <div class="finding-block">
         <span class="fig-label" data-fig="K-4">Figure K-4</span>
-        <h2 class="finding-title">Performances vs. Average Score</h2>
+        <h2 class="finding-title" data-i18n="fig.perfVsScore">Performances vs. Average Score</h2>
         <p class="finding-desc" id="insight-scatter"></p>
         <div class="chart-wrap chart-wrap--square"><canvas id="chart-scatter"></canvas></div>
       </div>
 
       <div class="finding-block" id="finding-kk-avg">
         <span class="fig-label" data-fig="K-5">Figure K-5</span>
-        <h2 class="finding-title">Kata Score vs. Athlete's Average</h2>
+        <h2 class="finding-title" data-i18n="fig.kataVsAthleteAvg">Kata Score vs. Athlete's Average</h2>
         <p class="finding-desc" id="insight-kk-avg"></p>
         <div class="table-wrapper" style="max-width:540px">
           <table class="data-table" id="kata-kk-avg-table">
             <thead><tr>
-              <th data-col="Kata">Kata</th>
-              <th data-col="Diff" class="num">Diff vs Athlete Avg</th>
-              <th data-col="Performances" class="num">Performances</th>
+              <th data-col="Kata" data-i18n="col.kata">Kata</th>
+              <th data-col="Diff" class="num" data-i18n="col.diffVsAthleteAvg">Diff vs Athlete Avg</th>
+              <th data-col="Performances" class="num" data-i18n="col.performances">Performances</th>
             </tr></thead>
             <tbody id="kata-kk-avg-tbody"></tbody>
           </table>
@@ -418,14 +435,14 @@
 
       <div class="finding-block">
         <span class="fig-label" data-fig="K-6">Figure K-6</span>
-        <h2 class="finding-title">Standard Deviation of Kata Scores vs. Number of Performers</h2>
+        <h2 class="finding-title" data-i18n="fig.stddev">Standard Deviation of Kata Scores vs. Number of Performers</h2>
         <p class="finding-desc" id="insight-stddev"></p>
         <div class="table-wrapper" style="max-width:480px">
           <table class="data-table" id="kata-stddev-table">
             <thead><tr>
-              <th data-col="Kata">Kata</th>
-              <th data-col="Unique_Karateka" class="num">Unique Performers</th>
-              <th data-col="Std_Dev" class="num">Score Std Dev</th>
+              <th data-col="Kata" data-i18n="col.kata">Kata</th>
+              <th data-col="Unique_Karateka" class="num" data-i18n="col.uniquePerformers">Unique Performers</th>
+              <th data-col="Std_Dev" class="num" data-i18n="col.scoreStdDev">Score Std Dev</th>
             </tr></thead>
             <tbody id="kata-stddev-tbody"></tbody>
           </table>
@@ -435,14 +452,14 @@
 
       <div class="finding-block">
         <span class="fig-label" data-fig="K-7">Figure K-7</span>
-        <h2 class="finding-title">Average Score by Tournament</h2>
+        <h2 class="finding-title" data-i18n="fig.avgByTournament">Average Score by Tournament</h2>
         <p class="finding-desc" id="insight-tournament"></p>
         <div class="chart-wrap"><canvas id="chart-tournament"></canvas></div>
       </div>
 
       <div class="finding-block">
         <span class="fig-label" data-fig="K-8">Figure K-8</span>
-        <h2 class="finding-title">Kata Tier Breakdown</h2>
+        <h2 class="finding-title" data-i18n="fig.tierBreakdown">Kata Tier Breakdown</h2>
         <p class="finding-desc" id="insight-tier"></p>
         <div class="tier-charts">
           <div class="chart-wrap small"><canvas id="chart-tier-perfs"></canvas></div>
@@ -452,16 +469,16 @@
 
       <div class="finding-block">
         <span class="fig-label" data-fig="K-9">Figure K-9</span>
-        <h2 class="finding-title">Kata Tier Counts</h2>
+        <h2 class="finding-title" data-i18n="fig.tierCounts">Kata Tier Counts</h2>
         <p class="finding-desc" id="insight-tier-counts"></p>
         <div class="table-wrapper" style="max-width:640px">
           <table class="data-table" id="tier-counts-table">
             <thead><tr>
-              <th>Tier</th>
-              <th class="num">Kata in Tier</th>
-              <th class="num">Kata Performed</th>
-              <th class="num">Kata Unperformed</th>
-              <th class="num">Performances</th>
+              <th data-i18n="col.tier">Tier</th>
+              <th class="num" data-i18n="col.kataInTier">Kata in Tier</th>
+              <th class="num" data-i18n="col.kataPerformed">Kata Performed</th>
+              <th class="num" data-i18n="col.kataUnperformed">Kata Unperformed</th>
+              <th class="num" data-i18n="col.performances">Performances</th>
             </tr></thead>
             <tbody id="tier-counts-tbody"></tbody>
           </table>
@@ -470,7 +487,7 @@
 
       <div class="finding-block">
         <span class="fig-label" data-fig="K-10">Figure K-10</span>
-        <h2 class="finding-title">Performed &amp; Unperformed Kata by Tier</h2>
+        <h2 class="finding-title" data-i18n="fig.performedByTier">Performed &amp; Unperformed Kata by Tier</h2>
         <p class="finding-desc" id="insight-performed"></p>
         <div id="performed-kata-grid" class="performed-kata-grid"></div>
       </div>
@@ -487,21 +504,21 @@
 
       <div class="finding-block" id="finding-a1">
         <span class="fig-label" data-fig="A-1">Figure A-1</span>
-        <h2 class="finding-title">Top 20 Athletes by Average Score</h2>
+        <h2 class="finding-title" data-i18n="fig.top20Avg">Top 20 Athletes by Average Score</h2>
         <p class="finding-desc" id="insight-k-avgscore"></p>
         <div class="chart-wrap medium"><canvas id="chart-k-avgscore"></canvas></div>
       </div>
 
       <div class="finding-block" id="finding-a2">
         <span class="fig-label" data-fig="A-2">Figure A-2</span>
-        <h2 class="finding-title">Top 20 Athletes by Win Rate</h2>
+        <h2 class="finding-title" data-i18n="fig.top20WinRate">Top 20 Athletes by Win Rate</h2>
         <p class="finding-desc" id="insight-k-winrate"></p>
         <div class="chart-wrap medium"><canvas id="chart-k-winrate"></canvas></div>
       </div>
 
       <div class="finding-block">
         <span class="fig-label" data-fig="A-3">Figure A-3</span>
-        <h2 class="finding-title">Athletes by Country</h2>
+        <h2 class="finding-title" data-i18n="fig.athletesByCountry">Athletes by Country</h2>
         <p class="finding-desc" id="insight-country"></p>
         <div class="chart-wrap medium"><canvas id="chart-country"></canvas></div>
       </div>
@@ -514,29 +531,29 @@
     <div class="notes-content">
 
       <div class="note-section full-width">
-        <h2>About the Data</h2>
-        <p>Data was manually collected from official WKF live scoring sheets and publicly available tournament results. The dataset covers <strong>9 tournaments</strong>: the four 2024 Karate1 Premier League events (Paris, Antalya, Cairo, Casablanca), the four 2025 K1 events (Cairo, Hangzhou, Paris, Rabat), and the 2025 World Karate Championships in Cairo.</p>
-        <p>Only the <strong>average score</strong> (Avg Score) is retained — the raw total score has been dropped. All analyses involving scores use the average score only.</p>
+        <h2 data-i18n="notes.aboutData.h">About the Data</h2>
+        <p data-i18n="notes.aboutData.p1">Data was manually collected from official WKF live scoring sheets and publicly available tournament results. The dataset covers <strong>9 tournaments</strong>: the four 2024 Karate1 Premier League events (Paris, Antalya, Cairo, Casablanca), the four 2025 K1 events (Cairo, Hangzhou, Paris, Rabat), and the 2025 World Karate Championships in Cairo.</p>
+        <p data-i18n="notes.aboutData.p2">Only the <strong>average score</strong> (Avg Score) is retained — the raw total score has been dropped. All analyses involving scores use the average score only.</p>
       </div>
 
       <div class="note-section full-width">
-        <h2>Missing Data</h2>
-        <p>The tables below summarize missing data for each gender. Analyses involving kata names or scores only use rows where that data is present.</p>
+        <h2 data-i18n="notes.missing.h">Missing Data</h2>
+        <p data-i18n="notes.missing.p1">The tables below summarize missing data for each gender. Analyses involving kata names or scores only use rows where that data is present.</p>
         <div class="missing-tables">
           <div>
-            <h3>Male</h3>
+            <h3 data-i18n="lbl.male">Male</h3>
             <div class="table-wrapper" style="max-width:540px">
               <table class="data-table" id="missing-table-male">
-                <thead><tr><th>Metric</th><th class="num">Count</th><th class="num">Percent</th></tr></thead>
+                <thead><tr><th data-i18n="col.metric">Metric</th><th class="num" data-i18n="col.count">Count</th><th class="num" data-i18n="col.percent">Percent</th></tr></thead>
                 <tbody id="missing-tbody-male"></tbody>
               </table>
             </div>
           </div>
           <div>
-            <h3>Female</h3>
+            <h3 data-i18n="lbl.female">Female</h3>
             <div class="table-wrapper" style="max-width:540px">
               <table class="data-table" id="missing-table-female">
-                <thead><tr><th>Metric</th><th class="num">Count</th><th class="num">Percent</th></tr></thead>
+                <thead><tr><th data-i18n="col.metric">Metric</th><th class="num" data-i18n="col.count">Count</th><th class="num" data-i18n="col.percent">Percent</th></tr></thead>
                 <tbody id="missing-tbody-female"></tbody>
               </table>
             </div>
@@ -545,34 +562,34 @@
       </div>
 
       <div class="note-section">
-        <h2>Kata Tier System</h2>
-        <p>Kata are classified into three tiers — <strong>Advanced</strong>, <strong>Intermediate</strong>, and <strong>Beginner</strong> — based on the USA Karate - Official Kata List (see <a href="#" onclick="switchToTab('references');return false;" style="color:var(--red)">Figure App-2 in References</a> for more information).</p>
-        <p>In competition, a competitor may only perform a kata from their tier or lower. For example, a competitor in an Intermediate Kata Division may not perform an Advanced kata; they must perform an Intermediate or Beginner kata.</p>
-        <p>At Tier 1 WKF Events, all divisions are Advanced, meaning any kata may be performed (Advanced, Intermediate, or Beginner).</p>
+        <h2 data-i18n="notes.tier.h">Kata Tier System</h2>
+        <p data-i18n="notes.tier.p1">Kata are classified into three tiers — <strong>Advanced</strong>, <strong>Intermediate</strong>, and <strong>Beginner</strong> — based on the USA Karate - Official Kata List (see <a href="#" onclick="switchToTab('references');return false;" style="color:var(--red)">Figure App-2 in References</a> for more information).</p>
+        <p data-i18n="notes.tier.p2">In competition, a competitor may only perform a kata from their tier or lower. For example, a competitor in an Intermediate Kata Division may not perform an Advanced kata; they must perform an Intermediate or Beginner kata.</p>
+        <p data-i18n="notes.tier.p3">At Tier 1 WKF Events, all divisions are Advanced, meaning any kata may be performed (Advanced, Intermediate, or Beginner).</p>
         <ul>
-          <li><strong>Advanced</strong> — High-difficulty kata featuring complex techniques, unusual stances, or rare traditional forms. Almost exclusively performed at elite international level. Examples: Suparinpei, Unsu, Ohan, Papuren, Gojushiho Sho.</li>
-          <li><strong>Intermediate</strong> — Mid-level kata common at national and continental level, occasionally seen at WKF events. Examples: Shisochin, Seienchin, Kanku Dai.</li>
-          <li><strong>Beginner</strong> — Lower-difficulty kata rarely seen at this level of competition.</li>
+          <li data-i18n="notes.tier.li1"><strong>Advanced</strong> — High-difficulty kata featuring complex techniques, unusual stances, or rare traditional forms. Almost exclusively performed at elite international level. Examples: Suparinpei, Unsu, Ohan, Papuren, Gojushiho Sho.</li>
+          <li data-i18n="notes.tier.li2"><strong>Intermediate</strong> — Mid-level kata common at national and continental level, occasionally seen at WKF events. Examples: Shisochin, Seienchin, Kanku Dai.</li>
+          <li data-i18n="notes.tier.li3"><strong>Beginner</strong> — Lower-difficulty kata rarely seen at this level of competition.</li>
         </ul>
       </div>
 
       <div class="note-section">
-        <h2>WKF Scoring System</h2>
-        <p>Seven judges each assign a score from 0–10. The highest and lowest scores are discarded; the remaining five are averaged to produce the final score. This dataset records only this <strong>average score</strong>. A score above <strong>8.0</strong> is generally considered competitive at the K1 Premier League level; top finals performances regularly reach 8.5–9.0.</p>
+        <h2 data-i18n="notes.scoring.h">WKF Scoring System</h2>
+        <p data-i18n="notes.scoring.p1">Seven judges each assign a score from 0–10. The highest and lowest scores are discarded; the remaining five are averaged to produce the final score. This dataset records only this <strong>average score</strong>. A score above <strong>8.0</strong> is generally considered competitive at the K1 Premier League level; top finals performances regularly reach 8.5–9.0.</p>
       </div>
 
       <div class="note-section">
-        <h2>The "Won?" Field</h2>
-        <p>Two athletes compete simultaneously in a head-to-head match. Both perform their kata, and judges determine the winner by raising a flag. <strong>Won?</strong> records whether the athlete won that match. Win rate across multiple performances indicates how often a given kata choice — or athlete — leads to victory, though it is influenced by many factors beyond the kata itself.</p>
+        <h2 data-i18n="notes.won.h">The "Won?" Field</h2>
+        <p data-i18n="notes.won.p1">Two athletes compete simultaneously in a head-to-head match. Both perform their kata, and judges determine the winner by raising a flag. <strong>Won?</strong> records whether the athlete won that match. Win rate across multiple performances indicates how often a given kata choice — or athlete — leads to victory, though it is influenced by many factors beyond the kata itself.</p>
       </div>
 
       <div class="note-section">
-        <h2>Notes on Interpretation</h2>
+        <h2 data-i18n="notes.interp.h">Notes on Interpretation</h2>
         <ul>
-          <li>Kata with fewer than ~10 performances may have skewed statistics due to small sample size.</li>
-          <li>A kata with a high average score may simply be performed by a smaller pool of elite specialists — not necessarily "better" than other kata.</li>
-          <li>Male and female events are entirely separate. Do not compare scores across genders.</li>
-          <li>Athletes who competed in only one or two tournaments may have unrepresentative stats.</li>
+          <li data-i18n="notes.interp.li1">Kata with fewer than ~10 performances may have skewed statistics due to small sample size.</li>
+          <li data-i18n="notes.interp.li2">A kata with a high average score may simply be performed by a smaller pool of elite specialists — not necessarily "better" than other kata.</li>
+          <li data-i18n="notes.interp.li3">Male and female events are entirely separate. Do not compare scores across genders.</li>
+          <li data-i18n="notes.interp.li4">Athletes who competed in only one or two tournaments may have unrepresentative stats.</li>
         </ul>
       </div>
 
@@ -586,20 +603,20 @@
       <!-- ── Left: main content ── -->
       <div class="about-main">
 
-        <blockquote class="dedication">
+        <blockquote class="dedication" data-i18n="about.dedication">
           This work is dedicated to Shihan Carl Hultin, who gave me a lifelong passion for Karate
           and self-improvement through hard work.
         </blockquote>
 
         <div class="note-section">
-          <h2>About Me</h2>
-          <p>
+          <h2 data-i18n="about.me.h">About Me</h2>
+          <p data-i18n="about.me.p1">
             I grew up in California and began training in karate at age six. I train
             <strong>Hayashi-ha Shito-ryu</strong>, but when I entered university I joined the campus
             Shotokan Karate club, training in Shotokan alongside my Shito-ryu practice — and I now
             coach that same club.
           </p>
-          <p>
+          <p data-i18n="about.me.p2">
             I have been competing since I was ten years old. Kata has always been the dimension of
             karate I find most compelling: the depth of technique, the demands of precision under
             pressure, and the endless pursuit of refinement.
@@ -607,8 +624,8 @@
         </div>
 
         <div class="note-section">
-          <h2>Why I Made This</h2>
-          <p>
+          <h2 data-i18n="about.why.h">Why I Made This</h2>
+          <p data-i18n="about.why.p1">
             I've always been interested in kata competition and why people choose certain kata and
             whether there are useful trends in kata selection and performance. Also, I was just
             curious about what every kata's median score, max score, etc. was. At university, I
@@ -616,7 +633,7 @@
             To answer my questions, I took the analytical skills from that class and applied them
             to elite international kata competition.
           </p>
-          <p>
+          <p data-i18n="about.why.p2">
             This project is a resource for me (and hopefully many other curious people) to answer
             as many questions as I can. I want a clearer picture of which kata are chosen at the
             highest level, how scores compare across athletes, and what patterns emerge over a full
@@ -625,16 +642,16 @@
         </div>
 
         <div class="note-section">
-          <h2>Methodology</h2>
-          <p>
+          <h2 data-i18n="about.method.h">Methodology</h2>
+          <p data-i18n="about.method.p1">
             Performance data was manually collected from official WKF scoring sheets and tournament
             results across all nine events of the 2024–25 season. Python was used as the primary
             language for data processing and analysis, with the following libraries:
           </p>
           <ul>
-            <li><strong>Pandas</strong> — for structuring, cleaning, and manipulating the dataset</li>
-            <li><strong>NumPy</strong> — for numerical computations and descriptive statistics</li>
-            <li><strong>Chart.js</strong> — for all interactive charts on this site</li>
+            <li data-i18n="about.method.li1"><strong>Pandas</strong> — for structuring, cleaning, and manipulating the dataset</li>
+            <li data-i18n="about.method.li2"><strong>NumPy</strong> — for numerical computations and descriptive statistics</li>
+            <li data-i18n="about.method.li3"><strong>Chart.js</strong> — for all interactive charts on this site</li>
           </ul>
 
         </div>
@@ -643,8 +660,8 @@
 
       <!-- ── Right: sidebar ── -->
       <div class="about-sidebar">
-        <h3>Download the Data</h3>
-        <p style="font-size:12px;color:var(--text-muted);margin-bottom:4px">
+        <h3 data-i18n="about.download.h">Download the Data</h3>
+        <p style="font-size:12px;color:var(--text-muted);margin-bottom:4px" data-i18n="about.download.p">
           Raw datasets are available on the <a href="#" onclick="switchToTab('references');return false;" style="color:var(--red)">References</a> tab.
         </p>
       </div>
@@ -657,43 +674,43 @@
 
   <!-- ══════════════════════════════════════════════════════ COMPARE TAB -->
   <section id="tab-compare" class="tab-content hidden">
-    <h2 class="section-title">Male vs. Female Kata — Season Comparison</h2>
-    <p style="font-size:13px;color:var(--text-muted);margin-bottom:24px">This tab compares both genders simultaneously and is not affected by the Male / Female toggle.</p>
+    <h2 class="section-title" data-i18n="title.compare">Male vs. Female Kata — Season Comparison</h2>
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:24px" data-i18n="compare.sub">This tab compares both genders simultaneously and is not affected by the Male / Female toggle.</p>
     <div id="compare-content"><p style="color:var(--text-muted)">Loading…</p></div>
   </section>
 
   <!-- ══════════════════════════════════════════════════════ REFERENCES TAB -->
   <section id="tab-references" class="tab-content hidden">
-    <h2 class="section-title">References</h2>
+    <h2 class="section-title" data-i18n="title.references">References</h2>
 
     <!-- Download the Data -->
-    <h3 class="ref-section-head">Download the Data</h3>
+    <h3 class="ref-section-head" data-i18n="ref.downloadHead">Download the Data</h3>
     <div class="ref-layout" style="margin-bottom:32px">
       <div class="ref-card">
-        <div class="ref-label">Raw Dataset</div>
-        <div class="ref-title">Male Kata — 2024–25 Season</div>
-        <div class="ref-meta" style="margin-bottom:10px">All male kata performances recorded this season</div>
-        <a class="download-link" href="data/Male2425Season.csv" download onclick="return confirm('Download Male Kata 2024–25 Season data as a CSV file?')">⬇ Download CSV</a>
+        <div class="ref-label" data-i18n="ref.rawDataset">Raw Dataset</div>
+        <div class="ref-title" data-i18n="ref.maleTitle">Male Kata — 2024–25 Season</div>
+        <div class="ref-meta" style="margin-bottom:10px" data-i18n="ref.maleMeta">All male kata performances recorded this season</div>
+        <a class="download-link" href="data/Male2425Season.csv" download onclick="return confirm('Download Male Kata 2024–25 Season data as a CSV file?')" data-i18n="ref.downloadCsv">⬇ Download CSV</a>
       </div>
       <div class="ref-card">
-        <div class="ref-label">Raw Dataset</div>
-        <div class="ref-title">Female Kata — 2024–25 Season</div>
-        <div class="ref-meta" style="margin-bottom:10px">All female kata performances recorded this season</div>
-        <a class="download-link" href="data/Female2425Season.csv" download onclick="return confirm('Download Female Kata 2024–25 Season data as a CSV file?')">⬇ Download CSV</a>
+        <div class="ref-label" data-i18n="ref.rawDataset">Raw Dataset</div>
+        <div class="ref-title" data-i18n="ref.femaleTitle">Female Kata — 2024–25 Season</div>
+        <div class="ref-meta" style="margin-bottom:10px" data-i18n="ref.femaleMeta">All female kata performances recorded this season</div>
+        <a class="download-link" href="data/Female2425Season.csv" download onclick="return confirm('Download Female Kata 2024–25 Season data as a CSV file?')" data-i18n="ref.downloadCsv">⬇ Download CSV</a>
       </div>
       <div class="ref-card">
-        <div class="ref-label">Raw Dataset</div>
-        <div class="ref-title">Tournament Placements</div>
-        <div class="ref-meta" style="margin-bottom:10px">Gold, Silver, and Bronze medalists for each tournament</div>
-        <a class="download-link" href="data/Placements.csv" download onclick="return confirm('Download Tournament Placements data as a CSV file?')">⬇ Download CSV</a>
+        <div class="ref-label" data-i18n="ref.rawDataset">Raw Dataset</div>
+        <div class="ref-title" data-i18n="ref.placementsTitle">Tournament Placements</div>
+        <div class="ref-meta" style="margin-bottom:10px" data-i18n="ref.placementsMeta">Gold, Silver, and Bronze medalists for each tournament</div>
+        <a class="download-link" href="data/Placements.csv" download onclick="return confirm('Download Tournament Placements data as a CSV file?')" data-i18n="ref.downloadCsv">⬇ Download CSV</a>
       </div>
     </div>
 
     <!-- Competition Rules Documents -->
-    <h3 class="ref-section-head">Competition Rules</h3>
+    <h3 class="ref-section-head" data-i18n="ref.rulesHead">Competition Rules</h3>
     <div class="ref-layout" style="margin-bottom:32px">
       <div class="ref-card">
-        <div class="ref-label">Competition Rules Document</div>
+        <div class="ref-label" data-i18n="ref.rulesDoc">Competition Rules Document</div>
         <div class="ref-title">
           <a href="https://assets.contentstack.io/v3/assets/blteb7d012fc7ebef7f/bltfb1159754e7987ee/695eabb4b83bb88d079c15a5/USA_Karate_Rules_of_Competition_January_1_2026.pdf"
              target="_blank" rel="noopener" class="ref-link">
@@ -703,7 +720,7 @@
         <div class="ref-meta">USA Karate · 2026</div>
       </div>
       <div class="ref-card">
-        <div class="ref-label">Competition Rules Document</div>
+        <div class="ref-label" data-i18n="ref.rulesDoc">Competition Rules Document</div>
         <div class="ref-title">
           <a href="https://www.wkf.net/files/pdf/documents/WKF%20Kata%20Competition%20Rules%202026%20MASTER%20COPY_V2.pdf"
              target="_blank" rel="noopener" class="ref-link">
@@ -715,21 +732,21 @@
     </div>
 
     <!-- Appendix -->
-    <h3 class="ref-section-head">Appendix</h3>
+    <h3 class="ref-section-head" data-i18n="ref.appendixHead">Appendix</h3>
     <div class="ref-layout">
       <div class="ref-card">
         <span class="fig-label">Figure App-1</span>
-        <div class="ref-title">Official Kata List</div>
-        <div class="ref-meta">From: WKF Kata Competition Rules 2026</div>
+        <div class="ref-title" data-i18n="ref.officialList">Official Kata List</div>
+        <div class="ref-meta" data-i18n="ref.fromWkf">From: WKF Kata Competition Rules 2026</div>
         <div class="ref-img-wrap">
           <img src="images/ref-wkf-kata-list.PNG" alt="WKF Appendix 1 – Official Kata List" class="ref-img">
         </div>
       </div>
       <div class="ref-card">
         <span class="fig-label">Figure App-2</span>
-        <div class="ref-label">Official List</div>
-        <div class="ref-title">USA Karate — Official Kata List</div>
-        <div class="ref-meta">From: USA Karate Rules of Competition, January 1, 2026</div>
+        <div class="ref-label" data-i18n="ref.officialListLabel">Official List</div>
+        <div class="ref-title" data-i18n="ref.usaListTitle">USA Karate — Official Kata List</div>
+        <div class="ref-meta" data-i18n="ref.fromUsa">From: USA Karate Rules of Competition, January 1, 2026</div>
         <div class="ref-img-wrap">
           <img src="images/ref-usa-karate-kata-list.PNG" alt="USA Karate – Official Kata List with tier classifications" class="ref-img">
         </div>
@@ -739,6 +756,7 @@
   </section>
 
   <div id="map-tooltip" style="position:fixed;display:none;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:6px 10px;font-size:12px;pointer-events:none;z-index:2000;box-shadow:0 2px 8px rgba(0,0,0,0.15)"></div>
+  <script src="other/i18n.js"></script>
   <script src="other/app.js"></script>
 </body>
 </html>
