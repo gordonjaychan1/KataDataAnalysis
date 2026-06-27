@@ -296,6 +296,7 @@
             <th data-col="Max_Score" class="num" title="Highest score the athlete received in any single performance">Max</th>
             <th data-col="Range" class="num" title="Max score minus Min score — spread of the athlete's scores">Range</th>
             <th data-col="Win_Rate" class="num" title="Percentage of performances where the athlete won the match">Win Rate</th>
+            <th data-col="Differential" class="num" title="Average of the athlete's score minus the opponent's score across all their matches">Differential</th>
           </tr>
         </thead>
         <tbody id="karateka-summary-tbody" class="summary-body"></tbody>
@@ -370,35 +371,36 @@
       <div id="kata-findings-text"></div>
 
       <div class="finding-block" id="finding-k1">
-        <span class="fig-label">Figure K-1</span>
+        <span class="fig-label" data-fig="K-1">Figure K-1</span>
         <h2 class="finding-title">Kata Popularity</h2>
         <p class="finding-desc" id="insight-popularity"></p>
         <div class="chart-wrap tall"><canvas id="chart-popularity"></canvas></div>
       </div>
 
       <div class="finding-block" id="finding-k2">
-        <span class="fig-label">Figure K-2</span>
+        <span class="fig-label" data-fig="K-2">Figure K-2</span>
         <h2 class="finding-title">Kata Average Score</h2>
         <p class="finding-desc" id="insight-avgscore"></p>
+        <p class="finding-note" id="note-avgscore" style="font-size:12px;color:var(--text-muted);font-style:italic;margin-top:8px"></p>
         <div class="chart-wrap tall"><canvas id="chart-avgscore"></canvas></div>
       </div>
 
       <div class="finding-block" id="finding-k3">
-        <span class="fig-label">Figure K-3</span>
+        <span class="fig-label" data-fig="K-3">Figure K-3</span>
         <h2 class="finding-title">Kata Win Rate</h2>
         <p class="finding-desc" id="insight-winrate"></p>
         <div class="chart-wrap tall"><canvas id="chart-winrate"></canvas></div>
       </div>
 
       <div class="finding-block">
-        <span class="fig-label">Figure K-4</span>
+        <span class="fig-label" data-fig="K-4">Figure K-4</span>
         <h2 class="finding-title">Performances vs. Average Score</h2>
         <p class="finding-desc" id="insight-scatter"></p>
         <div class="chart-wrap chart-wrap--square"><canvas id="chart-scatter"></canvas></div>
       </div>
 
       <div class="finding-block" id="finding-kk-avg">
-        <span class="fig-label">Figure K-5</span>
+        <span class="fig-label" data-fig="K-5">Figure K-5</span>
         <h2 class="finding-title">Kata Score vs. Athlete's Average</h2>
         <p class="finding-desc" id="insight-kk-avg"></p>
         <div class="table-wrapper" style="max-width:540px">
@@ -415,7 +417,7 @@
       </div>
 
       <div class="finding-block">
-        <span class="fig-label">Figure K-6</span>
+        <span class="fig-label" data-fig="K-6">Figure K-6</span>
         <h2 class="finding-title">Standard Deviation of Kata Scores vs. Number of Performers</h2>
         <p class="finding-desc" id="insight-stddev"></p>
         <div class="table-wrapper" style="max-width:480px">
@@ -432,14 +434,14 @@
       </div>
 
       <div class="finding-block">
-        <span class="fig-label">Figure K-7</span>
+        <span class="fig-label" data-fig="K-7">Figure K-7</span>
         <h2 class="finding-title">Average Score by Tournament</h2>
         <p class="finding-desc" id="insight-tournament"></p>
         <div class="chart-wrap"><canvas id="chart-tournament"></canvas></div>
       </div>
 
       <div class="finding-block">
-        <span class="fig-label">Figure K-8</span>
+        <span class="fig-label" data-fig="K-8">Figure K-8</span>
         <h2 class="finding-title">Kata Tier Breakdown</h2>
         <p class="finding-desc" id="insight-tier"></p>
         <div class="tier-charts">
@@ -449,7 +451,7 @@
       </div>
 
       <div class="finding-block">
-        <span class="fig-label">Figure K-9</span>
+        <span class="fig-label" data-fig="K-9">Figure K-9</span>
         <h2 class="finding-title">Kata Tier Counts</h2>
         <p class="finding-desc" id="insight-tier-counts"></p>
         <div class="table-wrapper" style="max-width:640px">
@@ -467,7 +469,7 @@
       </div>
 
       <div class="finding-block">
-        <span class="fig-label">Figure K-10</span>
+        <span class="fig-label" data-fig="K-10">Figure K-10</span>
         <h2 class="finding-title">Performed &amp; Unperformed Kata by Tier</h2>
         <p class="finding-desc" id="insight-performed"></p>
         <div id="performed-kata-grid" class="performed-kata-grid"></div>
@@ -484,21 +486,21 @@
       <div id="athlete-findings-text"></div>
 
       <div class="finding-block" id="finding-a1">
-        <span class="fig-label">Figure A-1</span>
+        <span class="fig-label" data-fig="A-1">Figure A-1</span>
         <h2 class="finding-title">Top 20 Athletes by Average Score</h2>
         <p class="finding-desc" id="insight-k-avgscore"></p>
         <div class="chart-wrap medium"><canvas id="chart-k-avgscore"></canvas></div>
       </div>
 
       <div class="finding-block" id="finding-a2">
-        <span class="fig-label">Figure A-2</span>
+        <span class="fig-label" data-fig="A-2">Figure A-2</span>
         <h2 class="finding-title">Top 20 Athletes by Win Rate</h2>
         <p class="finding-desc" id="insight-k-winrate"></p>
         <div class="chart-wrap medium"><canvas id="chart-k-winrate"></canvas></div>
       </div>
 
       <div class="finding-block">
-        <span class="fig-label">Figure A-3</span>
+        <span class="fig-label" data-fig="A-3">Figure A-3</span>
         <h2 class="finding-title">Athletes by Country</h2>
         <p class="finding-desc" id="insight-country"></p>
         <div class="chart-wrap medium"><canvas id="chart-country"></canvas></div>

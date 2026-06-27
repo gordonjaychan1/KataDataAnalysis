@@ -163,7 +163,13 @@ const ISO2 = {
 };
 function medalEmoji(medals) {
   if (!medals || !medals.length) return "";
-  return medals.map(m => m.Place === 1 ? "🥇" : m.Place === 2 ? "🥈" : "🥉").join("");
+  return medalsChrono(medals).map(m => m.Place === 1 ? "🥇" : m.Place === 2 ? "🥈" : "🥉").join("");
+}
+
+/* Medals sorted by when the tournament happened (earliest first) */
+function medalsChrono(medals) {
+  return [...(medals || [])].sort((a, b) =>
+    (TOURN_ORDER[a.Tournament] ?? 99) - (TOURN_ORDER[b.Tournament] ?? 99));
 }
 
 function flagOf(country) {
@@ -212,6 +218,41 @@ function addKataDiffs() {
   }
 }
 
+/* For every performance, find the opponent's score in that same match and
+   compute the score difference. Also roll those up into each athlete's overall
+   differential (mean of score − opponent score across all matched performances). */
+function addAthleteDifferentials() {
+  for (const g of ["male", "female"]) {
+    const rows = DATA.karateka[g] || [];
+    /* key: Tournament|Round|Karateka|Opponent -> that athlete's score in the match */
+    const scoreByMatch = new Map();
+    for (const r of rows) {
+      for (const p of (r.Performances_Detail || [])) {
+        if (p.Avg_Score == null) continue;
+        scoreByMatch.set(`${p.Tournament}|${p.Round}|${r.Karateka}|${p.Opponent}`, p.Avg_Score);
+      }
+    }
+    for (const r of rows) {
+      let sum = 0, n = 0;
+      for (const p of (r.Performances_Detail || [])) {
+        const oppScore = p.Opponent != null
+          ? scoreByMatch.get(`${p.Tournament}|${p.Round}|${p.Opponent}|${r.Karateka}`)
+          : undefined;
+        if (p.Avg_Score != null && oppScore != null) {
+          p._oppScore = oppScore;
+          p._diff = +(p.Avg_Score - oppScore).toFixed(2);
+          sum += p.Avg_Score - oppScore;
+          n++;
+        } else {
+          p._oppScore = null;
+          p._diff = null;
+        }
+      }
+      r.Differential = n ? +(sum / n).toFixed(3) : null;
+    }
+  }
+}
+
 function init() {
   setupGlobalToggle();
   setupTabs();
@@ -225,6 +266,7 @@ function init() {
   });
   buildMissingTables();
   addKataDiffs();
+  addAthleteDifferentials();
   setupBackButton();
   setupGlobalSearch();
   renderAll();
@@ -279,7 +321,19 @@ function splitTableScroll(tableId) {
   wrapper.dataset.split = tableId;
 }
 
+/* Figure id for the current gender: male keeps the base (e.g. "K-1"),
+   female gets an "F" prefix (e.g. "FK-1"). Used for labels and in-text refs. */
+function figName(base) {
+  return (gender === "female" ? "F" : "") + base;
+}
+function updateFigureLabels() {
+  document.querySelectorAll(".fig-label[data-fig]").forEach(el => {
+    el.textContent = "Figure " + figName(el.dataset.fig);
+  });
+}
+
 function renderAll() {
+  updateFigureLabels();
   updateHeaderSub();
   renderWelcomeStats();
   renderWelcomeVideo();
@@ -947,7 +1001,7 @@ function showKataCard(r) {
   const rk = (field, asc) => { const v = rankOf(field, asc); return v ? `<div class="stat-rank">${v}</div>` : ""; };
   const rkFig = (field, asc, tab, figId) => {
     const v = rankOf(field, asc);
-    return v ? `<div class="stat-rank"><a href="#" onclick="switchToTab('${tab}');setTimeout(()=>document.getElementById('${figId}')?.scrollIntoView({behavior:'smooth',block:'start'}),80);return false;" style="color:var(--red);text-decoration:none;font-weight:700;font-size:13px" title="See Figure ${figId.replace('finding-','').toUpperCase()}">${v}</a></div>` : "";
+    return v ? `<div class="stat-rank"><a href="#" onclick="switchToTab('${tab}');setTimeout(()=>document.getElementById('${figId}')?.scrollIntoView({behavior:'smooth',block:'start'}),80);return false;" style="color:var(--red);text-decoration:none;font-weight:700;font-size:13px" title="See Figure ${figName(figId.replace('finding-','').replace(/([a-z]+)(\d+)/i,'$1-$2').toUpperCase())}">${v}</a></div>` : "";
   };
 
   const scoreMissing = r.Performances > 0 && r.Mean_Score == null;
@@ -1070,7 +1124,7 @@ function renderKaratekaTable() {
   let rows = sortData(DATA.karateka[gender], s.col, s.dir);
   if (q) rows = rows.filter(r => r.Karateka && r.Karateka.toLowerCase().includes(q));
   if (!rows.length) {
-    document.getElementById("karateka-tbody").innerHTML = `<tr><td colspan="12" style="text-align:center;padding:32px;color:var(--text-muted)">No athletes match "${esc(q)}"</td></tr>`;
+    document.getElementById("karateka-tbody").innerHTML = `<tr><td colspan="13" style="text-align:center;padding:32px;color:var(--text-muted)">No athletes match "${esc(q)}"</td></tr>`;
     return;
   }
   document.getElementById("karateka-tbody").innerHTML = rows.map((r, i) => `
@@ -1087,6 +1141,7 @@ function renderKaratekaTable() {
       <td class="num">${fmt2(r.Max_Score)}</td>
       <td class="num">${r.Max_Score != null && r.Min_Score != null ? fmt2(r.Max_Score - r.Min_Score) : "—"}</td>
       <td class="num">${fmtPct(r.Win_Rate)}</td>
+      <td class="num" style="color:${r.Differential == null ? "inherit" : r.Differential > 0 ? "#3a6e3a" : r.Differential < 0 ? "var(--red)" : "inherit"};font-weight:600">${r.Differential == null ? "—" : (r.Differential > 0 ? "+" : "") + r.Differential.toFixed(3)}</td>
     </tr>`).join("");
   /* averages row */
   const allKar = DATA.karateka[gender];
@@ -1120,6 +1175,7 @@ function renderKaratekaTable() {
     <td class="num" title="Absolute highest score recorded by any athlete in any single performance this season">${fmt2(isFinite(absMaxK) ? absMaxK : null)}</td>
     <td class="num" title="Difference between the season's absolute highest and lowest scores">${absRangeK}</td>
     <td class="num" title="Weighted win rate across all athletes — always near 50% since every match has a winner and a loser">${fmtPct(wWRKar)}</td>
+    <td class="num" title="Mean of each athlete's differential — close to zero since every match's winner and loser cancel out">${(() => { const d = avgK("Differential"); return d == null ? "—" : (d > 0 ? "+" : "") + d.toFixed(3); })()}</td>
   </tr>`;
   document.querySelectorAll("#karateka-tbody tr").forEach(tr => {
     tr.addEventListener("click", () => {
@@ -1134,7 +1190,7 @@ function showKaratekaCard(r) {
   const scoredPerfs = perfs.filter(p => p.Avg_Score != null && p.Kata);
   const bestPerf  = scoredPerfs.reduce((best, p)  => (p.Avg_Score > (best?.Avg_Score  ?? -Infinity) ? p : best),  null);
   const worstPerf = scoredPerfs.reduce((worst, p) => (p.Avg_Score < (worst?.Avg_Score ??  Infinity) ? p : worst), null);
-  const roundLabel = { rr:"Round Robin", r1:"Round 1", r2:"Round 2", r3:"Round 3", rpc:"Repechage" };
+  const roundLabel = { rr:"Round Robin", r1:"Round 1", r2:"Round 2", r3:"Round 3", r4:"Round 4", rpc:"Repechage" };
   const perfRows = perfs.map((p, i) => `
     <tr>
       <td class="num row-num">${i + 1}</td>
@@ -1176,6 +1232,8 @@ function showKaratekaCard(r) {
     Avg_Score:   p.Avg_Score,
     Won_Sort:    p.Won === true ? "0_win" : p.Won === false ? "1_loss" : "2_none",
     Opponent:    p.Opponent || "",
+    Score_Diff:  p._diff,
+    _oppScore:   p._oppScore,
     _won:        p.Won,
     _flag:       flagOf((TOURN_META[p.Tournament] || {}).country),
   }));
@@ -1199,7 +1257,7 @@ function showKaratekaCard(r) {
     const tied   = vals.filter(d => d[field] === myVal).length;
     const suffix = tied > 1 ? " (T)" : "";
     const v = `${better + 1}/${total}${suffix}`;
-    return `<div class="stat-rank"><a href="#" onclick="switchToTab('${tab}');setTimeout(()=>document.getElementById('${figId}')?.scrollIntoView({behavior:'smooth',block:'start'}),80);return false;" style="color:var(--red);text-decoration:none;font-weight:700;font-size:13px" title="See Figure ${figId.replace('finding-','').toUpperCase()}">${v}</a></div>`;
+    return `<div class="stat-rank"><a href="#" onclick="switchToTab('${tab}');setTimeout(()=>document.getElementById('${figId}')?.scrollIntoView({behavior:'smooth',block:'start'}),80);return false;" style="color:var(--red);text-decoration:none;font-weight:700;font-size:13px" title="See Figure ${figName(figId.replace('finding-','').replace(/([a-z]+)(\d+)/i,'$1-$2').toUpperCase())}">${v}</a></div>`;
   };
   const rkK = (field, asc = false) => {
     const vals  = karAll.filter(d => d[field] != null);
@@ -1231,7 +1289,7 @@ function showKaratekaCard(r) {
     <div class="card-section-title">Medals</div>
     ${medalSummaryParts.length ? `<p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px">${medalSummaryParts.join(" &nbsp;·&nbsp; ")}</p>` : ""}
     <div class="pill-list" style="margin-bottom:14px">
-      ${r.Medals.map(m => `<span class="pill">${m.Place === 1 ? "🥇" : m.Place === 2 ? "🥈" : "🥉"} ${navLink("tournament", m.Tournament)}</span>`).join("")}
+      ${medalsChrono(r.Medals).map(m => `<span class="pill">${m.Place === 1 ? "🥇" : m.Place === 2 ? "🥈" : "🥉"} ${navLink("tournament", m.Tournament)}</span>`).join("")}
     </div>` : ""}
     ${r.Mean_Score != null ? `
     <div class="card-section-title">Score Distribution</div>
@@ -1262,6 +1320,7 @@ function showKaratekaCard(r) {
           <th data-sort="Avg_Score" data-label="Score" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-performances','Avg_Score')">Score</th>
           <th data-sort="Won_Sort" data-label="Result" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-performances','Won_Sort')">Result</th>
           <th data-sort="Opponent" data-label="Opponent" style="cursor:pointer" onclick="sortCardTable('card-kar-performances','Opponent')" title="Inferred 1v1 opponent based on score matching">Opponent</th>
+          <th data-sort="Score_Diff" data-label="Score Diff" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-performances','Score_Diff')" title="This athlete's score minus the opponent's score for the same match">Score Diff</th>
         </tr></thead>
         <tbody></tbody>
       </table>
@@ -1283,6 +1342,7 @@ function showKaratekaCard(r) {
       <td class="num">${p.Avg_Score != null ? p.Avg_Score.toFixed(2) : "—"}</td>
       <td class="num" style="color:${p._won ? "#3a6e3a" : p._won === false ? "var(--red)" : "inherit"};font-weight:600">${p._won == null ? "—" : p._won ? "Win" : "Loss"}</td>
       <td>${p.Opponent ? navLink("karateka", p.Opponent) : "—"}</td>
+      <td class="num" style="color:${p.Score_Diff == null ? "inherit" : p.Score_Diff > 0 ? "#3a6e3a" : p.Score_Diff < 0 ? "var(--red)" : "inherit"};font-weight:600"${p._oppScore != null ? ` title="Opponent scored ${p._oppScore.toFixed(2)}"` : ""}>${p.Score_Diff == null ? "—" : (p.Score_Diff > 0 ? "+" : "") + p.Score_Diff.toFixed(2)}</td>
     </tr>`);
   document.getElementById("karateka-card").classList.remove("hidden");
   _currentCard = { type: "karateka", name: r.Karateka };
@@ -2025,11 +2085,11 @@ function renderKataFindings() {
       <h3 class="compare-head">Kata Findings</h3>
       <ul style="font-size:13px;color:var(--text-muted);line-height:2.2;padding-left:20px">
         <li>The overall performance-weighted average score for ${gender} kata this season was <strong style="color:var(--text)">${wtAvgAll != null ? wtAvgAll.toFixed(3) : "—"}</strong>.</li>
-        <li>The most performed ${gender} kata was <strong style="color:var(--text)">${esc(popSorted0[0].Kata)}</strong> with <strong style="color:var(--text)">${popSorted0[0].Performances}</strong> performances. The second most performed was <strong style="color:var(--text)">${esc(popSorted0[1].Kata)}</strong> with <strong style="color:var(--text)">${popSorted0[1].Performances}</strong>. See <em>Figure K-1</em> for the full breakdown.</li>
+        <li>The most performed ${gender} kata was <strong style="color:var(--text)">${esc(popSorted0[0].Kata)}</strong> with <strong style="color:var(--text)">${popSorted0[0].Performances}</strong> performances. The second most performed was <strong style="color:var(--text)">${esc(popSorted0[1].Kata)}</strong> with <strong style="color:var(--text)">${popSorted0[1].Performances}</strong>. See <em>Figure ${figName("K-1")}</em> for the full breakdown.</li>
         ${lowestDiff && highestDiff ? `<li>An interesting pattern emerges when comparing the <em>kata differential</em> (how much athletes score on a kata relative to their personal average) to win rate. <strong style="color:var(--text)">Shisochin</strong> had the lowest differential (<strong style="color:var(--text)">-0.225</strong>), meaning athletes performing it scored well below their personal average, so you would assume it has a low win rate. However, its win rate is the highest of any kata: <strong style="color:var(--text)">100.0%</strong>. Furthermore, you might assume that the kata with the highest differential, which is <strong style="color:var(--text)">Gankaku</strong> (<strong style="color:var(--text)">+0.084</strong>), would have a high win rate, yet its win rate was only <strong style="color:var(--text)">14.3%</strong>.</li>` : ""}
         ${lowestDiff && highestDiff ? `<li>This apparent contradiction reveals a key limitation of the data: the kata differential measures how an athlete scores on a kata <em>relative to their own average</em>, not relative to their opponent's score. ${esc(lowestDiff.Kata)}'s negative differential likely reflects that it is chosen predominantly by elite athletes whose personal averages are already very high — even scoring "below average" for them is competitive. ${esc(highestDiff.Kata)}'s high differential but low win rate suggests that the athletes who perform it score well in isolation, but face opponents who score even higher.</li>` : ""}
         ${gender === "male" ? `<li>Using the standard IQR method (scores below Q1 − 1.5×IQR or above Q3 + 1.5×IQR), male kata performance scores have <strong style="color:var(--text)">7</strong> low outliers: <strong style="color:var(--text)">6.98, 7.12, 7.16, 7.18, 7.20, 7.24, 7.24</strong> and <strong style="color:var(--text)">7</strong> high outliers: <strong style="color:var(--text)">9.02, 9.06, 9.10, 9.12, 9.14, 9.18, 9.28</strong>. Remarkably, all 7 of the high outliers were performed by Kakeru Nishiyama.</li>` : `<li>Using the standard IQR method (scores below Q1 − 1.5×IQR or above Q3 + 1.5×IQR), female kata scores have <strong style="color:var(--text)">4</strong> low outliers: <strong style="color:var(--text)">6.14, 6.20, 6.38, 6.98</strong> and <strong style="color:var(--text)">4</strong> high outliers: <strong style="color:var(--text)">8.88, 8.88, 8.96, 9.22</strong>.</li>`}
-        <li>Win rate should be interpreted with caution: it reflects the outcomes of specific matchups and is influenced by opponent strength and bracket luck, not kata choice alone. See <em>Figure K-3</em> for win rates across all kata.</li>
+        <li>Win rate should be interpreted with caution: it reflects the outcomes of specific matchups and is influenced by opponent strength and bracket luck, not kata choice alone. See <em>Figure ${figName("K-3")}</em> for win rates across all kata.</li>
         <li>Small sample sizes for rarely performed kata make their statistics unreliable. Kata with fewer than 5 performances may show extreme win rates or differentials simply due to limited data, and should not be over-interpreted.</li>
       </ul>
     </div>`;
@@ -2053,11 +2113,15 @@ function renderKataFindings() {
     `${bot1s.Kata} had the lowest (${bot1s.Mean_Score.toFixed(3)}). ` +
     `The overall ${gender} average across all performances was ${overallAvg != null ? overallAvg.toFixed(3) : "—"}.`;
   makeHBar("chart-avgscore", scoreSorted.map(r => r.Kata), scoreSorted.map(r => r.Mean_Score), "Average Score", 7.0, scoreSorted.map(r => r.Performances));
+  const noteAvg = document.getElementById("note-avgscore");
+  if (noteAvg) noteAvg.textContent = gender === "female"
+    ? "Note: Gojushiho is not shown here because it has only one performance and its score is missing. (This is separate from Gojushiho Dai and Gojushiho Sho, which are shown.)"
+    : "";
 
-  /* 3. Win Rate */
-  const winSorted = [...kata].filter(r => r.Win_Rate != null && r.Performances >= 5).sort((a, b) => b.Win_Rate - a.Win_Rate);
+  /* 3. Win Rate — all kata shown */
+  const winSorted = [...kata].filter(r => r.Win_Rate != null).sort((a, b) => b.Win_Rate - a.Win_Rate);
   document.getElementById("insight-winrate").textContent =
-    `Win rates are heavily influenced by opponent strength and bracket luck — not kata choice alone. All kata with at least 5 performances are shown.`;
+    `Win rates are heavily influenced by opponent strength and bracket luck — not kata choice alone. All ${winSorted.length} kata are shown; those with few performances should be interpreted with caution.`;
   makeWinRateHBar("chart-winrate", winSorted.map(r => r.Kata), winSorted.map(r => +(r.Win_Rate*100).toFixed(1)), "Win Rate (%)", winSorted.map(r => r.Performances));
 
   /* 4. Scatter: Performances vs Avg Score — Advanced & Intermediate only */
@@ -2442,15 +2506,15 @@ function renderKaratekaFindings() {
       <h3 class="compare-head">Athlete Findings</h3>
       <ul style="font-size:13px;color:var(--text-muted);line-height:2.2;padding-left:20px">
         ${gender === "male" ? `
-        <li>Male kata competition this season was largely dominated by <strong style="color:var(--text)">Kakeru Nishiyama</strong> (Japan), who led all male athletes with an average score of <strong style="color:var(--text)">${top1k ? top1k.Mean_Score.toFixed(3) : "—"}</strong> across <strong style="color:var(--text)">${top1k ? top1k.Performances : "—"}</strong> performances and a win rate of <strong style="color:var(--text)">${byWR5[0] && byWR5[0].Karateka === "Kakeru Nishiyama" ? (byWR5[0].Win_Rate*100).toFixed(1)+"%" : "—"}</strong>. No other male athlete came close in consistency; the second-highest averaging athlete (minimum 5 performances) was <strong style="color:var(--text)">${top2k ? esc(top2k.Karateka) : "—"}</strong> (${top2k ? esc(top2k.Country) : "—"}) at <strong style="color:var(--text)">${top2k ? top2k.Mean_Score.toFixed(3) : "—"}</strong>, a gap of <strong style="color:var(--text)">${top1k && top2k ? (top1k.Mean_Score - top2k.Mean_Score).toFixed(3) : "—"}</strong>. See <em>Figure A-1</em>.</li>
-        <li>Japan dominated male kata representation with <strong style="color:var(--text)">${topC ? topC.Athletes : "—"}</strong> athletes, nearly double the next-largest contingent. Italy sent <strong style="color:var(--text)">${byCountry[1] ? byCountry[1].Athletes : "—"}</strong> athletes and Turkey sent <strong style="color:var(--text)">${byCountry[2] ? byCountry[2].Athletes : "—"}</strong>. See <em>Figure A-3</em> for the full country breakdown.</li>
+        <li>Male kata competition this season was largely dominated by <strong style="color:var(--text)">Kakeru Nishiyama</strong> (Japan), who led all male athletes with an average score of <strong style="color:var(--text)">${top1k ? top1k.Mean_Score.toFixed(3) : "—"}</strong> across <strong style="color:var(--text)">${top1k ? top1k.Performances : "—"}</strong> performances and a win rate of <strong style="color:var(--text)">${byWR5[0] && byWR5[0].Karateka === "Kakeru Nishiyama" ? (byWR5[0].Win_Rate*100).toFixed(1)+"%" : "—"}</strong>. No other male athlete came close in consistency; the second-highest averaging athlete (minimum 5 performances) was <strong style="color:var(--text)">${top2k ? esc(top2k.Karateka) : "—"}</strong> (${top2k ? esc(top2k.Country) : "—"}) at <strong style="color:var(--text)">${top2k ? top2k.Mean_Score.toFixed(3) : "—"}</strong>, a gap of <strong style="color:var(--text)">${top1k && top2k ? (top1k.Mean_Score - top2k.Mean_Score).toFixed(3) : "—"}</strong>. See <em>Figure ${figName("A-1")}</em>.</li>
+        <li>Japan dominated male kata representation with <strong style="color:var(--text)">${topC ? topC.Athletes : "—"}</strong> athletes, nearly double the next-largest contingent. Italy sent <strong style="color:var(--text)">${byCountry[1] ? byCountry[1].Athletes : "—"}</strong> athletes and Turkey sent <strong style="color:var(--text)">${byCountry[2] ? byCountry[2].Athletes : "—"}</strong>. See <em>Figure ${figName("A-3")}</em> for the full country breakdown.</li>
         <li>The most active male athlete by total performances was <strong style="color:var(--text)">${byPerfs[0] ? esc(byPerfs[0].Karateka) : "—"}</strong> (${byPerfs[0] ? esc(byPerfs[0].Country) : "—"}) with <strong style="color:var(--text)">${byPerfs[0] ? byPerfs[0].Performances : "—"}</strong> performances, followed by <strong style="color:var(--text)">${byPerfs[1] ? esc(byPerfs[1].Karateka) : "—"}</strong> (${byPerfs[1] ? esc(byPerfs[1].Country) : "—"}) with <strong style="color:var(--text)">${byPerfs[1] ? byPerfs[1].Performances : "—"}</strong>.</li>
         ` : `
-        <li>Female kata at the top level was defined by a close rivalry between two athletes: <strong style="color:var(--text)">Maho Ono</strong> (Japan) and <strong style="color:var(--text)">Grace Lau</strong> (Hong Kong). Ono led in average score (<strong style="color:var(--text)">${byScore5.find(k=>k.Karateka==="Maho Ono")?.Mean_Score.toFixed(3) ?? "—"}</strong> across <strong style="color:var(--text)">${byScore5.find(k=>k.Karateka==="Maho Ono")?.Performances ?? "—"}</strong> performances) while Lau led in win rate (<strong style="color:var(--text)">${byWR5.find(k=>k.Karateka==="Grace Lau") ? (byWR5.find(k=>k.Karateka==="Grace Lau").Win_Rate*100).toFixed(1)+"%" : "—"}</strong> across <strong style="color:var(--text)">${byScore5.find(k=>k.Karateka==="Grace Lau")?.Performances ?? "—"}</strong> performances). The gap in average score between them was <strong style="color:var(--text)">${byScore5.find(k=>k.Karateka==="Maho Ono") && byScore5.find(k=>k.Karateka==="Grace Lau") ? Math.abs(byScore5.find(k=>k.Karateka==="Maho Ono").Mean_Score - byScore5.find(k=>k.Karateka==="Grace Lau").Mean_Score).toFixed(3) : "—"}</strong>, an exceptionally tight margin at the highest level of competition. See <em>Figure A-1</em>.</li>
-        <li>Japan dominated female kata representation with <strong style="color:var(--text)">${topC ? topC.Athletes : "—"}</strong> athletes. Egypt sent <strong style="color:var(--text)">${byCountry[1] ? byCountry[1].Athletes : "—"}</strong> and Italy sent <strong style="color:var(--text)">${byCountry[2] ? byCountry[2].Athletes : "—"}</strong>. See <em>Figure A-3</em>.</li>
+        <li>Female kata at the top level was defined by a close rivalry between two athletes: <strong style="color:var(--text)">Maho Ono</strong> (Japan) and <strong style="color:var(--text)">Grace Lau</strong> (Hong Kong). Ono led in average score (<strong style="color:var(--text)">${byScore5.find(k=>k.Karateka==="Maho Ono")?.Mean_Score.toFixed(3) ?? "—"}</strong> across <strong style="color:var(--text)">${byScore5.find(k=>k.Karateka==="Maho Ono")?.Performances ?? "—"}</strong> performances) while Lau led in win rate (<strong style="color:var(--text)">${byWR5.find(k=>k.Karateka==="Grace Lau") ? (byWR5.find(k=>k.Karateka==="Grace Lau").Win_Rate*100).toFixed(1)+"%" : "—"}</strong> across <strong style="color:var(--text)">${byScore5.find(k=>k.Karateka==="Grace Lau")?.Performances ?? "—"}</strong> performances). The gap in average score between them was <strong style="color:var(--text)">${byScore5.find(k=>k.Karateka==="Maho Ono") && byScore5.find(k=>k.Karateka==="Grace Lau") ? Math.abs(byScore5.find(k=>k.Karateka==="Maho Ono").Mean_Score - byScore5.find(k=>k.Karateka==="Grace Lau").Mean_Score).toFixed(3) : "—"}</strong>, an exceptionally tight margin at the highest level of competition. See <em>Figure ${figName("A-1")}</em>.</li>
+        <li>Japan dominated female kata representation with <strong style="color:var(--text)">${topC ? topC.Athletes : "—"}</strong> athletes. Egypt sent <strong style="color:var(--text)">${byCountry[1] ? byCountry[1].Athletes : "—"}</strong> and Italy sent <strong style="color:var(--text)">${byCountry[2] ? byCountry[2].Athletes : "—"}</strong>. See <em>Figure ${figName("A-3")}</em>.</li>
         <li>The most active female athlete by total performances was <strong style="color:var(--text)">${byPerfs[0] ? esc(byPerfs[0].Karateka) : "—"}</strong> (${byPerfs[0] ? esc(byPerfs[0].Country) : "—"}) with <strong style="color:var(--text)">${byPerfs[0] ? byPerfs[0].Performances : "—"}</strong> performances, followed by <strong style="color:var(--text)">${byPerfs[1] ? esc(byPerfs[1].Karateka) : "—"}</strong> (${byPerfs[1] ? esc(byPerfs[1].Country) : "—"}) with <strong style="color:var(--text)">${byPerfs[1] ? byPerfs[1].Performances : "—"}</strong>.</li>
         `}
-        <li>Win rate reflects match outcomes against specific opponents and is shaped by bracket draw, not kata choice or athlete skill alone. See <em>Figure A-2</em>.</li>
+        <li>Win rate reflects match outcomes against specific opponents and is shaped by bracket draw, not kata choice or athlete skill alone. See <em>Figure ${figName("A-2")}</em>.</li>
       </ul>
     </div>`;
 
