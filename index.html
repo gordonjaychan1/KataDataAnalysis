@@ -17,10 +17,14 @@
       <div class="header-left">
         <h1 data-i18n="site.title">2024–25 WKF Season — Kata Analysis</h1>
       </div>
-      <div class="header-right">
+      <div class="header-right" style="display:flex;align-items:center;gap:12px">
         <div class="global-search-wrap" style="position:relative">
           <input id="global-search" type="text" placeholder="Search Kata, Athletes, Tournaments, Countries, etc." data-i18n-ph="ph.globalSearch" autocomplete="off" />
           <div id="global-search-dropdown" class="global-search-dropdown" style="display:none"></div>
+        </div>
+        <div class="gender-toggle" id="global-lang" title="Language / 言語">
+          <button class="gender-btn active" data-lang="en">EN</button>
+          <button class="gender-btn" data-lang="jp">日本語</button>
         </div>
       </div>
     </div>
@@ -42,11 +46,7 @@
     <button class="tab-btn" data-tab="notes" data-i18n="tab.notes">Important Notes</button>
     <button class="tab-btn" data-tab="about" data-i18n="tab.about">About</button>
     <button class="tab-btn" data-tab="references" data-i18n="tab.references">References</button>
-    <div class="tab-bar-toggle" style="display:flex;gap:8px;align-items:center">
-      <div class="gender-toggle" id="global-lang">
-        <button class="gender-btn active" data-lang="en">EN</button>
-        <button class="gender-btn" data-lang="jp">JP</button>
-      </div>
+    <div class="tab-bar-toggle">
       <div class="gender-toggle" id="global-gender">
         <button class="gender-btn active" data-gender="male" data-i18n="toggle.male">Male</button>
         <button class="gender-btn" data-gender="female" data-i18n="toggle.female">Female</button>
