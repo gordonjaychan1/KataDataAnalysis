@@ -179,6 +179,17 @@ const I18N = {
   "col.wins": { en: "Wins", jp: "勝利数" },
   "col.athletesSent": { en: "Athletes Sent", jp: "派遣選手数" },
   "col.total": { en: "Total", jp: "合計" },
+  "tier.Advanced": { en: "Advanced", jp: "上級" },
+  "tier.Intermediate": { en: "Intermediate", jp: "中級" },
+  "tier.Beginner": { en: "Beginner", jp: "初級" },
+  "chart.score": { en: "Score", jp: "スコア" },
+  "chart.performances": { en: "performances", jp: "演武" },
+  "fig.figure": { en: "Figure", jp: "図" },
+  "map.athletes": { en: "athletes", jp: "選手" },
+  "tourn.noMissing": { en: "No missing data for this tournament.", jp: "この大会に欠損データはありません。" },
+  "perf.performed": { en: "Performed", jp: "演武あり" },
+  "perf.notPerformed": { en: "Not Performed", jp: "演武なし" },
+  "lbl.none": { en: "None", jp: "なし" },
 
   /* ── Round names (performance log) ── */
   "round.rr": { en: "Round Robin", jp: "予選リーグ" },

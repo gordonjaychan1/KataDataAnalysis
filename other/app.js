@@ -359,7 +359,7 @@ function figName(base) {
 }
 function updateFigureLabels() {
   document.querySelectorAll(".fig-label[data-fig]").forEach(el => {
-    el.textContent = "Figure " + figName(el.dataset.fig);
+    el.textContent = t("fig.figure") + " " + figName(el.dataset.fig);
   });
 }
 
@@ -385,12 +385,12 @@ function renderAll() {
 
 function renderWelcomeVideo() {
   const videos = {
-    male:   { id: "B8jNtZaZbgY", title: "2024 K1 Premier League Casablanca, Male Kata, Gold Medal Match" },
-    female: { id: "NDp3JTglEKM", title: "2024 K1 Premier League Antalya, Female Kata, Gold Medal Match"  },
+    male:   { id: "B8jNtZaZbgY", title: "2024 K1 Premier League Casablanca, Male Kata, Gold Medal Match", titleJp: "2024 K1プレミアリーグ カサブランカ 男子型 金メダルマッチ" },
+    female: { id: "NDp3JTglEKM", title: "2024 K1 Premier League Antalya, Female Kata, Gold Medal Match", titleJp: "2024 K1プレミアリーグ アンタルヤ 女子型 金メダルマッチ"  },
   };
   const v = videos[gender];
   document.getElementById("welcome-video-section").innerHTML = `
-    <p class="video-header">${v.title}</p>
+    <p class="video-header">${lang === "jp" ? v.titleJp : v.title}</p>
     <div style="display:flex;justify-content:center">
       <a href="https://www.youtube.com/watch?v=${v.id}${gender === "female" ? "&t=424s" : ""}" target="_blank" rel="noopener"
          style="display:block;width:50%;border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);position:relative;aspect-ratio:16/9">
@@ -908,7 +908,7 @@ const fmt2    = v => v != null ? v.toFixed(2) : "—";
 const fmt3    = v => v != null ? v.toFixed(3) : "—";
 const fmtPct  = v => v != null ? (v * 100).toFixed(1) + "%" : "—";
 const esc     = s => s == null ? "" : String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-const tierBadge = t => t ? `<span class="tier-badge tier-${t}">${t}</span>` : "";
+const tierBadge = tier => tier ? `<span class="tier-badge tier-${tier}">${t("tier." + tier)}</span>` : "";
 
 /* ════════════════════════════════════════════════════════════════ KATA TAB */
 function setupKataTab() {
@@ -1879,13 +1879,15 @@ function showTournamentCard(r) {
   /* missing data */
   const missingTotal = (r.Missing_Kata || 0) + (r.Missing_Score || 0) + (r.Missing_Both || 0);
   let missingHtml = "";
+  const jp = lang === "jp";
+  const rowWord = n => jp ? "行" : ` row${n > 1 ? "s" : ""}`;
   if (missingTotal === 0) {
-    missingHtml = `<p style="font-size:13px;color:var(--text-muted);margin-top:14px">No missing data for this tournament.</p>`;
+    missingHtml = `<p style="font-size:13px;color:var(--text-muted);margin-top:14px">${t("tourn.noMissing")}</p>`;
   } else {
     const lines = [];
-    if (r.Missing_Kata)  lines.push(`${r.Missing_Kata} row${r.Missing_Kata>1?"s":""} missing kata name (score present)`);
-    if (r.Missing_Score) lines.push(`${r.Missing_Score} row${r.Missing_Score>1?"s":""} missing score (kata name present)`);
-    if (r.Missing_Both)  lines.push(`${r.Missing_Both} row${r.Missing_Both>1?"s":""} missing both kata name and score`);
+    if (r.Missing_Kata)  lines.push(jp ? `${r.Missing_Kata}${rowWord(r.Missing_Kata)}で型名が欠損（スコアあり）` : `${r.Missing_Kata}${rowWord(r.Missing_Kata)} missing kata name (score present)`);
+    if (r.Missing_Score) lines.push(jp ? `${r.Missing_Score}${rowWord(r.Missing_Score)}でスコアが欠損（型名あり）` : `${r.Missing_Score}${rowWord(r.Missing_Score)} missing score (kata name present)`);
+    if (r.Missing_Both)  lines.push(jp ? `${r.Missing_Both}${rowWord(r.Missing_Both)}で型名・スコアともに欠損` : `${r.Missing_Both}${rowWord(r.Missing_Both)} missing both kata name and score`);
     missingHtml = `<div class="card-section-title" style="margin-top:14px">${t("sec.missingData")}</div>
       <ul style="font-size:13px;color:var(--text-muted);padding-left:18px;line-height:1.8">${lines.map(l=>`<li>${l}</li>`).join("")}</ul>`;
   }
@@ -2123,7 +2125,7 @@ function kataFindingsHTML() {
       `<strong>14/1006</strong>, or <strong>1.392%</strong>, of Male kata performance scores were outliers. There are 7 low outliers: 6.98, 7.12, 7.16, 7.18, 7.20, 7.24, 7.24 and 7 high outliers: 9.02, 9.06, 9.10, 9.12, 9.14, 9.18, 9.28. Remarkably, all 7 of the high outliers were performed by <strong>Kakeru Nishiyama</strong>.`,
       `An interesting pattern emerges when comparing the <em>Score Differential</em> (how much athletes score on a kata relative to their personal average) to Win Rate. <strong>Shisochin</strong> had the lowest differential (<strong>-0.225</strong>), meaning athletes performing it scored well below their personal average, so you would assume it has a low win rate. However, its win rate is the highest of any kata: <strong>100.0%</strong>.`,
       `Furthermore, you might assume that the kata with the highest differential, which is <strong>Gankaku</strong> (<strong>+0.084</strong>), would have a high win rate, yet its win rate was only <strong>14.3%</strong>.`,
-      `This apparent contradiction reveals a key limitation of the data: the kata differential measures how an athlete scores on a kata relative to their own average, not relative to their opponent's score. Shisochin's negative differential likely reflects that it is chosen predominantly by elite athletes whose personal averages are already very high — even scoring "below average" for them is competitive. Upon checking Shisochin's detail card, you will find that 13/17 of its performances are by Kakeru Nishiyama and Ariel Torres, the two Male Athletes with the Gankaku's high differential but low win rate suggests that the athletes who perform it score well in isolation, but face opponents who score even higher.`,
+      `This apparent contradiction reveals a key limitation of the data: the kata differential measures how an athlete scores on a kata relative to their own average, not relative to their opponent's score. Shisochin's negative differential likely reflects that it is chosen predominantly by elite athletes whose personal averages are already very high — even scoring "below average" for them is competitive. Upon checking Shisochin's detail card, you will find that 13/17 of its performances are by Kakeru Nishiyama and Ariel Torres, two of the highest-scoring male athletes. Gankaku's high differential but low win rate, meanwhile, suggests that the athletes who perform it score well in isolation, but face opponents who score even higher.`,
     ], "Notes:", [
       `Win rate should be interpreted with caution: it reflects the outcomes of specific matchups and is influenced by opponent strength and bracket luck, not kata choice alone. See <em>Figure ${K3}</em> for win rates across all kata.`,
       `Small sample sizes for rarely performed kata make their statistics unreliable. Kata with fewer than 5 performances may show extreme win rates or differentials simply due to limited data, and should not be over-interpreted.`,
@@ -2235,35 +2237,41 @@ function renderKataFindings() {
   const top1 = popSorted[0];
   const top5Perfs = popSorted.slice(0,10).reduce((s,r) => s + r.Performances, 0);
   const totalPerfsAll = DATA.meta[gender+"_performances"];
-  document.getElementById("insight-popularity").textContent =
-    `${top1.Kata} was the most performed ${gender === "male" ? "Male" : "Female"} kata with ${top1.Performances} performances across ${top1.Unique_Karateka} athletes. ` +
-    `The top 5 kata accounted for ${top5Perfs} of ${totalPerfsAll}, or ${(top5Perfs/totalPerfsAll*100).toFixed(1)}% of, total performances.`;
+  document.getElementById("insight-popularity").textContent = lang === "jp"
+    ? `${displayName("kata", top1.Kata)}は最も多く演武された${gender === "male" ? "男子" : "女子"}型で、${top1.Unique_Karateka}名の選手により${top1.Performances}回演武されました。上位5型で全${totalPerfsAll}演武のうち${top5Perfs}回（${(top5Perfs/totalPerfsAll*100).toFixed(1)}%）を占めました。`
+    : `${top1.Kata} was the most performed ${gender === "male" ? "Male" : "Female"} kata with ${top1.Performances} performances across ${top1.Unique_Karateka} athletes. ` +
+      `The top 5 kata accounted for ${top5Perfs} of ${totalPerfsAll}, or ${(top5Perfs/totalPerfsAll*100).toFixed(1)}% of, total performances.`;
   makeHBar("chart-popularity", popSorted.map(r => displayName("kata", r.Kata)), popSorted.map(r => r.Performances), "Performances", 0);
 
   /* 2. Avg Score */
   const scoreSorted = [...kata].filter(r => r.Mean_Score != null).sort((a, b) => b.Mean_Score - a.Mean_Score);
   const top1s = scoreSorted[0], bot1s = scoreSorted[scoreSorted.length - 1];
   const overallAvg = (() => { const sc = kata.filter(r => r.Mean_Score != null); const tw = sc.reduce((s,r)=>s+r.Performances,0); return tw ? sc.reduce((s,r)=>s+r.Mean_Score*r.Performances,0)/tw : null; })();
-  document.getElementById("insight-avgscore").textContent =
-    `${top1s.Kata} had the highest average score (${top1s.Mean_Score.toFixed(3)}); ` +
-    `${bot1s.Kata} had the lowest (${bot1s.Mean_Score.toFixed(3)}). ` +
-    `The overall ${gender} average across all performances was ${overallAvg != null ? overallAvg.toFixed(3) : "—"}.`;
+  document.getElementById("insight-avgscore").textContent = lang === "jp"
+    ? `${displayName("kata", top1s.Kata)}が最も高い平均スコア（${top1s.Mean_Score.toFixed(3)}）を、${displayName("kata", bot1s.Kata)}が最も低い平均スコア（${bot1s.Mean_Score.toFixed(3)}）を記録しました。全演武にわたる${gender === "male" ? "男子" : "女子"}の総合平均は${overallAvg != null ? overallAvg.toFixed(3) : "—"}でした。`
+    : `${top1s.Kata} had the highest average score (${top1s.Mean_Score.toFixed(3)}); ` +
+      `${bot1s.Kata} had the lowest (${bot1s.Mean_Score.toFixed(3)}). ` +
+      `The overall ${gender} average across all performances was ${overallAvg != null ? overallAvg.toFixed(3) : "—"}.`;
   makeHBar("chart-avgscore", scoreSorted.map(r => displayName("kata", r.Kata)), scoreSorted.map(r => r.Mean_Score), "Average Score", 7.0, scoreSorted.map(r => r.Performances));
   const noteAvg = document.getElementById("note-avgscore");
-  if (noteAvg) noteAvg.textContent = gender === "female"
-    ? "Note: Gojushiho is not shown here because it has only one performance and its score is missing. (This is separate from Gojushiho Dai and Gojushiho Sho, which are shown.)"
-    : "";
+  if (noteAvg) noteAvg.textContent = gender !== "female"
+    ? ""
+    : lang === "jp"
+      ? "注：五十四歩（Gojushiho）は演武が1回のみでスコアが欠損しているため、ここには表示されていません。（表示されている五十四歩大・五十四歩小とは別物です。）"
+      : "Note: Gojushiho is not shown here because it has only one performance and its score is missing. (This is separate from Gojushiho Dai and Gojushiho Sho, which are shown.)";
 
   /* 3. Win Rate — all kata shown */
   const winSorted = [...kata].filter(r => r.Win_Rate != null).sort((a, b) => b.Win_Rate - a.Win_Rate);
-  document.getElementById("insight-winrate").textContent =
-    `Win rates are heavily influenced by opponent strength and bracket luck — not kata choice alone. All ${winSorted.length} kata are shown; those with few performances should be interpreted with caution.`;
+  document.getElementById("insight-winrate").textContent = lang === "jp"
+    ? `勝率は相手の強さや組み合わせの運に大きく左右され、型の選択だけでは決まりません。全${winSorted.length}型を表示しています。演武回数の少ない型は慎重に解釈してください。`
+    : `Win rates are heavily influenced by opponent strength and bracket luck — not kata choice alone. All ${winSorted.length} kata are shown; those with few performances should be interpreted with caution.`;
   makeWinRateHBar("chart-winrate", winSorted.map(r => displayName("kata", r.Kata)), winSorted.map(r => +(r.Win_Rate*100).toFixed(1)), "Win Rate (%)", winSorted.map(r => r.Performances));
 
   /* 4. Scatter: Performances vs Avg Score — Advanced & Intermediate only */
-  document.getElementById("insight-scatter").textContent =
-    `Each dot is one kata. If rarer kata tend to score higher, you'd see a downward-sloping pattern. ` +
-    `Dots are colored by tier: black = Advanced, brown = Intermediate.`;
+  document.getElementById("insight-scatter").textContent = lang === "jp"
+    ? `各点は1つの型を表します。希少な型ほど高得点なら、右下がりの傾向が見えます。点は階級で色分けされています：黒＝上級、茶＝中級。`
+    : `Each dot is one kata. If rarer kata tend to score higher, you'd see a downward-sloping pattern. ` +
+      `Dots are colored by tier: black = Advanced, brown = Intermediate.`;
   destroyChart("chart-scatter");
   const ctxSc = document.getElementById("chart-scatter"); if (ctxSc) {
     const datasets = ["Advanced", "Intermediate"].map(tier => {
@@ -2322,16 +2330,17 @@ function renderKataFindings() {
   const totalPerfs = tierPerfs.reduce((a,b) => a+b, 0);
   const tierBgs = ["rgba(0,0,0,0.82)", "rgba(130,75,25,0.82)"];
   const tierBorders = ["rgba(0,0,0,1)", "rgba(110,60,15,1)"];
-  document.getElementById("insight-tier").textContent =
-    `${tierKata[1]} of the ${kata.length} kata performed (${Math.round(tierKata[1]/kata.length*100)}%) are Intermediate kata, ` +
-    `but they only account for ${((tierPerfs[1]/totalPerfs)*100).toFixed(1)}% of kata performances. ` +
-    `The ${tierKata[0]} Advanced kata performed account for ${((tierPerfs[0]/totalPerfs)*100).toFixed(1)}% of ${gender} performances.`;
+  document.getElementById("insight-tier").textContent = lang === "jp"
+    ? `演武された${kata.length}型のうち${tierKata[1]}型（${Math.round(tierKata[1]/kata.length*100)}%）が中級型ですが、型演武全体の${((tierPerfs[1]/totalPerfs)*100).toFixed(1)}%しか占めていません。演武された${tierKata[0]}の上級型が${gender === "male" ? "男子" : "女子"}演武の${((tierPerfs[0]/totalPerfs)*100).toFixed(1)}%を占めます。`
+    : `${tierKata[1]} of the ${kata.length} kata performed (${Math.round(tierKata[1]/kata.length*100)}%) are Intermediate kata, ` +
+      `but they only account for ${((tierPerfs[1]/totalPerfs)*100).toFixed(1)}% of kata performances. ` +
+      `The ${tierKata[0]} Advanced kata performed account for ${((tierPerfs[0]/totalPerfs)*100).toFixed(1)}% of ${gender} performances.`;
 
   destroyChart("chart-tier-perfs");
   const ctxTP = document.getElementById("chart-tier-perfs"); if (ctxTP) {
     charts["chart-tier-perfs"] = new Chart(ctxTP, {
       type: "doughnut",
-      data: { labels: tiers, datasets: [{ data: tierPerfs, backgroundColor: tierBgs, borderColor: tierBorders, borderWidth: 2 }] },
+      data: { labels: tiers.map(x => t("tier." + x)), datasets: [{ data: tierPerfs, backgroundColor: tierBgs, borderColor: tierBorders, borderWidth: 2 }] },
       options: {
         responsive: true, maintainAspectRatio: false,
         plugins: {
@@ -2346,7 +2355,7 @@ function renderKataFindings() {
   const ctxTK = document.getElementById("chart-tier-kata"); if (ctxTK) {
     charts["chart-tier-kata"] = new Chart(ctxTK, {
       type: "doughnut",
-      data: { labels: tiers, datasets: [{ data: tierKata, backgroundColor: tierBgs, borderColor: tierBorders, borderWidth: 2 }] },
+      data: { labels: tiers.map(x => t("tier." + x)), datasets: [{ data: tierKata, backgroundColor: tierBgs, borderColor: tierBorders, borderWidth: 2 }] },
       options: {
         responsive: true, maintainAspectRatio: false,
         plugins: {
@@ -2373,8 +2382,11 @@ function renderKataFindings() {
   const tPerfCounts  = tSorted.map(r => r.Performances ?? null);
   document.getElementById("insight-tournament").textContent =
     tHigh && tLow
-      ? `${tHigh.Tournament} had the highest average score (${tHigh.Avg_Score.toFixed(3)}) and ${tLow.Tournament} the lowest (${tLow.Avg_Score.toFixed(3)}). ` +
-        (tOverallMean ? `The overall mean score across all ${gender} performances this season was ${tOverallMean.toFixed(3)}.` : "")
+      ? (lang === "jp"
+          ? `${displayName("tournament", tHigh.Tournament)}が最も高い平均スコア（${tHigh.Avg_Score.toFixed(3)}）、${displayName("tournament", tLow.Tournament)}が最も低い平均スコア（${tLow.Avg_Score.toFixed(3)}）でした。` +
+            (tOverallMean ? `今シーズンの${gender === "male" ? "男子" : "女子"}全演武の総合平均スコアは${tOverallMean.toFixed(3)}でした。` : "")
+          : `${tHigh.Tournament} had the highest average score (${tHigh.Avg_Score.toFixed(3)}) and ${tLow.Tournament} the lowest (${tLow.Avg_Score.toFixed(3)}). ` +
+            (tOverallMean ? `The overall mean score across all ${gender} performances this season was ${tOverallMean.toFixed(3)}.` : ""))
       : "";
   const tMin = Math.max(7.5, Math.min(...tSorted.map(r=>r.Avg_Score).filter(Boolean)) - 0.05);
   destroyChart("chart-tournament");
@@ -2405,10 +2417,11 @@ function renderKataFindings() {
 /* ════════════════════════════════════════════════════════════════ NEW KATA TABLES */
 function renderTierCountsTable() {
   const ts = DATA.tier_summary[gender];
-  document.getElementById("insight-tier-counts").textContent =
-    `Of the ${ts.adv_kata_count} Advanced kata in the WKF list, ${ts.adv_performed.length} were performed ` +
-    `(${ts.adv_unperformed.length} were not). Of the ${ts.interm_kata_count} Intermediate kata, ` +
-    `${ts.interm_performed.length} were performed (${ts.interm_unperformed.length} were not).`;
+  document.getElementById("insight-tier-counts").textContent = lang === "jp"
+    ? `WKFリストの上級型${ts.adv_kata_count}種のうち${ts.adv_performed.length}種が演武され（${ts.adv_unperformed.length}種は未演武）、中級型${ts.interm_kata_count}種のうち${ts.interm_performed.length}種が演武されました（${ts.interm_unperformed.length}種は未演武）。`
+    : `Of the ${ts.adv_kata_count} Advanced kata in the WKF list, ${ts.adv_performed.length} were performed ` +
+      `(${ts.adv_unperformed.length} were not). Of the ${ts.interm_kata_count} Intermediate kata, ` +
+      `${ts.interm_performed.length} were performed (${ts.interm_unperformed.length} were not).`;
   document.getElementById("tier-counts-tbody").innerHTML = [
     ["Advanced",     ts.adv_kata_count,   ts.adv_performed.length,   ts.adv_unperformed.length,   ts.adv_performances],
     ["Intermediate", ts.interm_kata_count, ts.interm_performed.length, ts.interm_unperformed.length, ts.interm_performances],
@@ -2426,9 +2439,12 @@ function renderPerformedKata() {
   const ts = DATA.tier_summary[gender];
   const g = gender === "male" ? "Male" : "Female";
   const other = gender === "male" ? "Female" : "Male";
-  document.getElementById("insight-performed").innerHTML =
-    `Lists which Advanced and Intermediate kata were and were not performed during ${g} kata competition in the 2024–25 season. ` +
-    `To compare which kata were performed by ${g} versus ${other} athletes, see <a href="#" onclick="switchToTab('compare');setTimeout(()=>{const el=document.getElementById('fig-g2');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},150);return false;" style="color:var(--red)">Figure G-2</a> in the Male vs. Female tab.`;
+  const gJ = gender === "male" ? "男子" : "女子";
+  const otherJ = gender === "male" ? "女子" : "男子";
+  document.getElementById("insight-performed").innerHTML = lang === "jp"
+    ? `2024–25シーズンの${gJ}型競技で、上級・中級の型のうちどれが演武され、どれが演武されなかったかの一覧です。${gJ}選手と${otherJ}選手が演武した型の比較は、男子 vs 女子タブの<a href="#" onclick="switchToTab('compare');setTimeout(()=>{const el=document.getElementById('fig-g2');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},150);return false;" style="color:var(--red)">図 G-2</a>をご覧ください。`
+    : `Lists which Advanced and Intermediate kata were and were not performed during ${g} kata competition in the 2024–25 season. ` +
+      `To compare which kata were performed by ${g} versus ${other} athletes, see <a href="#" onclick="switchToTab('compare');setTimeout(()=>{const el=document.getElementById('fig-g2');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},150);return false;" style="color:var(--red)">Figure G-2</a> in the Male vs. Female tab.`;
   const kataPerfsMap = {};
   (DATA.kata[gender] || []).forEach(k => { kataPerfsMap[k.Kata] = k.Performances; });
   const makePills = arr => arr.length
@@ -2436,22 +2452,23 @@ function renderPerformedKata() {
         const cnt = kataPerfsMap[k];
         return `<span class="pill">${esc(displayName("kata", k))}${cnt != null ? ` <span class="pill-count">${cnt}×</span>` : ""}</span>`;
       }).join("")
-    : `<span style="color:var(--text-muted);font-size:12px">None</span>`;
+    : `<span style="color:var(--text-muted);font-size:12px">${t("lbl.none")}</span>`;
+  const ADV = t("tier.Advanced"), INT = t("tier.Intermediate"), P = t("perf.performed"), NP = t("perf.notPerformed");
   document.getElementById("performed-kata-grid").innerHTML = `
     <div class="performed-kata-section">
-      <h4>Advanced — Performed (${ts.adv_performed.length})</h4>
+      <h4>${ADV} — ${P} (${ts.adv_performed.length})</h4>
       <div class="pill-list">${makePills(ts.adv_performed)}</div>
     </div>
     <div class="performed-kata-section">
-      <h4>Advanced — Not Performed (${ts.adv_unperformed.length})</h4>
+      <h4>${ADV} — ${NP} (${ts.adv_unperformed.length})</h4>
       <div class="pill-list">${makePills(ts.adv_unperformed)}</div>
     </div>
     <div class="performed-kata-section">
-      <h4>Intermediate — Performed (${ts.interm_performed.length})</h4>
+      <h4>${INT} — ${P} (${ts.interm_performed.length})</h4>
       <div class="pill-list">${makePills(ts.interm_performed)}</div>
     </div>
     <div class="performed-kata-section">
-      <h4>Intermediate — Not Performed (${ts.interm_unperformed.length})</h4>
+      <h4>${INT} — ${NP} (${ts.interm_unperformed.length})</h4>
       <div class="pill-list">${makePills(ts.interm_unperformed)}</div>
     </div>`;
 }
@@ -2460,10 +2477,11 @@ function renderKataVsKaratekaAvg() {
   const rows = DATA.kata_vs_karateka_avg[gender];
   const top = rows[0], bot = rows[rows.length - 1];
   if (top && bot) {
-    document.getElementById("insight-kk-avg").textContent =
-      `${top.Kata} is performed most above athletes' own averages (+${top.Diff.toFixed(3)}); ` +
-      `${bot.Kata} is performed most below (${bot.Diff.toFixed(3)}). ` +
-      `Kata with very few performances may have skewed results.`;
+    document.getElementById("insight-kk-avg").textContent = lang === "jp"
+      ? `${displayName("kata", top.Kata)}は選手自身の平均を最も上回って演武されています（+${top.Diff.toFixed(3)}）。${displayName("kata", bot.Kata)}は最も下回って演武されています（${bot.Diff.toFixed(3)}）。演武回数が非常に少ない型は結果が偏ることがあります。`
+      : `${top.Kata} is performed most above athletes' own averages (+${top.Diff.toFixed(3)}); ` +
+        `${bot.Kata} is performed most below (${bot.Diff.toFixed(3)}). ` +
+        `Kata with very few performances may have skewed results.`;
   }
   const sign = v => v > 0 ? `+${v.toFixed(3)}` : v.toFixed(3);
   const color = v => v > 0 ? "color:#3a6e3a" : v < 0 ? "color:var(--red)" : "";
@@ -2527,9 +2545,10 @@ function renderKataVsKaratekaAvg() {
 
 function renderKataStdDev() {
   const rows = DATA.kata_std_dev[gender];
-  document.getElementById("insight-stddev").textContent =
-    `Kata performed by more athletes tend to show higher score variance, since a wider ability range is represented. ` +
-    `Kata with only 1–2 performers have no meaningful standard deviation.`;
+  document.getElementById("insight-stddev").textContent = lang === "jp"
+    ? `より多くの選手に演武される型は、より幅広い実力層が反映されるため、スコアのばらつきが大きくなる傾向があります。演武者が1〜2名のみの型は、標準偏差に意味がありません。`
+    : `Kata performed by more athletes tend to show higher score variance, since a wider ability range is represented. ` +
+      `Kata with only 1–2 performers have no meaningful standard deviation.`;
   document.getElementById("kata-stddev-tbody").innerHTML = rows.map(r => `
     <tr>
       <td class="name-cell">${esc(displayName("kata", r.Kata))}</td>
@@ -2645,14 +2664,17 @@ function renderKaratekaFindings() {
   const kScoreSorted = [...kdata].filter(r => r.Mean_Score != null && r.Performances >= 5).sort((a,b) => b.Mean_Score - a.Mean_Score).slice(0, 20);
   document.getElementById("insight-k-avgscore").textContent =
     kScoreSorted[0]
-      ? `${kScoreSorted[0].Karateka} (${kScoreSorted[0].Country}) led ${gender} kata athletes in average score: ${kScoreSorted[0].Mean_Score.toFixed(2)} over ${kScoreSorted[0].Performances} performances.`
+      ? (lang === "jp"
+          ? `${kScoreSorted[0].Karateka}（${displayName("country", kScoreSorted[0].Country)}）が${gender === "male" ? "男子" : "女子"}型選手の平均スコアで首位：${kScoreSorted[0].Performances}演武で${kScoreSorted[0].Mean_Score.toFixed(2)}。`
+          : `${kScoreSorted[0].Karateka} (${kScoreSorted[0].Country}) led ${gender} kata athletes in average score: ${kScoreSorted[0].Mean_Score.toFixed(2)} over ${kScoreSorted[0].Performances} performances.`)
       : "";
   makeHBar("chart-k-avgscore", kScoreSorted.map(r => r.Karateka), kScoreSorted.map(r => r.Mean_Score), "Average Score", 7.5);
 
   /* 8. Top 20 by win rate (min 5 perfs) */
   const kWinSorted = [...kdata].filter(r => r.Win_Rate != null && r.Performances >= 5).sort((a,b) => b.Win_Rate - a.Win_Rate).slice(0, 20);
-  document.getElementById("insight-k-winrate").textContent =
-    `Win rates reflect match outcomes against specific opponents and are shaped by bracket draw and athlete skill — not kata choice alone. Athletes with at least 5 performances are shown.`;
+  document.getElementById("insight-k-winrate").textContent = lang === "jp"
+    ? `勝率は特定の相手との対戦結果を反映し、組み合わせの抽選や選手の実力に左右されます。型の選択だけで決まるものではありません。5演武以上の選手を表示しています。`
+    : `Win rates reflect match outcomes against specific opponents and are shaped by bracket draw and athlete skill — not kata choice alone. Athletes with at least 5 performances are shown.`;
   makeWinRateHBar("chart-k-winrate", kWinSorted.map(r => r.Karateka), kWinSorted.map(r => +(r.Win_Rate*100).toFixed(1)));
 
   /* 9. Countries */
@@ -2660,7 +2682,9 @@ function renderKaratekaFindings() {
   const multiCountries = countries.filter(r => r.Athletes >= 2);
   document.getElementById("insight-country").textContent =
     topCountries[0]
-      ? `${countries.length} countries sent ${gender} kata athletes this season; ${multiCountries.length} sent 2 or more. ${topCountries[0].Country} sent the most with ${topCountries[0].Athletes} competitors.`
+      ? (lang === "jp"
+          ? `今シーズン${countries.length}か国が${gender === "male" ? "男子" : "女子"}型選手を派遣し、うち${multiCountries.length}か国が2名以上を派遣しました。${displayName("country", topCountries[0].Country)}が${topCountries[0].Athletes}名で最多でした。`
+          : `${countries.length} countries sent ${gender} kata athletes this season; ${multiCountries.length} sent 2 or more. ${topCountries[0].Country} sent the most with ${topCountries[0].Athletes} competitors.`)
       : "";
   makeCountryHBar("chart-country", topCountries.map(r => displayName("country", r.Country)), topCountries.map(r => r.Athletes));
 }
@@ -2827,10 +2851,10 @@ function renderScoreHistogram(canvasId, scores, chartKey) {
       responsive: true, maintainAspectRatio: false,
       plugins: {
         legend: { display: false },
-        tooltip: { callbacks: { title: i => `${bins[i[0].dataIndex].lo.toFixed(2)} – ${bins[i[0].dataIndex].hi.toFixed(2)}`, label: c => ` ${c.raw} performance${c.raw !== 1 ? "s" : ""}` } },
+        tooltip: { callbacks: { title: i => `${bins[i[0].dataIndex].lo.toFixed(2)} – ${bins[i[0].dataIndex].hi.toFixed(2)}`, label: c => lang === "jp" ? ` ${c.raw} ${t("chart.performances")}` : ` ${c.raw} performance${c.raw !== 1 ? "s" : ""}` } },
       },
       scales: {
-        x: { grid: { display: false }, ticks: { font: { family: CHART_FONT, size: 10 }, color: "#7a7060" }, title: { display: true, text: "Score", font: { family: CHART_FONT, size: 10 }, color: "#7a7060" } },
+        x: { grid: { display: false }, ticks: { font: { family: CHART_FONT, size: 10 }, color: "#7a7060" }, title: { display: true, text: t("chart.score"), font: { family: CHART_FONT, size: 10 }, color: "#7a7060" } },
         y: { grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 10 }, color: "#7a7060", stepSize: 1 } },
       },
     },
@@ -3102,7 +3126,10 @@ function renderWorldMap() {
   };
   const resolve = name => NAME_MAP[name] || name;
 
-  wrap.innerHTML = `<h3 class="compare-head" style="margin-bottom:8px">Athletes per Country — ${gender === "male" ? "Male" : "Female"}</h3><div id="world-map-svg-wrap" style="width:80%;margin:0 auto;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);overflow:hidden"></div>`;
+  const mapHeading = lang === "jp"
+    ? `${t("fig.athletesByCountry")} — ${gender === "male" ? "男子" : "女子"}`
+    : `Athletes per Country — ${gender === "male" ? "Male" : "Female"}`;
+  wrap.innerHTML = `<h3 class="compare-head" style="margin-bottom:8px">${mapHeading}</h3><div id="world-map-svg-wrap" style="width:80%;margin:0 auto;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);overflow:hidden"></div>`;
   const svgWrap = document.getElementById("world-map-svg-wrap");
   const tooltip = document.getElementById("map-tooltip");
 
@@ -3146,8 +3173,8 @@ function renderWorldMap() {
           tooltip.style.left = (event.clientX + 12) + "px";
           tooltip.style.top  = (event.clientY - 28) + "px";
           tooltip.innerHTML = n
-            ? `<strong>${esc(name)}</strong> · ${n} athlete${n !== 1 ? "s" : ""}`
-            : `<span style="color:var(--text-muted)">${esc(name)}</span>`;
+            ? `<strong>${esc(displayName("country", name))}</strong> · ${n} ${lang === "jp" ? t("map.athletes") : "athlete" + (n !== 1 ? "s" : "")}`
+            : `<span style="color:var(--text-muted)">${esc(displayName("country", name))}</span>`;
         })
         .on("mouseleave", () => { if (tooltip) tooltip.style.display = "none"; })
         .on("click", (event, d) => {
