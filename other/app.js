@@ -926,7 +926,7 @@ function renderKataTable() {
   let rows = sortData(DATA.kata[gender], s.col, s.dir);
   if (q) rows = rows.filter(r => r.Kata && r.Kata.toLowerCase().includes(q));
   if (!rows.length) {
-    document.getElementById("kata-tbody").innerHTML = `<tr><td colspan="13" style="text-align:center;padding:32px;color:var(--text-muted)">No kata match "${esc(q)}"</td></tr>`;
+    document.getElementById("kata-tbody").innerHTML = `<tr><td colspan="13" style="text-align:center;padding:32px;color:var(--text-muted)">${lang === "jp" ? `「${esc(q)}」に一致する型はありません` : `No kata match "${esc(q)}"`}</td></tr>`;
     return;
   }
   document.getElementById("kata-tbody").innerHTML = rows.map((r, i) => `
@@ -1155,7 +1155,7 @@ function renderKaratekaTable() {
   let rows = sortData(DATA.karateka[gender], s.col, s.dir);
   if (q) rows = rows.filter(r => r.Karateka && r.Karateka.toLowerCase().includes(q));
   if (!rows.length) {
-    document.getElementById("karateka-tbody").innerHTML = `<tr><td colspan="13" style="text-align:center;padding:32px;color:var(--text-muted)">No athletes match "${esc(q)}"</td></tr>`;
+    document.getElementById("karateka-tbody").innerHTML = `<tr><td colspan="13" style="text-align:center;padding:32px;color:var(--text-muted)">${lang === "jp" ? `「${esc(q)}」に一致する選手はいません` : `No athletes match "${esc(q)}"`}</td></tr>`;
     return;
   }
   document.getElementById("karateka-tbody").innerHTML = rows.map((r, i) => `
@@ -1702,7 +1702,7 @@ function renderCountriesTable() {
   if (q) all = all.filter(r => r.Country.toLowerCase().includes(q));
   const rows = sortData(all, s.col, s.dir);
   if (!rows.length) {
-    document.getElementById("countries-tbody").innerHTML = `<tr><td colspan="9" style="text-align:center;padding:32px;color:var(--text-muted)">No countries match "${esc(q)}"</td></tr>`;
+    document.getElementById("countries-tbody").innerHTML = `<tr><td colspan="9" style="text-align:center;padding:32px;color:var(--text-muted)">${lang === "jp" ? `「${esc(q)}」に一致する国はありません` : `No countries match "${esc(q)}"`}</td></tr>`;
     return;
   }
   document.getElementById("countries-tbody").innerHTML = rows.map((r, i) => `
@@ -2788,7 +2788,7 @@ function setupGlobalSearch() {
       .forEach(r => results.push({ type: "tournament", name: r.Tournament, sub: `${r.Total_Performances} performances` }));
 
     if (!results.length) {
-      dropdown.innerHTML = `<div class="gsd-empty">No results for "${esc(q)}"</div>`;
+      dropdown.innerHTML = `<div class="gsd-empty">${lang === "jp" ? `「${esc(q)}」の検索結果はありません` : `No results for "${esc(q)}"`}</div>`;
       dropdown.style.display = "block";
       return;
     }
