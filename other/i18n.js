@@ -159,6 +159,37 @@ const I18N = {
   "sec.kataAtTournament": { en: "Kata Performed at this Tournament", jp: "この大会で演武された型" },
   "sec.countries": { en: "Countries", jp: "国" },
 
+  /* ── Detail-card stat labels & small labels ── */
+  "stat.worstScore": { en: "Worst Score", jp: "最低スコア" },
+  "lbl.athleteColon": { en: "Athlete", jp: "選手" },
+  "lbl.kataColon": { en: "Kata", jp: "型" },
+  "res.win": { en: "Win", jp: "勝ち" },
+  "res.loss": { en: "Loss", jp: "負け" },
+  "medal.gold": { en: "Gold", jp: "金" },
+  "medal.silver": { en: "Silver", jp: "銀" },
+  "medal.bronze": { en: "Bronze", jp: "銅" },
+
+  /* ── In-card table column headers (extras beyond col.*) ── */
+  "col.result": { en: "Result", jp: "結果" },
+  "col.opponent": { en: "Opponent", jp: "対戦相手" },
+  "col.round": { en: "Round", jp: "ラウンド" },
+  "col.score": { en: "Score", jp: "スコア" },
+  "col.scoreDiff": { en: "Score Diff", jp: "スコア差" },
+  "col.meetings": { en: "Meetings", jp: "対戦数" },
+  "col.wins": { en: "Wins", jp: "勝利数" },
+  "col.athletesSent": { en: "Athletes Sent", jp: "派遣選手数" },
+  "col.total": { en: "Total", jp: "合計" },
+
+  /* ── Round names (performance log) ── */
+  "round.rr": { en: "Round Robin", jp: "予選リーグ" },
+  "round.r1": { en: "Round 1", jp: "1回戦" },
+  "round.r2": { en: "Round 2", jp: "2回戦" },
+  "round.r3": { en: "Round 3", jp: "3回戦" },
+  "round.r4": { en: "Round 4", jp: "4回戦" },
+  "round.rpc": { en: "Repechage", jp: "敗者復活" },
+  "sec.medalists": { en: "Medalists", jp: "メダリスト" },
+  "sec.missingData": { en: "Missing Data", jp: "欠損データ" },
+
   /* ── Medals tab table titles ── */
   "medals.maleTitle": { en: "Male Kata Medals by Country", jp: "国別 男子型メダル" },
   "medals.femaleTitle": { en: "Female Kata Medals by Country", jp: "国別 女子型メダル" },
@@ -322,4 +353,52 @@ function t(key) {
   if (!e) return key;
   const v = (typeof lang !== "undefined" && lang === "jp") ? e.jp : e.en;
   return v != null ? v : (e.en != null ? e.en : key);
+}
+
+/* ── Proper-noun display maps ──────────────────────────────────────────────────
+   These translate the *displayed* text only. Data keys, sorting, navigation and
+   deep links continue to use the original English names. */
+const KATA_JP = {
+  "Anan": "アーナン", "Anan Dai": "アーナンダイ", "Chatanyara Kusanku": "北谷屋良クーサンクー",
+  "Chibana No Kushanku": "知花のクーサンクー", "Enpi": "燕飛", "Gankaku": "岩鶴",
+  "Gojushiho": "五十四歩", "Gojushiho Dai": "五十四歩大", "Gojushiho Sho": "五十四歩小",
+  "Jitte": "十手", "Kanku Sho": "観空小", "Kishimoto No Kushanku": "岸本のクーサンクー",
+  "Kousoukun Dai": "公相君大", "Kousoukun Sho": "公相君小", "Kururunfa": "クルルンファ",
+  "Kusanku": "クーサンクー", "Kyan No Chinto": "喜屋武のチントー", "Matsumura Bassai": "松村バッサイ",
+  "Nijushiho": "二十四歩", "Nipaipo": "ニーパイポ", "Ohan": "オーハン", "Ohan Dai": "オーハンダイ",
+  "Oyadomari No Passai": "親泊のパッサイ", "Pachu": "パーチュー", "Paiku": "パイクー",
+  "Papuren": "パープーレン", "Sansai": "サンサイ", "Sanseiru": "サンセイルー", "Seipai": "セーパイ",
+  "Seisan": "セーサン", "Shisochin": "シソーチン", "Sochin": "ソーチン", "Suparinpei": "スーパーリンペイ",
+  "Tomari Bassai": "泊バッサイ", "Unsu": "雲手",
+};
+const TOURN_JP = {
+  "2024 Paris": "2024 パリ", "2024 Antalya": "2024 アンタルヤ", "2024 Cairo": "2024 カイロ",
+  "2024 Casablanca": "2024 カサブランカ", "2025 Paris": "2025 パリ", "2025 Hangzhou": "2025 杭州",
+  "2025 Cairo": "2025 カイロ", "2025 Rabat": "2025 ラバト", "2025 Worlds": "2025 世界選手権",
+};
+const COUNTRY_JP = {
+  "Algeria": "アルジェリア", "Argentina": "アルゼンチン", "Australia": "オーストラリア", "Austria": "オーストリア",
+  "Azerbaijan": "アゼルバイジャン", "Belgium": "ベルギー", "Brazil": "ブラジル", "Burkina Faso": "ブルキナファソ",
+  "Burundi": "ブルンジ", "Canada": "カナダ", "China": "中国", "Colombia": "コロンビア", "Czech Republic": "チェコ",
+  "Dominican Republic": "ドミニカ共和国", "Egypt": "エジプト", "England": "イングランド", "France": "フランス",
+  "Germany": "ドイツ", "Greece": "ギリシャ", "Hong Kong": "香港", "Hungary": "ハンガリー", "Indonesia": "インドネシア",
+  "Iran": "イラン", "Italy": "イタリア", "Japan": "日本", "Jordan": "ヨルダン", "Kuwait": "クウェート",
+  "Malaysia": "マレーシア", "Mexico": "メキシコ", "Montenegro": "モンテネグロ", "Morocco": "モロッコ",
+  "Nepal": "ネパール", "Netherlands": "オランダ", "New Zealand": "ニュージーランド", "Nigeria": "ナイジェリア",
+  "Philippines": "フィリピン", "Portugal": "ポルトガル", "Romania": "ルーマニア", "Saudi Arabia": "サウジアラビア",
+  "Senegal": "セネガル", "Singapore": "シンガポール", "Slovakia": "スロバキア", "Slovenia": "スロベニア",
+  "South Korea": "韓国", "Spain": "スペイン", "Sweden": "スウェーデン", "Switzerland": "スイス",
+  "Taiwan": "台湾", "Turkey": "トルコ", "USA": "アメリカ", "Ukraine": "ウクライナ", "Venezuela": "ベネズエラ",
+};
+
+/* Returns the localized display name for a proper noun, or the original if no map. */
+function displayName(type, name) {
+  if (typeof lang === "undefined" || lang !== "jp" || name == null) return name;
+  const map = type === "kata" ? KATA_JP : type === "tournament" ? TOURN_JP : type === "country" ? COUNTRY_JP : null;
+  return (map && map[name] != null) ? map[name] : name;
+}
+function roundName(code) {
+  const e = I18N["round." + code];
+  if (!e) return code;
+  return (typeof lang !== "undefined" && lang === "jp") ? e.jp : e.en;
 }

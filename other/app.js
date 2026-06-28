@@ -105,7 +105,8 @@ function _navBack() {
 }
 
 function navLink(type, name, display) {
-  const d = display !== undefined ? display : esc(name);
+  const navType = type === "tournaments" ? "tournament" : type === "countries" ? "country" : type;
+  const d = display !== undefined ? display : esc(displayName(navType, name));
   return `<a class="nav-link" data-nav-type="${type}" data-nav-name="${esc(name)}">${d}</a>`;
 }
 
@@ -297,7 +298,9 @@ function applyLanguage() {
   initHowToCards();      // rebuild how-to expand/collapse structure for the new text
   ["kata-card", "karateka-card", "countries-card", "tournaments-card"].forEach(clearCard);
   const mc = document.getElementById("medals-content"); if (mc) mc.dataset.built = "";  // allow medal titles to re-render
+  const wtl = document.getElementById("welcome-timeline-wrap"); if (wtl) wtl.innerHTML = "";  // force timeline pills to re-render in new language
   renderAll();           // re-render dynamic content (findings, subtitles, tables) in the new language
+  renderWelcomeTimeline();
   const activeTab = document.querySelector(".tab-btn.active")?.dataset.tab;
   if (activeTab === "compare") renderCompareTab();
   if (activeTab === "medals") renderMedalsTab();
@@ -773,7 +776,7 @@ function renderCompareDiffChart() {
   };
   charts["chart-compare-diff"] = new Chart(ctx, {
     type: "bar",
-    data: { labels: sorted.map(r => r.Kata), datasets: [{ data: sorted.map(r => r.Diff), backgroundColor: bgColors, borderColor: bdColors, borderWidth: 1, borderRadius: 3 }] },
+    data: { labels: sorted.map(r => displayName("kata", r.Kata)), datasets: [{ data: sorted.map(r => r.Diff), backgroundColor: bgColors, borderColor: bdColors, borderWidth: 1, borderRadius: 3 }] },
     options: {
       indexAxis: "y", responsive: true, maintainAspectRatio: false,
       layout: { padding: { left: 160, right: 160 } },
@@ -1064,35 +1067,35 @@ function showKataCard(r) {
   document.getElementById("kata-card").innerHTML = `
     <button class="card-close-btn" onclick="document.getElementById('kata-card').classList.add('hidden')" title="Close">✕</button>
     <div class="card-header">
-      <span class="card-title">${esc(r.Kata)}</span>${tierBadge(r.Kata_Tier)}
+      <span class="card-title">${esc(displayName("kata", r.Kata))}</span>${tierBadge(r.Kata_Tier)}
     </div>
     ${scoreMissing ? `<p style="font-size:12px;color:var(--text-muted);background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:var(--radius);padding:8px 12px;margin-bottom:12px">The score for this kata's performance${r.Performances === 1 ? "" : "s"} was not recorded and is missing from the dataset. Score-related statistics are unavailable and shown as —.</p>` : ""}
     <div class="card-stats">
       <div class="stat-box">
-        <div class="stat-label">Performances</div><div class="stat-value">${r.Performances}</div>${rkFig('Performances', false, 'kata-findings', 'finding-k1')}
+        <div class="stat-label">${t("col.performances")}</div><div class="stat-value">${r.Performances}</div>${rkFig('Performances', false, 'kata-findings', 'finding-k1')}
       </div>
       <div class="stat-box">
-        <div class="stat-label">Athletes</div><div class="stat-value">${r.Unique_Karateka}</div>${rk('Unique_Karateka')}
+        <div class="stat-label">${t("col.athletes")}</div><div class="stat-value">${r.Unique_Karateka}</div>${rk('Unique_Karateka')}
       </div>
       <div class="stat-box">
-        <div class="stat-label">Avg Score</div><div class="stat-value">${fmtS3(r.Mean_Score)}</div>${rkFig('Mean_Score', false, 'kata-findings', 'finding-k2')}
+        <div class="stat-label">${t("col.avgScore")}</div><div class="stat-value">${fmtS3(r.Mean_Score)}</div>${rkFig('Mean_Score', false, 'kata-findings', 'finding-k2')}
       </div>
       <div class="stat-box">
-        <div class="stat-label">Median</div><div class="stat-value">${fmtS2(r.Median_Score)}</div>${rk('Median_Score')}
+        <div class="stat-label">${t("col.median")}</div><div class="stat-value">${fmtS2(r.Median_Score)}</div>${rk('Median_Score')}
       </div>
       <div class="stat-box">
-        <div class="stat-label">Min</div><div class="stat-value">${fmtS2(r.Min_Score)}</div>${rk('Min_Score')}
-        ${minK ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">Athlete: <strong>${navLink("karateka", minK)}</strong></div>` : ""}
+        <div class="stat-label">${t("col.min")}</div><div class="stat-value">${fmtS2(r.Min_Score)}</div>${rk('Min_Score')}
+        ${minK ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">${t("lbl.athleteColon")}: <strong>${navLink("karateka", minK)}</strong></div>` : ""}
       </div>
       <div class="stat-box">
-        <div class="stat-label">Max</div><div class="stat-value">${fmtS2(r.Max_Score)}</div>${rk('Max_Score')}
-        ${maxK ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">Athlete: <strong>${navLink("karateka", maxK)}</strong></div>` : ""}
+        <div class="stat-label">${t("col.max")}</div><div class="stat-value">${fmtS2(r.Max_Score)}</div>${rk('Max_Score')}
+        ${maxK ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">${t("lbl.athleteColon")}: <strong>${navLink("karateka", maxK)}</strong></div>` : ""}
       </div>
       <div class="stat-box">
-        <div class="stat-label">Std Dev</div><div class="stat-value">${fmtS3(r.Std_Dev)}</div>${rk('Std_Dev', true)}
+        <div class="stat-label">${t("col.stdDev")}</div><div class="stat-value">${fmtS3(r.Std_Dev)}</div>${rk('Std_Dev', true)}
       </div>
       <div class="stat-box">
-        <div class="stat-label">Win Rate</div><div class="stat-value">${fmtPct(r.Win_Rate)}</div>${rkFig('Win_Rate', false, 'kata-findings', 'finding-k3')}
+        <div class="stat-label">${t("col.winRate")}</div><div class="stat-value">${fmtPct(r.Win_Rate)}</div>${rkFig('Win_Rate', false, 'kata-findings', 'finding-k3')}
       </div>
       ${diffStat}
     </div>
@@ -1105,9 +1108,9 @@ function showKataCard(r) {
       <table class="data-table" id="card-kata-athletes">
         <thead><tr>
           <th class="num row-num">#</th>
-          <th data-sort="Karateka" data-label="Karateka" style="cursor:pointer" onclick="sortCardTable('card-kata-athletes','Karateka')">Karateka</th>
-          <th data-sort="Performances" data-label="Performances" class="num" style="cursor:pointer" onclick="sortCardTable('card-kata-athletes','Performances')">Performances</th>
-          <th data-sort="Avg_Score" data-label="Avg Score" class="num" style="cursor:pointer" onclick="sortCardTable('card-kata-athletes','Avg_Score')">Avg Score ↓</th>
+          <th data-sort="Karateka" data-label="${t('col.athlete')}" style="cursor:pointer" onclick="sortCardTable('card-kata-athletes','Karateka')">Karateka</th>
+          <th data-sort="Performances" data-label="${t('col.performances')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-kata-athletes','Performances')">Performances</th>
+          <th data-sort="Avg_Score" data-label="${t('col.avgScore')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-kata-athletes','Avg_Score')">Avg Score ↓</th>
         </tr></thead>
         <tbody></tbody>
       </table>
@@ -1218,7 +1221,7 @@ function showKaratekaCard(r) {
   const scoredPerfs = perfs.filter(p => p.Avg_Score != null && p.Kata);
   const bestPerf  = scoredPerfs.reduce((best, p)  => (p.Avg_Score > (best?.Avg_Score  ?? -Infinity) ? p : best),  null);
   const worstPerf = scoredPerfs.reduce((worst, p) => (p.Avg_Score < (worst?.Avg_Score ??  Infinity) ? p : worst), null);
-  const roundLabel = { rr:"Round Robin", r1:"Round 1", r2:"Round 2", r3:"Round 3", r4:"Round 4", rpc:"Repechage" };
+  const roundLabel = new Proxy({}, { get: (_, code) => roundName(code) });
   const perfRows = perfs.map((p, i) => `
     <tr>
       <td class="num row-num">${i + 1}</td>
@@ -1226,7 +1229,7 @@ function showKaratekaCard(r) {
       <td>${esc(roundLabel[p.Round] || p.Round || "—")}</td>
       <td class="name-cell">${esc(p.Kata || "—")}</td>
       <td class="num">${p.Avg_Score != null ? p.Avg_Score.toFixed(2) : "—"}</td>
-      <td class="num" style="color:${p.Won ? "#3a6e3a" : "var(--red)"}; font-weight:600">${p.Won == null ? "—" : p.Won ? "Win" : "Loss"}</td>
+      <td class="num" style="color:${p.Won ? "#3a6e3a" : "var(--red)"}; font-weight:600">${p.Won == null ? "—" : p.Won ? t("res.win") : t("res.loss")}</td>
     </tr>`).join("");
   /* avg score per kata from Performances_Detail */
   const kataAvgMap = {};
@@ -1270,9 +1273,9 @@ function showKaratekaCard(r) {
   const medalCounts = { 1: 0, 2: 0, 3: 0 };
   (r.Medals || []).forEach(m => medalCounts[m.Place] = (medalCounts[m.Place] || 0) + 1);
   const medalSummaryParts = [];
-  if (medalCounts[1]) medalSummaryParts.push(`${medalCounts[1]}× Gold`);
-  if (medalCounts[2]) medalSummaryParts.push(`${medalCounts[2]}× Silver`);
-  if (medalCounts[3]) medalSummaryParts.push(`${medalCounts[3]}× Bronze`);
+  if (medalCounts[1]) medalSummaryParts.push(`${medalCounts[1]}× ${t("medal.gold")}`);
+  if (medalCounts[2]) medalSummaryParts.push(`${medalCounts[2]}× ${t("medal.silver")}`);
+  if (medalCounts[3]) medalSummaryParts.push(`${medalCounts[3]}× ${t("medal.bronze")}`);
 
   /* rank among all karateka — competition-style (ties share same rank) */
   const karAll = DATA.karateka[gender] || [];
@@ -1302,16 +1305,16 @@ function showKaratekaCard(r) {
     <button class="card-close-btn" onclick="document.getElementById('karateka-card').classList.add('hidden')" title="Close">✕</button>
     <div class="card-header">
       <span class="card-title">${esc(r.Karateka)}</span>
-      <span class="card-subtitle">${flagOf(r.Country)} ${esc(r.Country || "")}</span>
+      <span class="card-subtitle">${flagOf(r.Country)} ${esc(displayName("country", r.Country) || "")}</span>
     </div>
     <div class="card-stats">
-      <div class="stat-box"><div class="stat-label">Performances</div><div class="stat-value">${r.Performances}</div>${rkK('Performances')}</div>
-      <div class="stat-box"><div class="stat-label">Tournaments</div><div class="stat-value">${r.Tournaments_Attended}</div>${rkK('Tournaments_Attended')}</div>
-      <div class="stat-box"><div class="stat-label">Avg Score</div><div class="stat-value">${fmt2(r.Mean_Score)}</div>${rkKFig('Mean_Score', false, 'karateka-findings', 'finding-a1')}</div>
-      <div class="stat-box"><div class="stat-label">Median</div><div class="stat-value">${fmt2(r.Median_Score)}</div>${rkK('Median_Score')}</div>
-      <div class="stat-box"><div class="stat-label">Worst Score</div><div class="stat-value">${fmt2(r.Min_Score)}</div>${rkK('Min_Score', true)}${worstPerf ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">Kata: <strong>${navLink("kata", worstPerf.Kata)}</strong></div>` : ""}</div>
-      <div class="stat-box"><div class="stat-label">Best Score</div><div class="stat-value">${fmt2(r.Max_Score)}</div>${rkK('Max_Score')}${bestPerf ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">Kata: <strong>${navLink("kata", bestPerf.Kata)}</strong></div>` : ""}</div>
-      <div class="stat-box"><div class="stat-label">Win Rate</div><div class="stat-value">${fmtPct(r.Win_Rate)}</div>${rkKFig('Win_Rate', false, 'karateka-findings', 'finding-a2')}</div>
+      <div class="stat-box"><div class="stat-label">${t("col.performances")}</div><div class="stat-value">${r.Performances}</div>${rkK('Performances')}</div>
+      <div class="stat-box"><div class="stat-label">${t("col.tournaments")}</div><div class="stat-value">${r.Tournaments_Attended}</div>${rkK('Tournaments_Attended')}</div>
+      <div class="stat-box"><div class="stat-label">${t("col.avgScore")}</div><div class="stat-value">${fmt2(r.Mean_Score)}</div>${rkKFig('Mean_Score', false, 'karateka-findings', 'finding-a1')}</div>
+      <div class="stat-box"><div class="stat-label">${t("col.median")}</div><div class="stat-value">${fmt2(r.Median_Score)}</div>${rkK('Median_Score')}</div>
+      <div class="stat-box"><div class="stat-label">${t("stat.worstScore")}</div><div class="stat-value">${fmt2(r.Min_Score)}</div>${rkK('Min_Score', true)}${worstPerf ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">${t("lbl.kataColon")}: <strong>${navLink("kata", worstPerf.Kata)}</strong></div>` : ""}</div>
+      <div class="stat-box"><div class="stat-label">${t("col.bestScore")}</div><div class="stat-value">${fmt2(r.Max_Score)}</div>${rkK('Max_Score')}${bestPerf ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">${t("lbl.kataColon")}: <strong>${navLink("kata", bestPerf.Kata)}</strong></div>` : ""}</div>
+      <div class="stat-box"><div class="stat-label">${t("col.winRate")}</div><div class="stat-value">${fmtPct(r.Win_Rate)}</div>${rkKFig('Win_Rate', false, 'karateka-findings', 'finding-a2')}</div>
     </div>
     ${r.Medals && r.Medals.length ? `
     <div class="card-section-title">${t("sec.medals")}</div>
@@ -1328,10 +1331,10 @@ function showKaratekaCard(r) {
       <table class="data-table" id="card-kar-repertoire">
         <thead><tr>
           <th class="num row-num">#</th>
-          <th data-sort="Kata" data-label="Kata" style="cursor:pointer" onclick="sortCardTable('card-kar-repertoire','Kata')">Kata</th>
-          <th data-sort="Performances" data-label="Performances" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-repertoire','Performances')">Performances ↓</th>
-          <th data-sort="Avg_Score" data-label="Avg Score" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-repertoire','Avg_Score')">Avg Score</th>
-          <th data-sort="Win_Rate" data-label="Win Rate" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-repertoire','Win_Rate')">Win Rate</th>
+          <th data-sort="Kata" data-label="${t('col.kata')}" style="cursor:pointer" onclick="sortCardTable('card-kar-repertoire','Kata')">Kata</th>
+          <th data-sort="Performances" data-label="${t('col.performances')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-repertoire','Performances')">Performances ↓</th>
+          <th data-sort="Avg_Score" data-label="${t('col.avgScore')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-repertoire','Avg_Score')">Avg Score</th>
+          <th data-sort="Win_Rate" data-label="${t('col.winRate')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-repertoire','Win_Rate')">Win Rate</th>
         </tr></thead>
         <tbody></tbody>
       </table>
@@ -1342,13 +1345,13 @@ function showKaratekaCard(r) {
       <table class="data-table" id="card-kar-performances">
         <thead><tr>
           <th class="num row-num">#</th>
-          <th data-sort="Tournament" data-label="Tournament" style="cursor:pointer" onclick="sortCardTable('card-kar-performances','Tournament')">Tournament</th>
-          <th data-sort="Round" data-label="Round" style="cursor:pointer" onclick="sortCardTable('card-kar-performances','Round')">Round</th>
-          <th data-sort="Kata" data-label="Kata" style="cursor:pointer" onclick="sortCardTable('card-kar-performances','Kata')">Kata</th>
-          <th data-sort="Avg_Score" data-label="Score" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-performances','Avg_Score')">Score</th>
-          <th data-sort="Won_Sort" data-label="Result" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-performances','Won_Sort')">Result</th>
-          <th data-sort="Opponent" data-label="Opponent" style="cursor:pointer" onclick="sortCardTable('card-kar-performances','Opponent')" title="Inferred 1v1 opponent based on score matching">Opponent</th>
-          <th data-sort="Score_Diff" data-label="Score Diff" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-performances','Score_Diff')" title="This athlete's score minus the opponent's score for the same match">Score Diff</th>
+          <th data-sort="Tournament" data-label="${t('col.tournament')}" style="cursor:pointer" onclick="sortCardTable('card-kar-performances','Tournament')">Tournament</th>
+          <th data-sort="Round" data-label="${t('col.round')}" style="cursor:pointer" onclick="sortCardTable('card-kar-performances','Round')">Round</th>
+          <th data-sort="Kata" data-label="${t('col.kata')}" style="cursor:pointer" onclick="sortCardTable('card-kar-performances','Kata')">Kata</th>
+          <th data-sort="Avg_Score" data-label="${t('col.score')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-performances','Avg_Score')">Score</th>
+          <th data-sort="Won_Sort" data-label="${t('col.result')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-performances','Won_Sort')">Result</th>
+          <th data-sort="Opponent" data-label="${t('col.opponent')}" style="cursor:pointer" onclick="sortCardTable('card-kar-performances','Opponent')" title="Inferred 1v1 opponent based on score matching">Opponent</th>
+          <th data-sort="Score_Diff" data-label="${t('col.scoreDiff')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-performances','Score_Diff')" title="This athlete's score minus the opponent's score for the same match">Score Diff</th>
         </tr></thead>
         <tbody></tbody>
       </table>
@@ -1368,7 +1371,7 @@ function showKaratekaCard(r) {
       <td>${esc(p.Round)}</td>
       <td class="name-cell">${navLink("kata", p.Kata)}</td>
       <td class="num">${p.Avg_Score != null ? p.Avg_Score.toFixed(2) : "—"}</td>
-      <td class="num" style="color:${p._won ? "#3a6e3a" : p._won === false ? "var(--red)" : "inherit"};font-weight:600">${p._won == null ? "—" : p._won ? "Win" : "Loss"}</td>
+      <td class="num" style="color:${p._won ? "#3a6e3a" : p._won === false ? "var(--red)" : "inherit"};font-weight:600">${p._won == null ? "—" : p._won ? t("res.win") : t("res.loss")}</td>
       <td>${p.Opponent ? navLink("karateka", p.Opponent) : "—"}</td>
       <td class="num" style="color:${p.Score_Diff == null ? "inherit" : p.Score_Diff > 0 ? "#3a6e3a" : p.Score_Diff < 0 ? "var(--red)" : "inherit"};font-weight:600"${p._oppScore != null ? ` title="Opponent scored ${p._oppScore.toFixed(2)}"` : ""}>${p.Score_Diff == null ? "—" : (p.Score_Diff > 0 ? "+" : "") + p.Score_Diff.toFixed(2)}</td>
     </tr>`);
@@ -1404,10 +1407,10 @@ function showKaratekaCard(r) {
         <table class="data-table" id="card-kar-opponents">
           <thead><tr>
             <th class="num row-num" title="Rank by meetings">#</th>
-            <th data-sort="Karateka" data-label="Opponent" style="cursor:pointer" onclick="sortCardTable('card-kar-opponents','Karateka')" title="Opponent's name and country">Opponent</th>
-            <th data-sort="Meetings" data-label="Meetings" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-opponents','Meetings')" title="Number of rounds competed head-to-head in the same tournament round">Meetings ↓</th>
-            <th data-sort="Wins" data-label="Wins" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-opponents','Wins')" title="Rounds won against this opponent">Wins vs.</th>
-            <th data-sort="Win_Rate" data-label="Win Rate" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-opponents','Win_Rate')" title="Win rate against this opponent (Wins ÷ Meetings)">Win Rate</th>
+            <th data-sort="Karateka" data-label="${t('col.opponent')}" style="cursor:pointer" onclick="sortCardTable('card-kar-opponents','Karateka')" title="Opponent's name and country">Opponent</th>
+            <th data-sort="Meetings" data-label="${t('col.meetings')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-opponents','Meetings')" title="Number of rounds competed head-to-head in the same tournament round">Meetings ↓</th>
+            <th data-sort="Wins" data-label="${t('col.wins')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-opponents','Wins')" title="Rounds won against this opponent">Wins vs.</th>
+            <th data-sort="Win_Rate" data-label="${t('col.winRate')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-kar-opponents','Win_Rate')" title="Win rate against this opponent (Wins ÷ Meetings)">Win Rate</th>
           </tr></thead>
           <tbody></tbody>
         </table>
@@ -1450,9 +1453,9 @@ function showCountryCard(r, all) {
   const athleteMedalRows = Object.values(medalsByAthlete).sort((a, b) => b.Gold - a.Gold || b.Silver - a.Silver || b.Bronze - a.Bronze);
   const fmtMedalCell = a => [a.Gold ? `${a.Gold}x 🥇` : "", a.Silver ? `${a.Silver}x 🥈` : "", a.Bronze ? `${a.Bronze}x 🥉` : ""].filter(Boolean).join(", ");
   const medalSummaryParts = [];
-  if (medalCounts[1]) medalSummaryParts.push(`${medalCounts[1]}× Gold`);
-  if (medalCounts[2]) medalSummaryParts.push(`${medalCounts[2]}× Silver`);
-  if (medalCounts[3]) medalSummaryParts.push(`${medalCounts[3]}× Bronze`);
+  if (medalCounts[1]) medalSummaryParts.push(`${medalCounts[1]}× ${t("medal.gold")}`);
+  if (medalCounts[2]) medalSummaryParts.push(`${medalCounts[2]}× ${t("medal.silver")}`);
+  if (medalCounts[3]) medalSummaryParts.push(`${medalCounts[3]}× ${t("medal.bronze")}`);
 
   const athleteFlat2 = (r._athleteObjs || []).map(k => ({
     Karateka:     k.Karateka,
@@ -1473,16 +1476,16 @@ function showCountryCard(r, all) {
   document.getElementById("countries-card").innerHTML = `
     <button class="card-close-btn" onclick="document.getElementById('countries-card').classList.add('hidden')" title="Close">✕</button>
     <div class="card-header">
-      <span class="card-title">${flagOf(r.Country)} ${esc(r.Country)}</span>
+      <span class="card-title">${flagOf(r.Country)} ${esc(displayName("country", r.Country))}</span>
     </div>
     <div class="card-stats">
-      <div class="stat-box"><div class="stat-label">Athletes</div><div class="stat-value">${r.Athletes}</div>${rkC('Athletes')}</div>
-      <div class="stat-box"><div class="stat-label">Performances</div><div class="stat-value">${r.Performances}</div>${rkC('Performances')}</div>
-      <div class="stat-box"><div class="stat-label">Tournaments</div><div class="stat-value">${r.Tournaments}</div>${rkC('Tournaments')}</div>
-      <div class="stat-box"><div class="stat-label">Avg Score</div><div class="stat-value">${fmt2(r.Avg_Score)}</div>${rkC('Avg_Score')}</div>
-      <div class="stat-box"><div class="stat-label">Best Score</div><div class="stat-value">${fmt2(r.Best_Score)}</div>${rkC('Best_Score')}</div>
-      <div class="stat-box"><div class="stat-label">Win Rate</div><div class="stat-value">${fmtPct(r.Win_Rate)}</div>${rkC('Win_Rate')}</div>
-      <div class="stat-box"><div class="stat-label">Medals</div><div class="stat-value">${r.Medals || 0}</div>${rkC('Medals')}</div>
+      <div class="stat-box"><div class="stat-label">${t("col.athletes")}</div><div class="stat-value">${r.Athletes}</div>${rkC('Athletes')}</div>
+      <div class="stat-box"><div class="stat-label">${t("col.performances")}</div><div class="stat-value">${r.Performances}</div>${rkC('Performances')}</div>
+      <div class="stat-box"><div class="stat-label">${t("col.tournaments")}</div><div class="stat-value">${r.Tournaments}</div>${rkC('Tournaments')}</div>
+      <div class="stat-box"><div class="stat-label">${t("col.avgScore")}</div><div class="stat-value">${fmt2(r.Avg_Score)}</div>${rkC('Avg_Score')}</div>
+      <div class="stat-box"><div class="stat-label">${t("col.bestScore")}</div><div class="stat-value">${fmt2(r.Best_Score)}</div>${rkC('Best_Score')}</div>
+      <div class="stat-box"><div class="stat-label">${t("col.winRate")}</div><div class="stat-value">${fmtPct(r.Win_Rate)}</div>${rkC('Win_Rate')}</div>
+      <div class="stat-box"><div class="stat-label">${t("col.medals")}</div><div class="stat-value">${r.Medals || 0}</div>${rkC('Medals')}</div>
     </div>
     ${medals.length ? `
     <div class="card-section-title">${t("sec.medals")}</div>
@@ -1510,12 +1513,12 @@ function showCountryCard(r, all) {
       <table class="data-table" id="card-country-athletes">
         <thead><tr>
           <th class="num row-num">#</th>
-          <th data-sort="Karateka" data-label="Athlete" style="cursor:pointer" onclick="sortCardTable('card-country-athletes','Karateka')">Athlete</th>
-          <th data-sort="Performances" data-label="Performances" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-athletes','Performances')">Performances</th>
-          <th data-sort="Avg_Score" data-label="Avg Score" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-athletes','Avg_Score')">Avg Score ↓</th>
-          <th data-sort="Best_Score" data-label="Best Score" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-athletes','Best_Score')">Best Score</th>
-          <th data-sort="Win_Rate" data-label="Win Rate" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-athletes','Win_Rate')">Win Rate</th>
-          <th data-sort="Medals" data-label="Medals" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-athletes','Medals')">Medals</th>
+          <th data-sort="Karateka" data-label="${t('col.athlete')}" style="cursor:pointer" onclick="sortCardTable('card-country-athletes','Karateka')">Athlete</th>
+          <th data-sort="Performances" data-label="${t('col.performances')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-athletes','Performances')">Performances</th>
+          <th data-sort="Avg_Score" data-label="${t('col.avgScore')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-athletes','Avg_Score')">Avg Score ↓</th>
+          <th data-sort="Best_Score" data-label="${t('col.bestScore')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-athletes','Best_Score')">Best Score</th>
+          <th data-sort="Win_Rate" data-label="${t('col.winRate')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-athletes','Win_Rate')">Win Rate</th>
+          <th data-sort="Medals" data-label="${t('col.medals')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-athletes','Medals')">Medals</th>
         </tr></thead>
         <tbody></tbody>
       </table>
@@ -1526,9 +1529,9 @@ function showCountryCard(r, all) {
       <table class="data-table" id="card-country-kata">
         <thead><tr>
           <th class="num row-num">#</th>
-          <th data-sort="Kata" data-label="Kata" style="cursor:pointer" onclick="sortCardTable('card-country-kata','Kata')">Kata</th>
-          <th data-sort="Performances" data-label="Performances" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-kata','Performances')">Performances ↓</th>
-          <th data-sort="Avg_Score" data-label="Avg Score" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-kata','Avg_Score')">Avg Score</th>
+          <th data-sort="Kata" data-label="${t('col.kata')}" style="cursor:pointer" onclick="sortCardTable('card-country-kata','Kata')">Kata</th>
+          <th data-sort="Performances" data-label="${t('col.performances')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-kata','Performances')">Performances ↓</th>
+          <th data-sort="Avg_Score" data-label="${t('col.avgScore')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-kata','Avg_Score')">Avg Score</th>
         </tr></thead>
         <tbody></tbody>
       </table>
@@ -1596,13 +1599,13 @@ function showCountryCard(r, all) {
         <table class="data-table" id="card-country-tournaments">
           <thead><tr>
             <th class="num row-num">#</th>
-            <th data-sort="Tournament" data-label="Tournament" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Tournament')">Tournament</th>
-            <th data-sort="Athletes_Sent" data-label="Athletes Sent" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Athletes_Sent')">Athletes</th>
-            <th data-sort="Gold" data-label="Gold" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Gold')">🥇</th>
-            <th data-sort="Silver" data-label="Silver" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Silver')">🥈</th>
-            <th data-sort="Bronze" data-label="Bronze" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Bronze')">🥉</th>
-            <th data-sort="Avg_Score" data-label="Avg Score" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Avg_Score')">Avg Score</th>
-            <th data-sort="Win_Rate" data-label="Win Rate" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Win_Rate')">Win Rate</th>
+            <th data-sort="Tournament" data-label="${t('col.tournament')}" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Tournament')">Tournament</th>
+            <th data-sort="Athletes_Sent" data-label="${t('col.athletesSent')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Athletes_Sent')">Athletes</th>
+            <th data-sort="Gold" data-label="${t('medal.gold')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Gold')">🥇</th>
+            <th data-sort="Silver" data-label="${t('medal.silver')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Silver')">🥈</th>
+            <th data-sort="Bronze" data-label="${t('medal.bronze')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Bronze')">🥉</th>
+            <th data-sort="Avg_Score" data-label="${t('col.avgScore')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Avg_Score')">Avg Score</th>
+            <th data-sort="Win_Rate" data-label="${t('col.winRate')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Win_Rate')">Win Rate</th>
           </tr></thead>
           <tbody></tbody>
         </table>
@@ -1813,7 +1816,7 @@ function showTournamentCard(r) {
   }
   medalists.sort((a, b) => a.place - b.place);
   const medalistHtml = medalists.length ? `
-    <div class="card-section-title" style="margin-top:14px">Medalists</div>
+    <div class="card-section-title" style="margin-top:14px">${t("sec.medalists")}</div>
     <div class="pill-list" style="margin-bottom:14px">${medalists.map(m => `<span class="pill">${m.place===1?"🥇":m.place===2?"🥈":"🥉"} ${flagOf(m.country)} <strong>${navLink("karateka", m.name)}</strong></span>`).join("")}</div>` : "";
 
   /* athletes — with tournament-specific stats */
@@ -1883,23 +1886,23 @@ function showTournamentCard(r) {
     if (r.Missing_Kata)  lines.push(`${r.Missing_Kata} row${r.Missing_Kata>1?"s":""} missing kata name (score present)`);
     if (r.Missing_Score) lines.push(`${r.Missing_Score} row${r.Missing_Score>1?"s":""} missing score (kata name present)`);
     if (r.Missing_Both)  lines.push(`${r.Missing_Both} row${r.Missing_Both>1?"s":""} missing both kata name and score`);
-    missingHtml = `<div class="card-section-title" style="margin-top:14px">Missing Data</div>
+    missingHtml = `<div class="card-section-title" style="margin-top:14px">${t("sec.missingData")}</div>
       <ul style="font-size:13px;color:var(--text-muted);padding-left:18px;line-height:1.8">${lines.map(l=>`<li>${l}</li>`).join("")}</ul>`;
   }
 
   document.getElementById("tournaments-card").innerHTML = `
     <button class="card-close-btn" onclick="document.getElementById('tournaments-card').classList.add('hidden')" title="Close">✕</button>
     <div class="card-header">
-      <span class="card-title">${esc(r.Tournament)}</span>
+      <span class="card-title">${esc(displayName("tournament", r.Tournament))}</span>
       ${meta.date ? `<span class="card-subtitle">${esc(meta.date)}</span>` : ""}
     </div>
     ${meta.city ? `<p style="font-size:13px;color:var(--text-muted);margin-bottom:14px">${flagOf(meta.country)} ${esc(meta.city)}, ${esc(meta.country)}</p>` : ""}
     <div class="card-stats">
-      <div class="stat-box"><div class="stat-label">Performances</div><div class="stat-value">${r.Total_Performances}</div></div>
-      <div class="stat-box"><div class="stat-label">Athletes</div><div class="stat-value">${athletes.length}</div></div>
-      <div class="stat-box"><div class="stat-label">Unique Kata</div><div class="stat-value">${kataFlat3.length}</div></div>
-      <div class="stat-box"><div class="stat-label">Countries</div><div class="stat-value">${countryFlat3.length}</div></div>
-      <div class="stat-box"><div class="stat-label">Avg Score</div><div class="stat-value">${r.Avg_Score != null ? r.Avg_Score.toFixed(3) : "—"}</div></div>
+      <div class="stat-box"><div class="stat-label">${t("col.performances")}</div><div class="stat-value">${r.Total_Performances}</div></div>
+      <div class="stat-box"><div class="stat-label">${t("col.athletes")}</div><div class="stat-value">${athletes.length}</div></div>
+      <div class="stat-box"><div class="stat-label">${t("col.uniqueKata")}</div><div class="stat-value">${kataFlat3.length}</div></div>
+      <div class="stat-box"><div class="stat-label">${t("col.countries")}</div><div class="stat-value">${countryFlat3.length}</div></div>
+      <div class="stat-box"><div class="stat-label">${t("col.avgScore")}</div><div class="stat-value">${r.Avg_Score != null ? r.Avg_Score.toFixed(3) : "—"}</div></div>
     </div>
     ${medalistHtml}
     <div class="card-section-title">${t("sec.athletes")} (${athletes.length})</div>
@@ -1907,10 +1910,10 @@ function showTournamentCard(r) {
       <table class="data-table" id="card-tourn-athletes">
         <thead><tr>
           <th class="num row-num">#</th>
-          <th data-sort="Karateka" data-label="Athlete" style="cursor:pointer" onclick="sortCardTable('card-tourn-athletes','Karateka')">Athlete</th>
-          <th data-sort="Country" data-label="Country" style="cursor:pointer" onclick="sortCardTable('card-tourn-athletes','Country')">Country</th>
-          <th data-sort="Performances" data-label="Performances" class="num" style="cursor:pointer" onclick="sortCardTable('card-tourn-athletes','Performances')">Performances</th>
-          <th data-sort="Avg_Score" data-label="Avg Score" class="num" style="cursor:pointer" onclick="sortCardTable('card-tourn-athletes','Avg_Score')">Avg Score</th>
+          <th data-sort="Karateka" data-label="${t('col.athlete')}" style="cursor:pointer" onclick="sortCardTable('card-tourn-athletes','Karateka')">Athlete</th>
+          <th data-sort="Country" data-label="${t('col.country')}" style="cursor:pointer" onclick="sortCardTable('card-tourn-athletes','Country')">Country</th>
+          <th data-sort="Performances" data-label="${t('col.performances')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-tourn-athletes','Performances')">Performances</th>
+          <th data-sort="Avg_Score" data-label="${t('col.avgScore')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-tourn-athletes','Avg_Score')">Avg Score</th>
         </tr></thead>
         <tbody></tbody>
       </table>
@@ -1920,9 +1923,9 @@ function showTournamentCard(r) {
       <table class="data-table" id="card-tourn-kata">
         <thead><tr>
           <th class="num row-num">#</th>
-          <th data-sort="Kata" data-label="Kata" style="cursor:pointer" onclick="sortCardTable('card-tourn-kata','Kata')">Kata</th>
-          <th data-sort="Performances" data-label="Performances" class="num" style="cursor:pointer" onclick="sortCardTable('card-tourn-kata','Performances')">Performances ↓</th>
-          <th data-sort="Avg_Score" data-label="Avg Score" class="num" style="cursor:pointer" onclick="sortCardTable('card-tourn-kata','Avg_Score')">Avg Score</th>
+          <th data-sort="Kata" data-label="${t('col.kata')}" style="cursor:pointer" onclick="sortCardTable('card-tourn-kata','Kata')">Kata</th>
+          <th data-sort="Performances" data-label="${t('col.performances')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-tourn-kata','Performances')">Performances ↓</th>
+          <th data-sort="Avg_Score" data-label="${t('col.avgScore')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-tourn-kata','Avg_Score')">Avg Score</th>
         </tr></thead>
         <tbody></tbody>
       </table>
@@ -1932,10 +1935,10 @@ function showTournamentCard(r) {
       <table class="data-table" id="card-tourn-countries">
         <thead><tr>
           <th class="num row-num">#</th>
-          <th data-sort="Country" data-label="Country" style="cursor:pointer" onclick="sortCardTable('card-tourn-countries','Country')">Country</th>
-          <th data-sort="Athletes" data-label="Athletes" class="num" style="cursor:pointer" onclick="sortCardTable('card-tourn-countries','Athletes')">Athletes ↓</th>
-          <th data-sort="Avg_Score" data-label="Avg Score" class="num" style="cursor:pointer" onclick="sortCardTable('card-tourn-countries','Avg_Score')">Avg Score</th>
-          <th data-sort="Win_Rate" data-label="Win Rate" class="num" style="cursor:pointer" onclick="sortCardTable('card-tourn-countries','Win_Rate')">Win Rate</th>
+          <th data-sort="Country" data-label="${t('col.country')}" style="cursor:pointer" onclick="sortCardTable('card-tourn-countries','Country')">Country</th>
+          <th data-sort="Athletes" data-label="${t('col.athletes')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-tourn-countries','Athletes')">Athletes ↓</th>
+          <th data-sort="Avg_Score" data-label="${t('col.avgScore')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-tourn-countries','Avg_Score')">Avg Score</th>
+          <th data-sort="Win_Rate" data-label="${t('col.winRate')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-tourn-countries','Win_Rate')">Win Rate</th>
         </tr></thead>
         <tbody></tbody>
       </table>
@@ -2235,7 +2238,7 @@ function renderKataFindings() {
   document.getElementById("insight-popularity").textContent =
     `${top1.Kata} was the most performed ${gender === "male" ? "Male" : "Female"} kata with ${top1.Performances} performances across ${top1.Unique_Karateka} athletes. ` +
     `The top 5 kata accounted for ${top5Perfs} of ${totalPerfsAll}, or ${(top5Perfs/totalPerfsAll*100).toFixed(1)}% of, total performances.`;
-  makeHBar("chart-popularity", popSorted.map(r => r.Kata), popSorted.map(r => r.Performances), "Performances", 0);
+  makeHBar("chart-popularity", popSorted.map(r => displayName("kata", r.Kata)), popSorted.map(r => r.Performances), "Performances", 0);
 
   /* 2. Avg Score */
   const scoreSorted = [...kata].filter(r => r.Mean_Score != null).sort((a, b) => b.Mean_Score - a.Mean_Score);
@@ -2245,7 +2248,7 @@ function renderKataFindings() {
     `${top1s.Kata} had the highest average score (${top1s.Mean_Score.toFixed(3)}); ` +
     `${bot1s.Kata} had the lowest (${bot1s.Mean_Score.toFixed(3)}). ` +
     `The overall ${gender} average across all performances was ${overallAvg != null ? overallAvg.toFixed(3) : "—"}.`;
-  makeHBar("chart-avgscore", scoreSorted.map(r => r.Kata), scoreSorted.map(r => r.Mean_Score), "Average Score", 7.0, scoreSorted.map(r => r.Performances));
+  makeHBar("chart-avgscore", scoreSorted.map(r => displayName("kata", r.Kata)), scoreSorted.map(r => r.Mean_Score), "Average Score", 7.0, scoreSorted.map(r => r.Performances));
   const noteAvg = document.getElementById("note-avgscore");
   if (noteAvg) noteAvg.textContent = gender === "female"
     ? "Note: Gojushiho is not shown here because it has only one performance and its score is missing. (This is separate from Gojushiho Dai and Gojushiho Sho, which are shown.)"
@@ -2255,7 +2258,7 @@ function renderKataFindings() {
   const winSorted = [...kata].filter(r => r.Win_Rate != null).sort((a, b) => b.Win_Rate - a.Win_Rate);
   document.getElementById("insight-winrate").textContent =
     `Win rates are heavily influenced by opponent strength and bracket luck — not kata choice alone. All ${winSorted.length} kata are shown; those with few performances should be interpreted with caution.`;
-  makeWinRateHBar("chart-winrate", winSorted.map(r => r.Kata), winSorted.map(r => +(r.Win_Rate*100).toFixed(1)), "Win Rate (%)", winSorted.map(r => r.Performances));
+  makeWinRateHBar("chart-winrate", winSorted.map(r => displayName("kata", r.Kata)), winSorted.map(r => +(r.Win_Rate*100).toFixed(1)), "Win Rate (%)", winSorted.map(r => r.Performances));
 
   /* 4. Scatter: Performances vs Avg Score — Advanced & Intermediate only */
   document.getElementById("insight-scatter").textContent =
@@ -2268,7 +2271,7 @@ function renderKataFindings() {
       if (!rows.length) return null;
       return {
         label: tier,
-        data: rows.map(r => ({ x: r.Performances, y: r.Mean_Score, kata: r.Kata })),
+        data: rows.map(r => ({ x: r.Performances, y: r.Mean_Score, kata: displayName("kata", r.Kata) })),
         backgroundColor: TIER_COLORS[tier].bg,
         borderColor: TIER_COLORS[tier].border,
         borderWidth: 1.5, pointRadius: 4, pointHoverRadius: 6,
@@ -2378,7 +2381,7 @@ function renderKataFindings() {
   const ctxT = document.getElementById("chart-tournament"); if (ctxT) {
     charts["chart-tournament"] = new Chart(ctxT, {
       type: "bar",
-      data: { labels: tSorted.map(r=>r.Tournament), datasets: [{ data: tSorted.map(r=>r.Avg_Score), backgroundColor: RED, borderColor: RED_BORDER, borderWidth: 1, borderRadius: 3 }] },
+      data: { labels: tSorted.map(r=>displayName("tournament", r.Tournament)), datasets: [{ data: tSorted.map(r=>r.Avg_Score), backgroundColor: RED, borderColor: RED_BORDER, borderWidth: 1, borderRadius: 3 }] },
       options: {
         responsive: true, maintainAspectRatio: false,
         plugins: {
@@ -2431,7 +2434,7 @@ function renderPerformedKata() {
   const makePills = arr => arr.length
     ? arr.map(k => {
         const cnt = kataPerfsMap[k];
-        return `<span class="pill">${esc(k)}${cnt != null ? ` <span class="pill-count">${cnt}×</span>` : ""}</span>`;
+        return `<span class="pill">${esc(displayName("kata", k))}${cnt != null ? ` <span class="pill-count">${cnt}×</span>` : ""}</span>`;
       }).join("")
     : `<span style="color:var(--text-muted);font-size:12px">None</span>`;
   document.getElementById("performed-kata-grid").innerHTML = `
@@ -2466,7 +2469,7 @@ function renderKataVsKaratekaAvg() {
   const color = v => v > 0 ? "color:#3a6e3a" : v < 0 ? "color:var(--red)" : "";
   document.getElementById("kata-kk-avg-tbody").innerHTML = rows.map(r => `
     <tr>
-      <td class="name-cell">${esc(r.Kata)}</td>
+      <td class="name-cell">${esc(displayName("kata", r.Kata))}</td>
       <td class="num" style="${color(r.Diff)}">${sign(r.Diff)}</td>
       <td class="num">${r.Performances}</td>
     </tr>`).join("");
@@ -2504,7 +2507,7 @@ function renderKataVsKaratekaAvg() {
   };
   charts["chart-kk-avg"] = new Chart(ctx, {
     type: "bar",
-    data: { labels: sorted.map(r => r.Kata), datasets: [{ data: sorted.map(r => r.Diff), backgroundColor: bgColors, borderColor: bdColors, borderWidth: 1, borderRadius: 3 }] },
+    data: { labels: sorted.map(r => displayName("kata", r.Kata)), datasets: [{ data: sorted.map(r => r.Diff), backgroundColor: bgColors, borderColor: bdColors, borderWidth: 1, borderRadius: 3 }] },
     options: {
       indexAxis: "y", responsive: true, maintainAspectRatio: false,
       layout: { padding: { left: 160, right: 160 } },
@@ -2529,7 +2532,7 @@ function renderKataStdDev() {
     `Kata with only 1–2 performers have no meaningful standard deviation.`;
   document.getElementById("kata-stddev-tbody").innerHTML = rows.map(r => `
     <tr>
-      <td class="name-cell">${esc(r.Kata)}</td>
+      <td class="name-cell">${esc(displayName("kata", r.Kata))}</td>
       <td class="num">${r.Unique_Karateka}</td>
       <td class="num">${r.Std_Dev != null ? r.Std_Dev.toFixed(3) : "—"}</td>
     </tr>`).join("");
@@ -2544,7 +2547,7 @@ function renderKataStdDev() {
     if (!subset.length) return null;
     return {
       label: tier,
-      data: subset.map(r => ({ x: r.Unique_Karateka, y: r.Std_Dev, kata: r.Kata })),
+      data: subset.map(r => ({ x: r.Unique_Karateka, y: r.Std_Dev, kata: displayName("kata", r.Kata) })),
       backgroundColor: TIER_COLORS[tier].bg,
       borderColor: TIER_COLORS[tier].border,
       borderWidth: 1.5, pointRadius: 4, pointHoverRadius: 6,
@@ -2659,7 +2662,7 @@ function renderKaratekaFindings() {
     topCountries[0]
       ? `${countries.length} countries sent ${gender} kata athletes this season; ${multiCountries.length} sent 2 or more. ${topCountries[0].Country} sent the most with ${topCountries[0].Athletes} competitors.`
       : "";
-  makeCountryHBar("chart-country", topCountries.map(r => r.Country), topCountries.map(r => r.Athletes));
+  makeCountryHBar("chart-country", topCountries.map(r => displayName("country", r.Country)), topCountries.map(r => r.Athletes));
 }
 
 /* ════════════════════════════════════════════════════════════════ NOTES */
@@ -2893,11 +2896,11 @@ function _medalTableHTML(g, label) {
         <table class="data-table">
           <thead><tr>
             <th class="num row-num" style="cursor:pointer" onclick="sortMedalTable('${g}','_rank')">#</th>
-            <th style="cursor:pointer;min-width:140px" onclick="sortMedalTable('${g}','Country')">Country</th>
+            <th style="cursor:pointer;min-width:140px" onclick="sortMedalTable('${g}','Country')">${t("col.country")}</th>
             <th class="num" style="cursor:pointer" onclick="sortMedalTable('${g}','Gold')">🥇</th>
             <th class="num" style="cursor:pointer" onclick="sortMedalTable('${g}','Silver')">🥈</th>
             <th class="num" style="cursor:pointer" onclick="sortMedalTable('${g}','Bronze')">🥉</th>
-            <th class="num" style="cursor:pointer" onclick="sortMedalTable('${g}','Total')">Total</th>
+            <th class="num" style="cursor:pointer" onclick="sortMedalTable('${g}','Total')">${t("col.total")}</th>
           </tr></thead>
           <tbody id="medals-tbody-${g}"></tbody>
         </table>
@@ -2973,7 +2976,7 @@ function _buildTimelineHTML(tournNames) {
     const chipTop = AXIS - rowOffsets[rows[i]];
     const connTop = chipTop + CHIP_H;
     const connH   = AXIS - connTop;
-    html += `<button class="tl-chip-real" data-tourn="${esc(name)}" style="position:absolute;left:${p}%;top:${chipTop}px;transform:translateX(-50%)">${flagOf(meta.country)} ${esc(name)}</button>`;
+    html += `<button class="tl-chip-real" data-tourn="${esc(name)}" style="position:absolute;left:${p}%;top:${chipTop}px;transform:translateX(-50%)">${flagOf(meta.country)} ${esc(displayName("tournament", name))}</button>`;
     if (connH > 0) html += `<div style="position:absolute;left:${p}%;top:${connTop}px;width:1px;height:${connH}px;background:#b0a090;transform:translateX(-50%)"></div>`;
   });
   html += `</div>`;
