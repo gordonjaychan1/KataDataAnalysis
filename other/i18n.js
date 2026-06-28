@@ -190,6 +190,11 @@ const I18N = {
   "perf.performed": { en: "Performed", jp: "演武あり" },
   "perf.notPerformed": { en: "Not Performed", jp: "演武なし" },
   "lbl.none": { en: "None", jp: "なし" },
+  "miss.total": { en: "Total Performances", jp: "総演武数" },
+  "miss.complete": { en: "Complete (Kata + Score present)", jp: "完全（型名＋スコアあり）" },
+  "miss.kataOnly": { en: "Missing Kata Name (score present)", jp: "型名が欠損（スコアあり）" },
+  "miss.scoreOnly": { en: "Missing Score (kata name present)", jp: "スコアが欠損（型名あり）" },
+  "miss.both": { en: "Missing Both", jp: "型名・スコアともに欠損" },
 
   /* ── Round names (performance log) ── */
   "round.rr": { en: "Round Robin", jp: "予選リーグ" },
@@ -221,8 +226,8 @@ const I18N = {
   "notes.tier.p1": { jp: `型は、USA Karate公式型リストに基づき<strong>上級</strong>・<strong>中級</strong>・<strong>初級</strong>の3階級に分類されます（詳しくは<a href="#" onclick="switchToTab('references');return false;" style="color:var(--red)">参考資料の図 App-2</a>をご覧ください）。` },
   "notes.tier.p2": { jp: "競技では、選手は自分の階級以下の型のみ演武できます。例えば中級型部門の選手は上級型を演武できず、中級または初級の型を演武しなければなりません。" },
   "notes.tier.p3": { jp: "Tier 1のWKF大会では全部門が上級であり、どの型でも（上級・中級・初級）演武できます。" },
-  "notes.tier.li1": { jp: "<strong>上級</strong> — 複雑な技、珍しい立ち方、まれな伝統形を含む高難度の型。ほぼ国際エリートレベルでのみ演武されます。例：Suparinpei, Unsu, Ohan, Papuren, Gojushiho Sho。" },
-  "notes.tier.li2": { jp: "<strong>中級</strong> — 国内・大陸レベルで一般的な中級の型。WKF大会でも時折見られます。例：Shisochin, Seienchin, Kanku Dai。" },
+  "notes.tier.li1": { jp: "<strong>上級</strong> — 複雑な技、珍しい立ち方、まれな伝統形を含む高難度の型。ほぼ国際エリートレベルでのみ演武されます。例：スーパーリンペイ、雲手、オーハン、パープーレン、五十四歩小。" },
+  "notes.tier.li2": { jp: "<strong>中級</strong> — 国内・大陸レベルで一般的な中級の型。WKF大会でも時折見られます。例：シソーチン、セイエンチン、観空大。" },
   "notes.tier.li3": { jp: "<strong>初級</strong> — このレベルの競技ではめったに見られない低難度の型。" },
   "notes.scoring.h": { jp: "WKFの採点システム" },
   "notes.scoring.p1": { jp: `7人の審判がそれぞれ0〜10点を付けます。最高点と最低点を除外し、残りの5点を平均して最終スコアを算出します。このデータセットはこの<strong>平均スコア</strong>のみを記録します。<strong>8.0</strong>を超えるスコアはK1プレミアリーグレベルで一般に競争力があるとされ、決勝のトップ演武はしばしば8.5〜9.0に達します。` },
@@ -268,6 +273,12 @@ const I18N = {
   "ref.officialListLabel": { jp: "公式リスト" },
   "ref.usaListTitle": { jp: "USA Karate — 公式型リスト" },
   "ref.fromUsa": { jp: "出典：USA Karate競技規則、2026年1月1日" },
+  "ref.usaRulesTitle": { jp: "USA Karate — 競技規則（2026年1月1日）↗" },
+  "ref.wkfRulesTitle": { jp: "WKF — 型競技規則 2026 ↗" },
+  "ref.usaRulesMeta": { jp: "USA Karate · 2026" },
+  "ref.wkfRulesMeta": { jp: "世界空手連盟（WKF） · 2026" },
+  "ref.figApp1": { jp: "図 App-1" },
+  "ref.figApp2": { jp: "図 App-2" },
 
   /* ── How-to cards (body-level: English captured from DOM, Japanese below) ── */
   "howto.tables": { jp: `<strong>表の見方</strong>

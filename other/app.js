@@ -296,6 +296,7 @@ function setupLangToggle() {
 function applyLanguage() {
   applyI18n();           // static chrome + how-to bodies (resets how-to structure)
   initHowToCards();      // rebuild how-to expand/collapse structure for the new text
+  buildMissingTables();  // re-render missing-data table rows in the new language
   ["kata-card", "karateka-card", "countries-card", "tournaments-card"].forEach(clearCard);
   const mc = document.getElementById("medals-content"); if (mc) mc.dataset.built = "";  // allow medal titles to re-render
   const wtl = document.getElementById("welcome-timeline-wrap"); if (wtl) wtl.innerHTML = "";  // force timeline pills to re-render in new language
@@ -413,8 +414,12 @@ function updateHeaderSub() {
   const fKata = (DATA.kata.female || []).length;
   const mCountries = new Set((DATA.karateka.male || []).map(k => k.Country)).size;
   const fCountries = new Set((DATA.karateka.female || []).map(k => k.Country)).size;
-  const mText = `Male Kata · ${m.male_performances} Performances · ${mKata} Unique Kata · ${m.male_karateka} Athletes · 9 Tournaments · ${mCountries} Countries`;
-  const fText = `Female Kata · ${m.female_performances} Performances · ${fKata} Unique Kata · ${m.female_karateka} Athletes · 9 Tournaments · ${fCountries} Countries`;
+  const mText = lang === "jp"
+    ? `男子型 · ${m.male_performances} 演武 · ${mKata} 型 · ${m.male_karateka} 選手 · 9 大会 · ${mCountries} か国`
+    : `Male Kata · ${m.male_performances} Performances · ${mKata} Unique Kata · ${m.male_karateka} Athletes · 9 Tournaments · ${mCountries} Countries`;
+  const fText = lang === "jp"
+    ? `女子型 · ${m.female_performances} 演武 · ${fKata} 型 · ${m.female_karateka} 選手 · 9 大会 · ${fCountries} か国`
+    : `Female Kata · ${m.female_performances} Performances · ${fKata} Unique Kata · ${m.female_karateka} Athletes · 9 Tournaments · ${fCountries} Countries`;
   const mBtn = document.querySelector('#global-gender .gender-btn[data-gender="male"]');
   const fBtn = document.querySelector('#global-gender .gender-btn[data-gender="female"]');
   if (mBtn) mBtn.title = mText;
@@ -589,6 +594,8 @@ function renderCompareTab() {
 
   const sign = v => (v >= 0 ? "+" : "") + v.toFixed(3);
   const diffColor = v => v > 0 ? "#3a6e3a" : v < 0 ? "var(--red)" : "inherit";
+  const jp = lang === "jp";
+  const kn = k => esc(displayName("kata", k));   // localized kata name
 
   const top5Row = (k, i) => `<tr><td>${i+1}</td><td class="name-cell">${navLink("kata", k.Kata)}</td><td class="num">${k.Performances}</td><td class="num">${k.Mean_Score != null ? k.Mean_Score.toFixed(3) : "—"}</td></tr>`;
   const onlyPills = arr => arr.map(k => `<span class="pill nav-link" data-nav-type="kata" data-nav-name="${esc(k.Kata)}" style="cursor:pointer">${tierBadge(k.Kata_Tier)} ${esc(k.Kata)} <span class="pill-count">${k.Performances}×</span></span>`).join("");
@@ -597,40 +604,52 @@ function renderCompareTab() {
     <!-- Findings -->
     <div>
       <div class="finding-block" style="margin-top:0">
-      <h3 class="compare-head">Findings</h3>
+      <h3 class="compare-head">${jp ? "分析結果" : "Findings"}</h3>
         <ul style="font-size:13px;color:var(--text-muted);line-height:2.2;padding-left:20px">
-          <li>Male athletes performed <strong style="color:var(--text)">${mkata.length}</strong> unique kata across the 2024–25 season. Female athletes performed the same number: <strong style="color:var(--text)">${fkata.length}</strong> unique kata.</li>
+          ${jp
+            ? `<li>男子選手は2024–25シーズンを通じて<strong style="color:var(--text)">${mkata.length}</strong>種類の型を演武しました。女子選手も同数の<strong style="color:var(--text)">${fkata.length}</strong>種類を演武しました。</li>
+          <li>そのうち<strong style="color:var(--text)">${trueSharedCount}</strong>型は男女両方で演武されました。<strong style="color:var(--text)">${mOnly.length}</strong>型は男子のみ、<strong style="color:var(--text)">${fOnly.length}</strong>型は女子のみが演武しました。詳しい内訳は<em>図 G-2</em>、性別限定の型は<em>図 G-3</em>をご覧ください。</li>
+          <li>男子選手で最も多く演武された型は<strong style="color:var(--text)">${mTop1 ? kn(mTop1.Kata) : "—"}</strong>${mTop1 ? `（<strong style="color:var(--text)">${mTop1.Performances}</strong>回）` : ""}。女子選手では<strong style="color:var(--text)">${fTop1 ? kn(fTop1.Kata) : "—"}</strong>${fTop1 ? `（<strong style="color:var(--text)">${fTop1.Performances}</strong>回）` : ""}${fTop1 && fTop2 ? `で、2番目に多い女子型<strong style="color:var(--text)">${kn(fTop2.Kata)}</strong>（<strong style="color:var(--text)">${fTop2.Performances}</strong>回）を大きく上回りました。男子の上位型はより僅差です（上位3型で ${mTop10.slice(0,3).map(k => k.Performances).join(" / ")}）` : ""}。下の<em>図 G-1</em>をご覧ください。</li>
+          <li>男子型演武に与えられた平均スコアは<strong style="color:var(--text)">${mAvgScore != null ? mAvgScore.toFixed(3) : "—"}</strong>、女子型演武では<strong style="color:var(--text)">${fAvgScore != null ? fAvgScore.toFixed(3) : "—"}</strong>でした。</li>
+          <li>IQR法によると、男子型スコアには低い外れ値が<strong style="color:var(--text)">${mOut.low.length}</strong>個、高い外れ値が<strong style="color:var(--text)">${mOut.high.length}</strong>個あります。女子スコアには低い外れ値が<strong style="color:var(--text)">${fOut.low.length}</strong>個、高い外れ値が<strong style="color:var(--text)">${fOut.high.length}</strong>個あります。女子のデータはより極端な低スコアを含む一方、男子のスコアは下側でより密集し、上側ではより高いピークに達します。</li>
+          <li>女子競技で記録された単独最高スコアは<strong style="color:var(--text)">${fMaxKata ? fMaxKata.Max_Score.toFixed(2) : "—"}</strong>（${fMaxKata ? kn(fMaxKata.Kata) : "—"}）で、男子のピーク<strong style="color:var(--text)">${mMaxKata ? mMaxKata.Max_Score.toFixed(2) : "—"}</strong>（${mMaxKata ? kn(mMaxKata.Kata) : "—"}）にほぼ匹敵します。</li>
+          <li>シーズンを通じて、男子選手は計<strong style="color:var(--text)">${mTotalPerfs.toLocaleString()}</strong>回の型演武を記録し、女子選手は<strong style="color:var(--text)">${fTotalPerfs.toLocaleString()}</strong>回でした。</li>`
+            : `<li>Male athletes performed <strong style="color:var(--text)">${mkata.length}</strong> unique kata across the 2024–25 season. Female athletes performed the same number: <strong style="color:var(--text)">${fkata.length}</strong> unique kata.</li>
           <li>Of those, <strong style="color:var(--text)">${trueSharedCount}</strong> kata were performed by both genders. <strong style="color:var(--text)">${mOnly.length}</strong> kata were performed exclusively by males, and <strong style="color:var(--text)">${fOnly.length}</strong> exclusively by females. See <em>Figure G-2</em> for the full breakdown and <em>Figure G-3</em> for the exclusive kata.</li>
           <li>The most performed kata among male athletes was <strong style="color:var(--text)">${mTop1 ? esc(mTop1.Kata) : "—"}</strong>${mTop1 ? ` with <strong style="color:var(--text)">${mTop1.Performances}</strong> performances` : ""}. For female athletes it was <strong style="color:var(--text)">${fTop1 ? esc(fTop1.Kata) : "—"}</strong>${fTop1 ? ` with <strong style="color:var(--text)">${fTop1.Performances}</strong> performances` : ""}${fTop1 && fTop2 ? `, significantly more than the second most performed female kata, <strong style="color:var(--text)">${esc(fTop2.Kata)}</strong>, at <strong style="color:var(--text)">${fTop2.Performances}</strong> performances. The male top kata are closer together (${mTop10.slice(0,3).map(k => k.Performances).join(" / ")} for the top three)` : ""}. See <em>Figure G-1</em> below.</li>
           <li>The average score given to any male kata performance was <strong style="color:var(--text)">${mAvgScore != null ? mAvgScore.toFixed(3) : "—"}</strong>. For female kata performances, it was <strong style="color:var(--text)">${fAvgScore != null ? fAvgScore.toFixed(3) : "—"}</strong>.</li>
           <li>Using the IQR method, male kata performance scores have <strong style="color:var(--text)">${mOut.low.length}</strong> low ${mOut.low.length === 1 ? "outlier" : "outliers"} and <strong style="color:var(--text)">${mOut.high.length}</strong> high ${mOut.high.length === 1 ? "outlier" : "outliers"}; female scores have <strong style="color:var(--text)">${fOut.low.length}</strong> low ${fOut.low.length === 1 ? "outlier" : "outliers"} and <strong style="color:var(--text)">${fOut.high.length}</strong> high ${fOut.high.length === 1 ? "outlier" : "outliers"}. The female dataset contains more extreme lows, while male scores cluster more tightly at the bottom but reach higher peaks at the top.</li>
           <li>The single highest score recorded in female competition was <strong style="color:var(--text)">${fMaxKata ? fMaxKata.Max_Score.toFixed(2) : "—"}</strong> (${fMaxKata ? esc(fMaxKata.Kata) : "—"}), nearly matching the male peak of <strong style="color:var(--text)">${mMaxKata ? mMaxKata.Max_Score.toFixed(2) : "—"}</strong> (${mMaxKata ? esc(mMaxKata.Kata) : "—"}).</li>
-          <li>Across the season, male athletes recorded <strong style="color:var(--text)">${mTotalPerfs.toLocaleString()}</strong> total kata performances, compared to <strong style="color:var(--text)">${fTotalPerfs.toLocaleString()}</strong> for female athletes.</li>
+          <li>Across the season, male athletes recorded <strong style="color:var(--text)">${mTotalPerfs.toLocaleString()}</strong> total kata performances, compared to <strong style="color:var(--text)">${fTotalPerfs.toLocaleString()}</strong> for female athletes.</li>`}
         </ul>
 
-        <p style="font-size:13px;font-weight:700;color:var(--text);margin:20px 0 6px">Athlete Spotlight</p>
+        <p style="font-size:13px;font-weight:700;color:var(--text);margin:20px 0 6px">${jp ? "アスリート・スポットライト" : "Athlete Spotlight"}</p>
         <ul style="font-size:13px;color:var(--text-muted);line-height:2.2;padding-left:20px">
-          ${mKakeru ? `<li>Male kata competition was largely dominated by <strong style="color:var(--text)">Kakeru Nishiyama</strong> (Japan), who averaged <strong style="color:var(--text)">${mKakeru.Mean_Score?.toFixed(3) ?? "—"}</strong> across <strong style="color:var(--text)">${mKakeru.Performances}</strong> performances, with a win rate of <strong style="color:var(--text)">${fmtWR(mKakeru)}</strong> and <strong style="color:var(--text)">${medalCount(mKakeru)}</strong> medal${medalCount(mKakeru) !== 1 ? "s" : ""} on the season, including <strong style="color:var(--text)">${goldCount(mKakeru)}</strong> gold${goldCount(mKakeru) !== 1 ? "s" : ""}. The next-highest averaging male athlete${mNo2 ? `, <strong style="color:var(--text)">${esc(mNo2.Karateka)}</strong>, averaged <strong style="color:var(--text)">${mNo2.Mean_Score.toFixed(3)}</strong>, a gap of <strong style="color:var(--text)">${(mKakeru.Mean_Score - mNo2.Mean_Score).toFixed(3)}</strong> below Nishiyama` : " also posted a strong season"}.</li>` : ""}
-          ${fGrace && fMaho ? `<li>Female kata saw a more competitive dynamic at the top, with <strong style="color:var(--text)">Grace Lau</strong> (Hong Kong) and <strong style="color:var(--text)">Maho Ono</strong> (Japan) as the two clear frontrunners. Lau averaged <strong style="color:var(--text)">${fGrace.Mean_Score?.toFixed(3) ?? "—"}</strong> across <strong style="color:var(--text)">${fGrace.Performances}</strong> performances (win rate: <strong style="color:var(--text)">${fmtWR(fGrace)}</strong>; <strong style="color:var(--text)">${medalCount(fGrace)}</strong> medal${medalCount(fGrace) !== 1 ? "s" : ""}, <strong style="color:var(--text)">${goldCount(fGrace)}</strong> gold${goldCount(fGrace) !== 1 ? "s" : ""}). Ono averaged <strong style="color:var(--text)">${fMaho.Mean_Score?.toFixed(3) ?? "—"}</strong> across <strong style="color:var(--text)">${fMaho.Performances}</strong> performances (win rate: <strong style="color:var(--text)">${fmtWR(fMaho)}</strong>; <strong style="color:var(--text)">${medalCount(fMaho)}</strong> medal${medalCount(fMaho) !== 1 ? "s" : ""}, <strong style="color:var(--text)">${goldCount(fMaho)}</strong> gold${goldCount(fMaho) !== 1 ? "s" : ""}). ${fGrace.Mean_Score != null && fMaho.Mean_Score != null ? `The gap between them was <strong style="color:var(--text)">${Math.abs(fGrace.Mean_Score - fMaho.Mean_Score).toFixed(3)}</strong> in average score, with ${fGrace.Mean_Score > fMaho.Mean_Score ? "Lau" : "Ono"} leading.` : ""}</li>` : ""}
+          ${!mKakeru ? "" : jp
+            ? `<li>男子型競技は主に<strong style="color:var(--text)">Kakeru Nishiyama</strong>（日本）が支配しました。彼は<strong style="color:var(--text)">${mKakeru.Performances}</strong>演武で平均<strong style="color:var(--text)">${mKakeru.Mean_Score?.toFixed(3) ?? "—"}</strong>、勝率<strong style="color:var(--text)">${fmtWR(mKakeru)}</strong>、シーズンで<strong style="color:var(--text)">${medalCount(mKakeru)}</strong>個のメダル（うち金<strong style="color:var(--text)">${goldCount(mKakeru)}</strong>個）を記録しました。${mNo2 ? `2番目に平均が高い男子選手<strong style="color:var(--text)">${esc(mNo2.Karateka)}</strong>は平均<strong style="color:var(--text)">${mNo2.Mean_Score.toFixed(3)}</strong>で、Nishiyamaに<strong style="color:var(--text)">${(mKakeru.Mean_Score - mNo2.Mean_Score).toFixed(3)}</strong>及びませんでした。` : "2番目に平均が高い男子選手も好成績を残しました。"}</li>`
+            : `<li>Male kata competition was largely dominated by <strong style="color:var(--text)">Kakeru Nishiyama</strong> (Japan), who averaged <strong style="color:var(--text)">${mKakeru.Mean_Score?.toFixed(3) ?? "—"}</strong> across <strong style="color:var(--text)">${mKakeru.Performances}</strong> performances, with a win rate of <strong style="color:var(--text)">${fmtWR(mKakeru)}</strong> and <strong style="color:var(--text)">${medalCount(mKakeru)}</strong> medal${medalCount(mKakeru) !== 1 ? "s" : ""} on the season, including <strong style="color:var(--text)">${goldCount(mKakeru)}</strong> gold${goldCount(mKakeru) !== 1 ? "s" : ""}. The next-highest averaging male athlete${mNo2 ? `, <strong style="color:var(--text)">${esc(mNo2.Karateka)}</strong>, averaged <strong style="color:var(--text)">${mNo2.Mean_Score.toFixed(3)}</strong>, a gap of <strong style="color:var(--text)">${(mKakeru.Mean_Score - mNo2.Mean_Score).toFixed(3)}</strong> below Nishiyama` : " also posted a strong season"}.</li>`}
+          ${!(fGrace && fMaho) ? "" : jp
+            ? `<li>女子型は上位の争いがより激しく、<strong style="color:var(--text)">Grace Lau</strong>（香港）と<strong style="color:var(--text)">Maho Ono</strong>（日本）が明確な2強でした。Lauは<strong style="color:var(--text)">${fGrace.Performances}</strong>演武で平均<strong style="color:var(--text)">${fGrace.Mean_Score?.toFixed(3) ?? "—"}</strong>（勝率<strong style="color:var(--text)">${fmtWR(fGrace)}</strong>、メダル<strong style="color:var(--text)">${medalCount(fGrace)}</strong>個・金<strong style="color:var(--text)">${goldCount(fGrace)}</strong>個）。Onoは<strong style="color:var(--text)">${fMaho.Performances}</strong>演武で平均<strong style="color:var(--text)">${fMaho.Mean_Score?.toFixed(3) ?? "—"}</strong>（勝率<strong style="color:var(--text)">${fmtWR(fMaho)}</strong>、メダル<strong style="color:var(--text)">${medalCount(fMaho)}</strong>個・金<strong style="color:var(--text)">${goldCount(fMaho)}</strong>個）。${fGrace.Mean_Score != null && fMaho.Mean_Score != null ? `平均スコアの差は<strong style="color:var(--text)">${Math.abs(fGrace.Mean_Score - fMaho.Mean_Score).toFixed(3)}</strong>で、${fGrace.Mean_Score > fMaho.Mean_Score ? "Lau" : "Ono"}がリードしました。` : ""}</li>`
+            : `<li>Female kata saw a more competitive dynamic at the top, with <strong style="color:var(--text)">Grace Lau</strong> (Hong Kong) and <strong style="color:var(--text)">Maho Ono</strong> (Japan) as the two clear frontrunners. Lau averaged <strong style="color:var(--text)">${fGrace.Mean_Score?.toFixed(3) ?? "—"}</strong> across <strong style="color:var(--text)">${fGrace.Performances}</strong> performances (win rate: <strong style="color:var(--text)">${fmtWR(fGrace)}</strong>; <strong style="color:var(--text)">${medalCount(fGrace)}</strong> medal${medalCount(fGrace) !== 1 ? "s" : ""}, <strong style="color:var(--text)">${goldCount(fGrace)}</strong> gold${goldCount(fGrace) !== 1 ? "s" : ""}). Ono averaged <strong style="color:var(--text)">${fMaho.Mean_Score?.toFixed(3) ?? "—"}</strong> across <strong style="color:var(--text)">${fMaho.Performances}</strong> performances (win rate: <strong style="color:var(--text)">${fmtWR(fMaho)}</strong>; <strong style="color:var(--text)">${medalCount(fMaho)}</strong> medal${medalCount(fMaho) !== 1 ? "s" : ""}, <strong style="color:var(--text)">${goldCount(fMaho)}</strong> gold${goldCount(fMaho) !== 1 ? "s" : ""}). ${fGrace.Mean_Score != null && fMaho.Mean_Score != null ? `The gap between them was <strong style="color:var(--text)">${Math.abs(fGrace.Mean_Score - fMaho.Mean_Score).toFixed(3)}</strong> in average score, with ${fGrace.Mean_Score > fMaho.Mean_Score ? "Lau" : "Ono"} leading.` : ""}</li>`}
         </ul>
       </div>
     </div>
 
     <!-- Top 10 side by side -->
     <div style="margin-top:64px">
-      <span class="fig-label">Figure G-1</span>
+      <span class="fig-label">${t("fig.figure")} G-1</span>
       <div class="compare-grid">
         <div class="compare-col">
-          <h3 class="compare-head">Top 10 Most Performed — Male</h3>
+          <h3 class="compare-head">${jp ? "演武数トップ10 — 男子" : "Top 10 Most Performed — Male"}</h3>
           <div class="table-wrapper">
-            <table class="data-table"><thead><tr><th>#</th><th>Kata</th><th class="num">Performances</th><th class="num">Avg Score</th></tr></thead>
+            <table class="data-table"><thead><tr><th>#</th><th>${t("col.kata")}</th><th class="num">${t("col.performances")}</th><th class="num">${t("col.avgScore")}</th></tr></thead>
             <tbody>${mTop10.map((k,i) => top5Row(k,i)).join("")}</tbody></table>
           </div>
         </div>
         <div class="compare-col">
-          <h3 class="compare-head">Top 10 Most Performed — Female</h3>
+          <h3 class="compare-head">${jp ? "演武数トップ10 — 女子" : "Top 10 Most Performed — Female"}</h3>
           <div class="table-wrapper">
-            <table class="data-table"><thead><tr><th>#</th><th>Kata</th><th class="num">Performances</th><th class="num">Avg Score</th></tr></thead>
+            <table class="data-table"><thead><tr><th>#</th><th>${t("col.kata")}</th><th class="num">${t("col.performances")}</th><th class="num">${t("col.avgScore")}</th></tr></thead>
             <tbody>${fTop10.map((k,i) => top5Row(k,i)).join("")}</tbody></table>
           </div>
         </div>
@@ -648,83 +667,84 @@ function renderCompareTab() {
       const allAdv   = [...new Set([...(mts.adv_performed || []), ...(mts.adv_unperformed || [])])].sort();
       const allInt   = [...new Set([...(mts.interm_performed || []), ...(fts.interm_performed || [])])].sort();
       const mid      = Math.ceil(allAdv.length / 2);
+      const L = { both: jp ? "両方" : "Both", men: jp ? "男子のみ" : "Men only", women: jp ? "女子のみ" : "Women only", none: jp ? "未演武" : "Not performed" };
       const pill = (inM, inF) => {
-        if (inM && inF) return '<span class="ks-pill ks-pill-both">Both</span>';
-        if (inM)        return '<span class="ks-pill ks-pill-male">Men only</span>';
-        if (inF)        return '<span class="ks-pill ks-pill-female">Women only</span>';
-        return '<span class="ks-pill ks-pill-none">Not performed</span>';
+        if (inM && inF) return `<span class="ks-pill ks-pill-both">${L.both}</span>`;
+        if (inM)        return `<span class="ks-pill ks-pill-male">${L.men}</span>`;
+        if (inF)        return `<span class="ks-pill ks-pill-female">${L.women}</span>`;
+        return `<span class="ks-pill ks-pill-none">${L.none}</span>`;
       };
       const rows = (list, mSet, fSet, offset = 0) => list.map((k, i) =>
         `<tr><td class="num row-num">${offset + i + 1}</td><td>${navLink("kata", k)}</td><td>${pill(mSet.has(k), fSet.has(k))}</td></tr>`
       ).join("");
       const col = (header, bodyRows) => `<div class="table-wrapper"><table class="data-table">
-        <thead><tr><th class="num row-num">#</th><th>${header}</th><th>Status</th></tr></thead>
+        <thead><tr><th class="num row-num">#</th><th>${header}</th><th>${jp ? "状態" : "Status"}</th></tr></thead>
         <tbody>${bodyRows}</tbody></table></div>`;
       return `<div id="fig-g2" style="margin-top:64px">
-        <span class="fig-label">Figure G-2</span>
-        <h3 class="compare-head">Kata Performed by Gender</h3>
+        <span class="fig-label">${t("fig.figure")} G-2</span>
+        <h3 class="compare-head">${jp ? "性別ごとに演武された型" : "Kata Performed by Gender"}</h3>
         <div class="ks-legend">
-          <span class="ks-pill ks-pill-both">Both</span>
-          <span class="ks-pill ks-pill-male">Men only</span>
-          <span class="ks-pill ks-pill-female">Women only</span>
-          <span class="ks-pill ks-pill-none">Not performed</span>
+          <span class="ks-pill ks-pill-both">${L.both}</span>
+          <span class="ks-pill ks-pill-male">${L.men}</span>
+          <span class="ks-pill ks-pill-female">${L.women}</span>
+          <span class="ks-pill ks-pill-none">${L.none}</span>
         </div>
         <div class="ks-three-col">
-          ${col('Advanced', rows(allAdv.slice(0, mid), mAdvSet, fAdvSet, 0))}
-          ${col('Advanced (cont.)', rows(allAdv.slice(mid), mAdvSet, fAdvSet, mid))}
-          ${col('Intermediate (performed only)', rows(allInt, mIntSet, fIntSet, 0))}
+          ${col(t("tier.Advanced"), rows(allAdv.slice(0, mid), mAdvSet, fAdvSet, 0))}
+          ${col(jp ? "上級（続き）" : "Advanced (cont.)", rows(allAdv.slice(mid), mAdvSet, fAdvSet, mid))}
+          ${col(jp ? "中級（演武分のみ）" : "Intermediate (performed only)", rows(allInt, mIntSet, fIntSet, 0))}
         </div>
       </div>`;
     })()}
 
     <!-- Exclusive kata + Venn diagram -->
     <div style="margin-top:64px">
-      <span class="fig-label">Figure G-3</span>
-      <h3 class="compare-head">Exclusive Kata by Gender</h3>
-      <p style="text-align:center;font-size:13px;color:var(--text-muted);margin:0 0 12px">Total unique kata performed: <strong style="color:var(--text)">${mOnly.length + fOnly.length + trueSharedCount}</strong></p>
+      <span class="fig-label">${t("fig.figure")} G-3</span>
+      <h3 class="compare-head">${jp ? "性別限定の型" : "Exclusive Kata by Gender"}</h3>
+      <p style="text-align:center;font-size:13px;color:var(--text-muted);margin:0 0 12px">${jp ? "演武された型の総数：" : "Total unique kata performed: "}<strong style="color:var(--text)">${mOnly.length + fOnly.length + trueSharedCount}</strong></p>
       <svg viewBox="0 0 480 210" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:520px;display:block;margin:0 auto 32px">
         <circle cx="185" cy="105" r="100" fill="#bfdbfe" fill-opacity="0.65" stroke="#2563eb" stroke-width="1.5"/>
         <circle cx="295" cy="105" r="100" fill="#e9d5ff" fill-opacity="0.65" stroke="#9333ea" stroke-width="1.5"/>
-        <text x="135" y="98" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="#1e40af">Men only</text>
+        <text x="135" y="98" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="#1e40af">${jp ? "男子のみ" : "Men only"}</text>
         <text x="135" y="128" text-anchor="middle" font-family="system-ui,sans-serif" font-size="34" font-weight="700" fill="#1e40af">${mOnly.length}</text>
-        <text x="240" y="98" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="#374151">Both</text>
+        <text x="240" y="98" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="#374151">${jp ? "両方" : "Both"}</text>
         <text x="240" y="128" text-anchor="middle" font-family="system-ui,sans-serif" font-size="34" font-weight="700" fill="#374151">${trueSharedCount}</text>
-        <text x="345" y="98" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="#6b21a8">Women only</text>
+        <text x="345" y="98" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" font-weight="700" fill="#6b21a8">${jp ? "女子のみ" : "Women only"}</text>
         <text x="345" y="128" text-anchor="middle" font-family="system-ui,sans-serif" font-size="34" font-weight="700" fill="#6b21a8">${fOnly.length}</text>
       </svg>
       <div class="compare-grid">
         <div class="compare-col">
-          <h3 class="compare-head">Performed by Males Only (${mOnly.length})</h3>
+          <h3 class="compare-head">${jp ? `男子のみが演武 (${mOnly.length})` : `Performed by Males Only (${mOnly.length})`}</h3>
           ${mOnly.length ? `<div class="table-wrapper"><table class="data-table">
-            <thead><tr><th class="num row-num">#</th><th>Kata</th><th>Tier</th><th class="num">Performances</th></tr></thead>
+            <thead><tr><th class="num row-num">#</th><th>${t("col.kata")}</th><th>${t("col.tier")}</th><th class="num">${t("col.performances")}</th></tr></thead>
             <tbody>${mOnly.map((k, i) => `<tr>
               <td class="num row-num">${i + 1}</td>
               <td class="name-cell">${navLink("kata", k.Kata)}</td>
               <td>${tierBadge(k.Kata_Tier)}</td>
               <td class="num">${k.Performances}</td>
             </tr>`).join("")}</tbody>
-          </table></div>` : "<em style='color:var(--text-muted)'>None</em>"}
+          </table></div>` : `<em style='color:var(--text-muted)'>${t("lbl.none")}</em>`}
         </div>
         <div class="compare-col">
-          <h3 class="compare-head">Performed by Females Only (${fOnly.length})</h3>
+          <h3 class="compare-head">${jp ? `女子のみが演武 (${fOnly.length})` : `Performed by Females Only (${fOnly.length})`}</h3>
           ${fOnly.length ? `<div class="table-wrapper"><table class="data-table">
-            <thead><tr><th class="num row-num">#</th><th>Kata</th><th>Tier</th><th class="num">Performances</th></tr></thead>
+            <thead><tr><th class="num row-num">#</th><th>${t("col.kata")}</th><th>${t("col.tier")}</th><th class="num">${t("col.performances")}</th></tr></thead>
             <tbody>${fOnly.map((k, i) => `<tr>
               <td class="num row-num">${i + 1}</td>
               <td class="name-cell">${navLink("kata", k.Kata)}</td>
               <td>${tierBadge(k.Kata_Tier)}</td>
               <td class="num">${k.Performances}</td>
             </tr>`).join("")}</tbody>
-          </table></div>` : "<em style='color:var(--text-muted)'>None</em>"}
+          </table></div>` : `<em style='color:var(--text-muted)'>${t("lbl.none")}</em>`}
         </div>
       </div>
     </div>
 
     <!-- Avg score comparison -->
     <div style="margin-top:64px">
-      <span class="fig-label">Figure G-4</span>
-      <h3 class="compare-head">Average Score Comparison — Shared Kata (${compareShared.length + compareIncomplete.length})</h3>
-      <p style="font-size:12px;color:var(--text-muted);margin-bottom:10px">Click any column header to sort. Diff = Male − Female. Green = males scored higher; red = females scored higher.</p>
+      <span class="fig-label">${t("fig.figure")} G-4</span>
+      <h3 class="compare-head">${jp ? `平均スコア比較 — 共通の型 (${compareShared.length + compareIncomplete.length})` : `Average Score Comparison — Shared Kata (${compareShared.length + compareIncomplete.length})`}</h3>
+      <p style="font-size:12px;color:var(--text-muted);margin-bottom:10px">${jp ? "列見出しをクリックして並べ替え。差 = 男子 − 女子。緑＝男子が高い、赤＝女子が高い。" : "Click any column header to sort. Diff = Male − Female. Green = males scored higher; red = females scored higher."}</p>
       <div style="position:relative;height:${Math.max(300, compareShared.length * 22)}px;margin-bottom:24px">
         <canvas id="chart-compare-diff"></canvas>
       </div>
@@ -732,10 +752,10 @@ function renderCompareTab() {
         <table class="data-table" id="compare-shared-table">
           <thead><tr>
             <th class="num row-num">#</th>
-            <th data-ccol="Kata"   style="cursor:pointer" onclick="sortCompareTable('Kata')">Kata</th>
-            <th data-ccol="Male"   class="num" style="cursor:pointer" onclick="sortCompareTable('Male')">Male Avg</th>
-            <th data-ccol="Female" class="num" style="cursor:pointer" onclick="sortCompareTable('Female')">Female Avg</th>
-            <th data-ccol="Diff"   class="num" style="cursor:pointer" onclick="sortCompareTable('Diff')">Diff (M−F) ↓</th>
+            <th data-ccol="Kata"   style="cursor:pointer" onclick="sortCompareTable('Kata')">${t("col.kata")}</th>
+            <th data-ccol="Male"   class="num" style="cursor:pointer" onclick="sortCompareTable('Male')">${jp ? "男子平均" : "Male Avg"}</th>
+            <th data-ccol="Female" class="num" style="cursor:pointer" onclick="sortCompareTable('Female')">${jp ? "女子平均" : "Female Avg"}</th>
+            <th data-ccol="Diff"   class="num" style="cursor:pointer" onclick="sortCompareTable('Diff')">${jp ? "差（男−女）" : "Diff (M−F)"} ↓</th>
           </tr></thead>
           <tbody id="compare-shared-tbody"></tbody>
         </table>
@@ -786,7 +806,7 @@ function renderCompareDiffChart() {
         diffLabels: {},
       },
       scales: {
-        x: { grid: { color: c => c.tick.value === 0 ? "rgba(0,0,0,0.75)" : GRID, lineWidth: c => c.tick.value === 0 ? 1.5 : 1 }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, title: { display: true, text: "Male Avg − Female Avg", font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
+        x: { grid: { color: c => c.tick.value === 0 ? "rgba(0,0,0,0.75)" : GRID, lineWidth: c => c.tick.value === 0 ? 1.5 : 1 }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, title: { display: true, text: lang === "jp" ? "男子平均 − 女子平均" : "Male Avg − Female Avg", font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
         y: { grid: { display: false }, ticks: { display: false } },
       },
     },
@@ -819,8 +839,12 @@ function renderCompareSharedTable() {
   });
   const tbody = document.getElementById("compare-shared-tbody");
   if (!tbody) return;
-  const missingTip = gender => `title="No average score recorded for ${gender} performances of this kata"`;
-  const diffTip = `title="Score differential not available — average score is missing for one gender"`;
+  const missingTip = g => lang === "jp"
+    ? `title="この型の${g === "male" ? "男子" : "女子"}演武には平均スコアが記録されていません"`
+    : `title="No average score recorded for ${g} performances of this kata"`;
+  const diffTip = lang === "jp"
+    ? `title="スコア差は利用できません — 片方の性別の平均スコアが欠損しています"`
+    : `title="Score differential not available — average score is missing for one gender"`;
   const incompleteRows = compareIncomplete.map((r, j) => `<tr>
     <td class="num row-num" style="color:var(--text-muted)">${sorted.length + j + 1}</td>
     <td class="name-cell">${navLink("kata", r.Kata)}</td>
@@ -2695,11 +2719,11 @@ function buildMissingTables() {
   ["male", "female"].forEach(g => {
     const gd = md[g];
     const rows = [
-      ["Total Performances",                    gd.total,              "100.00%"],
-      ["Complete (Kata + Score present)",        gd.complete,           pct(gd.complete, gd.total)],
-      ["Missing Kata Name (score present)",      gd.missing_kata_only,  pct(gd.missing_kata_only, gd.total)],
-      ["Missing Score (kata name present)",      gd.missing_score_only, pct(gd.missing_score_only, gd.total)],
-      ["Missing Both",                           gd.missing_both,       pct(gd.missing_both, gd.total)],
+      [t("miss.total"),     gd.total,              "100.00%"],
+      [t("miss.complete"),  gd.complete,           pct(gd.complete, gd.total)],
+      [t("miss.kataOnly"),  gd.missing_kata_only,  pct(gd.missing_kata_only, gd.total)],
+      [t("miss.scoreOnly"), gd.missing_score_only, pct(gd.missing_score_only, gd.total)],
+      [t("miss.both"),      gd.missing_both,       pct(gd.missing_both, gd.total)],
     ];
     document.getElementById(`missing-tbody-${g}`).innerHTML = rows.map(([label, count, percent]) =>
       `<tr><td>${label}</td><td class="num">${count}</td><td class="num">${percent}</td></tr>`
