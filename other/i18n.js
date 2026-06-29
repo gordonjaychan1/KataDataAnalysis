@@ -200,6 +200,18 @@ const I18N = {
   "chartTitle.pctPerfByTier": { en: "% of Performances by Tier", jp: "階級別の演武割合" },
   "chartTitle.distinctKataByTier": { en: "Distinct Kata Count by Tier", jp: "階級別の型数" },
   "note.countriesMin2": { en: "This figure only shows countries that sent 2 or more athletes.", jp: "この図は2名以上の選手を派遣した国のみを表示しています。" },
+
+  /* ── Kata tier system (Welcome) overlap explanation & curve graph ── */
+  "welcome.tier.overlap": {
+    en: "<strong>Tiers are broad bands, not a strict ranking.</strong> Difficulty varies widely within each tier, and the bands overlap: <strong>the most demanding Intermediate kata are harder than the least demanding Advanced kata.</strong> The majority of Advanced kata were performed, while only a small minority of Intermediate kata were performed, indicating that, when choosing Intermediate kata, elite athletes only chose the best of them. See <a href=\"#\" onclick=\"switchToTab('kata-findings');setTimeout(()=>{const el=document.getElementById('performed-kata-grid');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},150);return false;\" style=\"color:var(--red)\">Figure K-10</a> to see which Advanced and Intermediate kata were and were not performed.",
+    jp: "<strong>階級は厳密な順位ではなく、大まかな区分です。</strong>各階級の中でも難易度は大きく異なり、区分は重なり合います。<strong>最も難しい中級型は、最も易しい上級型よりも難度が高いのです。</strong>上級型の大半が演武された一方で、中級型はごく一部しか演武されませんでした。これは、エリート選手が中級型を選ぶ際には、その中でも最良のものだけを選んでいることを示しています。どの上級型・中級型が演武され、どれが演武されなかったかは<a href=\"#\" onclick=\"switchToTab('kata-findings');setTimeout(()=>{const el=document.getElementById('performed-kata-grid');if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},150);return false;\" style=\"color:var(--red)\">図 K-10</a>をご覧ください。"
+  },
+  "tier.curveCaption": {
+    en: "Each curve shows how the kata in one tier spread across difficulty. Where the curves overlap, some Intermediate kata are more advanced than some Advanced kata.",
+    jp: "各曲線は、その階級の型が難易度の上でどう分布しているかを示します。曲線が重なる部分では、一部の中級型が一部の上級型よりも難度が高くなっています。"
+  },
+  "tier.axisDifficulty": { en: "Difficulty →", jp: "難易度 →" },
+  "tier.overlapLabel": { en: "Overlap", jp: "重なり" },
   "fig.figure": { en: "Figure", jp: "図" },
   "map.athletes": { en: "athletes", jp: "選手" },
   "tourn.noMissing": { en: "No missing data for this tournament.", jp: "この大会に欠損データはありません。" },
