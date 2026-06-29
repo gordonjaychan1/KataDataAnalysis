@@ -5,15 +5,21 @@ function confirmNav(type, name) {
   _pendingNav = { type, name };
   const existing = document.getElementById("nav-modal");
   if (existing) existing.remove();
-  const labels = { kata: "Kata", karateka: "Athlete", tournament: "Tournament", country: "Country" };
+  const typeKeys = { kata: "col.kata", karateka: "col.athlete", tournament: "col.tournament", country: "col.country" };
+  const typeLabel = typeKeys[type] ? t(typeKeys[type]) : "";
+  const dispName = displayName(type, name);
+  const jp = (typeof lang !== "undefined" && lang === "jp");
+  const msg = jp
+    ? `<strong>${dispName}</strong> の${typeLabel}詳細へ移動しますか？`
+    : `Navigate to <strong>${dispName}</strong> ${typeLabel} Details?`;
   const overlay = document.createElement("div");
   overlay.id = "nav-modal";
   overlay.className = "nav-modal-overlay";
   overlay.innerHTML = `<div class="nav-modal-box">
-    <p class="nav-modal-msg">Navigate to <strong>${name}</strong> ${labels[type] || ""} Details?</p>
+    <p class="nav-modal-msg">${msg}</p>
     <div class="nav-modal-btns">
-      <button class="nav-modal-cancel" onclick="document.getElementById('nav-modal').remove()">Cancel</button>
-      <button class="nav-modal-go" onclick="document.getElementById('nav-modal').remove();_doNav()">Go</button>
+      <button class="nav-modal-cancel" onclick="document.getElementById('nav-modal').remove()">${t("nav.cancel")}</button>
+      <button class="nav-modal-go" onclick="document.getElementById('nav-modal').remove();_doNav()">${t("nav.go")}</button>
     </div>
   </div>`;
   overlay.addEventListener("click", e => { if (e.target === overlay) overlay.remove(); });

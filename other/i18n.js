@@ -25,6 +25,10 @@ const I18N = {
   "toggle.male":  { en: "Male", jp: "男子" },
   "toggle.female": { en: "Female", jp: "女子" },
 
+  /* ── Navigation confirmation modal ── */
+  "nav.cancel":   { en: "Cancel", jp: "キャンセル" },
+  "nav.go":       { en: "Go", jp: "移動" },
+
   /* ── Search placeholders ── */
   "ph.globalSearch": { en: "Search Kata, Athletes, Tournaments, Countries, etc.", jp: "型・選手・大会・国などを検索…" },
   "ph.searchKata":   { en: "Search kata…", jp: "型を検索…" },
