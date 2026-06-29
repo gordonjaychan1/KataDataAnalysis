@@ -447,4 +447,14 @@ blockquote.dedication {
 }
 .tl-chip-real:hover { background: var(--red-light); border-color: var(--red); color: var(--red); }
 
+/* ── Site credit ──────────────────────────────────────────────────────────── */
+#site-credit {
+  text-align: right;
+  margin-top: -12px;
+  padding: 0 32px 12px;
+  font-size: 12px;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
 /* ── Medals tab ───────────────────────────────────────────────────────────── */
