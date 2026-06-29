@@ -2084,15 +2084,21 @@ function makeCountryHBar(id, countries, athletes) {
       c2d.restore();
     }
   };
+  // Reserve only as much left padding as the widest flag + name label needs, so a
+  // short set of labels doesn't leave a big empty gap that shifts the bars right.
+  const measure = document.createElement("canvas").getContext("2d");
+  measure.font = `11px ${CHART_FONT}`;
+  const maxNameW = countries.reduce((m, c) => Math.max(m, measure.measureText(c).width), 0);
+  const leftPad = Math.ceil(maxNameW) + 20 + 5 + 8 + 6; // name + flag + gap + axis offset + buffer
   charts[id] = new Chart(ctx, {
     type: "bar",
     data: { labels: countries, datasets: [{ data: athletes, backgroundColor: RED, borderColor: RED_BORDER, borderWidth: 1, borderRadius: 3 }] },
     options: {
       indexAxis: "y", responsive: true, maintainAspectRatio: false,
-      layout: { padding: { left: 175 } },
+      layout: { padding: { left: leftPad } },
       plugins: { legend: { display: false }, tooltip: { callbacks: { label: c2 => ` ${c2.raw}` } } },
       scales: {
-        x: { min: 0, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, title: { display: true, text: "Athletes", font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
+        x: { min: 0, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, title: { display: true, text: t("axis.athletes"), font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
         y: { grid: { display: false }, ticks: { display: false } },
       },
     },
@@ -2140,11 +2146,11 @@ function kataFindingsHTML() {
   if (gender === "male") {
     if (jp) return _findingsBlock("型に関する分析結果", [
       `今シーズンの男子型 全<strong>1,006</strong>演武の平均スコアは<strong>8.132</strong>、中央値は<strong>8.09</strong>で、左右対称に近い分布を示しています。`,
-      `最も多く演武された男子型は<strong>Gojushiho Sho</strong>で<strong>108</strong>回。2番目は<strong>Unsu</strong>で<strong>104</strong>回でした。詳しくは<em>図 ${K1}</em>をご覧ください。`,
+      `最も多く演武された男子型は<strong>五十四歩小</strong>で<strong>108</strong>回。2番目は<strong>雲手</strong>で<strong>104</strong>回でした。詳しくは<em>図 ${K1}</em>をご覧ください。`,
       `男子型スコアのうち<strong>14/1006</strong>（<strong>1.392%</strong>）が外れ値でした。低い外れ値が7つ（6.98, 7.12, 7.16, 7.18, 7.20, 7.24, 7.24）、高い外れ値が7つ（9.02, 9.06, 9.10, 9.12, 9.14, 9.18, 9.28）あり、注目すべきことに、高い外れ値7つはすべて<strong>Kakeru Nishiyama</strong>によるものでした。`,
-      `スコア差（Score Differential：選手が自身の平均と比べてその型でどれだけ高く/低く得点したか）と勝率を比べると、興味深いパターンが見えてきます。<strong>Shisochin</strong>は最も低い差（<strong>-0.225</strong>）を示し、その型を演武した選手は自身の平均を大きく下回ったことを意味します。本来なら勝率は低いと思われますが、実際にはあらゆる型の中で最も高い勝率<strong>100.0%</strong>でした。`,
-      `さらに、最も高い差を示した型である<strong>Gankaku</strong>（<strong>+0.084</strong>）は勝率が高いと思われがちですが、勝率はわずか<strong>14.3%</strong>でした。`,
-      `この一見した矛盾はデータの重要な限界を示しています。型のスコア差は、選手が「自身の平均」と比べてどう得点したかを測るものであり、「対戦相手のスコア」と比べたものではありません。Shisochinのマイナスの差は、この型が主にすでに非常に高い平均を持つトップ選手に選ばれているためで、彼らにとっては「平均以下」でも十分に競争力があります。Shisochinの詳細カードを確認すると、17演武のうち13がKakeru NishiyamaとAriel Torresによるものだと分かります。Gankakuの高い差・低い勝率は、その型を演武する選手は単独では高得点でも、さらに高く得点する相手に当たっていることを示唆します。`,
+      `スコア差（Score Differential：選手が自身の平均と比べてその型でどれだけ高く/低く得点したか）と勝率を比べると、興味深いパターンが見えてきます。<strong>シソーチン</strong>は最も低い差（<strong>-0.225</strong>）を示し、その型を演武した選手は自身の平均を大きく下回ったことを意味します。本来なら勝率は低いと思われますが、実際にはあらゆる型の中で最も高い勝率<strong>100.0%</strong>でした。`,
+      `さらに、最も高い差を示した型である<strong>岩鶴</strong>（<strong>+0.084</strong>）は勝率が高いと思われがちですが、勝率はわずか<strong>14.3%</strong>でした。`,
+      `この一見した矛盾はデータの重要な限界を示しています。型のスコア差は、選手が「自身の平均」と比べてどう得点したかを測るものであり、「対戦相手のスコア」と比べたものではありません。シソーチンのマイナスの差は、この型が主にすでに非常に高い平均を持つトップ選手に選ばれているためで、彼らにとっては「平均以下」でも十分に競争力があります。シソーチンの詳細カードを確認すると、17演武のうち13がKakeru NishiyamaとAriel Torresによるものだと分かります。岩鶴の高い差・低い勝率は、その型を演武する選手は単独では高得点でも、さらに高く得点する相手に当たっていることを示唆します。`,
     ], "注記：", [
       `勝率は慎重に解釈する必要があります。特定の組み合わせの結果を反映しており、型の選択だけでなく相手の強さや組み合わせの運にも左右されます。全型の勝率は<em>図 ${K3}</em>をご覧ください。`,
       `演武回数の少ない型は、標本数が小さいため統計が不安定です。5回未満の型は限られたデータだけで極端な勝率や差を示すことがあり、過度に解釈すべきではありません。`,
@@ -2164,10 +2170,10 @@ function kataFindingsHTML() {
   /* female */
   if (jp) return _findingsBlock("型に関する分析結果", [
     `今シーズンの女子型 全<strong>964</strong>演武の平均スコアは<strong>7.954</strong>、中央値は<strong>7.94</strong>で、左右対称に近い分布を示しています。`,
-    `最も多く演武された女子型は<strong>Papuren</strong>で<strong>198</strong>回。2番目は<strong>Suparinpei</strong>で<strong>129</strong>回でした。詳しくは<em>図 ${K1}</em>をご覧ください。`,
+    `最も多く演武された女子型は<strong>パープーレン</strong>で<strong>198</strong>回。2番目は<strong>スーパーリンペイ</strong>で<strong>129</strong>回でした。詳しくは<em>図 ${K1}</em>をご覧ください。`,
     `女子型演武のうち<strong>8/964</strong>（<strong>0.830%</strong>）が外れ値でした。低い外れ値が4つ（6.14, 6.20, 6.38, 6.98）、高い外れ値が4つ（8.88, 8.88, 8.96, 9.22）あります。`,
     `<strong>Grace Lau</strong>は9.00の壁を破った唯一の女子選手で、<strong>9.22</strong>という、2番目に高い単独スコア（同じく彼女自身が記録した<strong>8.96</strong>）を大きく上回る得点を叩き出しました。`,
-    `最も高い差を示した型である<strong>Sochin</strong>（<strong>+0.084</strong>）は勝率が高いと思われがちですが、勝率は<strong>0%</strong>でした。`,
+    `最も高い差を示した型である<strong>ソーチン</strong>（<strong>+0.084</strong>）は勝率が高いと思われがちですが、勝率は<strong>0%</strong>でした。`,
   ], "注記：", [
     `勝率は慎重に解釈する必要があります。特定の組み合わせの結果を反映しており、型の選択だけでなく相手の強さや組み合わせの運にも左右されます。全型の勝率は<em>図 ${K3}</em>をご覧ください。`,
     `演武回数の少ない型は、標本数が小さいため統計が不安定です。5回未満の型は限られたデータだけで極端な勝率や差を示すことがあり、過度に解釈すべきではありません。`,
@@ -2195,8 +2201,8 @@ function athleteFindingsHTML() {
       `Nishiyamaは<strong>52</strong>演武で平均スコア<strong>8.67</strong>、勝率<strong>100.0%</strong>と男子全選手をリードしました。（前文を読んだ方には）予想通り、Nishiyamaは2024〜2025年の2年間、全大会で金メダルを獲得し、その締めくくりとして2025年世界選手権の金メダルマッチで史上最高得点となる<strong>9.28</strong>を記録しました。この試合では、相手（Alessio Ghinami）を<strong>0.44</strong>という大差で上回りました。0.44ほどの差は大会の後半ラウンドでは非常に稀ですが、片方の選手がKakeru Nishiyamaである場合は別です。この差はGhinamiの出来が悪く自己平均を下回ったためだと思うかもしれませんが、そうではありません。この試合でGhinamiは自己最高得点（<strong>8.84</strong>）を記録していました。`,
       `平均スコアで見ると、1位と2位の差は2位と10位の差に等しいほどです。<em>図 ${A1}</em>をご覧ください。`,
       `1,006の男子型演武には高い外れ値が7つあり、その全7つをKakeru Nishiyamaが保持しています。`,
-      `Kakeru Nishiyamaは9.00の壁を破った唯一の男子選手で、7回それを達成しました。最高位の外れ値6つはChibana No Kushankuで、9.02はPapurenで記録しました。`,
-      `Nishiyamaの6つの型のうち、最も高い平均スコアはChibana No Kushanku（9.00）です。注目すべきことに、彼のChibana No Kushanku9演武のこの平均は、他のどの男子選手の単独スコアよりも高い値です（Kakeru Nishiyama以外の男子選手による最高単独スコアは8.98）。`,
+      `Kakeru Nishiyamaは9.00の壁を破った唯一の男子選手で、7回それを達成しました。最高位の外れ値6つは知花のクーサンクーで、9.02はパープーレンで記録しました。`,
+      `Nishiyamaの6つの型のうち、最も高い平均スコアは知花のクーサンクー（9.00）です。注目すべきことに、彼の知花のクーサンクー9演武のこの平均は、他のどの男子選手の単独スコアよりも高い値です（Kakeru Nishiyama以外の男子選手による最高単独スコアは8.98）。`,
       `日本は男子型の選手層でも圧倒的で、<strong>12</strong>名を派遣し、次に多い国のほぼ倍でした。イタリアは<strong>7</strong>名、トルコは<strong>5</strong>名を派遣しています。国別の内訳は<em>図 ${A3}</em>をご覧ください。`,
     ], "注記：", [
       `勝率は特定の相手との対戦結果を反映し、組み合わせの運に左右されます。型の選択や選手の実力だけで決まるものではありません。<em>図 ${A2}</em>をご覧ください。`,
@@ -2271,7 +2277,7 @@ function renderKataFindings() {
     ? `${displayName("kata", top1.Kata)}は最も多く演武された${gender === "male" ? "男子" : "女子"}型で、${top1.Unique_Karateka}名の選手により${top1.Performances}回演武されました。上位5型で全${totalPerfsAll}演武のうち${top5Perfs}回（${(top5Perfs/totalPerfsAll*100).toFixed(1)}%）を占めました。`
     : `${top1.Kata} was the most performed ${gender === "male" ? "Male" : "Female"} kata with ${top1.Performances} performances across ${top1.Unique_Karateka} athletes. ` +
       `The top 5 kata accounted for ${top5Perfs} of ${totalPerfsAll}, or ${(top5Perfs/totalPerfsAll*100).toFixed(1)}% of, total performances.`;
-  makeHBar("chart-popularity", popSorted.map(r => displayName("kata", r.Kata)), popSorted.map(r => r.Performances), "Performances", 0);
+  makeHBar("chart-popularity", popSorted.map(r => displayName("kata", r.Kata)), popSorted.map(r => r.Performances), t("axis.performances"), 0);
 
   /* 2. Avg Score */
   const scoreSorted = [...kata].filter(r => r.Mean_Score != null).sort((a, b) => b.Mean_Score - a.Mean_Score);
@@ -2282,7 +2288,7 @@ function renderKataFindings() {
     : `${top1s.Kata} had the highest average score (${top1s.Mean_Score.toFixed(3)}); ` +
       `${bot1s.Kata} had the lowest (${bot1s.Mean_Score.toFixed(3)}). ` +
       `The overall ${gender} average across all performances was ${overallAvg != null ? overallAvg.toFixed(3) : "—"}.`;
-  makeHBar("chart-avgscore", scoreSorted.map(r => displayName("kata", r.Kata)), scoreSorted.map(r => r.Mean_Score), "Average Score", 7.0, scoreSorted.map(r => r.Performances));
+  makeHBar("chart-avgscore", scoreSorted.map(r => displayName("kata", r.Kata)), scoreSorted.map(r => r.Mean_Score), t("axis.avgScore"), 7.0, scoreSorted.map(r => r.Performances));
   const noteAvg = document.getElementById("note-avgscore");
   if (noteAvg) noteAvg.textContent = gender !== "female"
     ? ""
@@ -2295,7 +2301,7 @@ function renderKataFindings() {
   document.getElementById("insight-winrate").textContent = lang === "jp"
     ? `勝率は相手の強さや組み合わせの運に大きく左右され、型の選択だけでは決まりません。全${winSorted.length}型を表示しています。演武回数の少ない型は慎重に解釈してください。`
     : `Win rates are heavily influenced by opponent strength and bracket luck — not kata choice alone. All ${winSorted.length} kata are shown; those with few performances should be interpreted with caution.`;
-  makeWinRateHBar("chart-winrate", winSorted.map(r => displayName("kata", r.Kata)), winSorted.map(r => +(r.Win_Rate*100).toFixed(1)), "Win Rate (%)", winSorted.map(r => r.Performances));
+  makeWinRateHBar("chart-winrate", winSorted.map(r => displayName("kata", r.Kata)), winSorted.map(r => +(r.Win_Rate*100).toFixed(1)), t("axis.winRatePct"), winSorted.map(r => r.Performances));
 
   /* 4. Scatter: Performances vs Avg Score — Advanced & Intermediate only */
   document.getElementById("insight-scatter").textContent = lang === "jp"
@@ -2308,7 +2314,7 @@ function renderKataFindings() {
       const rows = kata.filter(r => r.Kata_Tier === tier && r.Mean_Score != null);
       if (!rows.length) return null;
       return {
-        label: tier,
+        label: t("tier." + tier),
         data: rows.map(r => ({ x: r.Performances, y: r.Mean_Score, kata: displayName("kata", r.Kata) })),
         backgroundColor: TIER_COLORS[tier].bg,
         borderColor: TIER_COLORS[tier].border,
@@ -2345,8 +2351,8 @@ function renderKataFindings() {
           scatterLabels: {},
         },
         scales: {
-          x: { title: { display: true, text: "Performances", font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
-          y: { title: { display: true, text: "Average Score", font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
+          x: { title: { display: true, text: t("axis.performances"), font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
+          y: { title: { display: true, text: t("axis.avgScore"), font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
         },
       },
       plugins: [scatterLabelPlugin],
@@ -2375,7 +2381,7 @@ function renderKataFindings() {
         responsive: true, maintainAspectRatio: false,
         plugins: {
           legend: { position: "bottom", labels: { font: { family: CHART_FONT, size: 11 }, color: "#1c1c18", boxWidth: 12 } },
-          title:  { display: true, text: "% of Performances by Tier", font: { family: CHART_FONT, size: 12, weight: "600" }, color: "#1c1c18", padding: { bottom: 8 } },
+          title:  { display: true, text: t("chartTitle.pctPerfByTier"), font: { family: CHART_FONT, size: 12, weight: "600" }, color: "#1c1c18", padding: { bottom: 8 } },
           tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw} (${((ctx.raw/totalPerfs)*100).toFixed(1)}%)` } },
         },
       },
@@ -2390,7 +2396,7 @@ function renderKataFindings() {
         responsive: true, maintainAspectRatio: false,
         plugins: {
           legend: { position: "bottom", labels: { font: { family: CHART_FONT, size: 11 }, color: "#1c1c18", boxWidth: 12 } },
-          title:  { display: true, text: "Distinct Kata Count by Tier", font: { family: CHART_FONT, size: 12, weight: "600" }, color: "#1c1c18", padding: { bottom: 8 } },
+          title:  { display: true, text: t("chartTitle.distinctKataByTier"), font: { family: CHART_FONT, size: 12, weight: "600" }, color: "#1c1c18", padding: { bottom: 8 } },
         },
       },
     });
@@ -2543,11 +2549,11 @@ function renderKataVsKaratekaAvg() {
         if (row.Diff >= 0) {
           ctx2.textAlign = "left";
           ctx2.fillStyle = "#3a6e3a";
-          ctx2.fillText(row.Kata, el.x + 5, el.y);
+          ctx2.fillText(displayName("kata", row.Kata), el.x + 5, el.y);
         } else {
           ctx2.textAlign = "right";
           ctx2.fillStyle = "#c0392b";
-          ctx2.fillText(row.Kata, el.x - 5, el.y);
+          ctx2.fillText(displayName("kata", row.Kata), el.x - 5, el.y);
         }
       });
       ctx2.restore();
@@ -2565,7 +2571,7 @@ function renderKataVsKaratekaAvg() {
         kkLabels: {},
       },
       scales: {
-        x: { grid: { color: ctx => ctx.tick.value === 0 ? "rgba(0,0,0,0.75)" : GRID, lineWidth: ctx => ctx.tick.value === 0 ? 1.5 : 1 }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, title: { display: true, text: "Score Diff vs Athlete Avg", font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
+        x: { grid: { color: ctx => ctx.tick.value === 0 ? "rgba(0,0,0,0.75)" : GRID, lineWidth: ctx => ctx.tick.value === 0 ? 1.5 : 1 }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, title: { display: true, text: t("axis.scoreDiffVsAthAvg"), font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
         y: { grid: { display: false }, ticks: { display: false } },
       },
     },
@@ -2595,7 +2601,7 @@ function renderKataStdDev() {
     const subset = validRows.filter(r => kataLookup[r.Kata] === tier);
     if (!subset.length) return null;
     return {
-      label: tier,
+      label: t("tier." + tier),
       data: subset.map(r => ({ x: r.Unique_Karateka, y: r.Std_Dev, kata: displayName("kata", r.Kata) })),
       backgroundColor: TIER_COLORS[tier].bg,
       borderColor: TIER_COLORS[tier].border,
@@ -2663,8 +2669,8 @@ function renderKataStdDev() {
         tooltip: { callbacks: { label: ctx => ctx.raw.kata ? ` ${ctx.raw.kata}: ${ctx.raw.x} performers, σ = ${ctx.raw.y.toFixed(3)}` : "" } },
       },
       scales: {
-        x: { title: { display: true, text: "Unique Performers", font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
-        y: { title: { display: true, text: "Score Std Dev (σ)", font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
+        x: { title: { display: true, text: t("axis.uniquePerformers"), font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
+        y: { title: { display: true, text: t("axis.scoreStdDev"), font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
       },
     },
   });
@@ -2698,14 +2704,14 @@ function renderKaratekaFindings() {
           ? `${kScoreSorted[0].Karateka}（${displayName("country", kScoreSorted[0].Country)}）が${gender === "male" ? "男子" : "女子"}型選手の平均スコアで首位：${kScoreSorted[0].Performances}演武で${kScoreSorted[0].Mean_Score.toFixed(2)}。`
           : `${kScoreSorted[0].Karateka} (${kScoreSorted[0].Country}) led ${gender} kata athletes in average score: ${kScoreSorted[0].Mean_Score.toFixed(2)} over ${kScoreSorted[0].Performances} performances.`)
       : "";
-  makeHBar("chart-k-avgscore", kScoreSorted.map(r => r.Karateka), kScoreSorted.map(r => r.Mean_Score), "Average Score", 7.5);
+  makeHBar("chart-k-avgscore", kScoreSorted.map(r => r.Karateka), kScoreSorted.map(r => r.Mean_Score), t("axis.avgScore"), 7.5);
 
   /* 8. Top 20 by win rate (min 5 perfs) */
   const kWinSorted = [...kdata].filter(r => r.Win_Rate != null && r.Performances >= 5).sort((a,b) => b.Win_Rate - a.Win_Rate).slice(0, 20);
   document.getElementById("insight-k-winrate").textContent = lang === "jp"
     ? `勝率は特定の相手との対戦結果を反映し、組み合わせの抽選や選手の実力に左右されます。型の選択だけで決まるものではありません。5演武以上の選手を表示しています。`
     : `Win rates reflect match outcomes against specific opponents and are shaped by bracket draw and athlete skill — not kata choice alone. Athletes with at least 5 performances are shown.`;
-  makeWinRateHBar("chart-k-winrate", kWinSorted.map(r => r.Karateka), kWinSorted.map(r => +(r.Win_Rate*100).toFixed(1)));
+  makeWinRateHBar("chart-k-winrate", kWinSorted.map(r => r.Karateka), kWinSorted.map(r => +(r.Win_Rate*100).toFixed(1)), t("axis.winRatePct"));
 
   /* 9. Countries */
   const topCountries = countries.filter(r => r.Athletes >= 2).slice(0, 15);
@@ -2716,6 +2722,8 @@ function renderKaratekaFindings() {
           ? `今シーズン${countries.length}か国が${gender === "male" ? "男子" : "女子"}型選手を派遣し、うち${multiCountries.length}か国が2名以上を派遣しました。${displayName("country", topCountries[0].Country)}が${topCountries[0].Athletes}名で最多でした。`
           : `${countries.length} countries sent ${gender} kata athletes this season; ${multiCountries.length} sent 2 or more. ${topCountries[0].Country} sent the most with ${topCountries[0].Athletes} competitors.`)
       : "";
+  const noteCountry = document.getElementById("note-country");
+  if (noteCountry) noteCountry.textContent = t("note.countriesMin2");
   makeCountryHBar("chart-country", topCountries.map(r => displayName("country", r.Country)), topCountries.map(r => r.Athletes));
 }
 
