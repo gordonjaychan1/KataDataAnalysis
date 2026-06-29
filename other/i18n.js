@@ -9,16 +9,16 @@
 
 const I18N = {
   /* ── Tabs / nav ── */
-  "tab.welcome":  { en: "Welcome", jp: "ようこそ" },
+  "tab.welcome":  { en: "Home", jp: "ホーム" },
   "tab.kata":     { en: "Kata", jp: "型" },
   "tab.athletes": { en: "Athletes", jp: "選手" },
   "tab.tournaments": { en: "Tournaments", jp: "大会" },
   "tab.countries": { en: "Countries", jp: "国" },
   "tab.medals":   { en: "Medals", jp: "メダル" },
-  "tab.kataFindings": { en: "Kata Findings", jp: "型の分析" },
-  "tab.athleteFindings": { en: "Athlete Findings", jp: "選手の分析" },
+  "tab.kataFindings": { en: "Kata Analysis", jp: "型の分析" },
+  "tab.athleteFindings": { en: "Athlete Analysis", jp: "選手の分析" },
   "tab.compare":  { en: "Male vs. Female", jp: "男子 vs 女子" },
-  "tab.notes":    { en: "Important Notes", jp: "重要な注記" },
+  "tab.notes":    { en: "Notes", jp: "注記" },
   "tab.about":    { en: "About", jp: "概要" },
   "tab.references": { en: "References", jp: "参考資料" },
   "btn.back":     { en: "← Back", jp: "← 戻る" },
