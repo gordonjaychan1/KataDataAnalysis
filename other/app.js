@@ -433,6 +433,12 @@ function updateHeaderSub() {
 }
 
 /* ── Tab switch helper ─────────────────────────────────────────────────────── */
+/* The site credit only shows on the Home (welcome) tab. */
+function _updateSiteCredit(tabId) {
+  const credit = document.getElementById("site-credit");
+  if (credit) credit.style.display = tabId === "welcome" ? "" : "none";
+}
+
 function switchToTab(tabId) {
   document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
   document.querySelectorAll(".tab-content").forEach(s => { s.classList.remove("active"); s.classList.add("hidden"); });
@@ -440,6 +446,7 @@ function switchToTab(tabId) {
   if (btn) btn.classList.add("active");
   const sec = document.getElementById(`tab-${tabId}`);
   if (sec) { sec.classList.remove("hidden"); sec.classList.add("active"); }
+  _updateSiteCredit(tabId);
 }
 
 /* ── Welcome stats ─────────────────────────────────────────────────────────── */
@@ -489,6 +496,7 @@ function setupTabs() {
       const sec = document.getElementById("tab-" + btn.dataset.tab);
       sec.classList.remove("hidden");
       sec.classList.add("active");
+      _updateSiteCredit(btn.dataset.tab);
       /* close any open detail cards when switching tabs */
       ["kata-card", "karateka-card", "tournaments-card", "countries-card"].forEach(id => clearCard(id));
       _currentCard = null;
