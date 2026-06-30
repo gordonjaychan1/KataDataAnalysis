@@ -618,7 +618,7 @@ function renderCompareTab() {
     <!-- Findings -->
     <div>
       <details class="finding-block finding-collapsible" style="margin-top:0">
-      <summary class="compare-head finding-summary">${jp ? "分析結果" : "Findings"}</summary>
+      <summary class="compare-head finding-summary">${jp ? "分析" : "Analysis"}</summary>
         <ul style="font-size:13px;color:var(--text-muted);line-height:2.2;padding-left:20px">
           ${jp
             ? `<li>男子選手は2024–25シーズンを通じて<strong style="color:var(--text)">${mkata.length}</strong>種類の型を演武しました。女子選手も同数の<strong style="color:var(--text)">${fkata.length}</strong>種類を演武しました。</li>
@@ -654,14 +654,14 @@ function renderCompareTab() {
       <span class="fig-label">${t("fig.figure")} G-1</span>
       <div class="compare-grid">
         <div class="compare-col">
-          <h3 class="compare-head">${jp ? "演武数トップ10 — 男子" : "Top 10 Most Performed — Male"}</h3>
+          <h3 class="compare-head">${jp ? "演武数トップ10：男子" : "Top 10 Most Performed: Male"}</h3>
           <div class="table-wrapper">
             <table class="data-table"><thead><tr><th>#</th><th>${t("col.kata")}</th><th class="num">${t("col.performances")}</th><th class="num">${t("col.avgScore")}</th></tr></thead>
             <tbody>${mTop10.map((k,i) => top5Row(k,i)).join("")}</tbody></table>
           </div>
         </div>
         <div class="compare-col">
-          <h3 class="compare-head">${jp ? "演武数トップ10 — 女子" : "Top 10 Most Performed — Female"}</h3>
+          <h3 class="compare-head">${jp ? "演武数トップ10：女子" : "Top 10 Most Performed: Female"}</h3>
           <div class="table-wrapper">
             <table class="data-table"><thead><tr><th>#</th><th>${t("col.kata")}</th><th class="num">${t("col.performances")}</th><th class="num">${t("col.avgScore")}</th></tr></thead>
             <tbody>${fTop10.map((k,i) => top5Row(k,i)).join("")}</tbody></table>
@@ -757,7 +757,7 @@ function renderCompareTab() {
     <!-- Avg score comparison -->
     <div style="margin-top:64px">
       <span class="fig-label">${t("fig.figure")} G-4</span>
-      <h3 class="compare-head">${jp ? `平均スコア比較 — 共通の型 (${compareShared.length + compareIncomplete.length})` : `Average Score Comparison — Shared Kata (${compareShared.length + compareIncomplete.length})`}</h3>
+      <h3 class="compare-head">${jp ? `平均スコア比較：共通の型 (${compareShared.length + compareIncomplete.length})` : `Average Score Comparison: Shared Kata (${compareShared.length + compareIncomplete.length})`}</h3>
       <p style="font-size:12px;color:var(--text-muted);margin-bottom:10px">${jp ? "列見出しをクリックして並べ替え。差 = 男子 − 女子。緑＝男子が高い、赤＝女子が高い。" : "Click any column header to sort. Diff = Male − Female. Green = males scored higher; red = females scored higher."}</p>
       <div style="position:relative;height:${Math.max(300, compareShared.length * 22)}px;margin-bottom:24px">
         <canvas id="chart-compare-diff"></canvas>
@@ -857,8 +857,8 @@ function renderCompareSharedTable() {
     ? `title="この型の${g === "male" ? "男子" : "女子"}演武には平均スコアが記録されていません"`
     : `title="No average score recorded for ${g} performances of this kata"`;
   const diffTip = lang === "jp"
-    ? `title="スコア差は利用できません — 片方の性別の平均スコアが欠損しています"`
-    : `title="Score differential not available — average score is missing for one gender"`;
+    ? `title="スコア差は利用できません。片方の性別の平均スコアが欠損しています"`
+    : `title="Score differential not available; average score is missing for one gender"`;
   const incompleteRows = compareIncomplete.map((r, j) => `<tr>
     <td class="num row-num" style="color:var(--text-muted)">${sorted.length + j + 1}</td>
     <td class="name-cell">${navLink("kata", r.Kata)}</td>
@@ -1011,16 +1011,16 @@ function renderKataTable() {
     <td class="num row-num"></td>
     <td class="name-cell">${t("summary.avgAllKata")}</td>
     <td></td>
-    <td class="num" title="Median performances per kata — half of all kata were performed more than this, half fewer">${medianPerfsKata ?? "—"}</td>
+    <td class="num" title="Median performances per kata: half of all kata were performed more than this, half fewer">${medianPerfsKata ?? "—"}</td>
     <td class="num" title="Mean number of unique athletes who performed each kata">${fmt2(avg("Unique_Karateka"))}</td>
     <td class="num" title="Performance-weighted average score across all kata and performances">${fmt3((() => { const sp = allKata.filter(r => r.Mean_Score != null); const tw = sp.reduce((s,r) => s + r.Performances, 0); return tw ? sp.reduce((s,r) => s + r.Mean_Score * r.Performances, 0) / tw : null; })())}</td>
     <td class="num" title="Mean of each kata's median score">${fmt2(avg("Median_Score"))}</td>
     <td class="num" title="Absolute lowest score recorded for any kata this season">${fmt2(isFinite(absMin) ? absMin : null)}</td>
     <td class="num" title="Absolute highest score recorded for any kata this season">${fmt2(isFinite(absMax) ? absMax : null)}</td>
-    <td class="num" title="Mean of each kata's range (Max − Min) — average spread of scores within a kata">${avgRange}</td>
-    <td class="num" title="Mean standard deviation across all kata — average score consistency">${fmt3(avg("Std_Dev"))}</td>
-    <td class="num" title="Weighted win rate across all kata — always near 50% since every match has a winner and a loser">${fmtPct(weightedWR)}</td>
-    <td class="num" title="Mean score differential — how much kata scores deviate from their performers' personal averages, on average (kata avg score − athlete avg score)">${diffDisp}</td>
+    <td class="num" title="Mean of each kata's range (Max − Min): the average spread of scores within a kata">${avgRange}</td>
+    <td class="num" title="Mean standard deviation across all kata: the average score consistency">${fmt3(avg("Std_Dev"))}</td>
+    <td class="num" title="Weighted win rate across all kata, always near 50% since every match has a winner and a loser">${fmtPct(weightedWR)}</td>
+    <td class="num" title="Mean score differential: how much kata scores deviate from their performers' personal averages, on average (kata avg score − athlete avg score)">${diffDisp}</td>
   </tr>`;
   document.querySelectorAll("#kata-tbody tr").forEach(tr => {
     tr.addEventListener("click", () => {
@@ -1236,15 +1236,15 @@ function renderKaratekaTable() {
     <td class="name-cell">${t("summary.avgAllAthletes")}</td>
     <td></td>
     <td></td>
-    <td class="num" title="Median performances per athlete — half of all athletes competed more than this, half fewer">${medianPerfsKar ?? "—"}</td>
+    <td class="num" title="Median performances per athlete: half of all athletes competed more than this, half fewer">${medianPerfsKar ?? "—"}</td>
     <td class="num" title="Mean number of tournaments attended per athlete">${fmt2(avgK("Tournaments_Attended"))}</td>
-    <td class="num" title="Mean of each athlete's average score — the overall average score across all athletes">${fmt2(avgK("Mean_Score"))}</td>
+    <td class="num" title="Mean of each athlete's average score: the overall average score across all athletes">${fmt2(avgK("Mean_Score"))}</td>
     <td class="num" title="Mean of each athlete's median score">${fmt2(avgK("Median_Score"))}</td>
     <td class="num" title="Absolute lowest score recorded by any athlete in any single performance this season">${fmt2(isFinite(absMinK) ? absMinK : null)}</td>
     <td class="num" title="Absolute highest score recorded by any athlete in any single performance this season">${fmt2(isFinite(absMaxK) ? absMaxK : null)}</td>
     <td class="num" title="Difference between the season's absolute highest and lowest scores">${absRangeK}</td>
-    <td class="num" title="Weighted win rate across all athletes — always near 50% since every match has a winner and a loser">${fmtPct(wWRKar)}</td>
-    <td class="num" title="Mean of each athlete's differential — close to zero since every match's winner and loser cancel out">${(() => { const d = avgK("Differential"); return d == null ? "—" : (d > 0 ? "+" : "") + d.toFixed(3); })()}</td>
+    <td class="num" title="Weighted win rate across all athletes, always near 50% since every match has a winner and a loser">${fmtPct(wWRKar)}</td>
+    <td class="num" title="Mean of each athlete's differential, close to zero since every match's winner and loser cancel out">${(() => { const d = avgK("Differential"); return d == null ? "—" : (d > 0 ? "+" : "") + d.toFixed(3); })()}</td>
   </tr>`;
   document.querySelectorAll("#karateka-tbody tr").forEach(tr => {
     tr.addEventListener("click", () => {
@@ -1733,7 +1733,7 @@ function renderCountriesTable() {
     <td class="num" title="Mean number of tournaments attended per country">${fmt2(cMean("Tournaments"))}</td>
     <td class="num" title="Weighted average score across all countries and performances">${fmt2(cWtAvg)}</td>
     <td class="num" title="Single highest score recorded by any athlete from any country this season">${isFinite(cBest) ? fmt2(cBest) : "—"}</td>
-    <td class="num" title="Weighted win rate across all countries — always near 50% since every match has a winner and a loser">${fmtPct(cWtWR)}</td>
+    <td class="num" title="Weighted win rate across all countries, always near 50% since every match has a winner and a loser">${fmtPct(cWtWR)}</td>
     <td class="num" title="Total medals won across all countries this season">${cTotalMedals || "—"}</td>
   </tr>`;
   let all = fullAll;
@@ -2167,10 +2167,10 @@ function kataFindingsHTML() {
       `The mean score for all <strong>1,006</strong> Male Kata this season was <strong>8.132</strong>, and the median score was <strong>8.09</strong>, indicating an approximately symmetrical distribution.`,
       `The most performed Male Kata was <strong>Gojushiho Sho</strong> with <strong>108</strong> performances. The second most performed was <strong>Unsu</strong> with <strong>104</strong>. See <em>Figure ${K1}</em> for a full breakdown.`,
       `<strong>14/1006</strong>, or <strong>1.392%</strong>, of Male Kata performance scores were outliers. There are 7 low outliers: 6.98, 7.12, 7.16, 7.18, 7.20, 7.24, 7.24 and 7 high outliers: 9.02, 9.06, 9.10, 9.12, 9.14, 9.18, 9.28. Remarkably, all 7 of the high outliers were performed by <strong>Kakeru Nishiyama</strong>.`,
-      `<strong>Performances vs. Average Score</strong> (<em>Figure ${K4}</em>):<ul style="padding-left:18px;margin:4px 0 0;line-height:2"><li>As Kata have more performances, their Average Score <strong>regresses to the global mean</strong> (8.132).</li><li>There is a large contrast between the Average Score of Kata with <strong>greater than 20 performances</strong> and those with <strong>less than 20 performances</strong>. All Kata with at least 20 performances have Average Scores relatively close to 8.132 (within .106 points), but Kata with fewer than 20 performances deviate heavily — by as much as .762 points.</li></ul>`,
-      `<strong>Score Differential</strong> (<em>Figure ${K5}</em>):<ul style="padding-left:18px;margin:4px 0 0;line-height:2"><li>An interesting pattern emerges when comparing <strong>Score Differential</strong> (how much athletes score on a Kata relative to their personal average) to Win Rate. <strong>Shisochin</strong> had the lowest differential (<strong>−0.225</strong>), meaning athletes performing it scored well below their personal average, so you would assume it has a low win rate. However, its win rate is the highest of any kata: <strong>100.0%</strong>.</li><li>Furthermore, you might assume that the kata with the highest differential, <strong>Gankaku</strong> (<strong>+0.084</strong>), would have a high win rate, yet its win rate was only <strong>14.3%</strong> — the fourth lowest of any kata.</li><li>This apparent contradiction reveals a <strong>key limitation of the data</strong>: the Score Differential measures how an athlete scores on a Kata relative to their own average, not relative to their opponent's score. Shisochin's negative differential likely reflects that it is chosen predominantly by elite athletes whose personal averages are already very high; even scoring "below average" for them is competitive. Upon checking Shisochin's detail card, you will find that 13/17 of its performances are by <strong>Kakeru Nishiyama</strong> and <strong>Ariel Torres</strong>, two of the highest-scoring male athletes. Gankaku's high differential but low win rate, meanwhile, suggests that the athletes who perform it score well in isolation, but face opponents who score even higher.</li></ul>`,
+      `<strong>Performances vs. Average Score</strong> (<em>Figure ${K4}</em>):<ul style="padding-left:18px;margin:4px 0 0;line-height:2"><li>As Kata have more performances, their Average Score <strong>regresses to the global mean</strong> (8.132).</li><li>There is a large contrast between the Average Score of Kata with <strong>greater than 20 performances</strong> and those with <strong>less than 20 performances</strong>. All Kata with at least 20 performances have Average Scores relatively close to 8.132 (within .106 points), but Kata with fewer than 20 performances deviate heavily, by as much as .762 points.</li></ul>`,
+      `<strong>Score Differential</strong> (<em>Figure ${K5}</em>):<ul style="padding-left:18px;margin:4px 0 0;line-height:2"><li>An interesting pattern emerges when comparing <strong>Score Differential</strong> (how much athletes score on a Kata relative to their personal average) to Win Rate. <strong>Shisochin</strong> had the lowest differential (<strong>−0.225</strong>), meaning athletes performing it scored well below their personal average, so you would assume it has a low win rate. However, its win rate is the highest of any kata: <strong>100.0%</strong>.</li><li>Furthermore, you might assume that the kata with the highest differential, <strong>Gankaku</strong> (<strong>+0.084</strong>), would have a high win rate, yet its win rate was only <strong>14.3%</strong>, the fourth lowest of any kata.</li><li>This apparent contradiction reveals a <strong>key limitation of the data</strong>: the Score Differential measures how an athlete scores on a Kata relative to their own average, not relative to their opponent's score. Shisochin's negative differential likely reflects that it is chosen predominantly by elite athletes whose personal averages are already very high; even scoring "below average" for them is competitive. Upon checking Shisochin's detail card, you will find that 13/17 of its performances are by <strong>Kakeru Nishiyama</strong> and <strong>Ariel Torres</strong>, two of the highest-scoring male athletes. Gankaku's high differential but low win rate, meanwhile, suggests that the athletes who perform it score well in isolation, but face opponents who score even higher.</li></ul>`,
       `<strong>Standard Deviation vs. Number of Performers</strong> (<em>Figure ${K6}</em>):<ul style="padding-left:18px;margin:4px 0 0;line-height:2"><li>Kata performed by more athletes tend to show <strong>higher score variance</strong>, since a wider ability range is represented.</li><li>Notable Kata:<ul style="padding-left:18px;margin:4px 0 0;line-height:2"><li><strong>Chibana No Kushanku</strong> has a notably <strong>HIGH</strong> Standard Deviation for a Kata with 15 performers.</li><li><strong>Unsu</strong> has a notably <strong>LOW</strong> Standard Deviation for a Kata with 34 performers.</li></ul></li></ul>`,
-      `<strong>Average Score by Tournament</strong> (<em>Figure ${K7}</em>):<ul style="padding-left:18px;margin:4px 0 0;line-height:2"><li>Judging was <strong>remarkably consistent</strong>.</li><li>The Average Score by Tournament only varied by up to <strong>.271 points</strong> — quite low across 1,006 performances.</li></ul>`,
+      `<strong>Average Score by Tournament</strong> (<em>Figure ${K7}</em>):<ul style="padding-left:18px;margin:4px 0 0;line-height:2"><li>Judging was <strong>remarkably consistent</strong>.</li><li>The Average Score by Tournament only varied by up to <strong>.271 points</strong>, quite low across 1,006 performances.</li></ul>`,
       `<strong>Kata Tiers</strong>:<ul style="padding-left:18px;margin:4px 0 0;line-height:2"><li><strong>90.6%</strong> of Male Kata performances were <strong>Advanced Kata</strong>; <strong>9.4%</strong> were <strong>Intermediate Kata</strong>.</li><li>Male athletes chose <strong>9 Intermediate</strong> and <strong>20 Advanced</strong> Kata to perform.</li><li>Notably, Male athletes only chose <strong>9/56</strong> of the Intermediate Kata to perform, indicating that only a small percentage of Intermediate Kata are viable at this highest level of Kata competition.</li></ul>`,
     ]);
   }
@@ -2186,10 +2186,10 @@ function kataFindingsHTML() {
     `The <strong>mean score</strong> for all <strong>964</strong> Female Kata this season was <strong>7.954</strong>, and the <strong>median score</strong> was <strong>7.94</strong>, indicating an approximately symmetrical distribution.`,
     `The most performed Female Kata was <strong>Papuren</strong> with <strong>198</strong> performances. The second most performed was <strong>Suparinpei</strong> with <strong>129</strong>. See <em>Figure ${K1}</em> for a full breakdown.`,
     `<strong>8/964</strong>, or <strong>0.830%</strong>, of Female Kata performances were outliers. There are <strong>4 low outliers</strong>: 6.14, 6.20, 6.38, 6.98 and <strong>4 high outliers</strong>: 8.88, 8.88, 8.96, 9.22.`,
-    `<strong>Performances vs. Average Score</strong> (<em>Figure ${K4}</em>):<ul style="padding-left:18px;margin:4px 0 0;line-height:2"><li>As Kata have more performances, their Average Score <strong>regresses to the global mean</strong> (7.954).</li><li>There is a large contrast between the Average Score of Kata with <strong>greater than 60 performances</strong> and those with <strong>less than 60 performances</strong>. All Kata with at least 60 performances have Average Scores relatively close to 7.954 (within .116 points), but Kata with fewer than 60 performances deviate heavily — by as much as .282 points.</li></ul>`,
+    `<strong>Performances vs. Average Score</strong> (<em>Figure ${K4}</em>):<ul style="padding-left:18px;margin:4px 0 0;line-height:2"><li>As Kata have more performances, their Average Score <strong>regresses to the global mean</strong> (7.954).</li><li>There is a large contrast between the Average Score of Kata with <strong>greater than 60 performances</strong> and those with <strong>less than 60 performances</strong>. All Kata with at least 60 performances have Average Scores relatively close to 7.954 (within .116 points), but Kata with fewer than 60 performances deviate heavily, by as much as .282 points.</li></ul>`,
     `<strong>Score Differential</strong> (<em>Figure ${K5}</em>):<ul style="padding-left:18px;margin:4px 0 0;line-height:2"><li>An interesting pattern emerges when comparing <strong>Score Differential</strong> (how much athletes score on a Kata relative to their personal average) to Win Rate. <strong>Tomari Bassai</strong> had the second lowest differential (<strong>−0.205</strong>), meaning athletes performing it scored well below their personal average, so you would assume it has a low win rate. However, its win rate is the <strong>second highest</strong> of any kata: <strong>92.3%</strong>.</li><li>Furthermore, you might assume that the kata with the highest differential, <strong>Sochin</strong> (<strong>+0.210</strong>), would have a high win rate, yet its win rate was <strong>0%</strong> across its three performances.</li><li>This apparent contradiction reveals a <strong>key limitation of the data</strong>: Score Differential measures how an athlete scores relative to their own average, not relative to their opponent's score. Tomari Bassai's negative differential likely reflects that it is chosen predominantly by elite athletes whose personal averages are already very high; even scoring "below average" for them is competitive. Upon checking Tomari Bassai's detail card, you will find that <strong>9/13</strong> of its performances are by <strong>Grace Lau</strong>, the Female athlete with the most Gold medals. Sochin's high differential but low win rate, meanwhile, suggests that <strong>Aya Hesham</strong>, the athlete who performed it three times, scored well in isolation, but faced opponents who scored even higher.</li></ul>`,
     `<strong>Standard Deviation vs. Number of Performers</strong> (<em>Figure ${K6}</em>):<ul style="padding-left:18px;margin:4px 0 0;line-height:2"><li>Kata performed by more athletes tend to show <strong>higher score variance</strong>, since a wider ability range is represented.</li><li><strong>Kururunfa</strong> has a notably <strong>LOW</strong> Standard Deviation for a Kata with 22 performers.</li></ul>`,
-    `<strong>Average Score by Tournament</strong> (<em>Figure ${K7}</em>):<ul style="padding-left:18px;margin:4px 0 0;line-height:2"><li>Judging was <strong>remarkably consistent</strong>.</li><li>The Average Score by Tournament only varied by up to <strong>.178 points</strong> — quite low across 964 performances.</li></ul>`,
+    `<strong>Average Score by Tournament</strong> (<em>Figure ${K7}</em>):<ul style="padding-left:18px;margin:4px 0 0;line-height:2"><li>Judging was <strong>remarkably consistent</strong>.</li><li>The Average Score by Tournament only varied by up to <strong>.178 points</strong>, quite low across 964 performances.</li></ul>`,
     `<strong>Kata Tiers</strong>:<ul style="padding-left:18px;margin:4px 0 0;line-height:2"><li>A staggering <strong>98.4%</strong> of Female Kata performances were <strong>Advanced Kata</strong>; just <strong>1.6%</strong> were <strong>Intermediate Kata</strong>.</li><li>Female athletes chose <strong>5 Intermediate</strong> and <strong>24 Advanced</strong> Kata to perform.</li><li>Notably, Female athletes only chose <strong>5/56</strong> of the Intermediate Kata to perform, indicating that only a small percentage of Intermediate Kata are viable at this highest level of Kata competition.</li></ul>`,
   ]);
 }
@@ -2294,7 +2294,7 @@ function renderKataFindings() {
   const winSorted = [...kata].filter(r => r.Win_Rate != null).sort((a, b) => b.Win_Rate - a.Win_Rate);
   document.getElementById("insight-winrate").textContent = lang === "jp"
     ? `勝率は相手の強さや組み合わせの運に大きく左右され、型の選択だけでは決まりません。全${winSorted.length}型を表示しています。演武回数の少ない型は慎重に解釈してください。`
-    : `Win rates are heavily influenced by opponent strength and bracket luck — not kata choice alone. All ${winSorted.length} kata are shown; those with few performances should be interpreted with caution.`;
+    : `Win rates are heavily influenced by opponent strength and bracket luck, not kata choice alone. All ${winSorted.length} kata are shown; those with few performances should be interpreted with caution.`;
   makeWinRateHBar("chart-winrate", winSorted.map(r => displayName("kata", r.Kata)), winSorted.map(r => +(r.Win_Rate*100).toFixed(1)), t("axis.winRatePct"), winSorted.map(r => r.Performances));
 
   /* 4. Scatter: Performances vs Avg Score — Advanced & Intermediate only */
@@ -2486,19 +2486,19 @@ function renderPerformedKata() {
   const ADV = t("tier.Advanced"), INT = t("tier.Intermediate"), P = t("perf.performed"), NP = t("perf.notPerformed");
   document.getElementById("performed-kata-grid").innerHTML = `
     <div class="performed-kata-section">
-      <h4>${ADV} — ${P} (${ts.adv_performed.length})</h4>
+      <h4>${ADV}: ${P} (${ts.adv_performed.length})</h4>
       <div class="pill-list">${makePills(ts.adv_performed)}</div>
     </div>
     <div class="performed-kata-section">
-      <h4>${ADV} — ${NP} (${ts.adv_unperformed.length})</h4>
+      <h4>${ADV}: ${NP} (${ts.adv_unperformed.length})</h4>
       <div class="pill-list">${makePills(ts.adv_unperformed)}</div>
     </div>
     <div class="performed-kata-section">
-      <h4>${INT} — ${P} (${ts.interm_performed.length})</h4>
+      <h4>${INT}: ${P} (${ts.interm_performed.length})</h4>
       <div class="pill-list">${makePills(ts.interm_performed)}</div>
     </div>
     <div class="performed-kata-section">
-      <h4>${INT} — ${NP} (${ts.interm_unperformed.length})</h4>
+      <h4>${INT}: ${NP} (${ts.interm_unperformed.length})</h4>
       <div class="pill-list">${makePills(ts.interm_unperformed)}</div>
     </div>`;
 }
@@ -2704,7 +2704,7 @@ function renderKaratekaFindings() {
   const kWinSorted = [...kdata].filter(r => r.Win_Rate != null && r.Performances >= 5).sort((a,b) => b.Win_Rate - a.Win_Rate).slice(0, 20);
   document.getElementById("insight-k-winrate").textContent = lang === "jp"
     ? `勝率は特定の相手との対戦結果を反映し、組み合わせの抽選や選手の実力に左右されます。型の選択だけで決まるものではありません。5演武以上の選手を表示しています。`
-    : `Win rates reflect match outcomes against specific opponents and are shaped by bracket draw and athlete skill — not kata choice alone. Athletes with at least 5 performances are shown.`;
+    : `Win rates reflect match outcomes against specific opponents and are shaped by bracket draw and athlete skill, not kata choice alone. Athletes with at least 5 performances are shown.`;
   makeWinRateHBar("chart-k-winrate", kWinSorted.map(r => r.Karateka), kWinSorted.map(r => +(r.Win_Rate*100).toFixed(1)), t("axis.winRatePct"));
 
   /* 9. Countries */
@@ -3159,8 +3159,8 @@ function renderWorldMap() {
   const resolve = name => NAME_MAP[name] || name;
 
   const mapHeading = lang === "jp"
-    ? `${t("fig.athletesByCountry")} — ${gender === "male" ? "男子" : "女子"}`
-    : `Athletes per Country — ${gender === "male" ? "Male" : "Female"}`;
+    ? `${t("fig.athletesByCountry")}：${gender === "male" ? "男子" : "女子"}`
+    : `Athletes per Country: ${gender === "male" ? "Male" : "Female"}`;
   wrap.innerHTML = `<h3 class="compare-head" style="margin-bottom:8px">${mapHeading}</h3><div id="world-map-svg-wrap" style="width:80%;margin:0 auto;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);overflow:hidden"></div>`;
   const svgWrap = document.getElementById("world-map-svg-wrap");
   const tooltip = document.getElementById("map-tooltip");

@@ -41,7 +41,7 @@ const I18N = {
   /* ── Welcome ── */
   "welcome.heading": { en: "Welcome!", jp: "ようこそ！" },
   "welcome.intro": {
-    en: "This site presents a statistical analysis of all kata performances recorded during the nine Tier 1 tournaments in the 2024–25 WKF season — covering both the Male and Female Kata categories.",
+    en: "This site presents a statistical analysis of all kata performances recorded during the nine Tier 1 tournaments in the 2024–25 WKF season, covering both the Male and Female Kata categories.",
     jp: "本サイトは、2024–25 WKFシーズンの9つのTier 1大会で記録された全ての型演武に関する統計分析を、男子型・女子型の両カテゴリーにわたって紹介します。"
   },
   "welcome.timelineTitle": { en: "2024–25 Season Timeline", jp: "2024–25 シーズンの日程" },
@@ -55,7 +55,7 @@ const I18N = {
   "howto.group.reference": { en: "Reference", jp: "参考" },
 
   /* ── Section titles ── */
-  "title.compare": { en: "Male vs. Female Kata — Season Comparison", jp: "男子 vs 女子の型 — シーズン比較" },
+  "title.compare": { en: "Male vs. Female Kata: Season Comparison", jp: "男子 vs 女子の型：シーズン比較" },
   "compare.sub": {
     en: "This tab compares both genders simultaneously and is not affected by the Male / Female toggle.",
     jp: "このタブは男女を同時に比較するもので、男子／女子の切り替えの影響を受けません。"
@@ -254,9 +254,9 @@ const I18N = {
   "notes.tier.p1": { jp: `型は、USA Karate公式型リストに基づき<strong>上級</strong>・<strong>中級</strong>・<strong>初級</strong>の3階級に分類されます（詳しくは<a href="#" onclick="switchToTab('references');return false;" style="color:var(--red)">参考資料の図 App-2</a>をご覧ください）。` },
   "notes.tier.p2": { jp: "競技では、選手は自分の階級以下の型のみ演武できます。例えば中級型部門の選手は上級型を演武できず、中級または初級の型を演武しなければなりません。" },
   "notes.tier.p3": { jp: "Tier 1のWKF大会では全部門が上級であり、どの型でも（上級・中級・初級）演武できます。" },
-  "notes.tier.li1": { jp: "<strong>上級</strong> — 複雑な技、珍しい立ち方、まれな伝統形を含む高難度の型。ほぼ国際エリートレベルでのみ演武されます。例：スーパーリンペイ、雲手、オーハン、パープーレン、五十四歩小。" },
-  "notes.tier.li2": { jp: "<strong>中級</strong> — 国内・大陸レベルで一般的な中級の型。WKF大会でも時折見られます。例：シソーチン、セイエンチン、観空大。" },
-  "notes.tier.li3": { jp: "<strong>初級</strong> — このレベルの競技ではめったに見られない低難度の型。" },
+  "notes.tier.li1": { jp: "<strong>上級</strong>：複雑な技、珍しい立ち方、まれな伝統形を含む高難度の型。ほぼ国際エリートレベルでのみ演武されます。例：スーパーリンペイ、雲手、オーハン、パープーレン、五十四歩小。" },
+  "notes.tier.li2": { jp: "<strong>中級</strong>：国内・大陸レベルで一般的な中級の型。WKF大会でも時折見られます。例：シソーチン、セイエンチン、観空大。" },
+  "notes.tier.li3": { jp: "<strong>初級</strong>：このレベルの競技ではめったに見られない低難度の型。" },
   "notes.scoring.h": { jp: "WKFの採点システム" },
   "notes.scoring.p1": { jp: `7人の審判がそれぞれ0〜10点を付けます。最高点と最低点を除外し、残りの5点を平均して最終スコアを算出します。このデータセットはこの<strong>平均スコア</strong>のみを記録します。<strong>8.0</strong>を超えるスコアはK1プレミアリーグレベルで一般に競争力があるとされ、決勝のトップ演武はしばしば8.5〜9.0に達します。` },
   "notes.won.h": { jp: "「勝利？（Won?）」項目について" },
@@ -277,18 +277,18 @@ const I18N = {
   "about.why.p2": { jp: "このプロジェクトは、私（そして願わくば多くの好奇心ある人々）ができるだけ多くの疑問に答えるためのリソースです。最高レベルでどの型が選ばれているのか、選手間でスコアがどう比較されるのか、WKFのシーズン全体でどんなパターンが現れるのかを、より明確に把握したいのです。有用なリソースとなり、皆さんに楽しく役立つものになれば幸いです。" },
   "about.method.h": { jp: "手法" },
   "about.method.p1": { jp: "演武データは、2024–25シーズンの全9大会にわたり、WKF公式採点シートと大会結果から手作業で収集しました。データ処理と分析の主要言語としてPythonを使用し、以下のライブラリを用いました：" },
-  "about.method.li1": { jp: "<strong>Pandas</strong> — データセットの構造化・クリーニング・操作に" },
-  "about.method.li2": { jp: "<strong>NumPy</strong> — 数値計算と記述統計に" },
-  "about.method.li3": { jp: "<strong>Chart.js</strong> — 本サイトの全インタラクティブグラフに" },
+  "about.method.li1": { jp: "<strong>Pandas</strong>：データセットの構造化・クリーニング・操作に" },
+  "about.method.li2": { jp: "<strong>NumPy</strong>：数値計算と記述統計に" },
+  "about.method.li3": { jp: "<strong>Chart.js</strong>：本サイトの全インタラクティブグラフに" },
   "about.download.h": { jp: "データのダウンロード" },
   "about.download.p": { jp: `生のデータセットは<a href="#" onclick="switchToTab('references');return false;" style="color:var(--red)">参考資料</a>タブで入手できます。` },
 
   /* ── References tab ── */
   "ref.downloadHead": { jp: "データのダウンロード" },
   "ref.rawDataset": { jp: "生データセット" },
-  "ref.maleTitle": { jp: "男子型 — 2024–25シーズン" },
+  "ref.maleTitle": { jp: "男子型：2024–25シーズン" },
   "ref.maleMeta": { jp: "今シーズン記録された全ての男子型演武" },
-  "ref.femaleTitle": { jp: "女子型 — 2024–25シーズン" },
+  "ref.femaleTitle": { jp: "女子型：2024–25シーズン" },
   "ref.femaleMeta": { jp: "今シーズン記録された全ての女子型演武" },
   "ref.placementsTitle": { jp: "大会順位" },
   "ref.placementsMeta": { jp: "各大会の金・銀・銅メダリスト" },
@@ -299,10 +299,10 @@ const I18N = {
   "ref.officialList": { jp: "公式型リスト" },
   "ref.fromWkf": { jp: "出典：WKF型競技規則 2026" },
   "ref.officialListLabel": { jp: "公式リスト" },
-  "ref.usaListTitle": { jp: "USA Karate — 公式型リスト" },
+  "ref.usaListTitle": { jp: "USA Karate：公式型リスト" },
   "ref.fromUsa": { jp: "出典：USA Karate競技規則、2026年1月1日" },
-  "ref.usaRulesTitle": { jp: "USA Karate — 競技規則（2026年1月1日）↗" },
-  "ref.wkfRulesTitle": { jp: "WKF — 型競技規則 2026 ↗" },
+  "ref.usaRulesTitle": { jp: "USA Karate：競技規則（2026年1月1日）↗" },
+  "ref.wkfRulesTitle": { jp: "WKF：型競技規則 2026 ↗" },
   "ref.usaRulesMeta": { jp: "USA Karate · 2026" },
   "ref.wkfRulesMeta": { jp: "世界空手連盟（WKF） · 2026" },
   "ref.figApp1": { jp: "図 App-1" },
