@@ -617,8 +617,8 @@ function renderCompareTab() {
   document.getElementById("compare-content").innerHTML = `
     <!-- Findings -->
     <div>
-      <div class="finding-block" style="margin-top:0">
-      <h3 class="compare-head">${jp ? "分析結果" : "Findings"}</h3>
+      <details class="finding-block finding-collapsible" style="margin-top:0">
+      <summary class="compare-head finding-summary">${jp ? "分析結果" : "Findings"}</summary>
         <ul style="font-size:13px;color:var(--text-muted);line-height:2.2;padding-left:20px">
           ${jp
             ? `<li>男子選手は2024–25シーズンを通じて<strong style="color:var(--text)">${mkata.length}</strong>種類の型を演武しました。女子選手も同数の<strong style="color:var(--text)">${fkata.length}</strong>種類を演武しました。</li>
@@ -646,7 +646,7 @@ function renderCompareTab() {
             ? `<li>女子型は上位の争いがより激しく、<strong style="color:var(--text)">Grace Lau</strong>（香港）と<strong style="color:var(--text)">Maho Ono</strong>（日本）が明確な2強でした。Lauは<strong style="color:var(--text)">${fGrace.Performances}</strong>演武で平均<strong style="color:var(--text)">${fGrace.Mean_Score?.toFixed(3) ?? "—"}</strong>（勝率<strong style="color:var(--text)">${fmtWR(fGrace)}</strong>、メダル<strong style="color:var(--text)">${medalCount(fGrace)}</strong>個・金<strong style="color:var(--text)">${goldCount(fGrace)}</strong>個）。Onoは<strong style="color:var(--text)">${fMaho.Performances}</strong>演武で平均<strong style="color:var(--text)">${fMaho.Mean_Score?.toFixed(3) ?? "—"}</strong>（勝率<strong style="color:var(--text)">${fmtWR(fMaho)}</strong>、メダル<strong style="color:var(--text)">${medalCount(fMaho)}</strong>個・金<strong style="color:var(--text)">${goldCount(fMaho)}</strong>個）。${fGrace.Mean_Score != null && fMaho.Mean_Score != null ? `平均スコアの差は<strong style="color:var(--text)">${Math.abs(fGrace.Mean_Score - fMaho.Mean_Score).toFixed(3)}</strong>で、${fGrace.Mean_Score > fMaho.Mean_Score ? "Lau" : "Ono"}がリードしました。` : ""}</li>`
             : `<li>Female kata saw a more competitive dynamic at the top, with <strong style="color:var(--text)">Grace Lau</strong> (Hong Kong) and <strong style="color:var(--text)">Maho Ono</strong> (Japan) as the two clear frontrunners. Lau averaged <strong style="color:var(--text)">${fGrace.Mean_Score?.toFixed(3) ?? "—"}</strong> across <strong style="color:var(--text)">${fGrace.Performances}</strong> performances (win rate: <strong style="color:var(--text)">${fmtWR(fGrace)}</strong>; <strong style="color:var(--text)">${medalCount(fGrace)}</strong> medal${medalCount(fGrace) !== 1 ? "s" : ""}, <strong style="color:var(--text)">${goldCount(fGrace)}</strong> gold${goldCount(fGrace) !== 1 ? "s" : ""}). Ono averaged <strong style="color:var(--text)">${fMaho.Mean_Score?.toFixed(3) ?? "—"}</strong> across <strong style="color:var(--text)">${fMaho.Performances}</strong> performances (win rate: <strong style="color:var(--text)">${fmtWR(fMaho)}</strong>; <strong style="color:var(--text)">${medalCount(fMaho)}</strong> medal${medalCount(fMaho) !== 1 ? "s" : ""}, <strong style="color:var(--text)">${goldCount(fMaho)}</strong> gold${goldCount(fMaho) !== 1 ? "s" : ""}). ${fGrace.Mean_Score != null && fMaho.Mean_Score != null ? `The gap between them was <strong style="color:var(--text)">${Math.abs(fGrace.Mean_Score - fMaho.Mean_Score).toFixed(3)}</strong> in average score, with ${fGrace.Mean_Score > fMaho.Mean_Score ? "Lau" : "Ono"} leading.` : ""}</li>`}
         </ul>
-      </div>
+      </details>
     </div>
 
     <!-- Top 10 side by side -->
@@ -2139,20 +2139,23 @@ function makeWinRateHBar(id, labels, values, axisTitle = "Win Rate (%)", perfs =
 /* ════════════════════════════════════════ FINDINGS NARRATIVES (from markdown) */
 /* These narratives are authored content (not auto-generated). Figure references
    use figName() so they read K-/A- for male and FK-/FA- for female. */
-function _findingsBlock(head, mainItems, notesLabel, notesItems) {
+function _findingsBlock(head, mainItems, notesLabel, notesItems, subhead) {
   const ul = items => `<ul style="font-size:13px;color:var(--text-muted);line-height:2.2;padding-left:20px">${items.map(t => `<li>${t}</li>`).join("")}</ul>`;
-  return `<div class="finding-block" style="margin-top:0">
-      <h3 class="compare-head">${head}</h3>
+  return `<details class="finding-block finding-collapsible" style="margin-top:0">
+      <summary class="compare-head finding-summary">${head}</summary>
+      ${subhead ? `<p style="font-size:13px;font-weight:700;color:var(--text);margin:0 0 6px">${subhead}</p>` : ""}
       ${ul(mainItems)}
       ${notesItems && notesItems.length ? `<p style="font-size:13px;font-weight:700;color:var(--text);margin:14px 0 4px">${notesLabel}</p>${ul(notesItems)}` : ""}
-    </div>`;
+    </details>`;
 }
 
 function kataFindingsHTML() {
   const jp = lang === "jp";
+  const head = jp ? (gender === "male" ? "男子型の分析" : "女子型の分析")
+                  : (gender === "male" ? "Male Kata Analysis" : "Female Kata Analysis");
   const K1 = figName("K-1"), K3 = figName("K-3"), K4 = figName("K-4"), K5 = figName("K-5"), K6 = figName("K-6"), K7 = figName("K-7");
   if (gender === "male") {
-    if (jp) return _findingsBlock("型に関する分析結果", [
+    if (jp) return _findingsBlock(head, [
       `今シーズンの男子型 全<strong>1,006</strong>演武の平均スコアは<strong>8.132</strong>、中央値は<strong>8.09</strong>で、左右対称に近い分布を示しています。`,
       `最も多く演武された男子型は<strong>五十四歩小</strong>で<strong>108</strong>回。2番目は<strong>雲手</strong>で<strong>104</strong>回でした。詳しくは<em>図 ${K1}</em>をご覧ください。`,
       `男子型スコアのうち<strong>14/1006</strong>（<strong>1.392%</strong>）が外れ値でした。低い外れ値が7つ（6.98, 7.12, 7.16, 7.18, 7.20, 7.24, 7.24）、高い外れ値が7つ（9.02, 9.06, 9.10, 9.12, 9.14, 9.18, 9.28）あり、注目すべきことに、高い外れ値7つはすべて<strong>Kakeru Nishiyama</strong>によるものでした。`,
@@ -2160,7 +2163,7 @@ function kataFindingsHTML() {
       `さらに、最も高い差を示した型である<strong>岩鶴</strong>（<strong>+0.084</strong>）は勝率が高いと思われがちですが、勝率はわずか<strong>14.3%</strong>でした。`,
       `この一見した矛盾はデータの重要な限界を示しています。型のスコア差は、選手が「自身の平均」と比べてどう得点したかを測るものであり、「対戦相手のスコア」と比べたものではありません。シソーチンのマイナスの差は、この型が主にすでに非常に高い平均を持つトップ選手に選ばれているためで、彼らにとっては「平均以下」でも十分に競争力があります。シソーチンの詳細カードを確認すると、17演武のうち13がKakeru NishiyamaとAriel Torresによるものだと分かります。岩鶴の高い差・低い勝率は、その型を演武する選手は単独では高得点でも、さらに高く得点する相手に当たっていることを示唆します。`,
     ]);
-    return _findingsBlock("Kata Findings", [
+    return _findingsBlock(head, [
       `The mean score for all <strong>1,006</strong> Male Kata this season was <strong>8.132</strong>, and the median score was <strong>8.09</strong>, indicating an approximately symmetrical distribution.`,
       `The most performed Male Kata was <strong>Gojushiho Sho</strong> with <strong>108</strong> performances. The second most performed was <strong>Unsu</strong> with <strong>104</strong>. See <em>Figure ${K1}</em> for a full breakdown.`,
       `<strong>14/1006</strong>, or <strong>1.392%</strong>, of Male Kata performance scores were outliers. There are 7 low outliers: 6.98, 7.12, 7.16, 7.18, 7.20, 7.24, 7.24 and 7 high outliers: 9.02, 9.06, 9.10, 9.12, 9.14, 9.18, 9.28. Remarkably, all 7 of the high outliers were performed by <strong>Kakeru Nishiyama</strong>.`,
@@ -2172,14 +2175,14 @@ function kataFindingsHTML() {
     ]);
   }
   /* female */
-  if (jp) return _findingsBlock("型に関する分析結果", [
+  if (jp) return _findingsBlock(head, [
     `今シーズンの女子型 全<strong>964</strong>演武の平均スコアは<strong>7.954</strong>、中央値は<strong>7.94</strong>で、左右対称に近い分布を示しています。`,
     `最も多く演武された女子型は<strong>パープーレン</strong>で<strong>198</strong>回。2番目は<strong>スーパーリンペイ</strong>で<strong>129</strong>回でした。詳しくは<em>図 ${K1}</em>をご覧ください。`,
     `女子型演武のうち<strong>8/964</strong>（<strong>0.830%</strong>）が外れ値でした。低い外れ値が4つ（6.14, 6.20, 6.38, 6.98）、高い外れ値が4つ（8.88, 8.88, 8.96, 9.22）あります。`,
     `<strong>Grace Lau</strong>は9.00の壁を破った唯一の女子選手で、<strong>9.22</strong>という、2番目に高い単独スコア（同じく彼女自身が記録した<strong>8.96</strong>）を大きく上回る得点を叩き出しました。`,
     `最も高い差を示した型である<strong>ソーチン</strong>（<strong>+0.084</strong>）は勝率が高いと思われがちですが、勝率は<strong>0%</strong>でした。`,
   ]);
-  return _findingsBlock("Kata Findings", [
+  return _findingsBlock(head, [
     `The <strong>mean score</strong> for all <strong>964</strong> Female Kata this season was <strong>7.954</strong>, and the <strong>median score</strong> was <strong>7.94</strong>, indicating an approximately symmetrical distribution.`,
     `The most performed Female Kata was <strong>Papuren</strong> with <strong>198</strong> performances. The second most performed was <strong>Suparinpei</strong> with <strong>129</strong>. See <em>Figure ${K1}</em> for a full breakdown.`,
     `<strong>8/964</strong>, or <strong>0.830%</strong>, of Female Kata performances were outliers. There are <strong>4 low outliers</strong>: 6.14, 6.20, 6.38, 6.98 and <strong>4 high outliers</strong>: 8.88, 8.88, 8.96, 9.22.`,
@@ -2193,11 +2196,12 @@ function kataFindingsHTML() {
 
 function athleteFindingsHTML() {
   const jp = lang === "jp";
+  const head = jp ? (gender === "male" ? "男子選手の分析" : "女子選手の分析")
+                  : (gender === "male" ? "Male Athlete Analysis" : "Female Athlete Analysis");
   const A1 = figName("A-1"), A2 = figName("A-2"), A3 = figName("A-3");
   const spotlight = jp ? "アスリート・スポットライト" : "Athlete Spotlight";
   if (gender === "male") {
-    if (jp) return _findingsBlock("選手に関する分析結果", [
-      `<em>${spotlight}</em>`,
+    if (jp) return _findingsBlock(head, [
       `今シーズンの男子型競技は<strong>Kakeru Nishiyama</strong>（日本）が完全に支配しました。`,
       `Nishiyamaは<strong>52</strong>演武で平均スコア<strong>8.67</strong>、勝率<strong>100.0%</strong>と男子全選手をリードしました。（前文を読んだ方には）予想通り、Nishiyamaは2024〜2025年の2年間、全大会で金メダルを獲得し、その締めくくりとして2025年世界選手権の金メダルマッチで史上最高得点となる<strong>9.28</strong>を記録しました。この試合では、相手（Alessio Ghinami）を<strong>0.44</strong>という大差で上回りました。0.44ほどの差は大会の後半ラウンドでは非常に稀ですが、片方の選手がKakeru Nishiyamaである場合は別です。この差はGhinamiの出来が悪く自己平均を下回ったためだと思うかもしれませんが、そうではありません。この試合でGhinamiは自己最高得点（<strong>8.84</strong>）を記録していました。`,
       `平均スコアで見ると、1位と2位の差は2位と10位の差に等しいほどです。<em>図 ${A1}</em>をご覧ください。`,
@@ -2205,9 +2209,8 @@ function athleteFindingsHTML() {
       `Kakeru Nishiyamaは9.00の壁を破った唯一の男子選手で、7回それを達成しました。最高位の外れ値6つは知花のクーサンクーで、9.02はパープーレンで記録しました。`,
       `Nishiyamaの6つの型のうち、最も高い平均スコアは知花のクーサンクー（9.00）です。注目すべきことに、彼の知花のクーサンクー9演武のこの平均は、他のどの男子選手の単独スコアよりも高い値です（Kakeru Nishiyama以外の男子選手による最高単独スコアは8.98）。`,
       `日本は男子型の選手層でも圧倒的で、<strong>12</strong>名を派遣し、次に多い国のほぼ倍でした。イタリアは<strong>7</strong>名、トルコは<strong>5</strong>名を派遣しています。国別の内訳は<em>図 ${A3}</em>をご覧ください。`,
-    ]);
-    return _findingsBlock("Athlete Findings", [
-      `<em>${spotlight}</em>`,
+    ], null, null, spotlight);
+    return _findingsBlock(head, [
       `Male Kata competition this season was completely dominated by <strong>Kakeru Nishiyama</strong> (Japan).`,
       `Nishiyama led all male athletes with an average score of <strong>8.67</strong> across <strong>52</strong> performances and a win rate of <strong>100%</strong>. Thus, predictably, Nishiyama won <strong>Gold</strong> at every tournament across the two years of 2024–2025, capping off his run with the <strong>highest score ever recorded</strong>, a <strong>9.28</strong> in the Gold Medal match at the 2025 World Championships. In this specific match, his score eclipsed his opponent's (<strong>Alessio Ghinami</strong>) by a huge margin of <strong>0.44</strong>. A margin as high as 0.44 is quite rare in the later rounds of tournaments, except when one of the athletes is named Kakeru Nishiyama. You may assume that Ghinami performed poorly on the day, resulting in a score below his own average, but that is not the case. In this match, Ghinami scored his own <strong>personal best score ever</strong> (<strong>8.84</strong>).`,
       `When looking at athletes by average score, the difference between <strong>Nishiyama and #2</strong> is the same as the difference between <strong>#2 and #10</strong>. See <em>Figure ${A1}</em>.`,
@@ -2215,25 +2218,23 @@ function athleteFindingsHTML() {
       `Kakeru Nishiyama was the only Male athlete to break the <strong>9.00 score barrier</strong>, which he did <strong>seven times</strong>. Nishiyama scored the six highest outliers with <strong>Chibana No Kushanku</strong>, and he scored the 9.02 with <strong>Papuren</strong>.`,
       `Of Kakeru Nishiyama's six kata, he holds the highest average score with <strong>Chibana No Kushanku</strong> (<strong>9.00</strong>). Notably, this <strong>average</strong> across his nine performances of Chibana No Kushanku is greater than any <strong>single score</strong> by any other Male athlete (the highest single score by a Male athlete not named Kakeru Nishiyama is <strong>8.98</strong>).`,
       `<strong>Japan</strong> dominated male kata representation with <strong>12</strong> athletes, nearly double the next-largest contingent. <strong>Italy</strong> sent <strong>7</strong> athletes and <strong>Turkey</strong> sent <strong>5</strong>. See <em>Figure ${A3}</em> for the full country breakdown.`,
-    ]);
+    ], null, null, spotlight);
   }
   /* female (polished into full sentences) */
-  if (jp) return _findingsBlock("選手に関する分析結果", [
-    `<em>${spotlight}</em>`,
+  if (jp) return _findingsBlock(head, [
     `今シーズンの女子型は、明確な2強である<strong>Grace Lau</strong>（香港）と<strong>Maho Ono</strong>（日本）のトップ争いによって特徴づけられました。両者とも全9大会に出場しています。`,
     `Lauはより高いピークを持っていました。最高スコア（<strong>9.22</strong>対<strong>8.88</strong>）と勝率（<strong>91.7%</strong>対<strong>88.5%</strong>）で上回りました。`,
     `一方Onoは2人のうちより安定していました。平均スコア（<strong>8.44</strong>対<strong>8.43</strong>）と中央値（<strong>8.49</strong>対<strong>8.40</strong>）でLauをわずかに上回り、最低スコアが高く（<strong>8.1</strong>対<strong>7.9</strong>）、レンジもはるかに小さい（<strong>0.78</strong>対<strong>1.32</strong>）など、全体的に得点のばらつきが小さいものでした。`,
     `獲得メダルもこのバランスを反映しています。Lauは<strong>金5・銀1・銅3</strong>、Onoは<strong>金3・銀5・銅1</strong>を獲得しました。`,
     `要するに、Lauはより高いピークに達し、Onoはシーズンを通じてより安定した演武を見せた、ということです。`,
-  ]);
-  return _findingsBlock("Athlete Findings", [
-    `<em>${spotlight}</em>`,
+  ], null, null, spotlight);
+  return _findingsBlock(head, [
     `Female kata this season was defined by a close rivalry at the top between two clear frontrunners: <strong>Grace Lau</strong> (Hong Kong) and <strong>Maho Ono</strong> (Japan), both of whom competed at all 9 tournaments.`,
     `Lau had the higher peaks: she posted a higher maximum score (<strong>9.22</strong> vs <strong>8.88</strong>) and a higher win rate (<strong>91.7%</strong> vs <strong>88.5%</strong>).`,
     `Ono, on the other hand, was the more consistent of the two: she edged Lau in average score (<strong>8.44</strong> vs <strong>8.43</strong>) and median score (<strong>8.49</strong> vs <strong>8.40</strong>), and her scores were tighter overall, with a higher minimum (<strong>8.1</strong> vs <strong>7.9</strong>) and a much smaller range (<strong>0.78</strong> vs <strong>1.32</strong>).`,
     `Their medal hauls reflect this balance: Lau won <strong>5 gold, 1 silver, and 3 bronze</strong>, while Ono won <strong>3 gold, 5 silver, and 1 bronze</strong>.`,
     `In short, Lau reached higher peaks, but Ono was the more consistent performer across the season.`,
-  ]);
+  ], null, null, spotlight);
 }
 
 /* ════════════════════════════════════════════════════════════════ KATA FINDINGS */

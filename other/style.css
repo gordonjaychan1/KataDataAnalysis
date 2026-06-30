@@ -326,6 +326,29 @@ blockquote.dedication {
 .compare-col  { min-width: 0; }
 .compare-head { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
 
+/* ── Collapsible findings boxes ───────────────────────────────────────────── */
+.finding-collapsible > .finding-summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 0;
+}
+.finding-collapsible[open] > .finding-summary { margin-bottom: 12px; }
+.finding-collapsible > .finding-summary::-webkit-details-marker { display: none; }
+/* red plus badge — matches .how-to-toggle on the home tab */
+.finding-collapsible > .finding-summary::after {
+  content: "+";
+  flex: none;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--red-light); border: 1px solid var(--border);
+  color: var(--red); font-size: 14px; line-height: 16px; text-align: center;
+  transition: background 0.12s, transform 0.2s;
+}
+.finding-collapsible[open] > .finding-summary::after { background: var(--red); color: #fff; transform: rotate(45deg); }
+
 /* ── Kata status table (Figure G-2 combined) ─────────────────────────────── */
 .ks-legend { display: flex; gap: 8px; flex-wrap: wrap; font-size: 12px; margin-bottom: 20px; }
 .ks-pill { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; color: #000; white-space: nowrap; }
