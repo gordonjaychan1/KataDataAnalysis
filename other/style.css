@@ -254,7 +254,8 @@ header {
 .how-to-body > strong { display: block; font-size: 13px; font-weight: 700; }
 .how-to-toggle { flex-shrink: 0; width: 18px; height: 18px; border-radius: 50%;
   background: var(--red-light); border: 1px solid var(--border);
-  color: var(--red); font-size: 14px; line-height: 16px; text-align: center;
+  color: var(--red); font-size: 14px; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
   cursor: pointer; transition: background 0.12s, transform 0.2s; }
 .how-to-card.open .how-to-toggle { background: var(--red); color: #fff; transform: rotate(45deg); }
 .how-to-detail { display: none; margin-top: 8px; }
@@ -346,7 +347,8 @@ blockquote.dedication {
   flex: none;
   width: 18px; height: 18px; border-radius: 50%;
   background: var(--red-light); border: 1px solid var(--border);
-  color: var(--red); font-size: 14px; line-height: 16px; text-align: center;
+  color: var(--red); font-size: 14px; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
   transition: background 0.12s, transform 0.2s;
 }
 .finding-collapsible[open] > .finding-summary::after { background: var(--red); color: #fff; transform: rotate(45deg); }

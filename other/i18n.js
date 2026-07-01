@@ -343,39 +343,39 @@ const I18N = {
                   <li>起点まで戻ったとき、またはタブを手動でクリックすると消えます。</li>
                 </ul>
                 <p class="how-to-q"><em>いくつものリンクされたカードをたどって、戻りたい。戻るボタンはどこ？</em></p>` },
-  "howto.dataKata": { jp: `<strong>型（Kata）</strong>
+  "howto.dataKata": { jp: `<strong>型</strong>
                 <ul>
                   <li>型ごとの統計：演武数、演武した選手数（実数）、平均、勝率など。</li>
                   <li>行をクリックすると、各統計におけるその型の順位、スコア分布のヒストグラム、演武した全選手を示す<strong>詳細カード</strong>が開きます。</li>
                 </ul>
                 <p class="how-to-q"><em>特定の型の統計は？誰が最も上手く演武している？</em></p>` },
-  "howto.dataAthletes": { jp: `<strong>選手（Athletes）</strong>
+  "howto.dataAthletes": { jp: `<strong>選手</strong>
                 <ul>
                   <li>選手ごとの統計：国・勝率・総合的な<strong>差（差分）</strong>（自分のスコアから相手のスコアを引き全試合で平均）など。</li>
                   <li>行をクリックすると、順位付きのシーズン統計、スコアのヒストグラム、型のレパートリー、全試合の時系列ログ、対戦成績、メダルを含む<strong>詳細カード</strong>が開きます。</li>
                 </ul>
                 <p class="how-to-q"><em>特定の選手はシーズンを通じてどう戦った？最も多く対戦したのは誰？</em></p>` },
-  "howto.dataTournaments": { jp: `<strong>大会（Tournaments）</strong>
+  "howto.dataTournaments": { jp: `<strong>大会</strong>
                 <ul>
                   <li>大会ごとに1行（開催順）：演武数・選手数・型数・参加国数・平均スコア。</li>
                   <li>上部の日程表から9大会のいずれへも移動できます。</li>
                   <li>行をクリックすると、メダリストとその大会の全選手・型・国を含む<strong>詳細カード</strong>が開きます。</li>
                 </ul>
                 <p class="how-to-q"><em>特定の大会には誰が出場し、誰がメダルを獲得した？</em></p>` },
-  "howto.dataCountries": { jp: `<strong>国（Countries）</strong>
+  "howto.dataCountries": { jp: `<strong>国</strong>
                 <ul>
                   <li>国ごとの統計：選手数・演武数・大会数・平均／最高スコア・勝率・メダル数。</li>
                   <li><strong>世界地図</strong>は選手数で各国を色分けし（赤が濃いほど選手が多い）、クリックで開けます。</li>
                   <li>行をクリックすると、所属選手・演武された型・出場大会（派遣選手数とメダル付き）・メダル集計を含む<strong>詳細カード</strong>が開きます。</li>
                 </ul>
                 <p class="how-to-q"><em>最も多く出場した国は？特定の国はシーズンを通じてどう戦った？</em></p>` },
-  "howto.findKata": { jp: `<strong>型の分析（Kata Analysis）</strong>
+  "howto.findKata": { jp: `<strong>型の分析</strong>
                 <ul>
                   <li>型の傾向のグラフ：人気・平均スコア・勝率・階級別内訳、そして各型が選手個人の基準と比べてどう得点するか（選手の通常より「難しい」か「易しい」かの目安）。</li>
                   <li>グラフ上部の文章がシーズンの注目すべき型の話題をまとめています。</li>
                 </ul>
                 <p class="how-to-q"><em>選手が好成績を収めている型は？トップ選手が最も選ぶ型は？</em></p>` },
-  "howto.findAthlete": { jp: `<strong>選手の分析（Athlete Analysis）</strong>
+  "howto.findAthlete": { jp: `<strong>選手の分析</strong>
                 <ul>
                   <li>平均スコアと勝率による選手ランキング、スコアと勝率の散布図、国別の内訳。</li>
                   <li>各バーはクリックで詳細カードへ移動します。</li>
@@ -389,20 +389,20 @@ const I18N = {
                   <li>男女共通型の「男子 − 女子」平均スコア差を示す棒グラフと並べ替え可能な表。</li>
                 </ul>
                 <p class="how-to-q"><em>片方の性別だけが演武する型はある？男女で最も得点が異なる型は？</em></p>` },
-  "howto.medals": { jp: `<strong>メダル（Medals）</strong>
+  "howto.medals": { jp: `<strong>メダル</strong>
                 <ul>
                   <li>男子型と女子型のメダル表を並べて表示（既定は金メダル順）。</li>
                   <li>全9大会を通じた各国の金・銀・銅・合計を示します。</li>
                   <li>見出しをクリックで並べ替え。</li>
                 </ul>
                 <p class="how-to-q"><em>今シーズン最も多くメダルを獲得した国は？</em></p>` },
-  "howto.notesCard": { jp: `<strong>注記（Notes）</strong>
+  "howto.notesCard": { jp: `<strong>注記</strong>
                 <ul>
                   <li>データの収集方法、欠損データとその理由、型の階級の定義、WKFの採点規則、勝率の読み方。</li>
                   <li>不明な点や予想外の点があれば、まずここをお読みください。</li>
                 </ul>
                 <p class="how-to-q"><em>このデータはどう収集された？統計は実際に何を意味する？</em></p>` },
-  "howto.aboutCard": { jp: `<strong>概要（About）</strong>
+  "howto.aboutCard": { jp: `<strong>概要</strong>
                 <ul>
                   <li>制作者の背景とプロジェクトの動機。</li>
                   <li>手法に関する注記、そしてサイト構築に使用した生CSVデータのダウンロードリンク。</li>
