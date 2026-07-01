@@ -2144,12 +2144,16 @@ function makeWinRateHBar(id, labels, values, axisTitle = "Win Rate (%)", perfs =
 /* These narratives are authored content (not auto-generated). Figure references
    use figName() so they read K-/A- for male and FK-/FA- for female. */
 function _findingsBlock(head, mainItems, notesLabel, notesItems, subhead) {
-  const ul = items => `<ul style="font-size:13px;color:var(--text-muted);line-height:2.2;padding-left:20px">${items.map(t => `<li>${t}</li>`).join("")}</ul>`;
+  const ul = (items, extraStyle = "") => `<ul style="font-size:13px;color:var(--text-muted);line-height:2.2;padding-left:20px${extraStyle}">${items.map(t => `<li>${t}</li>`).join("")}</ul>`;
   return `<details class="finding-block finding-collapsible" style="margin-top:0">
       <summary class="compare-head finding-summary"><span>${head}<em class="finding-hint">${lang === "jp" ? "クリックして開く。" : "Click to open."}</em></span></summary>
       ${subhead ? `<p style="font-size:13px;font-weight:700;color:var(--text);margin:0 0 6px">${subhead}</p>` : ""}
       ${ul(mainItems)}
-      ${notesItems && notesItems.length ? `<p style="font-size:13px;font-weight:700;color:var(--text);margin:14px 0 4px">${notesLabel}</p>${ul(notesItems)}` : ""}
+      ${notesItems && notesItems.length
+          ? (notesLabel
+              ? `<p style="font-size:13px;font-weight:700;color:var(--text);margin:14px 0 4px">${notesLabel}</p>${ul(notesItems)}`
+              : ul(notesItems, ";margin-top:18px"))
+          : ""}
     </details>`;
 }
 
@@ -2212,9 +2216,10 @@ function athleteFindingsHTML() {
       `1,006の男子型演武には高い外れ値が7つあり、その全7つをKakeru Nishiyamaが保持しています。`,
       `Kakeru Nishiyamaは9.00の壁を破った唯一の男子選手で、7回それを達成しました。最高位の外れ値6つは知花のクーサンクーで、9.02はパープーレンで記録しました。`,
       `Nishiyamaの6つの型のうち、最も高い平均スコアは知花のクーサンクー（9.00）です。注目すべきことに、彼の知花のクーサンクー9演武のこの平均は、他のどの男子選手の単独スコアよりも高い値です（Kakeru Nishiyama以外の男子選手による最高単独スコアは8.98）。`,
+    ], null, [
       `日本は男子型の選手層でも圧倒的で、<strong>12</strong>名を派遣し、次に多い国のほぼ倍でした。イタリアは<strong>7</strong>名、トルコは<strong>5</strong>名を派遣しています。国別の内訳は<em>図 ${A3}</em>をご覧ください。`,
       `メダルを獲得した選手は<strong>12</strong>名でした。`,
-    ], null, null, spotlight);
+    ], spotlight);
     return _findingsBlock(head, [
       `Male Kata competition this season was completely dominated by <strong>Kakeru Nishiyama</strong> (Japan).`,
       `Nishiyama led all male athletes with an average score of <strong>8.67</strong> across <strong>52</strong> performances and a win rate of <strong>100%</strong>. Thus, predictably, Nishiyama won <strong>Gold</strong> at every tournament across the two years of 2024–2025, capping off his run with the <strong>highest score ever recorded</strong>, a <strong>9.28</strong> in the Gold Medal match at the 2025 World Championships. In this specific match, his score eclipsed his opponent's (<strong>Alessio Ghinami</strong>) by a huge margin of <strong>0.44</strong>. A margin as high as 0.44 is quite rare in the later rounds of tournaments, except when one of the athletes is named Kakeru Nishiyama. You may assume that Ghinami performed poorly on the day, resulting in a score below his own average, but that is not the case. In this match, Ghinami scored his own <strong>personal best score ever</strong> (<strong>8.84</strong>).`,
@@ -2222,9 +2227,10 @@ function athleteFindingsHTML() {
       `There are <strong>7 high outliers</strong> in the 1,006 male kata performances. <strong>Kakeru Nishiyama holds all 7.</strong>`,
       `Kakeru Nishiyama was the only Male athlete to break the <strong>9.00 score barrier</strong>, which he did <strong>seven times</strong>. Nishiyama scored the six highest outliers with <strong>Chibana No Kushanku</strong>, and he scored the 9.02 with <strong>Papuren</strong>.`,
       `Of Kakeru Nishiyama's six kata, he holds the highest average score with <strong>Chibana No Kushanku</strong> (<strong>9.00</strong>). Notably, this <strong>average</strong> across his nine performances of Chibana No Kushanku is greater than any <strong>single score</strong> by any other Male athlete (the highest single score by a Male athlete not named Kakeru Nishiyama is <strong>8.98</strong>).`,
+    ], null, [
       `<strong>Japan</strong> dominated male kata representation with <strong>12</strong> athletes, nearly double the next-largest contingent. <strong>Italy</strong> sent <strong>7</strong> athletes and <strong>Turkey</strong> sent <strong>5</strong>. See <em>Figure ${A3}</em> for the full country breakdown.`,
       `<strong>12</strong> unique athletes won medals.`,
-    ], null, null, spotlight);
+    ], spotlight);
   }
   /* female (polished into full sentences) */
   if (jp) return _findingsBlock(head, [
@@ -2233,20 +2239,22 @@ function athleteFindingsHTML() {
     `一方Onoは2人のうちより安定していました。平均スコア（<strong>8.44</strong>対<strong>8.43</strong>）と中央値（<strong>8.49</strong>対<strong>8.40</strong>）でLauをわずかに上回り、最低スコアが高く（<strong>8.1</strong>対<strong>7.9</strong>）、レンジもはるかに小さい（<strong>0.78</strong>対<strong>1.32</strong>）など、全体的に得点のばらつきが小さいものでした。`,
     `獲得メダルもこのバランスを反映しています。Lauは<strong>金5・銀1・銅3</strong>、Onoは<strong>金3・銀5・銅1</strong>を獲得しました。`,
     `要するに、Lauはより高いピークに達し、Onoはシーズンを通じてより安定した演武を見せた、ということです。`,
+  ], null, [
     `Grace Lauは9.00の壁を破った唯一の女子選手で、<strong>9.22</strong>という驚異的なスコアを叩き出しました。これは2番目に高い単独スコア（同じく彼女自身による<strong>8.96</strong>）を大きく上回るものです。`,
     `国別の選手層は多様でした。日本は<strong>8</strong>名、エジプトは<strong>6</strong>名、イタリアは<strong>5</strong>名を派遣しました。<em>図 ${A3}</em>をご覧ください。`,
     `メダルを獲得した選手は<strong>11</strong>名でした。`,
-  ], null, null, spotlight);
+  ], spotlight);
   return _findingsBlock(head, [
     `Female kata this season was defined by a close rivalry at the top between two clear frontrunners: <strong>Grace Lau</strong> (Hong Kong) and <strong>Maho Ono</strong> (Japan), both of whom competed at all 9 tournaments.`,
     `Lau had the higher peaks: she posted a higher maximum score (<strong>9.22</strong> vs <strong>8.88</strong>) and a higher win rate (<strong>91.7%</strong> vs <strong>88.5%</strong>).`,
     `Ono, on the other hand, was the more consistent of the two: she edged Lau in average score (<strong>8.44</strong> vs <strong>8.43</strong>) and median score (<strong>8.49</strong> vs <strong>8.40</strong>), and her scores were tighter overall, with a higher minimum (<strong>8.1</strong> vs <strong>7.9</strong>) and a much smaller range (<strong>0.78</strong> vs <strong>1.32</strong>).`,
     `Their medal hauls reflect this balance: Lau won <strong>5 gold, 1 silver, and 3 bronze</strong>, while Ono won <strong>3 gold, 5 silver, and 1 bronze</strong>.`,
     `In short, Lau reached higher peaks, but Ono was the more consistent performer across the season.`,
+  ], null, [
     `Grace Lau was the only Female athlete to break the <strong>9.00 score boundary</strong>, which she shattered with a <strong>9.22</strong>, significantly higher than the second-highest single score, <strong>8.96</strong>, which she also scored.`,
     `Kata representation by country was diverse: <strong>Japan</strong> sent <strong>8</strong> athletes, <strong>Egypt</strong> sent <strong>6</strong>, and <strong>Italy</strong> sent <strong>5</strong>. See <em>Figure ${A3}</em>.`,
     `<strong>11</strong> unique athletes won medals.`,
-  ], null, null, spotlight);
+  ], spotlight);
 }
 
 /* ════════════════════════════════════════════════════════════════ KATA FINDINGS */
