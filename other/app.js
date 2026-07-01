@@ -618,22 +618,26 @@ function renderCompareTab() {
     <!-- Findings -->
     <div>
       <details class="finding-block finding-collapsible" style="margin-top:0">
-      <summary class="compare-head finding-summary">${jp ? "分析" : "Analysis"}</summary>
+      <summary class="compare-head finding-summary"><span>${jp ? "分析" : "Analysis"}<em class="finding-hint">${jp ? "クリックして開く。" : "Click to open."}</em></span></summary>
         <ul style="font-size:13px;color:var(--text-muted);line-height:2.2;padding-left:20px">
           ${jp
             ? `<li>男子選手は2024–25シーズンを通じて<strong style="color:var(--text)">${mkata.length}</strong>種類の型を演武しました。女子選手も同数の<strong style="color:var(--text)">${fkata.length}</strong>種類を演武しました。</li>
           <li>そのうち<strong style="color:var(--text)">${trueSharedCount}</strong>型は男女両方で演武されました。<strong style="color:var(--text)">${mOnly.length}</strong>型は男子のみ、<strong style="color:var(--text)">${fOnly.length}</strong>型は女子のみが演武しました。詳しい内訳は<em>図 G-2</em>、性別限定の型は<em>図 G-3</em>をご覧ください。</li>
-          <li>男子選手で最も多く演武された型は<strong style="color:var(--text)">${mTop1 ? kn(mTop1.Kata) : "—"}</strong>${mTop1 ? `（<strong style="color:var(--text)">${mTop1.Performances}</strong>回）` : ""}。女子選手では<strong style="color:var(--text)">${fTop1 ? kn(fTop1.Kata) : "—"}</strong>${fTop1 ? `（<strong style="color:var(--text)">${fTop1.Performances}</strong>回）` : ""}${fTop1 && fTop2 ? `で、2番目に多い女子型<strong style="color:var(--text)">${kn(fTop2.Kata)}</strong>（<strong style="color:var(--text)">${fTop2.Performances}</strong>回）を大きく上回りました。男子の上位型はより僅差です（上位3型で ${mTop10.slice(0,3).map(k => k.Performances).join(" / ")}）` : ""}。下の<em>図 G-1</em>をご覧ください。</li>
-          <li>男子型演武に与えられた平均スコアは<strong style="color:var(--text)">${mAvgScore != null ? mAvgScore.toFixed(3) : "—"}</strong>、女子型演武では<strong style="color:var(--text)">${fAvgScore != null ? fAvgScore.toFixed(3) : "—"}</strong>でした。</li>
+          <li>女子の演武は上位数型に強く集中していました。単一の型<strong style="color:var(--text)">${fTop1 ? kn(fTop1.Kata) : "—"}</strong>が<strong style="color:var(--text)">${fTop1 ? fTop1.Performances : "—"}</strong>回で突出し${fTop1 && fTop2 ? `、2番目に多い<strong style="color:var(--text)">${kn(fTop2.Kata)}</strong>（<strong style="color:var(--text)">${fTop2.Performances}</strong>回）を<strong style="color:var(--text)">${fTop1.Performances - fTop2.Performances}</strong>回も上回りました。男子側に同様の突出した型はなく、上位3型は僅差で並んでいます（${mTop10.slice(0,3).map(k => k.Performances).join(" / ")}）` : ""}。下の<em>図 G-1</em>をご覧ください。</li>
+          <li>男子型の演武は女子型より平均で<strong style="color:var(--text)">${(mAvgScore != null && fAvgScore != null) ? (mAvgScore - fAvgScore).toFixed(3) : "—"}</strong>点高く得点されました。男子型演武の平均スコアは<strong style="color:var(--text)">${mAvgScore != null ? mAvgScore.toFixed(3) : "—"}</strong>、女子型演武では<strong style="color:var(--text)">${fAvgScore != null ? fAvgScore.toFixed(3) : "—"}</strong>でした。</li>
           <li>IQR法によると、男子型スコアには低い外れ値が<strong style="color:var(--text)">${mOut.low.length}</strong>個、高い外れ値が<strong style="color:var(--text)">${mOut.high.length}</strong>個あります。女子スコアには低い外れ値が<strong style="color:var(--text)">${fOut.low.length}</strong>個、高い外れ値が<strong style="color:var(--text)">${fOut.high.length}</strong>個あります。女子のデータはより極端な低スコアを含む一方、男子のスコアは下側でより密集し、上側ではより高いピークに達します。</li>
           <li>女子競技で記録された単独最高スコアは<strong style="color:var(--text)">${fMaxKata ? fMaxKata.Max_Score.toFixed(2) : "—"}</strong>（${fMaxKata ? kn(fMaxKata.Kata) : "—"}）で、男子のピーク<strong style="color:var(--text)">${mMaxKata ? mMaxKata.Max_Score.toFixed(2) : "—"}</strong>（${mMaxKata ? kn(mMaxKata.Kata) : "—"}）にほぼ匹敵します。</li>
+          <li>女子の型は、型ごとのスコアのばらつきがより小さいものでした。典型的な女子型のスコア標準偏差は約<strong style="color:var(--text)">0.23</strong>で、男子型の<strong style="color:var(--text)">0.33</strong>より小さく（<em>図 FK-6</em>）、同じ型であれば女子選手のスコアはより近い範囲に収まったことを意味します。</li>
+          <li>女子選手は中級の型をほとんど演武しませんでした。女子の演武のうち中級型はわずか<strong style="color:var(--text)">1.6%</strong>（962回中15回）で、わずか<strong style="color:var(--text)">5</strong>種類にとどまりました。男子選手はより多く中級型を演武し、演武の<strong style="color:var(--text)">9.4%</strong>（947回中89回）を<strong style="color:var(--text)">9</strong>種類で占めました。最高峰のレベルでは、女子は男子以上に上級の型へ集中していました。</li>
           <li>シーズンを通じて、男子選手は計<strong style="color:var(--text)">${mTotalPerfs.toLocaleString()}</strong>回の型演武を記録し、女子選手は<strong style="color:var(--text)">${fTotalPerfs.toLocaleString()}</strong>回でした。</li>`
             : `<li>Male athletes performed <strong style="color:var(--text)">${mkata.length}</strong> unique kata across the 2024–25 season. Female athletes performed the same number: <strong style="color:var(--text)">${fkata.length}</strong> unique kata.</li>
           <li>Of those, <strong style="color:var(--text)">${trueSharedCount}</strong> kata were performed by both genders. <strong style="color:var(--text)">${mOnly.length}</strong> kata were performed exclusively by males, and <strong style="color:var(--text)">${fOnly.length}</strong> exclusively by females. See <em>Figure G-2</em> for the full breakdown and <em>Figure G-3</em> for the exclusive kata.</li>
-          <li>The most performed kata among male athletes was <strong style="color:var(--text)">${mTop1 ? esc(mTop1.Kata) : "—"}</strong>${mTop1 ? ` with <strong style="color:var(--text)">${mTop1.Performances}</strong> performances` : ""}. For female athletes it was <strong style="color:var(--text)">${fTop1 ? esc(fTop1.Kata) : "—"}</strong>${fTop1 ? ` with <strong style="color:var(--text)">${fTop1.Performances}</strong> performances` : ""}${fTop1 && fTop2 ? `, significantly more than the second most performed female kata, <strong style="color:var(--text)">${esc(fTop2.Kata)}</strong>, at <strong style="color:var(--text)">${fTop2.Performances}</strong> performances. The male top kata are closer together (${mTop10.slice(0,3).map(k => k.Performances).join(" / ")} for the top three)` : ""}. See <em>Figure G-1</em> below.</li>
-          <li>The average score given to any male kata performance was <strong style="color:var(--text)">${mAvgScore != null ? mAvgScore.toFixed(3) : "—"}</strong>. For female kata performances, it was <strong style="color:var(--text)">${fAvgScore != null ? fAvgScore.toFixed(3) : "—"}</strong>.</li>
+          <li>The female field showed much greater concentration at the top. A single kata, <strong style="color:var(--text)">${fTop1 ? esc(fTop1.Kata) : "—"}</strong>, dominated with <strong style="color:var(--text)">${fTop1 ? fTop1.Performances : "—"}</strong> performances${fTop1 && fTop2 ? `, dwarfing the next most performed, <strong style="color:var(--text)">${esc(fTop2.Kata)}</strong>, by <strong style="color:var(--text)">${fTop1.Performances - fTop2.Performances}</strong> (<strong style="color:var(--text)">${fTop2.Performances}</strong>). No comparable outlier exists on the male side, where the three most performed kata cluster closely together (${mTop10.slice(0,3).map(k => k.Performances).join(" / ")})` : ""}. See <em>Figure G-1</em>.</li>
+          <li>Male kata performances scored <strong style="color:var(--text)">${(mAvgScore != null && fAvgScore != null) ? (mAvgScore - fAvgScore).toFixed(3) : "—"}</strong> higher on average than female kata performances. The mean score for a male kata performance was <strong style="color:var(--text)">${mAvgScore != null ? mAvgScore.toFixed(3) : "—"}</strong>, versus <strong style="color:var(--text)">${fAvgScore != null ? fAvgScore.toFixed(3) : "—"}</strong> for female kata.</li>
           <li>Using the IQR method, male kata performance scores have <strong style="color:var(--text)">${mOut.low.length}</strong> low ${mOut.low.length === 1 ? "outlier" : "outliers"} and <strong style="color:var(--text)">${mOut.high.length}</strong> high ${mOut.high.length === 1 ? "outlier" : "outliers"}; female scores have <strong style="color:var(--text)">${fOut.low.length}</strong> low ${fOut.low.length === 1 ? "outlier" : "outliers"} and <strong style="color:var(--text)">${fOut.high.length}</strong> high ${fOut.high.length === 1 ? "outlier" : "outliers"}. The female dataset contains more extreme lows, while male scores cluster more tightly at the bottom but reach higher peaks at the top.</li>
           <li>The single highest score recorded in female competition was <strong style="color:var(--text)">${fMaxKata ? fMaxKata.Max_Score.toFixed(2) : "—"}</strong> (${fMaxKata ? esc(fMaxKata.Kata) : "—"}), nearly matching the male peak of <strong style="color:var(--text)">${mMaxKata ? mMaxKata.Max_Score.toFixed(2) : "—"}</strong> (${mMaxKata ? esc(mMaxKata.Kata) : "—"}).</li>
+          <li>Female kata scores were more tightly clustered within each kata. The typical female kata had a score standard deviation of about <strong style="color:var(--text)">0.23</strong>, compared to <strong style="color:var(--text)">0.33</strong> for the typical male kata (<em>Figure FK-6</em>), meaning that for any given female kata, athletes' scores landed closer together.</li>
+          <li>Female athletes almost entirely avoided Intermediate kata. Just <strong style="color:var(--text)">1.6%</strong> of female performances (<strong style="color:var(--text)">15 of 962</strong>) were Intermediate kata, spread across only <strong style="color:var(--text)">5</strong> different kata. Male athletes leaned on Intermediate kata noticeably more, at <strong style="color:var(--text)">9.4%</strong> of their performances (<strong style="color:var(--text)">89 of 947</strong>), across <strong style="color:var(--text)">9</strong> different kata. At the elite level, the female field concentrated even more heavily on Advanced kata than the male field did.</li>
           <li>Across the season, male athletes recorded <strong style="color:var(--text)">${mTotalPerfs.toLocaleString()}</strong> total kata performances, compared to <strong style="color:var(--text)">${fTotalPerfs.toLocaleString()}</strong> for female athletes.</li>`}
         </ul>
 
@@ -2142,7 +2146,7 @@ function makeWinRateHBar(id, labels, values, axisTitle = "Win Rate (%)", perfs =
 function _findingsBlock(head, mainItems, notesLabel, notesItems, subhead) {
   const ul = items => `<ul style="font-size:13px;color:var(--text-muted);line-height:2.2;padding-left:20px">${items.map(t => `<li>${t}</li>`).join("")}</ul>`;
   return `<details class="finding-block finding-collapsible" style="margin-top:0">
-      <summary class="compare-head finding-summary">${head}</summary>
+      <summary class="compare-head finding-summary"><span>${head}<em class="finding-hint">${lang === "jp" ? "クリックして開く。" : "Click to open."}</em></span></summary>
       ${subhead ? `<p style="font-size:13px;font-weight:700;color:var(--text);margin:0 0 6px">${subhead}</p>` : ""}
       ${ul(mainItems)}
       ${notesItems && notesItems.length ? `<p style="font-size:13px;font-weight:700;color:var(--text);margin:14px 0 4px">${notesLabel}</p>${ul(notesItems)}` : ""}
@@ -2209,6 +2213,7 @@ function athleteFindingsHTML() {
       `Kakeru Nishiyamaは9.00の壁を破った唯一の男子選手で、7回それを達成しました。最高位の外れ値6つは知花のクーサンクーで、9.02はパープーレンで記録しました。`,
       `Nishiyamaの6つの型のうち、最も高い平均スコアは知花のクーサンクー（9.00）です。注目すべきことに、彼の知花のクーサンクー9演武のこの平均は、他のどの男子選手の単独スコアよりも高い値です（Kakeru Nishiyama以外の男子選手による最高単独スコアは8.98）。`,
       `日本は男子型の選手層でも圧倒的で、<strong>12</strong>名を派遣し、次に多い国のほぼ倍でした。イタリアは<strong>7</strong>名、トルコは<strong>5</strong>名を派遣しています。国別の内訳は<em>図 ${A3}</em>をご覧ください。`,
+      `メダルを獲得した選手は<strong>12</strong>名でした。`,
     ], null, null, spotlight);
     return _findingsBlock(head, [
       `Male Kata competition this season was completely dominated by <strong>Kakeru Nishiyama</strong> (Japan).`,
@@ -2218,6 +2223,7 @@ function athleteFindingsHTML() {
       `Kakeru Nishiyama was the only Male athlete to break the <strong>9.00 score barrier</strong>, which he did <strong>seven times</strong>. Nishiyama scored the six highest outliers with <strong>Chibana No Kushanku</strong>, and he scored the 9.02 with <strong>Papuren</strong>.`,
       `Of Kakeru Nishiyama's six kata, he holds the highest average score with <strong>Chibana No Kushanku</strong> (<strong>9.00</strong>). Notably, this <strong>average</strong> across his nine performances of Chibana No Kushanku is greater than any <strong>single score</strong> by any other Male athlete (the highest single score by a Male athlete not named Kakeru Nishiyama is <strong>8.98</strong>).`,
       `<strong>Japan</strong> dominated male kata representation with <strong>12</strong> athletes, nearly double the next-largest contingent. <strong>Italy</strong> sent <strong>7</strong> athletes and <strong>Turkey</strong> sent <strong>5</strong>. See <em>Figure ${A3}</em> for the full country breakdown.`,
+      `<strong>12</strong> unique athletes won medals.`,
     ], null, null, spotlight);
   }
   /* female (polished into full sentences) */
@@ -2227,6 +2233,9 @@ function athleteFindingsHTML() {
     `一方Onoは2人のうちより安定していました。平均スコア（<strong>8.44</strong>対<strong>8.43</strong>）と中央値（<strong>8.49</strong>対<strong>8.40</strong>）でLauをわずかに上回り、最低スコアが高く（<strong>8.1</strong>対<strong>7.9</strong>）、レンジもはるかに小さい（<strong>0.78</strong>対<strong>1.32</strong>）など、全体的に得点のばらつきが小さいものでした。`,
     `獲得メダルもこのバランスを反映しています。Lauは<strong>金5・銀1・銅3</strong>、Onoは<strong>金3・銀5・銅1</strong>を獲得しました。`,
     `要するに、Lauはより高いピークに達し、Onoはシーズンを通じてより安定した演武を見せた、ということです。`,
+    `Grace Lauは9.00の壁を破った唯一の女子選手で、<strong>9.22</strong>という驚異的なスコアを叩き出しました。これは2番目に高い単独スコア（同じく彼女自身による<strong>8.96</strong>）を大きく上回るものです。`,
+    `国別の選手層は多様でした。日本は<strong>8</strong>名、エジプトは<strong>6</strong>名、イタリアは<strong>5</strong>名を派遣しました。<em>図 ${A3}</em>をご覧ください。`,
+    `メダルを獲得した選手は<strong>11</strong>名でした。`,
   ], null, null, spotlight);
   return _findingsBlock(head, [
     `Female kata this season was defined by a close rivalry at the top between two clear frontrunners: <strong>Grace Lau</strong> (Hong Kong) and <strong>Maho Ono</strong> (Japan), both of whom competed at all 9 tournaments.`,
@@ -2234,6 +2243,9 @@ function athleteFindingsHTML() {
     `Ono, on the other hand, was the more consistent of the two: she edged Lau in average score (<strong>8.44</strong> vs <strong>8.43</strong>) and median score (<strong>8.49</strong> vs <strong>8.40</strong>), and her scores were tighter overall, with a higher minimum (<strong>8.1</strong> vs <strong>7.9</strong>) and a much smaller range (<strong>0.78</strong> vs <strong>1.32</strong>).`,
     `Their medal hauls reflect this balance: Lau won <strong>5 gold, 1 silver, and 3 bronze</strong>, while Ono won <strong>3 gold, 5 silver, and 1 bronze</strong>.`,
     `In short, Lau reached higher peaks, but Ono was the more consistent performer across the season.`,
+    `Grace Lau was the only Female athlete to break the <strong>9.00 score boundary</strong>, which she shattered with a <strong>9.22</strong>, significantly higher than the second-highest single score, <strong>8.96</strong>, which she also scored.`,
+    `Kata representation by country was diverse: <strong>Japan</strong> sent <strong>8</strong> athletes, <strong>Egypt</strong> sent <strong>6</strong>, and <strong>Italy</strong> sent <strong>5</strong>. See <em>Figure ${A3}</em>.`,
+    `<strong>11</strong> unique athletes won medals.`,
   ], null, null, spotlight);
 }
 

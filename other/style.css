@@ -338,6 +338,8 @@ blockquote.dedication {
 }
 .finding-collapsible[open] > .finding-summary { margin-bottom: 12px; }
 .finding-collapsible > .finding-summary::-webkit-details-marker { display: none; }
+.finding-hint { font-style: italic; font-weight: 400; font-size: 13px; color: var(--text-muted); margin-left: 10px; }
+.finding-collapsible[open] > .finding-summary .finding-hint { display: none; }
 /* red plus badge — matches .how-to-toggle on the home tab */
 .finding-collapsible > .finding-summary::after {
   content: "+";
