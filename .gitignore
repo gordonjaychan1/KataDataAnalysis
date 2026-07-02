@@ -3,3 +3,6 @@
 
 # Jupyter notebook checkpoints
 .ipynb_checkpoints/
+
+# Belongs to a separate project
+Karate Analysis/
