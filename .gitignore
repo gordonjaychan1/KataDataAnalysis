@@ -6,3 +6,7 @@
 
 # Belongs to a separate project
 Karate Analysis/
+
+# Local source/dev notes, not needed for the site
+markdown files/
+analyze.py
