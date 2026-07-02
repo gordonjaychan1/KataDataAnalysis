@@ -686,6 +686,10 @@ function renderCompareTab() {
       const allInt   = [...new Set([...(mts.interm_performed || []), ...(fts.interm_performed || [])])].sort();
       const mid      = Math.ceil(allAdv.length / 2);
       const L = { both: jp ? "両方" : "Both", men: jp ? "男子のみ" : "Men only", women: jp ? "女子のみ" : "Women only", none: jp ? "未演武" : "Not performed" };
+      const statusOf = (inM, inF) => (inM && inF) ? "both" : inM ? "men" : inF ? "women" : "none";
+      const counts = { both: 0, men: 0, women: 0, none: 0 };
+      allAdv.forEach(k => counts[statusOf(mAdvSet.has(k), fAdvSet.has(k))]++);
+      allInt.forEach(k => counts[statusOf(mIntSet.has(k), fIntSet.has(k))]++);
       const pill = (inM, inF) => {
         if (inM && inF) return `<span class="ks-pill ks-pill-both">${L.both}</span>`;
         if (inM)        return `<span class="ks-pill ks-pill-male">${L.men}</span>`;
@@ -702,10 +706,10 @@ function renderCompareTab() {
         <span class="fig-label">${t("fig.figure")} G-2</span>
         <h3 class="compare-head">${jp ? "性別ごとに演武された型" : "Kata Performed by Gender"}</h3>
         <div class="ks-legend">
-          <span class="ks-pill ks-pill-both">${L.both}</span>
-          <span class="ks-pill ks-pill-male">${L.men}</span>
-          <span class="ks-pill ks-pill-female">${L.women}</span>
-          <span class="ks-pill ks-pill-none">${L.none}</span>
+          <span class="ks-pill ks-pill-both">${L.both} <span class="ks-pill-count">${counts.both}</span></span>
+          <span class="ks-pill ks-pill-male">${L.men} <span class="ks-pill-count">${counts.men}</span></span>
+          <span class="ks-pill ks-pill-female">${L.women} <span class="ks-pill-count">${counts.women}</span></span>
+          <span class="ks-pill ks-pill-none">${L.none} <span class="ks-pill-count">${counts.none}</span></span>
         </div>
         <div class="ks-three-col">
           ${col(t("tier.Advanced"), rows(allAdv.slice(0, mid), mAdvSet, fAdvSet, 0))}
@@ -2319,8 +2323,8 @@ function renderKataFindings() {
 
   /* 4. Scatter: Performances vs Avg Score — Advanced & Intermediate only */
   document.getElementById("insight-scatter").textContent = lang === "jp"
-    ? `各点は1つの型を表します。希少な型ほど高得点なら、右下がりの傾向が見えます。点は階級で色分けされています：黒＝上級、茶＝中級。`
-    : `Each dot is one kata. If rarer kata tend to score higher, you'd see a downward-sloping pattern. ` +
+    ? `各点は1つの型を表します。点にカーソルを合わせると、正確な演武数と平均スコアが表示されます。点は階級で色分けされています：黒＝上級、茶＝中級。`
+    : `Each dot is one kata. Hover over a dot to see its exact number of performances and average score. ` +
       `Dots are colored by tier: black = Advanced, brown = Intermediate.`;
   destroyChart("chart-scatter");
   const ctxSc = document.getElementById("chart-scatter"); if (ctxSc) {

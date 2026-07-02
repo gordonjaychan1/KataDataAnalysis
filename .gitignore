@@ -1,0 +1,5 @@
+# Claude Code local tooling config
+.claude/
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/

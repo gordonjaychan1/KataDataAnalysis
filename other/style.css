@@ -360,6 +360,7 @@ blockquote.dedication {
 .ks-pill-male   { background: #bfdbfe; }
 .ks-pill-female { background: #e9d5ff; }
 .ks-pill-none   { background: #fecaca; }
+.ks-pill-count { font-weight: 700; opacity: 0.65; margin-left: 2px; }
 .ks-three-col { display: grid; grid-template-columns: 5fr 5fr 6fr; gap: 16px; }
 .ks-three-col > * { min-width: 0; overflow: hidden; }
 .ks-three-col .data-table { table-layout: fixed; width: 100%; }
