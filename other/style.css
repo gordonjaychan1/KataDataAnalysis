@@ -445,11 +445,22 @@ blockquote.dedication {
   header { padding: 14px 16px; }
   .tab-content { padding: 16px; }
   .tier-charts, .missing-tables, .performed-kata-grid,
-  .welcome-stats, .how-to-grid, .compare-grid, .notes-content { grid-template-columns: 1fr; }
+  .how-to-grid, .compare-grid, .notes-content { grid-template-columns: 1fr; }
   .search-input { width: 100%; }
   .finding-block { padding: 16px; }
   .how-to-grid { grid-template-columns: 1fr; }
   .ref-layout { grid-template-columns: 1fr; }
+
+  /* Search wraps to its own full-width row instead of overflowing */
+  .header-right { flex-wrap: wrap; }
+  .global-search-wrap { flex: 1 1 100%; }
+  #global-search { width: 100%; box-sizing: border-box; }
+
+  /* Keep the three stat cards side by side, just more compact */
+  .welcome-stats { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .welcome-stat-card { padding: 16px 6px; }
+  .welcome-stat-card .stat-num   { font-size: 26px; }
+  .welcome-stat-card .stat-label { font-size: 10px; letter-spacing: 0.3px; margin-top: 5px; }
 }
 
 /* ── Global search ────────────────────────────────────────────────────────── */

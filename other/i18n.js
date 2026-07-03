@@ -311,7 +311,7 @@ const I18N = {
   "ref.maleMeta": { jp: "今シーズン記録された全ての男子型演武" },
   "ref.femaleTitle": { jp: "女子型：2024–25シーズン" },
   "ref.femaleMeta": { jp: "今シーズン記録された全ての女子型演武" },
-  "ref.placementsTitle": { jp: "大会順位" },
+  "ref.placementsTitle": { jp: "大会メダル" },
   "ref.placementsMeta": { jp: "各大会の金・銀・銅メダリスト" },
   "ref.downloadCsv": { jp: "⬇ CSVをダウンロード" },
   "ref.rulesHead": { jp: "競技規則" },

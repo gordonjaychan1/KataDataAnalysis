@@ -169,9 +169,12 @@ const ISO2 = {
   "Dominican Republic":"DO","Burkina Faso":"BF","Slovenia":"SI",
   "Netherlands":"NL","Saudi Arabia":"SA","UAE":"AE",
 };
-function medalEmoji(medals) {
+/* Compact medal tally, e.g. "🥇5 🥈3 🥉2" (only nonzero places shown) */
+function medalTally(medals) {
   if (!medals || !medals.length) return "";
-  return medalsChrono(medals).map(m => m.Place === 1 ? "🥇" : m.Place === 2 ? "🥈" : "🥉").join("");
+  const c = { 1: 0, 2: 0, 3: 0 };
+  medals.forEach(m => { c[m.Place] = (c[m.Place] || 0) + 1; });
+  return [c[1] && `🥇${c[1]}`, c[2] && `🥈${c[2]}`, c[3] && `🥉${c[3]}`].filter(Boolean).join(" ");
 }
 
 /* Medals sorted by when the tournament happened (earliest first) */
@@ -1209,7 +1212,7 @@ function renderKaratekaTable() {
       <td class="num row-num">${i + 1}</td>
       <td class="name-cell">${navLink("karateka", r.Karateka)}</td>
       <td>${flagOf(r.Country)} ${navLink("country", r.Country)}</td>
-      <td class="num">${medalEmoji(r.Medals)}</td>
+      <td class="num" style="white-space:nowrap">${medalTally(r.Medals)}</td>
       <td class="num">${r.Performances}</td>
       <td class="num">${r.Tournaments_Attended}</td>
       <td class="num">${fmt2(r.Mean_Score)}</td>
