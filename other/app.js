@@ -169,12 +169,19 @@ const ISO2 = {
   "Dominican Republic":"DO","Burkina Faso":"BF","Slovenia":"SI",
   "Netherlands":"NL","Saudi Arabia":"SA","UAE":"AE",
 };
+/* Medal emoji wrapped with a localized hover tooltip (e.g. "Gold - 1st place") */
+function medalIcon(place) {
+  const e   = place === 1 ? "🥇" : place === 2 ? "🥈" : "🥉";
+  const tip = place === 1 ? t("medal.goldTip") : place === 2 ? t("medal.silverTip") : t("medal.bronzeTip");
+  return `<span title="${tip}">${e}</span>`;
+}
+
 /* Compact medal tally, e.g. "🥇5 🥈3 🥉2" (only nonzero places shown) */
 function medalTally(medals) {
   if (!medals || !medals.length) return "";
   const c = { 1: 0, 2: 0, 3: 0 };
   medals.forEach(m => { c[m.Place] = (c[m.Place] || 0) + 1; });
-  return [c[1] && `🥇${c[1]}`, c[2] && `🥈${c[2]}`, c[3] && `🥉${c[3]}`].filter(Boolean).join(" ");
+  return [c[1] && `${medalIcon(1)}${c[1]}`, c[2] && `${medalIcon(2)}${c[2]}`, c[3] && `${medalIcon(3)}${c[3]}`].filter(Boolean).join(" ");
 }
 
 /* Medals sorted by when the tournament happened (earliest first) */
@@ -1369,7 +1376,7 @@ function showKaratekaCard(r) {
     <div class="card-section-title">${t("sec.medals")}</div>
     ${medalSummaryParts.length ? `<p style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:8px">${medalSummaryParts.join(" &nbsp;·&nbsp; ")}</p>` : ""}
     <div class="pill-list" style="margin-bottom:14px">
-      ${medalsChrono(r.Medals).map(m => `<span class="pill">${m.Place === 1 ? "🥇" : m.Place === 2 ? "🥈" : "🥉"} ${navLink("tournament", m.Tournament)}</span>`).join("")}
+      ${medalsChrono(r.Medals).map(m => `<span class="pill">${medalIcon(m.Place)} ${navLink("tournament", m.Tournament)}</span>`).join("")}
     </div>` : ""}
     ${r.Mean_Score != null ? `
     <div class="card-section-title">${t("sec.scoreDistribution")}</div>
@@ -1500,7 +1507,7 @@ function showCountryCard(r, all) {
     else medalsByAthlete[m.Athlete].Bronze++;
   });
   const athleteMedalRows = Object.values(medalsByAthlete).sort((a, b) => b.Gold - a.Gold || b.Silver - a.Silver || b.Bronze - a.Bronze);
-  const fmtMedalCell = a => [a.Gold ? `${a.Gold}x 🥇` : "", a.Silver ? `${a.Silver}x 🥈` : "", a.Bronze ? `${a.Bronze}x 🥉` : ""].filter(Boolean).join(", ");
+  const fmtMedalCell = a => [a.Gold ? `${a.Gold}x ${medalIcon(1)}` : "", a.Silver ? `${a.Silver}x ${medalIcon(2)}` : "", a.Bronze ? `${a.Bronze}x ${medalIcon(3)}` : ""].filter(Boolean).join(", ");
   const medalSummaryParts = [];
   if (medalCounts[1]) medalSummaryParts.push(`${medalCounts[1]}× ${t("medal.gold")}`);
   if (medalCounts[2]) medalSummaryParts.push(`${medalCounts[2]}× ${t("medal.silver")}`);
@@ -1513,7 +1520,7 @@ function showCountryCard(r, all) {
     Best_Score:   k.Max_Score,
     Win_Rate:     k.Win_Rate,
     Medals:       k.Medals?.length || 0,
-    _medals:      k.Medals && k.Medals.length ? k.Medals.map(m => m.Place===1?"🥇":m.Place===2?"🥈":"🥉").join("") : "—",
+    _medals:      k.Medals && k.Medals.length ? k.Medals.map(m => medalIcon(m.Place)).join("") : "—",
   }));
 
   const kataFlat2 = Object.entries(r._kataMap || {}).map(([kata, count]) => {
@@ -1650,9 +1657,9 @@ function showCountryCard(r, all) {
             <th class="num row-num">#</th>
             <th data-sort="Tournament" data-label="${t('col.tournament')}" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Tournament')">Tournament</th>
             <th data-sort="Athletes_Sent" data-label="${t('col.athletesSent')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Athletes_Sent')">Athletes</th>
-            <th data-sort="Gold" data-label="${t('medal.gold')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Gold')">🥇</th>
-            <th data-sort="Silver" data-label="${t('medal.silver')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Silver')">🥈</th>
-            <th data-sort="Bronze" data-label="${t('medal.bronze')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Bronze')">🥉</th>
+            <th data-sort="Gold" data-label="${t('medal.gold')}" class="num" style="cursor:pointer" title="${t('medal.goldTip')}" onclick="sortCardTable('card-country-tournaments','Gold')">🥇</th>
+            <th data-sort="Silver" data-label="${t('medal.silver')}" class="num" style="cursor:pointer" title="${t('medal.silverTip')}" onclick="sortCardTable('card-country-tournaments','Silver')">🥈</th>
+            <th data-sort="Bronze" data-label="${t('medal.bronze')}" class="num" style="cursor:pointer" title="${t('medal.bronzeTip')}" onclick="sortCardTable('card-country-tournaments','Bronze')">🥉</th>
             <th data-sort="Avg_Score" data-label="${t('col.avgScore')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Avg_Score')">Avg Score</th>
             <th data-sort="Win_Rate" data-label="${t('col.winRate')}" class="num" style="cursor:pointer" onclick="sortCardTable('card-country-tournaments','Win_Rate')">Win Rate</th>
           </tr></thead>
@@ -1665,9 +1672,9 @@ function showCountryCard(r, all) {
         <td class="num row-num">${i + 1}</td>
         <td>${t._flag} ${navLink("tournament", t.Tournament)}</td>
         <td class="num">${t.Athletes_Sent || "—"}</td>
-        <td class="num">${t.Gold   ? `${t.Gold}× 🥇`   : "—"}</td>
-        <td class="num">${t.Silver ? `${t.Silver}× 🥈` : "—"}</td>
-        <td class="num">${t.Bronze ? `${t.Bronze}× 🥉` : "—"}</td>
+        <td class="num">${t.Gold   ? `${t.Gold}× ${medalIcon(1)}`   : "—"}</td>
+        <td class="num">${t.Silver ? `${t.Silver}× ${medalIcon(2)}` : "—"}</td>
+        <td class="num">${t.Bronze ? `${t.Bronze}× ${medalIcon(3)}` : "—"}</td>
         <td class="num">${t.Avg_Score != null ? t.Avg_Score.toFixed(3) : "—"}</td>
         <td class="num">${t.Win_Rate != null ? fmtPct(t.Win_Rate) : "—"}</td>
       </tr>`);
@@ -1764,7 +1771,7 @@ function renderCountriesTable() {
       <td class="num">${fmt2(r.Avg_Score)}</td>
       <td class="num">${fmt2(r.Best_Score)}</td>
       <td class="num">${fmtPct(r.Win_Rate)}</td>
-      <td class="num">${r._medals.gold ? "🥇".repeat(r._medals.gold) : ""}${r._medals.silver ? "🥈".repeat(r._medals.silver) : ""}${r._medals.bronze ? "🥉".repeat(r._medals.bronze) : ""}${!r.Medals ? "—" : ""}</td>
+      <td class="num">${r._medals.gold ? medalIcon(1).repeat(r._medals.gold) : ""}${r._medals.silver ? medalIcon(2).repeat(r._medals.silver) : ""}${r._medals.bronze ? medalIcon(3).repeat(r._medals.bronze) : ""}${!r.Medals ? "—" : ""}</td>
     </tr>`).join("");
   document.querySelectorAll("#countries-tbody tr").forEach(tr => {
     tr.addEventListener("click", () => {
@@ -1866,7 +1873,7 @@ function showTournamentCard(r) {
   medalists.sort((a, b) => a.place - b.place);
   const medalistHtml = medalists.length ? `
     <div class="card-section-title" style="margin-top:14px">${t("sec.medalists")}</div>
-    <div class="pill-list" style="margin-bottom:14px">${medalists.map(m => `<span class="pill">${m.place===1?"🥇":m.place===2?"🥈":"🥉"} ${flagOf(m.country)} <strong>${navLink("karateka", m.name)}</strong></span>`).join("")}</div>` : "";
+    <div class="pill-list" style="margin-bottom:14px">${medalists.map(m => `<span class="pill">${medalIcon(m.place)} ${flagOf(m.country)} <strong>${navLink("karateka", m.name)}</strong></span>`).join("")}</div>` : "";
 
   /* athletes — with tournament-specific stats */
   const athletes = (DATA.karateka[gender] || [])
@@ -2980,9 +2987,9 @@ function _medalTableHTML(g, label) {
           <thead><tr>
             <th class="num row-num" style="cursor:pointer" onclick="sortMedalTable('${g}','_rank')">#</th>
             <th style="cursor:pointer;min-width:140px" onclick="sortMedalTable('${g}','Country')">${t("col.country")}</th>
-            <th class="num" style="cursor:pointer" onclick="sortMedalTable('${g}','Gold')">🥇</th>
-            <th class="num" style="cursor:pointer" onclick="sortMedalTable('${g}','Silver')">🥈</th>
-            <th class="num" style="cursor:pointer" onclick="sortMedalTable('${g}','Bronze')">🥉</th>
+            <th class="num" style="cursor:pointer" title="${t('medal.goldTip')}" onclick="sortMedalTable('${g}','Gold')">🥇</th>
+            <th class="num" style="cursor:pointer" title="${t('medal.silverTip')}" onclick="sortMedalTable('${g}','Silver')">🥈</th>
+            <th class="num" style="cursor:pointer" title="${t('medal.bronzeTip')}" onclick="sortMedalTable('${g}','Bronze')">🥉</th>
             <th class="num" style="cursor:pointer" onclick="sortMedalTable('${g}','Total')">${t("col.total")}</th>
           </tr></thead>
           <tbody id="medals-tbody-${g}"></tbody>

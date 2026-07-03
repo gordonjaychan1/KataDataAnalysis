@@ -190,6 +190,9 @@ const I18N = {
   "medal.gold": { en: "Gold", jp: "金" },
   "medal.silver": { en: "Silver", jp: "銀" },
   "medal.bronze": { en: "Bronze", jp: "銅" },
+  "medal.goldTip": { en: "Gold - 1st place", jp: "金 - 1位" },
+  "medal.silverTip": { en: "Silver - 2nd place", jp: "銀 - 2位" },
+  "medal.bronzeTip": { en: "Bronze - 3rd place", jp: "銅 - 3位" },
 
   /* ── In-card table column headers (extras beyond col.*) ── */
   "col.result": { en: "Result", jp: "結果" },
