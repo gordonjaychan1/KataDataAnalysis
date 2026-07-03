@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>2024–25 WKF Kata Analysis</title>
-  <link rel="stylesheet" href="other/style.css?v=5" />
+  <link rel="stylesheet" href="other/style.css?v=7" />
   <script src="other/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
@@ -615,8 +615,26 @@
 
       <div class="note-section full-width">
         <h2 data-i18n="notes.aboutData.h">About the Data</h2>
-        <p data-i18n="notes.aboutData.p1">Data was manually collected from official WKF live scoring sheets and publicly available tournament results. The dataset covers <strong>9 tournaments</strong>: the four 2024 Karate1 Premier League events (Paris, Antalya, Cairo, Casablanca), the four 2025 K1 events (Cairo, Hangzhou, Paris, Rabat), and the 2025 World Karate Championships in Cairo.</p>
-        <p data-i18n="notes.aboutData.p2">Only the <strong>average score</strong> (Avg Score) is retained; the raw total score has been dropped. All analyses involving scores use the average score only.</p>
+        <p data-i18n="notes.aboutData.p1">I manually compiled performance data from sportdata.org, the official online platform used by the WKF for scoring sheets and tournament results.</p>
+        <p data-i18n="notes.aboutData.p2">The dataset covers <strong>9 tournaments</strong>: the four 2024 Karate1 Premier League events (Paris, Antalya, Cairo, Casablanca), the four 2025 K1 events (Cairo, Hangzhou, Paris, Rabat), and the 2025 World Karate Championships in Cairo.</p>
+        <p data-i18n="notes.aboutData.datasets"><strong>Three datasets:</strong> Male Kata, Female Kata, and Medals.</p>
+
+        <h3 data-i18n="notes.aboutData.kataH">Male Kata &amp; Female Kata datasets</h3>
+        <ul>
+          <li data-i18n="notes.aboutData.kata1"><strong>1,970 rows</strong> (1,006 male, 964 female) — one kata performance per row.</li>
+          <li data-i18n="notes.aboutData.kata2"><strong>8 columns:</strong> <code>Kata</code>, <code>Score</code>, <code>Avg Score</code>, <code>Won?</code>, <code>Karateka</code>, <code>Round #</code>, <code>Tournament</code>, <code>Opponent</code>.</li>
+          <li data-i18n="notes.aboutData.kata3"><code>Avg Score</code> equals <code>Score</code> divided by 5. All analyses involving scores use the average score only.</li>
+          <li data-i18n="notes.aboutData.kata4"><code>Won?</code> is a True/False field indicating whether this performance beat the performance it was judged against.</li>
+          <li data-i18n="notes.aboutData.kata5"><code>Round #</code> is one of <code>rr</code> (round robin — the pools stage), <code>r1</code>, <code>r2</code>, <code>r3</code>, or <code>r4</code> (rounds 1–4 of the bracket stage).</li>
+        </ul>
+
+        <h3 data-i18n="notes.aboutData.medalsH">Medals dataset</h3>
+        <ul>
+          <li data-i18n="notes.aboutData.medals1"><strong>9 rows</strong> — one tournament per row.</li>
+          <li data-i18n="notes.aboutData.medals2"><strong>8 columns:</strong> 1st place, 2nd place, and two 3rd places (each tournament awards two bronze medals), for both male and female.</li>
+        </ul>
+
+        <p class="data-download-note" data-i18n="notes.aboutData.download"><em>See the <a href="#" onclick="switchToTab('references');return false;" style="color:var(--red)">References</a> tab to download the datasets.</em></p>
       </div>
 
       <div class="note-section full-width">
@@ -644,23 +662,14 @@
         </div>
       </div>
 
-      <div class="note-section">
-        <h2 data-i18n="notes.scoring.h">WKF Scoring System</h2>
-        <p data-i18n="notes.scoring.p1">Seven judges each assign a score from 0–10. The highest and lowest scores are discarded; the remaining five are averaged to produce the final score. This dataset records only this <strong>average score</strong>. A score above <strong>8.0</strong> is generally considered competitive at the K1 Premier League level; top finals performances regularly reach 8.5–9.0.</p>
-      </div>
-
-      <div class="note-section">
-        <h2 data-i18n="notes.won.h">The "Won?" Field</h2>
-        <p data-i18n="notes.won.p1">Two athletes compete simultaneously in a head-to-head match. Both perform their kata, and judges determine the winner by raising a flag. <strong>Won?</strong> records whether the athlete won that match. Win rate across multiple performances indicates how often a given kata choice (or athlete) leads to victory, though it is influenced by many factors beyond the kata itself.</p>
-      </div>
-
-      <div class="note-section">
+      <div class="note-section full-width">
         <h2 data-i18n="notes.interp.h">Notes on Interpretation</h2>
         <ul>
-          <li data-i18n="notes.interp.li1">Kata with fewer than ~10 performances may have skewed statistics due to small sample size.</li>
-          <li data-i18n="notes.interp.li2">A kata with a high average score may simply be performed by a smaller pool of elite specialists, not necessarily "better" than other kata.</li>
-          <li data-i18n="notes.interp.li3">Male and female events are entirely separate. Do not compare scores across genders.</li>
-          <li data-i18n="notes.interp.li4">Athletes who competed in only one or two tournaments may have unrepresentative stats.</li>
+          <li data-i18n="notes.interp.li1">Kata with very few performances (fewer than ~10) may have skewed statistics due to small sample size.</li>
+          <li data-i18n="notes.interp.li2">Athletes who competed in only one or two tournaments may have unrepresentative stats due to small sample size.</li>
+          <li data-i18n="notes.interp.li3">A kata with a high average score, median score, etc. may simply be performed by a smaller pool of elite specialists; it is not necessarily "better" than other kata.</li>
+          <li data-i18n="notes.interp.li4">Male and female events are entirely separate.</li>
+          <li data-i18n="notes.interp.li5">If two athletes have very similar numbers of performances (e.g. Maho Ono has 52, Grace Lau has 48), that offers little to no insight when comparing their competitive seasons. A large gap in performance count indicates that one competitor often reaches the bracket stage and progresses further in tournaments; a small gap is usually just the result of one competitor being randomly drawn into a pool of three instead of four, which yields one fewer performance.</li>
         </ul>
       </div>
 
@@ -711,23 +720,6 @@
             the highest level, how scores compare across athletes and tournaments, and everything in
             between. I hope it helps others explore the trends and questions they have too!
           </p>
-        </div>
-
-        <div class="note-section">
-          <h2 data-i18n="about.method.h">Methodology</h2>
-          <p data-i18n="about.method.p1">
-            I manually collected and compiled performance data from sportdata.org, the official online
-            platform used by the WKF for scoring sheets and tournament results. Python was used as the
-            primary language for data processing and analysis, with the following libraries:
-          </p>
-          <ul>
-            <li data-i18n="about.method.li1"><strong>Pandas</strong>: for structuring, cleaning, and manipulating the dataset</li>
-            <li data-i18n="about.method.li2"><strong>NumPy</strong>: for numerical computations and descriptive statistics</li>
-          </ul>
-          <p data-i18n="about.method.p2">
-            The interactive charts on this site are built with <strong>Chart.js</strong>, a JavaScript library.
-          </p>
-
         </div>
 
       </div>
@@ -832,7 +824,7 @@
   <div id="site-credit">Created by Gordon Jay Chan</div>
 
   <div id="map-tooltip" style="position:fixed;display:none;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:6px 10px;font-size:12px;pointer-events:none;z-index:2000;box-shadow:0 2px 8px rgba(0,0,0,0.15)"></div>
-  <script src="other/i18n.js?v=4"></script>
-  <script src="other/app.js?v=4"></script>
+  <script src="other/i18n.js?v=7"></script>
+  <script src="other/app.js?v=7"></script>
 </body>
 </html>
