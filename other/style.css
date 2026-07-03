@@ -223,6 +223,25 @@ header {
 .welcome-stat-card .stat-num   { font-size: 42px; font-weight: 700; color: #fff; line-height: 1.1; }
 .welcome-stat-card .stat-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.7px; color: rgba(255,255,255,0.8); margin-top: 8px; }
 
+.welcome-basics { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.welcome-basics > summary { list-style: none; cursor: pointer; padding: 20px 28px; display: flex; align-items: baseline; gap: 12px; }
+.welcome-basics > summary::-webkit-details-marker { display: none; }
+.welcome-basics > summary:hover { background: var(--red-light); }
+.welcome-basics-title { font-size: 18px; font-weight: 700; }
+.welcome-basics-hint { font-size: 13px; color: var(--text-muted); font-style: italic; }
+.welcome-basics-toggle { flex-shrink: 0; margin-left: auto; align-self: center;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--red-light); border: 1px solid var(--border);
+  color: var(--red); font-size: 14px; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.12s, transform 0.2s; }
+.welcome-basics[open] > summary { border-bottom: 1px solid var(--border); }
+.welcome-basics[open] > summary .welcome-basics-hint { display: none; }
+.welcome-basics[open] > summary .welcome-basics-toggle { background: var(--red); color: #fff; transform: rotate(45deg); }
+.welcome-basics-body { padding: 18px 28px 24px; }
+.welcome-basics-body p { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin-bottom: 12px; }
+.welcome-basics-body p:last-child { margin-bottom: 0; }
+
 .welcome-section h3 { font-size: 18px; font-weight: 700; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
 .video-header { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 10px; text-align: center; }
 .welcome-section > p { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin-bottom: 10px; }

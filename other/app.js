@@ -3029,15 +3029,19 @@ function _buildTimelineHTML(tournNames) {
     return assigned;
   });
 
+  const jp = lang === "jp";
+  const tickLabel = (mon, yr) => jp
+    ? (mon === 0 ? `${yr}年${mon + 1}月` : `${mon + 1}月`)
+    : (mon === 0 ? `${Object.keys(MON)[mon]} ${yr}` : Object.keys(MON)[mon]);
+
   const ticks = [];
   for (let i = FIRST; i <= LAST; i += 3) {
     const yr = 2024 + Math.floor(i / 12);
-    const mon = i % 12;
-    ticks.push({ i, label: mon === 0 ? `${Object.keys(MON)[mon]} ${yr}` : Object.keys(MON)[mon] });
+    ticks.push({ i, label: tickLabel(i % 12, yr) });
   }
   if (!ticks.find(t => t.i === LAST)) {
     const yr = 2024 + Math.floor(LAST / 12);
-    ticks.push({ i: LAST, label: `${Object.keys(MON)[LAST % 12]} ${yr}` });
+    ticks.push({ i: LAST, label: tickLabel(LAST % 12, yr) });
   }
 
   const AXIS = 140, H = 210, CHIP_H = 32;

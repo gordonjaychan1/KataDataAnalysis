@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>2024–25 WKF Kata Analysis</title>
-  <link rel="stylesheet" href="other/style.css?v=2" />
+  <link rel="stylesheet" href="other/style.css?v=5" />
   <script src="other/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
@@ -65,6 +65,9 @@
         <p data-i18n="welcome.intro">
           This site presents a statistical analysis of all kata performances recorded during the nine Tier 1 tournaments in the 2024–25 WKF season, covering both the Male and Female Kata categories.
         </p>
+        <p data-i18n="welcome.introBasics">
+          If you are unfamiliar with kata competition, see "Kata Competition Basics" below for a brief breakdown.
+        </p>
       </div>
 
       <div class="welcome-stats" id="welcome-stats"><!-- filled by JS --></div>
@@ -74,6 +77,25 @@
         <p style="font-size:13px;color:var(--text-muted);margin:0 0 14px" data-i18n="welcome.timelineSub">Click any tournament to explore its results.</p>
         <div id="welcome-timeline-wrap"></div>
       </div>
+
+      <details class="welcome-basics">
+        <summary>
+          <span class="welcome-basics-title" data-i18n="welcome.basicsTitle">Kata Competition Basics</span>
+          <span class="welcome-basics-hint" data-i18n="welcome.basicsHint">Click to open.</span>
+          <span class="welcome-basics-toggle" aria-hidden="true">+</span>
+        </summary>
+        <div class="welcome-basics-body">
+          <p data-i18n="welcome.basicsP1">
+            Two athletes compete in a head-to-head match. One performs their kata first, then the next athlete performs. Each judge on a panel of seven assigns a score from 0–10. The highest and lowest scores are discarded; the remaining five are averaged to produce the final score. Refer to the linked YouTube video at the bottom of the Home page for an example.
+          </p>
+          <p data-i18n="welcome.basicsP2">
+            At Tier 1 tournaments, athletes are split into eight groups of four competitors each (if there are fewer than 32 total competitors, certain groups will have only three athletes). Each group runs a round robin between all competitors, and the athlete with the most wins advances to the bracket stage. In the bracket stage, the eight group winners are placed into an 8-person single-elimination bracket and compete in three rounds until the bracket concludes. After the bracket concludes, two repechage ("second-chance") matches are held: athletes who were eliminated earlier by the two finalists get another chance and compete for the two bronze medals (4 athletes total).
+          </p>
+          <p data-i18n="welcome.basicsP3">
+            At the World Championships, the top two athletes from each group progressed to the bracket stage, resulting in a 16-person single-elimination bracket.
+          </p>
+        </div>
+      </details>
 
       <div class="welcome-body">
         <div class="welcome-section">
@@ -810,7 +832,7 @@
   <div id="site-credit">Created by Gordon Jay Chan</div>
 
   <div id="map-tooltip" style="position:fixed;display:none;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:6px 10px;font-size:12px;pointer-events:none;z-index:2000;box-shadow:0 2px 8px rgba(0,0,0,0.15)"></div>
-  <script src="other/i18n.js?v=2"></script>
-  <script src="other/app.js?v=2"></script>
+  <script src="other/i18n.js?v=4"></script>
+  <script src="other/app.js?v=4"></script>
 </body>
 </html>

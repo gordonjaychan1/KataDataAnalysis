@@ -44,8 +44,26 @@ const I18N = {
     en: "This site presents a statistical analysis of all kata performances recorded during the nine Tier 1 tournaments in the 2024–25 WKF season, covering both the Male and Female Kata categories.",
     jp: "本サイトは、2024–25 WKFシーズンの9つのTier 1大会で記録された全ての型演武に関する統計分析を、男子型・女子型の両カテゴリーにわたって紹介します。"
   },
+  "welcome.introBasics": {
+    en: "If you are unfamiliar with kata competition, see \"Kata Competition Basics\" below for a brief breakdown.",
+    jp: "型競技になじみのない方は、下の「型競技の基礎」で簡単な説明をご覧ください。"
+  },
   "welcome.timelineTitle": { en: "2024–25 Season Timeline", jp: "2024–25 シーズンの日程" },
   "welcome.timelineSub": { en: "Click any tournament to explore its results.", jp: "大会をクリックすると結果を見られます。" },
+  "welcome.basicsTitle": { en: "Kata Competition Basics", jp: "型競技の基礎" },
+  "welcome.basicsHint": { en: "Click to open.", jp: "クリックして開く" },
+  "welcome.basicsP1": {
+    en: "Two athletes compete in a head-to-head match. One performs their kata first, then the next athlete performs. Each judge on a panel of seven assigns a score from 0–10. The highest and lowest scores are discarded; the remaining five are averaged to produce the final score. Refer to the linked YouTube video at the bottom of the Home page for an example.",
+    jp: "2人の選手が直接対戦します。まず一方が型を演武し、続いてもう一方が演武します。7人の審判が0〜10点で採点し、最高点と最低点を除いた残り5点の平均が最終スコアとなります。演武の例については、ホームページ下部にリンクされたYouTube動画をご覧ください。"
+  },
+  "welcome.basicsP2": {
+    en: "At Tier 1 tournaments, athletes are split into eight groups of four competitors each (if there are fewer than 32 total competitors, certain groups will have only three athletes). Each group runs a round robin between all competitors, and the athlete with the most wins advances to the bracket stage. In the bracket stage, the eight group winners are placed into an 8-person single-elimination bracket and compete in three rounds until the bracket concludes. After the bracket concludes, two repechage (“second-chance”) matches are held: athletes who were eliminated earlier by the two finalists get another chance and compete for the two bronze medals (4 athletes total).",
+    jp: "Tier 1大会では、選手は4名ずつ8つの組に分けられます（出場者が32名未満の場合、一部の組は3名になります）。各組で総当たり戦を行い、最も勝ち数の多い選手が決勝トーナメントに進みます。決勝トーナメントでは、各組の勝者8名が8人制のシングルエリミネーション方式のトーナメントに入り、3回戦を戦って優勝が決まります。トーナメント終了後には敗者復活戦（レペチャージ）が2試合行われます。これは「敗者復活」の一戦で、決勝に進んだ2名の選手に途中で敗れた選手たちが、もう一度チャンスを得て2つの銅メダルをかけて争います（計4名）。"
+  },
+  "welcome.basicsP3": {
+    en: "At the World Championships, the top two athletes from each group progressed to the bracket stage, resulting in a 16-person single-elimination bracket.",
+    jp: "世界選手権では、各組の上位2名が決勝トーナメントに進み、16人制のシングルエリミネーション方式のトーナメントとなりました。"
+  },
   "welcome.howToTitle": { en: "How to Use This Site", jp: "本サイトの使い方" },
 
   /* ── How-to group labels ── */
