@@ -3102,7 +3102,7 @@ function initHowToCards() {
     header.className = "how-to-header";
     const toggle = document.createElement("span");
     toggle.className = "how-to-toggle";
-    toggle.textContent = "+";
+    toggle.setAttribute("aria-hidden", "true");
     title.parentNode.insertBefore(header, title);
     header.appendChild(title);
     header.appendChild(toggle);

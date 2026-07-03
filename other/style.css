@@ -229,15 +229,24 @@ header {
 .welcome-basics > summary:hover { background: var(--red-light); }
 .welcome-basics-title { font-size: 18px; font-weight: 700; }
 .welcome-basics-hint { font-size: 13px; color: var(--text-muted); font-style: italic; }
+/* plus drawn with two centered bars (not a glyph) so it stays centered when
+   rotated into an × on open */
 .welcome-basics-toggle { flex-shrink: 0; margin-left: auto; align-self: center;
   width: 18px; height: 18px; border-radius: 50%;
-  background: var(--red-light); border: 1px solid var(--border);
-  color: var(--red); font-size: 14px; line-height: 1;
-  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border);
+  background:
+    linear-gradient(var(--red), var(--red)) center / 8px 1.6px no-repeat,
+    linear-gradient(var(--red), var(--red)) center / 1.6px 8px no-repeat,
+    var(--red-light);
   transition: background 0.12s, transform 0.2s; }
 .welcome-basics[open] > summary { border-bottom: 1px solid var(--border); }
 .welcome-basics[open] > summary .welcome-basics-hint { display: none; }
-.welcome-basics[open] > summary .welcome-basics-toggle { background: var(--red); color: #fff; transform: rotate(45deg); }
+.welcome-basics[open] > summary .welcome-basics-toggle {
+  background:
+    linear-gradient(#fff, #fff) center / 8px 1.6px no-repeat,
+    linear-gradient(#fff, #fff) center / 1.6px 8px no-repeat,
+    var(--red);
+  transform: rotate(45deg); }
 .welcome-basics-body { padding: 18px 28px 24px; }
 .welcome-basics-body p { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin-bottom: 12px; }
 .welcome-basics-body p:last-child { margin-bottom: 0; }
@@ -272,11 +281,18 @@ header {
 .how-to-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .how-to-body > strong { display: block; font-size: 13px; font-weight: 700; }
 .how-to-toggle { flex-shrink: 0; width: 18px; height: 18px; border-radius: 50%;
-  background: var(--red-light); border: 1px solid var(--border);
-  color: var(--red); font-size: 14px; line-height: 1;
-  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border);
+  background:
+    linear-gradient(var(--red), var(--red)) center / 8px 1.6px no-repeat,
+    linear-gradient(var(--red), var(--red)) center / 1.6px 8px no-repeat,
+    var(--red-light);
   cursor: pointer; transition: background 0.12s, transform 0.2s; }
-.how-to-card.open .how-to-toggle { background: var(--red); color: #fff; transform: rotate(45deg); }
+.how-to-card.open .how-to-toggle {
+  background:
+    linear-gradient(#fff, #fff) center / 8px 1.6px no-repeat,
+    linear-gradient(#fff, #fff) center / 1.6px 8px no-repeat,
+    var(--red);
+  transform: rotate(45deg); }
 .how-to-detail { display: none; margin-top: 8px; }
 .how-to-card.open .how-to-detail { display: block; }
 .how-to-card p { font-size: 12px; color: var(--text-muted); line-height: 1.6; margin: 0 0 6px; }
@@ -364,17 +380,26 @@ blockquote.dedication {
 .finding-collapsible > .finding-summary::-webkit-details-marker { display: none; }
 .finding-hint { font-style: italic; font-weight: 400; font-size: 13px; color: var(--text-muted); margin-left: 10px; }
 .finding-collapsible[open] > .finding-summary .finding-hint { display: none; }
-/* red plus badge — matches .how-to-toggle on the home tab */
+/* red plus badge — plus is drawn with two centered bars (not a glyph) so it
+   stays perfectly centered when rotated into an × on open */
 .finding-collapsible > .finding-summary::after {
-  content: "+";
+  content: "";
   flex: none;
   width: 18px; height: 18px; border-radius: 50%;
-  background: var(--red-light); border: 1px solid var(--border);
-  color: var(--red); font-size: 14px; line-height: 1;
-  display: flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border);
+  background:
+    linear-gradient(var(--red), var(--red)) center / 8px 1.6px no-repeat,
+    linear-gradient(var(--red), var(--red)) center / 1.6px 8px no-repeat,
+    var(--red-light);
   transition: background 0.12s, transform 0.2s;
 }
-.finding-collapsible[open] > .finding-summary::after { background: var(--red); color: #fff; transform: rotate(45deg); }
+.finding-collapsible[open] > .finding-summary::after {
+  background:
+    linear-gradient(#fff, #fff) center / 8px 1.6px no-repeat,
+    linear-gradient(#fff, #fff) center / 1.6px 8px no-repeat,
+    var(--red);
+  transform: rotate(45deg);
+}
 
 /* ── Kata status table (Figure G-2 combined) ─────────────────────────────── */
 .ks-legend { display: flex; gap: 8px; flex-wrap: wrap; font-size: 12px; margin-bottom: 20px; }
