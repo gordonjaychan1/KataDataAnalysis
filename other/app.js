@@ -133,6 +133,7 @@ document.addEventListener("click", e => {
 let DATA   = null;
 let gender = "male";
 let lang   = (() => { try { return localStorage.getItem("kata-lang") === "jp" ? "jp" : "en"; } catch (e) { return "en"; } })();
+let theme  = (() => { try { return localStorage.getItem("kata-theme") === "dark" ? "dark" : "light"; } catch (e) { return "light"; } })();
 let _navHistory  = [];
 let _currentCard = null;
 let _kataHistChart = null;
@@ -272,6 +273,7 @@ function addAthleteDifferentials() {
 }
 
 function init() {
+  setupThemeToggle();
   setupGlobalToggle();
   setupLangToggle();
   setupTabs();
@@ -293,6 +295,34 @@ function init() {
   renderWelcomeTimeline();
   initHowToCards();
   parseDeepLink();
+}
+
+/* ── Theme (dark mode) toggle ──────────────────────────────────────────────── */
+const SUN_SVG  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.4 4.4l1.6 1.6M18 18l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.4 19.6l1.6-1.6M18 6l1.6-1.6"/></svg>`;
+const MOON_SVG = `<svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M21 12.9A9 9 0 1 1 11.1 3a7 7 0 0 0 9.9 9.9z"/></svg>`;
+
+function applyThemeIcon() {
+  const btn = document.getElementById("theme-toggle");
+  if (btn) btn.innerHTML = theme === "dark" ? MOON_SVG : SUN_SVG;
+}
+
+function setupThemeToggle() {
+  document.documentElement.setAttribute("data-theme", theme);
+  refreshChartColors();   // seed chart colors for the very first render
+  applyThemeIcon();
+  const btn = document.getElementById("theme-toggle");
+  if (!btn) return;
+  btn.addEventListener("click", () => {
+    theme = theme === "dark" ? "light" : "dark";
+    try { localStorage.setItem("kata-theme", theme); } catch (e) {}
+    document.documentElement.setAttribute("data-theme", theme);
+    applyThemeIcon();
+    refreshChartColors();
+    renderAll();          // rebuild all charts/tables with the new palette
+    const activeTab = document.querySelector(".tab-btn.active")?.dataset.tab;
+    if (activeTab === "compare") renderCompareTab();
+    if (activeTab === "medals")  renderMedalsTab();
+  });
 }
 
 function setupLangToggle() {
@@ -624,7 +654,7 @@ function renderCompareTab() {
   const fmtOutList = arr => arr.map(e => `<strong style="color:var(--text)">${e.score.toFixed(2)}</strong>`).join(", ");
 
   const sign = v => (v >= 0 ? "+" : "") + v.toFixed(3);
-  const diffColor = v => v > 0 ? "#3a6e3a" : v < 0 ? "var(--red)" : "inherit";
+  const diffColor = v => v > 0 ? POS : v < 0 ? "var(--red)" : "inherit";
   const jp = lang === "jp";
   const kn = k => esc(displayName("kata", k));   // localized kata name
 
@@ -823,10 +853,10 @@ function renderCompareDiffChart() {
       sorted.forEach((row, i) => {
         const el = meta.data[i]; if (!el) return;
         if (row.Diff >= 0) {
-          c.textAlign = "left"; c.fillStyle = "#3a6e3a";
+          c.textAlign = "left"; c.fillStyle = POS;
           c.fillText(row.Kata, el.x + 5, el.y);
         } else {
-          c.textAlign = "right"; c.fillStyle = "#c0392b";
+          c.textAlign = "right"; c.fillStyle = NEG;
           c.fillText(row.Kata, el.x - 5, el.y);
         }
       });
@@ -845,7 +875,7 @@ function renderCompareDiffChart() {
         diffLabels: {},
       },
       scales: {
-        x: { grid: { color: c => c.tick.value === 0 ? "rgba(0,0,0,0.75)" : GRID, lineWidth: c => c.tick.value === 0 ? 1.5 : 1 }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, title: { display: true, text: lang === "jp" ? "男子平均 − 女子平均" : "Male Avg − Female Avg", font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
+        x: { grid: { color: c => c.tick.value === 0 ? ZERO_LINE : GRID, lineWidth: c => c.tick.value === 0 ? 1.5 : 1 }, ticks: { font: { family: CHART_FONT, size: 11 }, color: AXIS_TXT }, title: { display: true, text: lang === "jp" ? "男子平均 − 女子平均" : "Male Avg − Female Avg", font: { family: CHART_FONT, size: 11 }, color: AXIS_TXT } },
         y: { grid: { display: false }, ticks: { display: false } },
       },
     },
@@ -870,7 +900,7 @@ function sortCompareTable(col) {
 
 function renderCompareSharedTable() {
   const sign      = v => (v >= 0 ? "+" : "") + v.toFixed(3);
-  const diffColor = v => v > 0 ? "#3a6e3a" : v < 0 ? "var(--red)" : "inherit";
+  const diffColor = v => v > 0 ? POS : v < 0 ? "var(--red)" : "inherit";
   const sorted = [...compareShared].sort((a, b) => {
     const av = a[compareSortCol], bv = b[compareSortCol];
     if (typeof av === "string") return compareSortDir === "asc" ? av.localeCompare(bv) : bv.localeCompare(av);
@@ -1006,7 +1036,7 @@ function renderKataTable() {
       <td class="num">${r.Max_Score != null && r.Min_Score != null ? fmt2(r.Max_Score - r.Min_Score) : "—"}</td>
       <td class="num">${fmt3(r.Std_Dev)}</td>
       <td class="num">${fmtPct(r.Win_Rate)}</td>
-      <td class="num" style="${r.Diff != null ? (r.Diff >= 0 ? 'color:#3a6e3a' : 'color:var(--red)') : ''}">${r.Diff != null ? (r.Diff >= 0 ? '+' : '') + r.Diff.toFixed(3) : '—'}</td>
+      <td class="num" style="${r.Diff != null ? (r.Diff >= 0 ? 'color:var(--pos)' : 'color:var(--red)') : ''}">${r.Diff != null ? (r.Diff >= 0 ? '+' : '') + r.Diff.toFixed(3) : '—'}</td>
     </tr>`).join("");
   /* averages row */
   const allKata = DATA.kata[gender];
@@ -1064,7 +1094,7 @@ function showKataCard(r) {
   const diffTied   = myDiff != null ? allDiffs.filter(d => d.Diff === myDiff).length : 0;
   const rank       = diffBetter + 1;
   const total     = allDiffs.length;
-  const diffColor = diffVal != null ? (diffVal >= 0 ? "#3a6e3a" : "var(--red)") : "inherit";
+  const diffColor = diffVal != null ? (diffVal >= 0 ? POS : "var(--red)") : "inherit";
   const diffNum   = diffVal != null
     ? `<span style="color:${diffColor};font-weight:700">${diffVal >= 0 ? "+" : ""}${diffVal.toFixed(3)}</span>`
     : "—";
@@ -1235,7 +1265,7 @@ function renderKaratekaTable() {
       <td class="num">${fmt2(r.Max_Score)}</td>
       <td class="num">${r.Max_Score != null && r.Min_Score != null ? fmt2(r.Max_Score - r.Min_Score) : "—"}</td>
       <td class="num">${fmtPct(r.Win_Rate)}</td>
-      <td class="num" style="color:${r.Differential == null ? "inherit" : r.Differential > 0 ? "#3a6e3a" : r.Differential < 0 ? "var(--red)" : "inherit"};font-weight:600">${r.Differential == null ? "—" : (r.Differential > 0 ? "+" : "") + r.Differential.toFixed(3)}</td>
+      <td class="num" style="color:${r.Differential == null ? "inherit" : r.Differential > 0 ? POS : r.Differential < 0 ? "var(--red)" : "inherit"};font-weight:600">${r.Differential == null ? "—" : (r.Differential > 0 ? "+" : "") + r.Differential.toFixed(3)}</td>
     </tr>`).join("");
   /* averages row */
   const allKar = DATA.karateka[gender];
@@ -1292,7 +1322,7 @@ function showKaratekaCard(r) {
       <td>${esc(roundLabel[p.Round] || p.Round || "—")}</td>
       <td class="name-cell">${esc(p.Kata || "—")}</td>
       <td class="num">${p.Avg_Score != null ? p.Avg_Score.toFixed(2) : "—"}</td>
-      <td class="num" style="color:${p.Won ? "#3a6e3a" : "var(--red)"}; font-weight:600">${p.Won == null ? "—" : p.Won ? t("res.win") : t("res.loss")}</td>
+      <td class="num" style="color:${p.Won ? POS : "var(--red)"}; font-weight:600">${p.Won == null ? "—" : p.Won ? t("res.win") : t("res.loss")}</td>
     </tr>`).join("");
   /* avg score per kata from Performances_Detail */
   const kataAvgMap = {};
@@ -1434,9 +1464,9 @@ function showKaratekaCard(r) {
       <td>${esc(p.Round)}</td>
       <td class="name-cell">${navLink("kata", p.Kata)}</td>
       <td class="num">${p.Avg_Score != null ? p.Avg_Score.toFixed(2) : "—"}</td>
-      <td class="num" style="color:${p._won ? "#3a6e3a" : p._won === false ? "var(--red)" : "inherit"};font-weight:600">${p._won == null ? "—" : p._won ? t("res.win") : t("res.loss")}</td>
+      <td class="num" style="color:${p._won ? POS : p._won === false ? "var(--red)" : "inherit"};font-weight:600">${p._won == null ? "—" : p._won ? t("res.win") : t("res.loss")}</td>
       <td>${p.Opponent ? navLink("karateka", p.Opponent) : "—"}</td>
-      <td class="num" style="color:${p.Score_Diff == null ? "inherit" : p.Score_Diff > 0 ? "#3a6e3a" : p.Score_Diff < 0 ? "var(--red)" : "inherit"};font-weight:600"${p._oppScore != null ? ` title="Opponent scored ${p._oppScore.toFixed(2)}"` : ""}>${p.Score_Diff == null ? "—" : (p.Score_Diff > 0 ? "+" : "") + p.Score_Diff.toFixed(2)}</td>
+      <td class="num" style="color:${p.Score_Diff == null ? "inherit" : p.Score_Diff > 0 ? POS : p.Score_Diff < 0 ? "var(--red)" : "inherit"};font-weight:600"${p._oppScore != null ? ` title="Opponent scored ${p._oppScore.toFixed(2)}"` : ""}>${p.Score_Diff == null ? "—" : (p.Score_Diff > 0 ? "+" : "") + p.Score_Diff.toFixed(2)}</td>
     </tr>`);
   document.getElementById("karateka-card").classList.remove("hidden");
   _currentCard = { type: "karateka", name: r.Karateka };
@@ -2040,15 +2070,40 @@ function showTournamentCard(r) {
 
 /* ════════════════════════════════════════════════════════════════ CHART HELPERS */
 const CHART_FONT = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
-const RED        = "rgba(154,28,28,0.85)";
-const RED_BORDER = "rgba(154,28,28,1)";
-const GRID       = "rgba(221,208,184,0.55)";
+/* Chart colors are theme-aware: refreshChartColors() reads the current CSS
+   custom properties (light or dark) before each render so canvas drawing —
+   which can't use var() — stays in sync with the active theme. */
+let RED         = "rgba(154,28,28,0.85)";
+let RED_BORDER  = "rgba(154,28,28,1)";
+let GRID        = "rgba(221,208,184,0.55)";
+let ZERO_LINE   = "rgba(0,0,0,0.75)";
+let AXIS_TXT    = "#7a7060";   // muted axis/tick text
+let AXIS_STRONG = "#1c1c18";   // strong label text
+let POS         = "#3a6e3a";   // positive diff (green)
+let NEG         = "#c0392b";   // negative diff (red)
 
-// Advanced = black, Intermediate = warm brown
-const TIER_COLORS = {
+// Advanced = black, Intermediate = warm brown (recolored in dark mode)
+let TIER_COLORS = {
   Advanced:     { bg: "rgba(0,0,0,0.82)",        border: "rgba(0,0,0,1)"          },
   Intermediate: { bg: "rgba(130,75,25,0.82)",    border: "rgba(110,60,15,1)"      },
 };
+
+function refreshChartColors() {
+  const cs = getComputedStyle(document.documentElement);
+  const g = (name, fb) => { const v = cs.getPropertyValue(name).trim(); return v || fb; };
+  RED         = g("--chart-bar",        "rgba(154,28,28,0.85)");
+  RED_BORDER  = g("--chart-bar-border", "rgba(154,28,28,1)");
+  GRID        = g("--chart-grid",       "rgba(221,208,184,0.55)");
+  ZERO_LINE   = g("--chart-zero",       ZERO_LINE);
+  AXIS_TXT    = g("--text-muted",       AXIS_TXT);
+  AXIS_STRONG = g("--text",             AXIS_STRONG);
+  POS         = g("--pos",              POS);
+  NEG         = g("--neg",              NEG);
+  TIER_COLORS = {
+    Advanced:     { bg: g("--tier-adv-bg", "rgba(0,0,0,0.82)"),     border: g("--tier-adv-bd", "rgba(0,0,0,1)") },
+    Intermediate: { bg: g("--tier-int-bg", "rgba(130,75,25,0.82)"), border: g("--tier-int-bd", "rgba(110,60,15,1)") },
+  };
+}
 
 function destroyChart(id) {
   if (charts[id]) { charts[id].destroy(); delete charts[id]; }
@@ -2069,8 +2124,8 @@ function makeHBar(id, labels, values, xLabel, minVal, perfs = null) {
           : ` ${ctx2.raw}` } },
       },
       scales: {
-        x: { min: minVal, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, title: { display: !!xLabel, text: xLabel, font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
-        y: { grid: { display: false }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#1c1c18" } },
+        x: { min: minVal, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: AXIS_TXT }, title: { display: !!xLabel, text: xLabel, font: { family: CHART_FONT, size: 11 }, color: AXIS_TXT } },
+        y: { grid: { display: false }, ticks: { font: { family: CHART_FONT, size: 11 }, color: AXIS_STRONG } },
       },
     },
   });
@@ -2097,7 +2152,7 @@ function makeCountryHBar(id, countries, athletes) {
       c2d.save();
       c2d.font = `11px ${CHART_FONT}`;
       c2d.textBaseline = "middle";
-      c2d.fillStyle = "#1c1c18";
+      c2d.fillStyle = AXIS_STRONG;
       countries.forEach((country, i) => {
         const y = yAxis.getPixelForTick(i);
         const img = imgs[country];
@@ -2131,7 +2186,7 @@ function makeCountryHBar(id, countries, athletes) {
       layout: { padding: { left: leftPad } },
       plugins: { legend: { display: false }, tooltip: { callbacks: { label: c2 => ` ${c2.raw}` } } },
       scales: {
-        x: { min: 0, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, title: { display: true, text: t("axis.athletes"), font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
+        x: { min: 0, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: AXIS_TXT }, title: { display: true, text: t("axis.athletes"), font: { family: CHART_FONT, size: 11 }, color: AXIS_TXT } },
         y: { grid: { display: false }, ticks: { display: false } },
       },
     },
@@ -2154,8 +2209,8 @@ function makeWinRateHBar(id, labels, values, axisTitle = "Win Rate (%)", perfs =
           : ` ${ctx2.raw}%` } },
       },
       scales: {
-        x: { min: 0, max: 100, grid: { color: GRID }, ticks: { callback: v => v + "%", font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, title: { display: true, text: axisTitle, font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
-        y: { grid: { display: false }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#1c1c18" } },
+        x: { min: 0, max: 100, grid: { color: GRID }, ticks: { callback: v => v + "%", font: { family: CHART_FONT, size: 11 }, color: AXIS_TXT }, title: { display: true, text: axisTitle, font: { family: CHART_FONT, size: 11 }, color: AXIS_TXT } },
+        y: { grid: { display: false }, ticks: { font: { family: CHART_FONT, size: 11 }, color: AXIS_STRONG } },
       },
     },
   });
@@ -2362,7 +2417,7 @@ function renderKataFindings() {
         const ctx2 = chart.ctx;
         ctx2.save();
         ctx2.font = `9px ${CHART_FONT}`;
-        ctx2.fillStyle = "#7a7060";
+        ctx2.fillStyle = AXIS_TXT;
         ctx2.textBaseline = "middle";
         ctx2.textAlign = "left";
         chart.data.datasets.forEach((ds, di) => {
@@ -2381,13 +2436,13 @@ function renderKataFindings() {
         responsive: true, maintainAspectRatio: true, aspectRatio: 11 / 6,
         layout: { padding: { right: 100 } },
         plugins: {
-          legend: { position: "bottom", labels: { font: { family: CHART_FONT, size: 11 }, color: "#1c1c18", boxWidth: 12 } },
+          legend: { position: "bottom", labels: { font: { family: CHART_FONT, size: 11 }, color: AXIS_STRONG, boxWidth: 12 } },
           tooltip: { callbacks: { label: ctx => ` ${ctx.raw.kata}: ${ctx.raw.x} perfs, avg ${ctx.raw.y.toFixed(3)}` } },
           scatterLabels: {},
         },
         scales: {
-          x: { title: { display: true, text: t("axis.performances"), font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
-          y: { title: { display: true, text: t("axis.avgScore"), font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
+          x: { title: { display: true, text: t("axis.performances"), font: { family: CHART_FONT, size: 11 }, color: AXIS_TXT }, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: AXIS_TXT } },
+          y: { title: { display: true, text: t("axis.avgScore"), font: { family: CHART_FONT, size: 11 }, color: AXIS_TXT }, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: AXIS_TXT } },
         },
       },
       plugins: [scatterLabelPlugin],
@@ -2415,8 +2470,8 @@ function renderKataFindings() {
       options: {
         responsive: true, maintainAspectRatio: false,
         plugins: {
-          legend: { position: "bottom", labels: { font: { family: CHART_FONT, size: 11 }, color: "#1c1c18", boxWidth: 12 } },
-          title:  { display: true, text: t("chartTitle.pctPerfByTier"), font: { family: CHART_FONT, size: 12, weight: "600" }, color: "#1c1c18", padding: { bottom: 8 } },
+          legend: { position: "bottom", labels: { font: { family: CHART_FONT, size: 11 }, color: AXIS_STRONG, boxWidth: 12 } },
+          title:  { display: true, text: t("chartTitle.pctPerfByTier"), font: { family: CHART_FONT, size: 12, weight: "600" }, color: AXIS_STRONG, padding: { bottom: 8 } },
           tooltip: { callbacks: { label: ctx => ` ${ctx.label}: ${ctx.raw} (${((ctx.raw/totalPerfs)*100).toFixed(1)}%)` } },
         },
       },
@@ -2430,8 +2485,8 @@ function renderKataFindings() {
       options: {
         responsive: true, maintainAspectRatio: false,
         plugins: {
-          legend: { position: "bottom", labels: { font: { family: CHART_FONT, size: 11 }, color: "#1c1c18", boxWidth: 12 } },
-          title:  { display: true, text: t("chartTitle.distinctKataByTier"), font: { family: CHART_FONT, size: 12, weight: "600" }, color: "#1c1c18", padding: { bottom: 8 } },
+          legend: { position: "bottom", labels: { font: { family: CHART_FONT, size: 11 }, color: AXIS_STRONG, boxWidth: 12 } },
+          title:  { display: true, text: t("chartTitle.distinctKataByTier"), font: { family: CHART_FONT, size: 12, weight: "600" }, color: AXIS_STRONG, padding: { bottom: 8 } },
         },
       },
     });
@@ -2477,8 +2532,8 @@ function renderKataFindings() {
           }}},
         },
         scales: {
-          x: { grid: { display: false }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#1c1c18", maxRotation: 30 } },
-          y: { min: tMin, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
+          x: { grid: { display: false }, ticks: { font: { family: CHART_FONT, size: 11 }, color: AXIS_STRONG, maxRotation: 30 } },
+          y: { min: tMin, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: AXIS_TXT } },
         },
       },
     });
@@ -2555,7 +2610,7 @@ function renderKataVsKaratekaAvg() {
         `Kata with very few performances may have skewed results.`;
   }
   const sign = v => v > 0 ? `+${v.toFixed(3)}` : v.toFixed(3);
-  const color = v => v > 0 ? "color:#3a6e3a" : v < 0 ? "color:var(--red)" : "";
+  const color = v => v > 0 ? "color:var(--pos)" : v < 0 ? "color:var(--red)" : "";
   document.getElementById("kata-kk-avg-tbody").innerHTML = rows.map(r => `
     <tr>
       <td class="name-cell">${esc(displayName("kata", r.Kata))}</td>
@@ -2583,11 +2638,11 @@ function renderKataVsKaratekaAvg() {
         if (!el) return;
         if (row.Diff >= 0) {
           ctx2.textAlign = "left";
-          ctx2.fillStyle = "#3a6e3a";
+          ctx2.fillStyle = POS;
           ctx2.fillText(displayName("kata", row.Kata), el.x + 5, el.y);
         } else {
           ctx2.textAlign = "right";
-          ctx2.fillStyle = "#c0392b";
+          ctx2.fillStyle = NEG;
           ctx2.fillText(displayName("kata", row.Kata), el.x - 5, el.y);
         }
       });
@@ -2606,7 +2661,7 @@ function renderKataVsKaratekaAvg() {
         kkLabels: {},
       },
       scales: {
-        x: { grid: { color: ctx => ctx.tick.value === 0 ? "rgba(0,0,0,0.75)" : GRID, lineWidth: ctx => ctx.tick.value === 0 ? 1.5 : 1 }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, title: { display: true, text: t("axis.scoreDiffVsAthAvg"), font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
+        x: { grid: { color: ctx => ctx.tick.value === 0 ? ZERO_LINE : GRID, lineWidth: ctx => ctx.tick.value === 0 ? 1.5 : 1 }, ticks: { font: { family: CHART_FONT, size: 11 }, color: AXIS_TXT }, title: { display: true, text: t("axis.scoreDiffVsAthAvg"), font: { family: CHART_FONT, size: 11 }, color: AXIS_TXT } },
         y: { grid: { display: false }, ticks: { display: false } },
       },
     },
@@ -2675,7 +2730,7 @@ function renderKataStdDev() {
       const ctx2 = chart.ctx;
       ctx2.save();
       ctx2.font = `9px ${CHART_FONT}`;
-      ctx2.fillStyle = "#7a7060";
+      ctx2.fillStyle = AXIS_TXT;
       ctx2.textBaseline = "middle";
       chart.data.datasets.forEach((dataset, di) => {
         if (dataset.type === "line") return;
@@ -2699,13 +2754,13 @@ function renderKataStdDev() {
       plugins: {
         legend: { position: "bottom", labels: {
           filter: item => item.text !== "Trend",
-          font: { family: CHART_FONT, size: 11 }, color: "#1c1c18", boxWidth: 12,
+          font: { family: CHART_FONT, size: 11 }, color: AXIS_STRONG, boxWidth: 12,
         } },
         tooltip: { callbacks: { label: ctx => ctx.raw.kata ? ` ${ctx.raw.kata}: ${ctx.raw.x} performers, σ = ${ctx.raw.y.toFixed(3)}` : "" } },
       },
       scales: {
-        x: { title: { display: true, text: t("axis.uniquePerformers"), font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
-        y: { title: { display: true, text: t("axis.scoreStdDev"), font: { family: CHART_FONT, size: 11 }, color: "#7a7060" }, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: "#7a7060" } },
+        x: { title: { display: true, text: t("axis.uniquePerformers"), font: { family: CHART_FONT, size: 11 }, color: AXIS_TXT }, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: AXIS_TXT } },
+        y: { title: { display: true, text: t("axis.scoreStdDev"), font: { family: CHART_FONT, size: 11 }, color: AXIS_TXT }, grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 11 }, color: AXIS_TXT } },
       },
     },
   });
@@ -2927,8 +2982,8 @@ function renderScoreHistogram(canvasId, scores, chartKey) {
         tooltip: { callbacks: { title: i => `${bins[i[0].dataIndex].lo.toFixed(2)} – ${bins[i[0].dataIndex].hi.toFixed(2)}`, label: c => lang === "jp" ? ` ${c.raw} ${t("chart.performances")}` : ` ${c.raw} performance${c.raw !== 1 ? "s" : ""}` } },
       },
       scales: {
-        x: { grid: { display: false }, ticks: { font: { family: CHART_FONT, size: 10 }, color: "#7a7060" }, title: { display: true, text: t("chart.score"), font: { family: CHART_FONT, size: 10 }, color: "#7a7060" } },
-        y: { grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 10 }, color: "#7a7060", stepSize: 1 } },
+        x: { grid: { display: false }, ticks: { font: { family: CHART_FONT, size: 10 }, color: AXIS_TXT }, title: { display: true, text: t("chart.score"), font: { family: CHART_FONT, size: 10 }, color: AXIS_TXT } },
+        y: { grid: { color: GRID }, ticks: { font: { family: CHART_FONT, size: 10 }, color: AXIS_TXT, stepSize: 1 } },
       },
     },
   });
@@ -3226,7 +3281,10 @@ function renderWorldMap() {
         .domain([1, Math.max(maxAthletes, 2)])
         .range([0.08, 1])
         .clamp(true);
-      const color = n => n ? d3.interpolateRgb("#f5c0c0", "#700f0f")(logScale(n)) : "#e8dcc8";
+      const mcs = getComputedStyle(document.documentElement);
+      const noData = mcs.getPropertyValue("--map-nodata").trim() || "#e8dcc8";
+      const mapStroke = mcs.getPropertyValue("--map-stroke").trim() || "#ffffff";
+      const color = n => n ? d3.interpolateRgb("#f5c0c0", "#700f0f")(logScale(n)) : noData;
 
       const svg = d3.create("svg").attr("viewBox", `0 0 ${w} ${h}`).style("width","100%").style("height","auto");
 
@@ -3236,7 +3294,7 @@ function renderWorldMap() {
         .join("path")
         .attr("d", path)
         .attr("fill", d => color(athleteMap[resolve(d.properties.name)] || 0))
-        .attr("stroke", "#fff")
+        .attr("stroke", mapStroke)
         .attr("stroke-width", 0.3)
         .style("cursor", d => {
           const name = resolve(d.properties.name);

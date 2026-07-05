@@ -11,11 +11,52 @@
   --red:         #9a1c1c;
   --red-light:   #f5eaea;
   --row-hover:   #f5eedd;
+  --row-alt:     rgba(240,232,214,0.35);
   --radius:      5px;
   --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --adv-bg:  #1c1c18; --adv-fg:  #ffffff;
   --int-bg:  #e8e2d6; --int-fg:  #3a3830;
   --beg-bg:  #f2ece0; --beg-fg:  #7a7060;
+  /* semantic diff colors (positive = green, negative = red) */
+  --pos: #3a6e3a; --neg: #c0392b;
+  /* chart theming (read by JS via getComputedStyle) */
+  --chart-bar:        rgba(154,28,28,0.85);
+  --chart-bar-border: rgba(154,28,28,1);
+  --chart-grid:       rgba(221,208,184,0.55);
+  --chart-zero:       rgba(0,0,0,0.75);
+  --tier-adv-bg: rgba(0,0,0,0.82);     --tier-adv-bd: rgba(0,0,0,1);
+  --tier-int-bg: rgba(130,75,25,0.82); --tier-int-bd: rgba(110,60,15,1);
+  --map-nodata: #e8dcc8; --map-stroke: #ffffff;
+  --shadow: rgba(0,0,0,0.06);
+  /* solid-red surfaces that carry white text (table headers, active toggles) */
+  --th-bg: var(--red);
+}
+
+/* ── Dark theme ───────────────────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --bg:          #1b1813;
+  --surface:     #252017;
+  --border:      #3b3428;
+  --border-light:#322c22;
+  --text:        #efe6d2;
+  --text-muted:  #b0a68f;
+  --red:         #d75a5a;
+  --red-light:   #3a2222;
+  --row-hover:   #2d2820;
+  --row-alt:     rgba(255,255,255,0.035);
+  --adv-bg:  #e8dcc0; --adv-fg:  #1b1813;
+  --int-bg:  #39332a; --int-fg:  #ddd3bd;
+  --beg-bg:  #2c271f; --beg-fg:  #b0a68f;
+  --pos: #6bb06b; --neg: #e07a6a;
+  --chart-bar:        rgba(215,90,90,0.85);
+  --chart-bar-border: rgba(215,90,90,1);
+  --chart-grid:       rgba(255,255,255,0.09);
+  --chart-zero:       rgba(255,255,255,0.6);
+  --tier-adv-bg: rgba(235,225,205,0.88); --tier-adv-bd: rgba(235,225,205,1);
+  --tier-int-bg: rgba(200,140,70,0.88);  --tier-int-bd: rgba(210,150,80,1);
+  --map-nodata: #322c22; --map-stroke: #1b1813;
+  --shadow: rgba(0,0,0,0.45);
+  --th-bg: #a83333;   /* deeper red so white header text stays legible */
 }
 
 body {
@@ -54,8 +95,27 @@ header {
   transition: background 0.12s, color 0.12s; white-space: nowrap;
 }
 .gender-btn + .gender-btn { border-left: 1.5px solid var(--red); }
-.gender-btn.active { background: var(--red); color: #fff; }
+.gender-btn.active { background: var(--th-bg); color: #fff; }
 .gender-btn:not(.active):hover { background: var(--red-light); }
+
+/* ── Theme (dark mode) toggle ─────────────────────────────────────────────── */
+.theme-toggle {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; padding: 0; flex-shrink: 0;
+  background: var(--bg); border: 1.5px solid var(--red); border-radius: 50%;
+  color: var(--red); cursor: pointer; line-height: 0;
+  transition: background 0.12s, color 0.12s;
+}
+.theme-toggle:hover { background: var(--red-light); }
+.theme-toggle svg { width: 15px; height: 15px; display: block; }
+
+/* Dark-mode recolor for the inline tier-difficulty SVG (presentation attrs) */
+[data-theme="dark"] .tier-curve-wrap svg line { stroke: #6b6455; }
+[data-theme="dark"] .tier-curve-wrap svg polygon { fill: #6b6455; }
+[data-theme="dark"] .tier-curve-wrap svg path:nth-of-type(2) { fill: rgba(235,225,205,0.28); stroke: rgba(235,225,205,0.85); }
+[data-theme="dark"] .tier-curve-wrap svg text[fill="rgba(0,0,0,1)"] { fill: #efe6d2; }
+[data-theme="dark"] .tier-curve-wrap svg text[fill="#666"],
+[data-theme="dark"] .tier-curve-wrap svg text[fill="#7a7060"] { fill: #b0a68f; }
 
 /* ── Tab bar ──────────────────────────────────────────────────────────────── */
 .tab-bar {
@@ -152,7 +212,7 @@ header {
 .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
 .data-table thead th {
   padding: 10px 14px; text-align: left; font-weight: 600; font-size: 11px;
-  letter-spacing: 0.3px; color: #fff; background: var(--red);
+  letter-spacing: 0.3px; color: #fff; background: var(--th-bg);
   border-bottom: 1px solid var(--border); white-space: nowrap; cursor: pointer; user-select: none;
 }
 .data-table thead th.num { text-align: right; }
@@ -161,7 +221,7 @@ header {
 .data-table thead th.sort-asc::after  { content: " ↑"; color: #fff; }
 .data-table thead th.sort-desc::after { content: " ↓"; color: #fff; }
 .data-table tbody tr { border-bottom: 1px solid var(--border-light); transition: background 0.1s; }
-.data-table tbody tr:nth-child(even) { background: rgba(240,232,214,0.35); }
+.data-table tbody tr:nth-child(even) { background: var(--row-alt); }
 .data-table tbody tr:last-child  { border-bottom: none; }
 .data-table tfoot tr { border-top: 2px solid var(--border); background: rgba(240,232,214,0.5); }
 .data-table tfoot td { padding: 9px 14px; font-size: 13px; vertical-align: middle; color: var(--text-muted); }
