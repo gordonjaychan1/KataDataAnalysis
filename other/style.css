@@ -306,6 +306,16 @@ header {
 /* ── Split table: fixed header + scrollable body ─────────────────────────── */
 .dt-fixed-header { overflow-x: hidden; flex-shrink: 0; }
 .dt-scroll-body  { flex: 1; overflow-y: auto; overflow-x: auto; min-height: 0; }
+/* Transient state used only to measure each column's natural width */
+.dt-measuring { table-layout: auto !important; width: max-content !important;
+  max-width: none !important; align-self: flex-start !important; }
+.dt-measuring th, .dt-measuring td { white-space: nowrap !important; }
+/* Keep split-table cells on one line so columns never overlap; the table gets
+   a min-width in JS and scrolls horizontally when the viewport is too narrow */
+.table-wrapper--sticky .data-table th,
+.table-wrapper--sticky .data-table td,
+.card-table-wrap .data-table th,
+.card-table-wrap .data-table td { white-space: nowrap; }
 .dt-scroll-body::-webkit-scrollbar { width: 6px; height: 6px; }
 .dt-scroll-body::-webkit-scrollbar-track { background: transparent; }
 .dt-scroll-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }

@@ -332,10 +332,17 @@ function splitTableScroll(tableId) {
   if (!thead) return;
 
   const ths = Array.from(thead.querySelectorAll('th'));
-  const widths = ths.map(th => th.getBoundingClientRect().width);
+
+  // Measure each column's natural width with content unconstrained and never
+  // wrapped, so the fixed-layout columns below stay wide enough to never
+  // collide (desktop) or overlap (mobile). When the viewport is narrower than
+  // the total, the body scrolls horizontally and the header follows.
+  table.classList.add('dt-measuring');
+  const widths = ths.map(th => Math.ceil(th.getBoundingClientRect().width));
+  table.classList.remove('dt-measuring');
   if (widths.every(w => w === 0)) return; // not yet laid out
 
-  const totalW = widths.reduce((s, w) => s + w, 0);
+  const totalW = Math.ceil(widths.reduce((s, w) => s + w, 0));
   const makeColGroup = () => {
     const cg = document.createElement('colgroup');
     widths.forEach(w => { const c = document.createElement('col'); c.style.width = (w / totalW * 100).toFixed(3) + '%'; cg.appendChild(c); });
@@ -345,7 +352,7 @@ function splitTableScroll(tableId) {
   // Build non-scrolling header table (move actual thead to keep onclick handlers)
   const headerTable = document.createElement('table');
   headerTable.className = table.className;
-  headerTable.style.cssText = `width:100%;table-layout:fixed;border-collapse:collapse;`;
+  headerTable.style.cssText = `width:100%;table-layout:fixed;border-collapse:collapse;min-width:${totalW}px;`;
   headerTable.appendChild(makeColGroup());
   headerTable.appendChild(thead);
 
@@ -355,7 +362,7 @@ function splitTableScroll(tableId) {
 
   // Body table keeps colgroup for alignment
   table.insertBefore(makeColGroup(), table.firstChild);
-  table.style.cssText += `width:100%;table-layout:fixed;`;
+  table.style.cssText += `width:100%;table-layout:fixed;min-width:${totalW}px;`;
 
   const bodyWrap = document.createElement('div');
   bodyWrap.className = 'dt-scroll-body';
