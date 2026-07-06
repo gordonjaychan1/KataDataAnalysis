@@ -185,6 +185,12 @@ function medalTally(medals) {
   return [c[1] && `${medalIcon(1)}${c[1]}`, c[2] && `${medalIcon(2)}${c[2]}`, c[3] && `${medalIcon(3)}${c[3]}`].filter(Boolean).join(" ");
 }
 
+/* WKF ranking points per medal, used to rank athletes/countries by medal haul. */
+const MEDAL_POINTS = { 1: 990, 2: 690, 3: 490 };
+function medalPoints(medals) {
+  return (medals || []).reduce((s, m) => s + (MEDAL_POINTS[m.Place] || 0), 0);
+}
+
 /* Medals sorted by when the tournament happened (earliest first) */
 function medalsChrono(medals) {
   return [...(medals || [])].sort((a, b) =>
@@ -3414,7 +3420,8 @@ function _compareConfig(type) {
       head: r => `${flagOf(r.Country)}<span>${esc(r.Karateka)}</span>`,
       pick: r => `${flagOf(r.Country)} ${esc(r.Karateka)}`,
       metrics: [
-        { label: t("col.medals"),       get: r => (r.Medals || []).length, disp: r => medalTally(r.Medals) || "0", dir: "high" },
+        { label: t("col.medals"),       get: r => medalPoints(r.Medals),   disp: r => medalTally(r.Medals) || "0", dir: "high" },
+        { label: t("cmp.headToHead"),   h2h: true, dir: "high" },
         { label: t("col.performances"), get: r => r.Performances,          fmt: v => v ?? "—", dir: "high" },
         { label: t("col.tournaments"),  get: r => r.Tournaments_Attended,  fmt: v => v ?? "—", dir: "high" },
         { label: t("cmp.opponents"),    get: r => new Set((r.Performances_Detail || []).filter(p => p.Opponent).map(p => p.Opponent)).size, fmt: v => v ?? "—", dir: "high" },
@@ -3439,7 +3446,7 @@ function _compareConfig(type) {
         { label: t("col.avgScore"),     get: r => r.Avg_Score,    fmt: fmt2,   dir: "high" },
         { label: t("col.bestScore"),    get: r => r.Best_Score,   fmt: fmt2,   dir: "high" },
         { label: t("col.winRate"),      get: r => r.Win_Rate,     fmt: fmtPct, dir: "high" },
-        { label: t("col.medals"),       get: r => r.Medals,       disp: r => medalTally(r._medalsList) || "0", dir: "high" },
+        { label: t("col.medals"),       get: r => medalPoints(r._medalsList), disp: r => medalTally(r._medalsList) || "0", dir: "high" },
       ],
     },
   };
@@ -3502,18 +3509,31 @@ function renderComparison(type, nameA, nameB) {
   const B = list.find(r => r[cfg.key] === nameB);
   if (!A || !B) return;
   const rowsHtml = cfg.metrics.map(m => {
-    const va = m.get(A), vb = m.get(B);
-    let winA = false, winB = false;
-    if (m.dir && va != null && vb != null && va !== vb) {
-      if (m.dir === "high") { winA = va > vb; winB = vb > va; }
-      else                  { winA = va < vb; winB = vb < va; }
+    let va, vb, da, db;
+    if (m.h2h) {
+      // Head-to-head: each athlete's wins in matches against the other.
+      va = (A.Performances_Detail || []).filter(p => p.Opponent === nameB && p.Won === true).length;
+      vb = (B.Performances_Detail || []).filter(p => p.Opponent === nameA && p.Won === true).length;
+      da = String(va); db = String(vb);
+    } else {
+      va = m.get(A); vb = m.get(B);
+      da = m.disp ? m.disp(A) : m.fmt(va);
+      db = m.disp ? m.disp(B) : m.fmt(vb);
     }
-    const da = m.disp ? m.disp(A) : m.fmt(va);
-    const db = m.disp ? m.disp(B) : m.fmt(vb);
+    let clsA = "", clsB = "";
+    if (m.dir && va != null && vb != null) {
+      if (va === vb) {
+        clsA = clsB = " tie";                       // equal → both beige
+      } else {
+        const aWins = m.dir === "high" ? va > vb : va < vb;
+        clsA = aWins ? " win" : "";   // loser left unstyled
+        clsB = aWins ? "" : " win";
+      }
+    }
     return `<tr>
-      <td class="compare-val${winA ? " win" : ""}">${da}</td>
+      <td class="compare-val${clsA}">${da}</td>
       <td class="compare-metric">${m.label}</td>
-      <td class="compare-val${winB ? " win" : ""}">${db}</td>
+      <td class="compare-val${clsB}">${db}</td>
     </tr>`;
   }).join("");
   _removeCompareModal();

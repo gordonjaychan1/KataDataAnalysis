@@ -581,6 +581,8 @@ blockquote.dedication {
 .compare-val { text-align: center; font-variant-numeric: tabular-nums; font-weight: 600; font-size: 15px; width: 36%; }
 .compare-val.win { color: var(--pos); font-weight: 800; background: rgba(58,110,58,0.10); }
 [data-theme="dark"] .compare-val.win { background: rgba(107,176,107,0.14); }
+.compare-val.tie { color: #8a6d3b; font-weight: 800; background: rgba(200,164,100,0.20); }
+[data-theme="dark"] .compare-val.tie { color: #d9be86; background: rgba(200,164,100,0.16); }
 .compare-foot { font-size: 11px; color: var(--text-muted); font-style: italic; margin-top: 14px; line-height: 1.5; }
 
 /* ── References tab ───────────────────────────────────────────────────────── */

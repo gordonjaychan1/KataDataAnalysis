@@ -43,8 +43,9 @@ const I18N = {
   "cmp.resultTitle": { en: "Head-to-Head Comparison", jp: "直接比較" },
   "cmp.change":      { en: "↺ Change", jp: "↺ 変更" },
   "cmp.opponents":   { en: "Opponents", jp: "対戦相手数" },
+  "cmp.headToHead":  { en: "Head-to-head", jp: "直接対戦成績" },
   "cmp.close":       { en: "Close", jp: "閉じる" },
-  "cmp.footnote":    { en: "Green marks the better value (for Std Dev, lower is better).", jp: "緑色はより良い値を示します（標準偏差は低い方が良い）。" },
+  "cmp.footnote":    { en: "Green marks the better value, beige a tie (for Std Dev, lower is better). Medals are ranked by WKF points (Gold 990, Silver 690, Bronze 490).", jp: "緑色はより良い値、ベージュは同値を示します（標準偏差は低い方が良い）。メダルはWKFポイント（金990・銀690・銅490）で順位付けしています。" },
 
   /* ── Search placeholders ── */
   "ph.globalSearch": { en: "Search Kata, Athletes, Tournaments, Countries, etc.", jp: "型・選手・大会・国などを検索…" },
