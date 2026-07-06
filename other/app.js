@@ -3508,7 +3508,7 @@ function renderComparison(type, nameA, nameB) {
     <div class="compare-modal-box" onclick="event.stopPropagation()">
       <div class="compare-modal-head">
         <span class="compare-modal-title">${t("cmp.resultTitle")}</span>
-        <button class="compare-btn" data-cmp-type="${esc(type)}" data-cmp-name="${esc(nameA)}">${t("cmp.change")}</button>
+        <button class="compare-btn" id="compare-change-btn" data-cmp-type="${esc(type)}" data-cmp-name="${esc(nameA)}">${t("cmp.change")}</button>
         <button class="card-close-btn" onclick="_removeCompareModal()" title="${t("cmp.close")}">✕</button>
       </div>
       <div class="compare-modal-body">
@@ -3525,6 +3525,10 @@ function renderComparison(type, nameA, nameB) {
     </div>`;
   overlay.addEventListener("click", _removeCompareModal);
   document.body.appendChild(overlay);
+  // The modal box stops click propagation, so the delegated handler below never
+  // sees this button — wire it directly to reopen the picker.
+  overlay.querySelector("#compare-change-btn")
+    ?.addEventListener("click", () => openComparePicker(type, nameA));
 }
 
 /* A "Change" button inside the result modal re-uses .compare-btn to reopen the picker. */

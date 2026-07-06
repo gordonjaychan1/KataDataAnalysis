@@ -408,6 +408,9 @@ header {
 .table-wrapper--sticky .data-table td,
 .card-table-wrap .data-table th,
 .card-table-wrap .data-table td { white-space: nowrap; }
+/* Detail-card tables: keep the # column minimal so the next column sits right beside it */
+.card-table-wrap .data-table td.row-num, .card-table-wrap .data-table th.row-num { padding-left: 8px; padding-right: 2px; }
+.card-table-wrap .data-table .row-num + td, .card-table-wrap .data-table .row-num + th { padding-left: 4px; }
 .dt-scroll-body::-webkit-scrollbar { width: 6px; height: 6px; }
 .dt-scroll-body::-webkit-scrollbar-track { background: transparent; }
 .dt-scroll-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
@@ -533,12 +536,12 @@ blockquote.dedication {
 /* ── Compare (two-entity head-to-head) ────────────────────────────────────── */
 .compare-btn {
   margin-left: auto; align-self: center;
-  display: inline-flex; align-items: center; gap: 5px;
-  background: var(--bg); border: 1px solid var(--border); color: var(--text-muted);
-  border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 700; cursor: pointer;
-  transition: background 0.12s, color 0.12s, border-color 0.12s;
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--red); border: 1px solid var(--red); color: #fff;
+  border-radius: 20px; padding: 6px 16px; font-size: 13px; font-weight: 700; cursor: pointer;
+  transition: filter 0.12s, background 0.12s, border-color 0.12s;
 }
-.compare-btn:hover { background: var(--red-light); color: var(--red); border-color: var(--red); }
+.compare-btn:hover { filter: brightness(1.08); }
 .compare-modal-box {
   background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
   box-shadow: 0 8px 32px rgba(0,0,0,0.18); width: min(620px, 94%);
