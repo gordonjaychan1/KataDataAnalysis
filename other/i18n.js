@@ -353,19 +353,18 @@ const I18N = {
   /* ── How-to cards (body-level: English captured from DOM, Japanese below) ── */
   "howto.tables": { jp: `<strong>表の見方</strong>
                 <ul>
-                  <li>列見出しをクリックすると並べ替え、もう一度で逆順になります。</li>
-                  <li>見出しにカーソルを合わせると説明が表示されます。</li>
+                  <li>列見出しをクリックすると並べ替え（もう一度で逆順）、見出しにカーソルを合わせると説明が表示されます。</li>
                   <li>詳細カードでは、統計値の下の小さな数字（例：<em>3/42</em>）が全体での順位を表し、<em>(T)</em> は同順位を示します。</li>
                   <li>主要な表の上部には各列の平均を示す<strong>平均</strong>行が固定されています。</li>
                 </ul>
                 <p class="how-to-q"><em>並べ替え・順位の読み方・型の階級を知りたいときは？</em></p>` },
-  "howto.links": { jp: `<strong>赤いリンクとナビゲーション</strong>
+  "howto.navigate": { jp: `<strong>サイト内の移動</strong>
                 <ul>
-                  <li><span style="color:var(--red);font-weight:600">赤色</span>で表示される型・選手・大会・国の名前はリンクです。</li>
-                  <li>クリックするとその項目の詳細カードへ移動します（確認プロンプトが表示されます）。</li>
-                  <li>詳細カード内・分析タブの表・検索結果など、どこでも機能します。</li>
+                  <li>上部バーのタブは3つのドロップダウンメニューに整理されています — <strong>データ</strong>・<strong>分析</strong>・<strong>その他</strong>（<span style="color:var(--red)">▾</span> にカーソルを合わせるかクリックして開く）。<strong>ホーム</strong>と男子／女子の切り替えはメニューの外にあります。</li>
+                  <li><span style="color:var(--red);font-weight:600">赤色</span>で表示される型・選手・大会・国の名前はリンクで、その項目の詳細カードへ移動します — 詳細カード内・分析タブの表・検索結果のどこでも機能します。</li>
+                  <li>リンクをたどると、左下に<strong>← 戻る</strong>ボタンが表示され前に戻れます。起点まで戻ったとき、またはタブを手動でクリックすると消えます。</li>
                 </ul>
-                <p class="how-to-q"><em>選手のプロフィールから演武した型へ、または型からその型で最高得点を出した選手へ、どう移動する？</em></p>` },
+                <p class="how-to-q"><em>タブへ移動し、関連する項目間を行き来し、戻るにはどうする？</em></p>` },
   "howto.genderToggle": { jp: `<strong>男子／女子の切り替え</strong>
                 <ul>
                   <li>右上の<strong>男子</strong>／<strong>女子</strong>ボタンで、すべての表・グラフ・統計が即座に切り替わります。</li>
@@ -379,12 +378,13 @@ const I18N = {
                   <li>入力すると結果が表示され、クリックするとその詳細カードへ移動します。</li>
                 </ul>
                 <p class="how-to-q"><em>探している型や選手の名前は分かっている。どうすれば素早くたどり着ける？</em></p>` },
-  "howto.back": { jp: `<strong>戻るボタンとナビゲーション履歴</strong>
+  "howto.compareBtn": { jp: `<strong>比較ボタン</strong>
                 <ul>
-                  <li>赤いリンクをたどると、左下に<strong>← 戻る</strong>ボタンが表示され、前のカードやタブに戻れます。</li>
-                  <li>起点まで戻ったとき、またはタブを手動でクリックすると消えます。</li>
+                  <li>型・選手・国の各詳細カードのヘッダーには<strong>⇄ 比較</strong>ボタンがあります。</li>
+                  <li>クリックして同じ種類の2つ目の項目を選ぶと、両者が並べて表示され、各統計で優れた値が強調されます（勝ちは緑、同値はベージュ）。</li>
+                  <li>選手の比較には<strong>直接対戦</strong>成績が加わります。<strong>変更</strong>で対戦相手を入れ替えられます。</li>
                 </ul>
-                <p class="how-to-q"><em>いくつものリンクされたカードをたどって、戻りたい。戻るボタンはどこ？</em></p>` },
+                <p class="how-to-q"><em>2人の選手（または型・国）はどう比較される？</em></p>` },
   "howto.dataKata": { jp: `<strong>型</strong>
                 <ul>
                   <li>型ごとの統計：演武数、演武した選手数（実数）、平均、勝率など。</li>

@@ -133,8 +133,7 @@
               <div class="how-to-body" data-i18n="howto.tables">
                 <strong>Reading the Tables</strong>
                 <ul>
-                  <li>Click any column header to sort; click again to reverse.</li>
-                  <li>Hover over a header for a tooltip explaining it.</li>
+                  <li>Click any column header to sort (click again to reverse); hover a header for a tooltip explaining it.</li>
                   <li>In detail cards, a small number under a stat (e.g. <em>3/42</em>) is its rank among all entries, and <em>(T)</em> marks a tie.</li>
                   <li>Each main table has a pinned <strong>Averages</strong> row at the top.</li>
                 </ul>
@@ -143,15 +142,27 @@
             </div>
 
             <div class="how-to-card">
-              <div class="how-to-icon">🔗</div>
-              <div class="how-to-body" data-i18n="howto.links">
-                <strong>Red Links &amp; Navigation</strong>
+              <div class="how-to-icon">🧭</div>
+              <div class="how-to-body" data-i18n="howto.navigate">
+                <strong>Navigating the Site</strong>
                 <ul>
-                  <li>Names shown in <span style="color:var(--red);font-weight:600">red</span> (kata, athletes, tournaments, countries) are clickable links.</li>
-                  <li>Click one to jump to that entry's detail card (a prompt confirms first).</li>
-                  <li>They work everywhere: detail cards, findings tables, and search results.</li>
+                  <li>The top bar groups tabs into three drop-down menus — <strong>Data</strong>, <strong>Analysis</strong>, and <strong>Other</strong> (hover or click the <span style="color:var(--red)">▾</span> caret to open); <strong>Home</strong> and the Male / Female toggle stay outside the menus.</li>
+                  <li>Names shown in <span style="color:var(--red);font-weight:600">red</span> (kata, athletes, tournaments, countries) are links that jump to that entry's detail card — they work in cards, findings tables, and search results.</li>
+                  <li>After following a link, a <strong>← Back</strong> button (bottom-left) returns you; it disappears once you're back at the start or click a tab manually.</li>
                 </ul>
-                <p class="how-to-q"><em>How do I jump from an athlete's profile to the kata they performed, or from a kata to the athlete who scored highest?</em></p>
+                <p class="how-to-q"><em>How do I reach a tab, jump between related entries, and get back?</em></p>
+              </div>
+            </div>
+
+            <div class="how-to-card">
+              <div class="how-to-icon">🔍</div>
+              <div class="how-to-body" data-i18n="howto.search">
+                <strong>Global Search Bar</strong>
+                <ul>
+                  <li>The search bar (top-right) covers kata, athletes, tournaments, and countries at once.</li>
+                  <li>Results appear as you type; click one to jump to its detail card.</li>
+                </ul>
+                <p class="how-to-q"><em>I know the name of the kata or athlete I'm looking for. How do I get there fast?</em></p>
               </div>
             </div>
 
@@ -169,26 +180,15 @@
             </div>
 
             <div class="how-to-card">
-              <div class="how-to-icon">🔍</div>
-              <div class="how-to-body" data-i18n="howto.search">
-                <strong>Global Search Bar</strong>
+              <div class="how-to-icon">🆚</div>
+              <div class="how-to-body" data-i18n="howto.compareBtn">
+                <strong>Compare Button</strong>
                 <ul>
-                  <li>The search bar (top-right) covers kata, athletes, tournaments, and countries at once.</li>
-                  <li>Results appear as you type; click one to jump to its detail card.</li>
+                  <li>Every kata, athlete, and country detail card has a <strong>⇄ Compare</strong> button in its header.</li>
+                  <li>Click it, pick a second entry of the same type, and the two are shown side by side with the better value in each stat highlighted (green wins, beige ties).</li>
+                  <li>Athlete comparisons add a <strong>head-to-head</strong> record; use <strong>Change</strong> to swap in a different opponent.</li>
                 </ul>
-                <p class="how-to-q"><em>I know the name of the kata or athlete I'm looking for. How do I get there fast?</em></p>
-              </div>
-            </div>
-
-            <div class="how-to-card">
-              <div class="how-to-icon">↩</div>
-              <div class="how-to-body" data-i18n="howto.back">
-                <strong>Back Button &amp; Navigation History</strong>
-                <ul>
-                  <li>Following a red link shows a <strong>← Back</strong> button (bottom-left) that returns you to the previous card or tab.</li>
-                  <li>It disappears once you're back at the start of the chain, or when you click a tab manually.</li>
-                </ul>
-                <p class="how-to-q"><em>I clicked through several linked cards and want to go back. Where is the back button?</em></p>
+                <p class="how-to-q"><em>How do two athletes (or kata, or countries) stack up against each other?</em></p>
               </div>
             </div>
 
@@ -848,7 +848,7 @@
   <div id="site-credit">Created by Gordon Jay Chan</div>
 
   <div id="map-tooltip" style="position:fixed;display:none;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:6px 10px;font-size:12px;pointer-events:none;z-index:2000;box-shadow:0 2px 8px rgba(0,0,0,0.15)"></div>
-  <script src="other/i18n.js?v=19"></script>
+  <script src="other/i18n.js?v=20"></script>
   <script src="other/app.js?v=22"></script>
 </body>
 </html>
