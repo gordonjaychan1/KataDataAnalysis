@@ -87,7 +87,7 @@ const I18N = {
   /* ── How-to group labels ── */
   "howto.group.func": { en: "Functionalities", jp: "機能" },
   "howto.group.data": { en: "Data Tabs", jp: "データタブ" },
-  "howto.group.findings": { en: "Findings Tabs", jp: "分析タブ" },
+  "howto.group.findings": { en: "Analysis Tabs", jp: "分析タブ" },
   "howto.group.reference": { en: "Reference", jp: "参考" },
 
   /* ── Section titles ── */
