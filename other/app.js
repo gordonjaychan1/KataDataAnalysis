@@ -373,9 +373,24 @@ function splitTableScroll(tableId) {
   if (widths.every(w => w === 0)) return; // not yet laid out
 
   const totalW = Math.ceil(widths.reduce((s, w) => s + w, 0));
+  // In detail cards, pin the # column to a fixed px width (matching the master
+  // table) so its gap to the next column stays consistent instead of tracking
+  // each card's largest row number. The remaining columns split the leftover
+  // width proportionally via calc() so the fixed column never gets stretched.
+  const ROWNUM_W = 28;
+  const isCard = wrapper.classList.contains('card-table-wrap');
+  const rowNumIdx = ths.findIndex(th => th.classList.contains('row-num'));
+  const pinRowNum = isCard && rowNumIdx >= 0;
+  const restW = totalW - (pinRowNum ? widths[rowNumIdx] : 0);
   const makeColGroup = () => {
     const cg = document.createElement('colgroup');
-    widths.forEach(w => { const c = document.createElement('col'); c.style.width = (w / totalW * 100).toFixed(3) + '%'; cg.appendChild(c); });
+    widths.forEach((w, i) => {
+      const c = document.createElement('col');
+      if (pinRowNum && i === rowNumIdx) c.style.width = ROWNUM_W + 'px';
+      else if (pinRowNum) c.style.width = `calc((100% - ${ROWNUM_W}px) * ${(w / restW).toFixed(4)})`;
+      else c.style.width = (w / totalW * 100).toFixed(3) + '%';
+      cg.appendChild(c);
+    });
     return cg;
   };
 
@@ -3401,7 +3416,8 @@ function _compareConfig(type) {
       metrics: [
         { label: t("col.medals"),       get: r => (r.Medals || []).length, disp: r => medalTally(r.Medals) || "0", dir: "high" },
         { label: t("col.performances"), get: r => r.Performances,          fmt: v => v ?? "—", dir: "high" },
-        { label: t("col.tournaments"),  get: r => r.Tournaments_Attended,  fmt: v => v ?? "—", dir: null   },
+        { label: t("col.tournaments"),  get: r => r.Tournaments_Attended,  fmt: v => v ?? "—", dir: "high" },
+        { label: t("cmp.opponents"),    get: r => new Set((r.Performances_Detail || []).filter(p => p.Opponent).map(p => p.Opponent)).size, fmt: v => v ?? "—", dir: "high" },
         { label: t("col.avgScore"),     get: r => r.Mean_Score,            fmt: fmt2,   dir: "high" },
         { label: t("col.median"),       get: r => r.Median_Score,          fmt: fmt2,   dir: "high" },
         { label: t("col.bestScore"),    get: r => r.Max_Score,             fmt: fmt2,   dir: "high" },
@@ -3419,7 +3435,7 @@ function _compareConfig(type) {
       metrics: [
         { label: t("col.athletes"),     get: r => r.Athletes,     fmt: v => v ?? "—", dir: "high" },
         { label: t("col.performances"), get: r => r.Performances, fmt: v => v ?? "—", dir: "high" },
-        { label: t("col.tournaments"),  get: r => r.Tournaments,  fmt: v => v ?? "—", dir: null   },
+        { label: t("col.tournaments"),  get: r => r.Tournaments,  fmt: v => v ?? "—", dir: "high" },
         { label: t("col.avgScore"),     get: r => r.Avg_Score,    fmt: fmt2,   dir: "high" },
         { label: t("col.bestScore"),    get: r => r.Best_Score,   fmt: fmt2,   dir: "high" },
         { label: t("col.winRate"),      get: r => r.Win_Rate,     fmt: fmtPct, dir: "high" },

@@ -42,8 +42,9 @@ const I18N = {
   "cmp.noMatch":     { en: "No matches", jp: "該当なし" },
   "cmp.resultTitle": { en: "Head-to-Head Comparison", jp: "直接比較" },
   "cmp.change":      { en: "↺ Change", jp: "↺ 変更" },
+  "cmp.opponents":   { en: "Opponents", jp: "対戦相手数" },
   "cmp.close":       { en: "Close", jp: "閉じる" },
-  "cmp.footnote":    { en: "Green marks the better value (for Std Dev, lower is better). Neutral stats are shown for context only.", jp: "緑色はより良い値を示します（標準偏差は低い方が良い）。中立的な統計は参考用です。" },
+  "cmp.footnote":    { en: "Green marks the better value (for Std Dev, lower is better).", jp: "緑色はより良い値を示します（標準偏差は低い方が良い）。" },
 
   /* ── Search placeholders ── */
   "ph.globalSearch": { en: "Search Kata, Athletes, Tournaments, Countries, etc.", jp: "型・選手・大会・国などを検索…" },

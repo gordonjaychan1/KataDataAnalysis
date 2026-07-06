@@ -413,9 +413,11 @@ header {
 .table-wrapper--sticky .data-table td,
 .card-table-wrap .data-table th,
 .card-table-wrap .data-table td { white-space: nowrap; }
-/* Detail-card tables: keep the # column minimal so the next column sits right beside it */
-.card-table-wrap .data-table td.row-num, .card-table-wrap .data-table th.row-num { padding-left: 8px; padding-right: 2px; }
-.card-table-wrap .data-table .row-num + td, .card-table-wrap .data-table .row-num + th { padding-left: 4px; }
+/* Detail-card tables: match the kata master table's # column. Inherit its
+   padding (the .row-num rules further up) and pin the # column to a fixed
+   width so the gap to the next column is identical across every card instead
+   of tracking each table's largest row number (see splitTableScroll). */
+.card-table-wrap .data-table .row-num { width: 28px; }
 .dt-scroll-body::-webkit-scrollbar { width: 6px; height: 6px; }
 .dt-scroll-body::-webkit-scrollbar-track { background: transparent; }
 .dt-scroll-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
@@ -556,8 +558,8 @@ blockquote.dedication {
   display: flex; align-items: center; gap: 12px;
   padding: 14px 18px; border-bottom: 1px solid var(--border-light);
 }
-.compare-modal-title { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.7px; color: var(--red); }
-.compare-modal-head .card-close-btn { position: static; margin-left: auto; }
+.compare-modal-title { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.7px; color: var(--red); margin-right: auto; }
+.compare-modal-head .card-close-btn { position: static; }
 .compare-modal-body { padding: 16px 18px; overflow: auto; }
 .compare-search {
   width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: var(--radius);
