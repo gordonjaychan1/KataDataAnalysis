@@ -260,8 +260,9 @@ header {
 .data-table tbody tr.highlighted { background: var(--red-light); }
 .data-table td { padding: 9px 14px; vertical-align: middle; }
 .data-table td.num { text-align: right; font-variant-numeric: tabular-nums; }
-.data-table .row-num { color: var(--text-muted); font-size: 11px; width: 32px; }
-.data-table td.row-num, .data-table th.row-num, .data-table thead th.row-num { text-align: left; padding-left: 12px; padding-right: 8px; }
+.data-table .row-num { color: var(--text-muted); font-size: 11px; width: 1%; white-space: nowrap; }
+.data-table td.row-num, .data-table th.row-num, .data-table thead th.row-num { text-align: left; padding-left: 12px; padding-right: 4px; }
+.data-table .row-num + td, .data-table .row-num + th { padding-left: 8px; }
 .data-table thead .row-num { color: #fff; }
 .data-table td.name-cell { font-weight: 500; }
 #missing-table-male tbody tr:hover,
