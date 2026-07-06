@@ -1808,7 +1808,7 @@ function renderCountriesTable() {
       <td class="num">${fmt2(r.Avg_Score)}</td>
       <td class="num">${fmt2(r.Best_Score)}</td>
       <td class="num">${fmtPct(r.Win_Rate)}</td>
-      <td class="num">${r._medals.gold ? medalIcon(1).repeat(r._medals.gold) : ""}${r._medals.silver ? medalIcon(2).repeat(r._medals.silver) : ""}${r._medals.bronze ? medalIcon(3).repeat(r._medals.bronze) : ""}${!r.Medals ? "—" : ""}</td>
+      <td class="num" style="white-space:nowrap">${r.Medals ? medalTally(r._medalsList) : "—"}</td>
     </tr>`).join("");
   document.querySelectorAll("#countries-tbody tr").forEach(tr => {
     tr.addEventListener("click", () => {
