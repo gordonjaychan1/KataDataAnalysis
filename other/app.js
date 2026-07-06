@@ -486,11 +486,29 @@ function _updateSiteCredit(tabId) {
   if (credit) credit.style.display = tabId === "welcome" ? "" : "none";
 }
 
-function switchToTab(tabId) {
-  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-  document.querySelectorAll(".tab-content").forEach(s => { s.classList.remove("active"); s.classList.add("hidden"); });
+/* Close any open tab dropdown menus. */
+function _closeTabDropdowns() {
+  document.querySelectorAll(".tab-group.open").forEach(g => {
+    g.classList.remove("open");
+    g.querySelector(".tab-group-btn")?.setAttribute("aria-expanded", "false");
+  });
+}
+
+/* Mark the given tab active in the nav: highlight its button and, if it lives
+   inside a dropdown group, highlight that group's top-level button too. */
+function _markActiveTab(tabId) {
+  document.querySelectorAll(".tab-btn, .tab-group-btn").forEach(b => b.classList.remove("active"));
   const btn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
-  if (btn) btn.classList.add("active");
+  if (btn) {
+    btn.classList.add("active");
+    btn.closest(".tab-group")?.querySelector(".tab-group-btn")?.classList.add("active");
+  }
+}
+
+function switchToTab(tabId) {
+  _closeTabDropdowns();
+  _markActiveTab(tabId);
+  document.querySelectorAll(".tab-content").forEach(s => { s.classList.remove("active"); s.classList.add("hidden"); });
   const sec = document.getElementById(`tab-${tabId}`);
   if (sec) { sec.classList.remove("hidden"); sec.classList.add("active"); }
   _updateSiteCredit(tabId);
@@ -533,13 +551,29 @@ function setupGlobalToggle() {
 
 /* ── Tabs ──────────────────────────────────────────────────────────────────── */
 function setupTabs() {
+  /* Top-level group buttons (Data / Analysis / Other) toggle their dropdown. */
+  document.querySelectorAll(".tab-group-btn").forEach(gb => {
+    gb.addEventListener("click", e => {
+      e.stopPropagation();
+      const group = gb.closest(".tab-group");
+      const willOpen = !group.classList.contains("open");
+      _closeTabDropdowns();
+      if (willOpen) {
+        group.classList.add("open");
+        gb.setAttribute("aria-expanded", "true");
+      }
+    });
+  });
+  /* Click anywhere else closes any open dropdown. */
+  document.addEventListener("click", _closeTabDropdowns);
+
   document.querySelectorAll(".tab-btn").forEach(btn => {
     btn.addEventListener("click", () => {
-      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      _closeTabDropdowns();
+      _markActiveTab(btn.dataset.tab);
       document.querySelectorAll(".tab-content").forEach(s => {
         s.classList.remove("active"); s.classList.add("hidden");
       });
-      btn.classList.add("active");
       const sec = document.getElementById("tab-" + btn.dataset.tab);
       sec.classList.remove("hidden");
       sec.classList.add("active");
@@ -1161,6 +1195,7 @@ function showKataCard(r) {
     <button class="card-close-btn" onclick="document.getElementById('kata-card').classList.add('hidden')" title="Close">✕</button>
     <div class="card-header">
       <span class="card-title">${esc(displayName("kata", r.Kata))}</span>${tierBadge(r.Kata_Tier)}
+      ${compareBtn("kata", r.Kata)}
     </div>
     ${scoreMissing ? `<p style="font-size:12px;color:var(--text-muted);background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:var(--radius);padding:8px 12px;margin-bottom:12px">The score for this kata's performance${r.Performances === 1 ? "" : "s"} was not recorded and is missing from the dataset. Score-related statistics are unavailable and shown as —.</p>` : ""}
     <div class="card-stats">
@@ -1399,6 +1434,7 @@ function showKaratekaCard(r) {
     <div class="card-header">
       <span class="card-title">${esc(r.Karateka)}</span>
       <span class="card-subtitle">${flagOf(r.Country)} ${esc(displayName("country", r.Country) || "")}</span>
+      ${compareBtn("karateka", r.Karateka)}
     </div>
     <div class="card-stats">
       <div class="stat-box"><div class="stat-label">${t("col.performances")}</div><div class="stat-value">${r.Performances}</div>${rkK('Performances')}</div>
@@ -1570,6 +1606,7 @@ function showCountryCard(r, all) {
     <button class="card-close-btn" onclick="document.getElementById('countries-card').classList.add('hidden')" title="Close">✕</button>
     <div class="card-header">
       <span class="card-title">${flagOf(r.Country)} ${esc(displayName("country", r.Country))}</span>
+      ${compareBtn("country", r.Country)}
     </div>
     <div class="card-stats">
       <div class="stat-box"><div class="stat-label">${t("col.athletes")}</div><div class="stat-value">${r.Athletes}</div>${rkC('Athletes')}</div>
@@ -3323,3 +3360,176 @@ function renderWorldMap() {
       svgWrap.innerHTML = `<p style="padding:24px;color:var(--text-muted);font-size:13px">Could not load world map.</p>`;
     });
 }
+
+/* ══════════════════════════════════════════════ COMPARE (two-entity head-to-head) */
+/* A small "Compare" button placed in a detail-card header. Clicking it opens a
+   picker to choose a second entity of the same type, then renders a side-by-side
+   comparison modal with the better value in each metric highlighted. */
+const _diffFmt = v => v == null ? "—" : (v >= 0 ? "+" : "") + v.toFixed(3);
+
+function compareBtn(type, name) {
+  return `<button class="compare-btn" data-cmp-type="${esc(type)}" data-cmp-name="${esc(name)}" title="${t("cmp.tooltip")}">⇄ ${t("cmp.btn")}</button>`;
+}
+
+/* Rebuilt per call so metric labels track the active language / gender. */
+function _compareConfig(type) {
+  const cfg = {
+    kata: {
+      pickTitle: t("cmp.pickKata"),
+      list: () => DATA.kata[gender] || [],
+      key:  "Kata",
+      head: r => `${tierBadge(r.Kata_Tier)}<span>${esc(displayName("kata", r.Kata))}</span>`,
+      pick: r => `${tierBadge(r.Kata_Tier)} ${esc(displayName("kata", r.Kata))}`,
+      metrics: [
+        { label: t("col.performances"),      get: r => r.Performances,    fmt: v => v ?? "—", dir: "high" },
+        { label: t("col.athletes"),          get: r => r.Unique_Karateka, fmt: v => v ?? "—", dir: "high" },
+        { label: t("col.avgScore"),          get: r => r.Mean_Score,      fmt: fmt3,   dir: "high" },
+        { label: t("col.median"),            get: r => r.Median_Score,    fmt: fmt2,   dir: "high" },
+        { label: t("col.min"),               get: r => r.Min_Score,       fmt: fmt2,   dir: "high" },
+        { label: t("col.max"),               get: r => r.Max_Score,       fmt: fmt2,   dir: "high" },
+        { label: t("col.stdDev"),            get: r => r.Std_Dev,         fmt: fmt3,   dir: "low"  },
+        { label: t("col.winRate"),           get: r => r.Win_Rate,        fmt: fmtPct, dir: "high" },
+        { label: t("col.scoreDifferential"), get: r => r.Diff,            fmt: _diffFmt, dir: "high" },
+      ],
+    },
+    karateka: {
+      pickTitle: t("cmp.pickAthlete"),
+      list: () => DATA.karateka[gender] || [],
+      key:  "Karateka",
+      head: r => `${flagOf(r.Country)}<span>${esc(r.Karateka)}</span>`,
+      pick: r => `${flagOf(r.Country)} ${esc(r.Karateka)}`,
+      metrics: [
+        { label: t("col.medals"),       get: r => (r.Medals || []).length, disp: r => medalTally(r.Medals) || "0", dir: "high" },
+        { label: t("col.performances"), get: r => r.Performances,          fmt: v => v ?? "—", dir: "high" },
+        { label: t("col.tournaments"),  get: r => r.Tournaments_Attended,  fmt: v => v ?? "—", dir: null   },
+        { label: t("col.avgScore"),     get: r => r.Mean_Score,            fmt: fmt2,   dir: "high" },
+        { label: t("col.median"),       get: r => r.Median_Score,          fmt: fmt2,   dir: "high" },
+        { label: t("col.bestScore"),    get: r => r.Max_Score,             fmt: fmt2,   dir: "high" },
+        { label: t("stat.worstScore"),  get: r => r.Min_Score,             fmt: fmt2,   dir: "high" },
+        { label: t("col.winRate"),      get: r => r.Win_Rate,              fmt: fmtPct, dir: "high" },
+        { label: t("col.differential"), get: r => r.Differential,          fmt: _diffFmt, dir: "high" },
+      ],
+    },
+    country: {
+      pickTitle: t("cmp.pickCountry"),
+      list: () => buildCountryStats(),
+      key:  "Country",
+      head: r => `${flagOf(r.Country)}<span>${esc(displayName("country", r.Country))}</span>`,
+      pick: r => `${flagOf(r.Country)} ${esc(displayName("country", r.Country))}`,
+      metrics: [
+        { label: t("col.athletes"),     get: r => r.Athletes,     fmt: v => v ?? "—", dir: "high" },
+        { label: t("col.performances"), get: r => r.Performances, fmt: v => v ?? "—", dir: "high" },
+        { label: t("col.tournaments"),  get: r => r.Tournaments,  fmt: v => v ?? "—", dir: null   },
+        { label: t("col.avgScore"),     get: r => r.Avg_Score,    fmt: fmt2,   dir: "high" },
+        { label: t("col.bestScore"),    get: r => r.Best_Score,   fmt: fmt2,   dir: "high" },
+        { label: t("col.winRate"),      get: r => r.Win_Rate,     fmt: fmtPct, dir: "high" },
+        { label: t("col.medals"),       get: r => r.Medals,       disp: r => medalTally(r._medalsList) || "0", dir: "high" },
+      ],
+    },
+  };
+  return cfg[type];
+}
+
+function _removeCompareModal() {
+  const m = document.getElementById("compare-modal");
+  if (m) m.remove();
+}
+
+function openComparePicker(type, nameA) {
+  const cfg = _compareConfig(type);
+  if (!cfg) return;
+  const rows = cfg.list()
+    .filter(r => r[cfg.key] !== nameA)
+    .sort((a, b) => String(a[cfg.key]).localeCompare(String(b[cfg.key])));
+  _removeCompareModal();
+  const overlay = document.createElement("div");
+  overlay.className = "nav-modal-overlay";
+  overlay.id = "compare-modal";
+  overlay.innerHTML = `
+    <div class="compare-modal-box" onclick="event.stopPropagation()">
+      <div class="compare-modal-head">
+        <span class="compare-modal-title">${cfg.pickTitle}</span>
+        <button class="card-close-btn" onclick="_removeCompareModal()" title="${t("cmp.close")}">✕</button>
+      </div>
+      <div class="compare-modal-body">
+        <input type="text" class="compare-search" id="compare-search" placeholder="${t("cmp.searchPh")}" autocomplete="off">
+        <div class="compare-pick-list" id="compare-pick-list"></div>
+      </div>
+    </div>`;
+  overlay.addEventListener("click", _removeCompareModal);
+  document.body.appendChild(overlay);
+  const listEl = overlay.querySelector("#compare-pick-list");
+  const draw = q => {
+    const ql = q.trim().toLowerCase();
+    const filtered = ql
+      ? rows.filter(r => cfg.pick(r).replace(/<[^>]+>/g, "").toLowerCase().includes(ql))
+      : rows;
+    listEl.innerHTML = filtered.length
+      ? filtered.map(r => `<div class="compare-pick-item" data-name="${esc(r[cfg.key])}">${cfg.pick(r)}</div>`).join("")
+      : `<p style="color:var(--text-muted);font-size:13px;padding:8px">${t("cmp.noMatch")}</p>`;
+  };
+  draw("");
+  const searchEl = overlay.querySelector("#compare-search");
+  searchEl.addEventListener("input", e => draw(e.target.value));
+  listEl.addEventListener("click", e => {
+    const item = e.target.closest(".compare-pick-item");
+    if (item) renderComparison(type, nameA, item.dataset.name);
+  });
+  setTimeout(() => searchEl.focus(), 40);
+}
+
+function renderComparison(type, nameA, nameB) {
+  const cfg = _compareConfig(type);
+  if (!cfg) return;
+  const list = cfg.list();
+  const A = list.find(r => r[cfg.key] === nameA);
+  const B = list.find(r => r[cfg.key] === nameB);
+  if (!A || !B) return;
+  const rowsHtml = cfg.metrics.map(m => {
+    const va = m.get(A), vb = m.get(B);
+    let winA = false, winB = false;
+    if (m.dir && va != null && vb != null && va !== vb) {
+      if (m.dir === "high") { winA = va > vb; winB = vb > va; }
+      else                  { winA = va < vb; winB = vb < va; }
+    }
+    const da = m.disp ? m.disp(A) : m.fmt(va);
+    const db = m.disp ? m.disp(B) : m.fmt(vb);
+    return `<tr>
+      <td class="compare-val${winA ? " win" : ""}">${da}</td>
+      <td class="compare-metric">${m.label}</td>
+      <td class="compare-val${winB ? " win" : ""}">${db}</td>
+    </tr>`;
+  }).join("");
+  _removeCompareModal();
+  const overlay = document.createElement("div");
+  overlay.className = "nav-modal-overlay";
+  overlay.id = "compare-modal";
+  overlay.innerHTML = `
+    <div class="compare-modal-box" onclick="event.stopPropagation()">
+      <div class="compare-modal-head">
+        <span class="compare-modal-title">${t("cmp.resultTitle")}</span>
+        <button class="compare-btn" data-cmp-type="${esc(type)}" data-cmp-name="${esc(nameA)}">${t("cmp.change")}</button>
+        <button class="card-close-btn" onclick="_removeCompareModal()" title="${t("cmp.close")}">✕</button>
+      </div>
+      <div class="compare-modal-body">
+        <table class="compare-table">
+          <thead><tr>
+            <th class="compare-entity">${cfg.head(A)}</th>
+            <th></th>
+            <th class="compare-entity">${cfg.head(B)}</th>
+          </tr></thead>
+          <tbody>${rowsHtml}</tbody>
+        </table>
+        <p class="compare-foot">${t("cmp.footnote")}</p>
+      </div>
+    </div>`;
+  overlay.addEventListener("click", _removeCompareModal);
+  document.body.appendChild(overlay);
+}
+
+/* A "Change" button inside the result modal re-uses .compare-btn to reopen the picker. */
+document.addEventListener("click", e => {
+  const b = e.target.closest(".compare-btn");
+  if (b) openComparePicker(b.dataset.cmpType, b.dataset.cmpName);
+});
+document.addEventListener("keydown", e => { if (e.key === "Escape") _removeCompareModal(); });

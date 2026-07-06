@@ -10,6 +10,9 @@
 const I18N = {
   /* ── Tabs / nav ── */
   "tab.welcome":  { en: "Home", jp: "ホーム" },
+  "tab.group.data":     { en: "Data", jp: "データ" },
+  "tab.group.analysis": { en: "Analysis", jp: "分析" },
+  "tab.group.other":    { en: "Other", jp: "その他" },
   "tab.kata":     { en: "Kata", jp: "型" },
   "tab.athletes": { en: "Athletes", jp: "選手" },
   "tab.tournaments": { en: "Tournaments", jp: "大会" },
@@ -28,6 +31,19 @@ const I18N = {
   /* ── Navigation confirmation modal ── */
   "nav.cancel":   { en: "Cancel", jp: "キャンセル" },
   "nav.go":       { en: "Go", jp: "移動" },
+
+  /* ── Compare (two-entity head-to-head) ── */
+  "cmp.btn":         { en: "Compare", jp: "比較" },
+  "cmp.tooltip":     { en: "Compare with another", jp: "他の項目と比較" },
+  "cmp.pickKata":    { en: "Compare kata with…", jp: "比較する型を選択…" },
+  "cmp.pickAthlete": { en: "Compare athlete with…", jp: "比較する選手を選択…" },
+  "cmp.pickCountry": { en: "Compare country with…", jp: "比較する国を選択…" },
+  "cmp.searchPh":    { en: "Search…", jp: "検索…" },
+  "cmp.noMatch":     { en: "No matches", jp: "該当なし" },
+  "cmp.resultTitle": { en: "Head-to-Head Comparison", jp: "直接比較" },
+  "cmp.change":      { en: "↺ Change", jp: "↺ 変更" },
+  "cmp.close":       { en: "Close", jp: "閉じる" },
+  "cmp.footnote":    { en: "Green marks the better value (for Std Dev, lower is better). Neutral stats are shown for context only.", jp: "緑色はより良い値を示します（標準偏差は低い方が良い）。中立的な統計は参考用です。" },
 
   /* ── Search placeholders ── */
   "ph.globalSearch": { en: "Search Kata, Athletes, Tournaments, Countries, etc.", jp: "型・選手・大会・国などを検索…" },

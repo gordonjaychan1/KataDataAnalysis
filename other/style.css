@@ -121,9 +121,8 @@ header {
 .tab-bar {
   display: flex; align-items: center; padding: 0 16px 0 32px;
   background: var(--surface); border-bottom: 1px solid var(--border); gap: 2px;
-  overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+  overflow: visible;
 }
-.tab-bar::-webkit-scrollbar { display: none; }
 .tab-btn {
   background: none; border: none; border-bottom: 2px solid transparent;
   padding: 11px 16px; font-size: 13px; font-weight: 500; color: var(--text-muted);
@@ -134,6 +133,37 @@ header {
 .tab-btn.active { color: var(--red); border-bottom-color: var(--red); font-weight: 600; }
 .tab-sep { width: 1px; background: var(--border); margin: 0 8px; height: 22px; align-self: center; flex-shrink: 0; }
 .tab-bar-toggle { margin-left: auto; padding-left: 16px; flex-shrink: 0; display: flex; align-items: center; }
+
+/* ── Tab dropdown groups ──────────────────────────────────────────────────── */
+.tab-group { position: relative; display: flex; align-items: center; }
+.tab-group-btn {
+  background: none; border: none; border-bottom: 2px solid transparent;
+  padding: 11px 16px; font-size: 13px; font-weight: 500; color: var(--text-muted);
+  cursor: pointer; margin-bottom: -1px; white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 5px;
+  transition: color 0.15s, border-color 0.15s;
+}
+.tab-group-btn:hover  { color: var(--text); }
+.tab-group-btn.active { color: var(--red); border-bottom-color: var(--red); font-weight: 600; }
+.tab-caret { font-size: 9px; line-height: 1; transition: transform 0.15s; }
+.tab-group.open .tab-caret { transform: rotate(180deg); }
+.tab-dropdown {
+  position: absolute; top: 100%; left: 0; z-index: 300;
+  display: none; flex-direction: column;
+  min-width: 190px; max-width: calc(100vw - 24px); padding: 6px;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); box-shadow: 0 8px 24px rgba(0,0,0,0.14);
+}
+.tab-group.open .tab-dropdown { display: flex; }
+.tab-dropdown .tab-btn {
+  border-bottom: none; margin-bottom: 0; text-align: left;
+  padding: 9px 12px; border-radius: 6px;
+}
+.tab-dropdown .tab-btn:hover  { background: var(--row-hover); color: var(--text); }
+.tab-dropdown .tab-btn.active {
+  background: var(--red-light); color: var(--red);
+  border-bottom: none; font-weight: 600;
+}
 
 /* ── Tab content ──────────────────────────────────────────────────────────── */
 .tab-content        { display: none; padding: 28px 32px; }
@@ -499,6 +529,47 @@ blockquote.dedication {
 .nav-link { color: var(--red); text-decoration: none; cursor: pointer; background: none; border: none; padding: 0; font: inherit; font-size: inherit; }
 .nav-link:hover { text-decoration: underline; }
 
+/* ── Compare (two-entity head-to-head) ────────────────────────────────────── */
+.compare-btn {
+  margin-left: auto; align-self: center;
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--bg); border: 1px solid var(--border); color: var(--text-muted);
+  border-radius: 20px; padding: 4px 12px; font-size: 12px; font-weight: 700; cursor: pointer;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
+}
+.compare-btn:hover { background: var(--red-light); color: var(--red); border-color: var(--red); }
+.compare-modal-box {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18); width: min(620px, 94%);
+  max-height: 88vh; display: flex; flex-direction: column;
+}
+.compare-modal-head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 18px; border-bottom: 1px solid var(--border-light);
+}
+.compare-modal-title { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.7px; color: var(--red); }
+.compare-modal-head .card-close-btn { position: static; margin-left: auto; }
+.compare-modal-body { padding: 16px 18px; overflow: auto; }
+.compare-search {
+  width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: var(--radius);
+  font-size: 14px; margin-bottom: 12px; background: var(--bg); color: var(--text); box-sizing: border-box;
+}
+.compare-pick-list { display: flex; flex-direction: column; gap: 2px; max-height: 56vh; overflow: auto; }
+.compare-pick-item {
+  display: flex; align-items: center; gap: 8px; padding: 8px 10px;
+  border-radius: var(--radius); cursor: pointer; font-size: 14px; border: 1px solid transparent;
+}
+.compare-pick-item:hover { background: var(--red-light); border-color: var(--red); }
+.compare-table { width: 100%; border-collapse: collapse; }
+.compare-table th, .compare-table td { padding: 9px 10px; border-bottom: 1px solid var(--border-light); }
+.compare-table thead th { text-align: center; padding-bottom: 12px; }
+.compare-entity { display: flex; align-items: center; gap: 6px; justify-content: center; font-weight: 800; font-size: 15px; }
+.compare-metric { text-align: center; color: var(--text-muted); font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.4px; white-space: nowrap; }
+.compare-val { text-align: center; font-variant-numeric: tabular-nums; font-weight: 600; font-size: 15px; width: 36%; }
+.compare-val.win { color: var(--pos); font-weight: 800; background: rgba(58,110,58,0.10); }
+[data-theme="dark"] .compare-val.win { background: rgba(107,176,107,0.14); }
+.compare-foot { font-size: 11px; color: var(--text-muted); font-style: italic; margin-top: 14px; line-height: 1.5; }
+
 /* ── References tab ───────────────────────────────────────────────────────── */
 .ref-section-head { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 14px; padding-bottom: 6px; border-bottom: 1px solid var(--border-light); }
 .ref-layout   { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
@@ -532,6 +603,20 @@ blockquote.dedication {
   .welcome-stat-card { padding: 16px 6px; }
   .welcome-stat-card .stat-num   { font-size: 26px; }
   .welcome-stat-card .stat-label { font-size: 10px; letter-spacing: 0.3px; margin-top: 5px; }
+
+  /* Compact the top-level tabs so the four fit without sideways scrolling */
+  .tab-bar { padding: 0 8px; gap: 0; }
+  .tab-btn, .tab-group-btn { padding: 11px 10px; }
+  .tab-bar-toggle { padding-left: 8px; }
+
+  /* Timelines are a fixed-width graphic — let them scroll instead of squashing
+     the tournament pills on top of each other */
+  #welcome-timeline-wrap, #tourn-timeline-wrap {
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+  }
+  #welcome-timeline-wrap .tl-real, #tourn-timeline-wrap .tl-real {
+    width: 940px !important; margin: 0 !important;
+  }
 }
 
 /* ── Global search ────────────────────────────────────────────────────────── */

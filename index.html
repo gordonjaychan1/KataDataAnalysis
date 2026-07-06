@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>2024–25 WKF Kata Analysis</title>
-  <link rel="stylesheet" href="other/style.css?v=9" />
+  <link rel="stylesheet" href="other/style.css?v=10" />
   <script>try{if(localStorage.getItem('kata-theme')==='dark')document.documentElement.setAttribute('data-theme','dark');}catch(e){}</script>
   <script src="other/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
@@ -34,20 +34,42 @@
 
   <nav class="tab-bar">
     <button class="tab-btn active" data-tab="welcome" data-i18n="tab.welcome">Home</button>
-    <span class="tab-sep"></span>
-    <button class="tab-btn" data-tab="kata" data-i18n="tab.kata">Kata</button>
-    <button class="tab-btn" data-tab="karateka" data-i18n="tab.athletes">Athletes</button>
-    <button class="tab-btn" data-tab="tournaments" data-i18n="tab.tournaments">Tournaments</button>
-    <button class="tab-btn" data-tab="countries" data-i18n="tab.countries">Countries</button>
-    <button class="tab-btn" data-tab="medals" data-i18n="tab.medals">Medals</button>
-    <span class="tab-sep"></span>
-    <button class="tab-btn" data-tab="kata-findings" data-i18n="tab.kataFindings">Kata Analysis</button>
-    <button class="tab-btn" data-tab="karateka-findings" data-i18n="tab.athleteFindings">Athlete Analysis</button>
-    <button class="tab-btn" data-tab="compare" data-i18n="tab.compare">Male vs. Female</button>
-    <span class="tab-sep"></span>
-    <button class="tab-btn" data-tab="notes" data-i18n="tab.notes">Notes</button>
-    <button class="tab-btn" data-tab="about" data-i18n="tab.about">About</button>
-    <button class="tab-btn" data-tab="references" data-i18n="tab.references">References</button>
+
+    <div class="tab-group" data-group="data">
+      <button class="tab-group-btn" type="button" aria-haspopup="true" aria-expanded="false">
+        <span data-i18n="tab.group.data">Data</span><span class="tab-caret" aria-hidden="true">▾</span>
+      </button>
+      <div class="tab-dropdown">
+        <button class="tab-btn" data-tab="kata" data-i18n="tab.kata">Kata</button>
+        <button class="tab-btn" data-tab="karateka" data-i18n="tab.athletes">Athletes</button>
+        <button class="tab-btn" data-tab="tournaments" data-i18n="tab.tournaments">Tournaments</button>
+        <button class="tab-btn" data-tab="countries" data-i18n="tab.countries">Countries</button>
+        <button class="tab-btn" data-tab="medals" data-i18n="tab.medals">Medals</button>
+      </div>
+    </div>
+
+    <div class="tab-group" data-group="analysis">
+      <button class="tab-group-btn" type="button" aria-haspopup="true" aria-expanded="false">
+        <span data-i18n="tab.group.analysis">Analysis</span><span class="tab-caret" aria-hidden="true">▾</span>
+      </button>
+      <div class="tab-dropdown">
+        <button class="tab-btn" data-tab="kata-findings" data-i18n="tab.kataFindings">Kata Analysis</button>
+        <button class="tab-btn" data-tab="karateka-findings" data-i18n="tab.athleteFindings">Athlete Analysis</button>
+        <button class="tab-btn" data-tab="compare" data-i18n="tab.compare">Male vs. Female</button>
+      </div>
+    </div>
+
+    <div class="tab-group" data-group="other">
+      <button class="tab-group-btn" type="button" aria-haspopup="true" aria-expanded="false">
+        <span data-i18n="tab.group.other">Other</span><span class="tab-caret" aria-hidden="true">▾</span>
+      </button>
+      <div class="tab-dropdown">
+        <button class="tab-btn" data-tab="notes" data-i18n="tab.notes">Notes</button>
+        <button class="tab-btn" data-tab="about" data-i18n="tab.about">About</button>
+        <button class="tab-btn" data-tab="references" data-i18n="tab.references">References</button>
+      </div>
+    </div>
+
     <div class="tab-bar-toggle">
       <div class="gender-toggle" id="global-gender">
         <button class="gender-btn active" data-gender="male" data-i18n="toggle.male">Male</button>
@@ -826,7 +848,7 @@
   <div id="site-credit">Created by Gordon Jay Chan</div>
 
   <div id="map-tooltip" style="position:fixed;display:none;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:6px 10px;font-size:12px;pointer-events:none;z-index:2000;box-shadow:0 2px 8px rgba(0,0,0,0.15)"></div>
-  <script src="other/i18n.js?v=14"></script>
-  <script src="other/app.js?v=14"></script>
+  <script src="other/i18n.js?v=15"></script>
+  <script src="other/app.js?v=15"></script>
 </body>
 </html>
