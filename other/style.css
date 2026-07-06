@@ -146,12 +146,13 @@ header {
 .tab-group-btn:hover  { color: var(--text); }
 .tab-group-btn.active { color: var(--red); border-bottom-color: var(--red); font-weight: 600; }
 .tab-caret {
-  font-size: 15px; line-height: 1; margin-left: 1px;
+  font-size: 19px; line-height: 1; margin-left: 2px;
   color: var(--red); font-weight: 700; opacity: 0.85;
   transition: transform 0.15s, opacity 0.15s;
 }
 .tab-group-btn:hover .tab-caret { opacity: 1; }
-.tab-group.open .tab-caret { transform: rotate(180deg); opacity: 1; }
+.tab-group.open .tab-caret,
+.tab-group:hover .tab-caret { transform: rotate(180deg); opacity: 1; }
 .tab-dropdown {
   position: absolute; top: 100%; left: 0; z-index: 300;
   display: none; flex-direction: column;
@@ -159,7 +160,8 @@ header {
   background: var(--surface); border: 1px solid var(--border);
   border-radius: var(--radius); box-shadow: 0 8px 24px rgba(0,0,0,0.14);
 }
-.tab-group.open .tab-dropdown { display: flex; }
+.tab-group.open .tab-dropdown,
+.tab-group:hover .tab-dropdown { display: flex; }
 .tab-dropdown .tab-btn {
   border-bottom: none; margin-bottom: 0; text-align: left;
   padding: 9px 12px; border-radius: 6px;
