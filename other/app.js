@@ -3550,9 +3550,9 @@ function renderComparison(type, nameA, nameB) {
       <div class="compare-modal-body">
         <table class="compare-table">
           <thead><tr>
-            <th class="compare-entity">${cfg.head(A)}</th>
+            <th class="compare-entity"><span class="ce-inner">${cfg.head(A)}</span></th>
             <th></th>
-            <th class="compare-entity">${cfg.head(B)}</th>
+            <th class="compare-entity"><span class="ce-inner">${cfg.head(B)}</span></th>
           </tr></thead>
           <tbody>${rowsHtml}</tbody>
         </table>
