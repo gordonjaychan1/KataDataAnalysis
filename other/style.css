@@ -619,10 +619,26 @@ blockquote.dedication {
   .welcome-stat-card .stat-num   { font-size: 26px; }
   .welcome-stat-card .stat-label { font-size: 10px; letter-spacing: 0.3px; margin-top: 5px; }
 
-  /* Compact the top-level tabs so the four fit without sideways scrolling */
-  .tab-bar { padding: 0 8px; gap: 0; }
-  .tab-btn, .tab-group-btn { padding: 11px 10px; }
-  .tab-bar-toggle { padding-left: 8px; }
+  /* Compact the top-level tabs + gender toggle so they fit one row without the
+     Male/Female toggle spilling off the right edge */
+  .tab-bar { padding: 0 6px; gap: 0; }
+  .tab-btn, .tab-group-btn { padding: 9px 6px; font-size: 12px; }
+  .tab-group-btn { gap: 2px; }
+  .tab-caret { font-size: 13px; margin-left: 0; }
+  .tab-bar-toggle { padding-left: 4px; }
+  .gender-btn { padding: 4px 8px; font-size: 11px; }
+
+  /* Detail-card compare button sits under the name at the left, not pushed
+     to the far right on its own row */
+  .card-header .compare-btn { margin-left: 0; }
+
+  /* Head-to-head comparison table fits the modal width instead of overflowing
+     (which forced the right entity off-screen) */
+  .compare-table { table-layout: fixed; }
+  .compare-table th, .compare-table td { padding: 8px 5px; }
+  .compare-metric { white-space: normal; }
+  .compare-entity { font-size: 14px; }
+  .compare-val { font-size: 14px; width: 34%; }
 
   /* Timelines are a fixed-width graphic — let them scroll instead of squashing
      the tournament pills on top of each other */
