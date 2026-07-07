@@ -1468,6 +1468,7 @@ function showKaratekaCard(r) {
       <div class="stat-box"><div class="stat-label">${t("stat.worstScore")}</div><div class="stat-value">${fmt2(r.Min_Score)}</div>${rkK('Min_Score', true)}${worstPerf ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">${t("lbl.kataColon")}: <strong>${navLink("kata", worstPerf.Kata)}</strong></div>` : ""}</div>
       <div class="stat-box"><div class="stat-label">${t("col.bestScore")}</div><div class="stat-value">${fmt2(r.Max_Score)}</div>${rkK('Max_Score')}${bestPerf ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">${t("lbl.kataColon")}: <strong>${navLink("kata", bestPerf.Kata)}</strong></div>` : ""}</div>
       <div class="stat-box"><div class="stat-label">${t("col.winRate")}</div><div class="stat-value">${fmtPct(r.Win_Rate)}</div>${rkKFig('Win_Rate', false, 'karateka-findings', 'finding-a2')}</div>
+      <div class="stat-box" title="${esc(t("tip.athleteDiff"))}"><div class="stat-label">${t("col.differential")}</div><div class="stat-value" style="color:${r.Differential == null ? "inherit" : r.Differential > 0 ? POS : r.Differential < 0 ? "var(--red)" : "inherit"}">${_diffFmt(r.Differential)}</div>${rkK('Differential')}</div>
     </div>
     ${r.Medals && r.Medals.length ? `
     <div class="card-section-title">${t("sec.medals")}</div>

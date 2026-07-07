@@ -170,7 +170,7 @@ const I18N = {
   "tip.athleteMin": { jp: "選手が単一の演武で得た最低スコア" },
   "tip.athleteMax": { jp: "選手が単一の演武で得た最高スコア" },
   "tip.athleteRange": { jp: "最高スコア − 最低スコア。選手のスコアの幅" },
-  "tip.athleteDiff": { jp: "全試合における、選手のスコアから相手のスコアを引いた値の平均" },
+  "tip.athleteDiff": { en: "Average of the athlete's score minus the opponent's score across all their matches", jp: "全試合における、選手のスコアから相手のスコアを引いた値の平均" },
   "tip.tournName": { jp: "大会名" },
   "tip.tournPerf": { jp: "この大会で記録された総型演武数" },
   "tip.uniqueAthletes": { jp: "出場した選手の人数" },
