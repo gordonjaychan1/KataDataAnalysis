@@ -12,7 +12,7 @@ const I18N = {
   "tab.welcome":  { en: "Home", jp: "ホーム" },
   "tab.group.data":     { en: "Data", jp: "データ" },
   "tab.group.analysis": { en: "Analysis", jp: "分析" },
-  "tab.group.other":    { en: "Other", jp: "その他" },
+  "tab.group.other":    { en: "Info", jp: "情報" },
   "tab.kata":     { en: "Kata", jp: "型" },
   "tab.athletes": { en: "Athletes", jp: "選手" },
   "tab.tournaments": { en: "Tournaments", jp: "大会" },
@@ -88,7 +88,7 @@ const I18N = {
   "howto.group.func": { en: "Functionalities", jp: "機能" },
   "howto.group.data": { en: "Data Tabs", jp: "データタブ" },
   "howto.group.findings": { en: "Analysis Tabs", jp: "分析タブ" },
-  "howto.group.reference": { en: "Reference", jp: "参考" },
+  "howto.group.reference": { en: "Info", jp: "情報" },
 
   /* ── Section titles ── */
   "title.compare": { en: "Male vs. Female Kata: Season Comparison", jp: "男子 vs 女子の型：シーズン比較" },
@@ -366,7 +366,7 @@ const I18N = {
                 <p class="how-to-q"><em>行をクリックすると何が見られる？順位の数字は何を意味する？</em></p>` },
   "howto.navigate": { jp: `<strong>サイト内の移動</strong>
                 <ul>
-                  <li>上部バーのタブは3つのドロップダウンメニューに整理されています — <strong>データ</strong>・<strong>分析</strong>・<strong>その他</strong>（<span style="color:var(--red)">▾</span> にカーソルを合わせるかクリックして開く）。<strong>ホーム</strong>と男子／女子の切り替えはメニューの外にあります。</li>
+                  <li>上部バーのタブは3つのドロップダウンメニューに整理されています — <strong>データ</strong>・<strong>分析</strong>・<strong>情報</strong>（<span style="color:var(--red)">▾</span> にカーソルを合わせるかクリックして開く）。<strong>ホーム</strong>と男子／女子の切り替えはメニューの外にあります。</li>
                   <li><span style="color:var(--red);font-weight:600">赤色</span>で表示される型・選手・大会・国の名前はリンクで、その項目の詳細カードへ移動します — 詳細カード内・分析タブの表・検索結果のどこでも機能します。</li>
                   <li>リンクをたどると、左下に<strong>← 戻る</strong>ボタンが表示され前に戻れます。起点まで戻ったとき、またはタブを手動でクリックすると消えます。</li>
                 </ul>
