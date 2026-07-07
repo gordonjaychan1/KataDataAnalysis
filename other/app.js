@@ -533,6 +533,7 @@ function switchToTab(tabId) {
   const sec = document.getElementById(`tab-${tabId}`);
   if (sec) { sec.classList.remove("hidden"); sec.classList.add("active"); }
   _updateSiteCredit(tabId);
+  window.scrollTo(0, 0);
 }
 
 /* ── Welcome stats ─────────────────────────────────────────────────────────── */
@@ -606,6 +607,8 @@ function setupTabs() {
       /* update URL so reload stays on the current tab */
       const tabId = btn.dataset.tab;
       history.replaceState(null, "", tabId === "welcome" ? window.location.pathname : `#tab/${tabId}`);
+      /* jump back to the top so each tab starts at its beginning */
+      window.scrollTo(0, 0);
       if (btn.dataset.tab === "compare") renderCompareTab();
       if (btn.dataset.tab === "medals") renderMedalsTab();
       if (btn.dataset.tab === "tournaments") renderTournamentTimeline();
