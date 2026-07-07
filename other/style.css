@@ -222,6 +222,12 @@ header {
 .stat-rank  { font-size: 11px; color: var(--text-muted); margin-top: 3px; font-variant-numeric: tabular-nums; }
 .stat-box.clickable { cursor: pointer; transition: background 0.12s, border-color 0.12s; }
 .stat-box.clickable:hover { background: var(--red-light); border-color: var(--red); }
+/* Athlete headshot: fills the trailing empty grid cell beside the stat boxes */
+.stat-photo {
+  border-radius: var(--radius); border: 1px solid var(--border-light);
+  overflow: hidden; background: var(--bg); min-height: 72px;
+}
+.stat-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .card-section-title { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; color: var(--red); margin: 22px 0 10px; }
 .pill-list { display: flex; flex-wrap: wrap; gap: 7px; }
 .pill {

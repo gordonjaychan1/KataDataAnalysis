@@ -1,4 +1,4 @@
-/* ── Navigation confirmation modal ─────────────────────────────────────────── */
+﻿/* ── Navigation confirmation modal ─────────────────────────────────────────── */
 let _pendingNav = null;
 
 function confirmNav(type, name) {
@@ -1061,6 +1061,15 @@ const fmtPct  = v => v != null ? (v * 100).toFixed(1) + "%" : "—";
 const esc     = s => s == null ? "" : String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 const tierBadge = tier => tier ? `<span class="tier-badge tier-${tier}">${t("tier." + tier)}</span>` : "";
 
+/* Athlete headshot filename convention: lowercase, diacritics stripped, every
+   run of non-alphanumerics collapsed to a single hyphen. e.g.
+   "Ortiz Aquino Jefferson" -> images/athletes/ortiz-aquino-jefferson.jpg
+   Drop a matching .jpg into images/athletes/ and the card picks it up; if the
+   file is absent the <img> onerror removes the cell (leaving the empty space). */
+const photoSlug = name => (name == null ? "" : String(name)
+  .normalize("NFD").replace(/[̀-ͯ]/g, "")   // strip accents
+  .toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""));
+
 /* ════════════════════════════════════════════════════════════════ KATA TAB */
 function setupKataTab() {
   setupSortableTable("kata-table", "kata", renderKataTable);
@@ -1469,6 +1478,7 @@ function showKaratekaCard(r) {
       <div class="stat-box"><div class="stat-label">${t("col.bestScore")}</div><div class="stat-value">${fmt2(r.Max_Score)}</div>${rkK('Max_Score')}${bestPerf ? `<div style="font-size:10px;color:var(--text-muted);margin-top:2px">${t("lbl.kataColon")}: <strong>${navLink("kata", bestPerf.Kata)}</strong></div>` : ""}</div>
       <div class="stat-box"><div class="stat-label">${t("col.winRate")}</div><div class="stat-value">${fmtPct(r.Win_Rate)}</div>${rkKFig('Win_Rate', false, 'karateka-findings', 'finding-a2')}</div>
       <div class="stat-box" title="${esc(t("tip.athleteDiff"))}"><div class="stat-label">${t("col.differential")}</div><div class="stat-value" style="color:${r.Differential == null ? "inherit" : r.Differential > 0 ? POS : r.Differential < 0 ? "var(--red)" : "inherit"}">${_diffFmt(r.Differential)}</div>${rkK('Differential')}</div>
+      <div class="stat-photo"><img src="images/athletes/${photoSlug(r.Karateka)}.jpg" alt="${esc(r.Karateka)}" loading="lazy" onerror="this.closest('.stat-photo').remove()"></div>
     </div>
     ${r.Medals && r.Medals.length ? `
     <div class="card-section-title">${t("sec.medals")}</div>
@@ -2389,7 +2399,7 @@ function athleteFindingsHTML() {
     `Grace Lauは9.00の壁を破った唯一の女子選手で、<strong>9.22</strong>という驚異的なスコアを叩き出しました。これは2番目に高い単独スコア（同じく彼女自身による<strong>8.96</strong>）を大きく上回るものです。`,
     `国別の選手層は多様でした。日本は<strong>8</strong>名、エジプトは<strong>6</strong>名、イタリアは<strong>5</strong>名を派遣しました。<em>図 ${A3}</em>をご覧ください。`,
     `メダルを獲得した選手は<strong>11</strong>名でした。`,
-  ], spotlight);
+  ], spotlight, onoLauImg);
   return _findingsBlock(head, [
     `Female kata this season was defined by a close rivalry at the top between two clear frontrunners: <strong>Grace Lau</strong> (Hong Kong) and <strong>Maho Ono</strong> (Japan), both of whom competed at all 9 tournaments.`,
     `Lau had the higher peaks: she posted a higher maximum score (<strong>9.22</strong> vs <strong>8.88</strong>) and a higher win rate (<strong>91.7%</strong> vs <strong>88.5%</strong>).`,
@@ -2400,7 +2410,7 @@ function athleteFindingsHTML() {
     `Grace Lau was the only Female athlete to break the <strong>9.00 score boundary</strong>, which she shattered with a <strong>9.22</strong>, significantly higher than the second-highest single score, <strong>8.96</strong>, which she also scored.`,
     `Kata representation by country was diverse: <strong>Japan</strong> sent <strong>8</strong> athletes, <strong>Egypt</strong> sent <strong>6</strong>, and <strong>Italy</strong> sent <strong>5</strong>. See <em>Figure ${A3}</em>.`,
     `<strong>11</strong> unique athletes won medals.`,
-  ], spotlight);
+  ], spotlight, onoLauImg);
 }
 
 /* ════════════════════════════════════════════════════════════════ KATA FINDINGS */
