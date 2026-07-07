@@ -2281,10 +2281,11 @@ function makeWinRateHBar(id, labels, values, axisTitle = "Win Rate (%)", perfs =
 /* ════════════════════════════════════════ FINDINGS NARRATIVES (from markdown) */
 /* These narratives are authored content (not auto-generated). Figure references
    use figName() so they read K-/A- for male and FK-/FA- for female. */
-function _findingsBlock(head, mainItems, notesLabel, notesItems, subhead) {
+function _findingsBlock(head, mainItems, notesLabel, notesItems, subhead, imageHTML) {
   const ul = (items, extraStyle = "") => `<ul style="font-size:13px;color:var(--text-muted);line-height:2.2;padding-left:20px${extraStyle}">${items.map(t => `<li>${t}</li>`).join("")}</ul>`;
   return `<details class="finding-block finding-collapsible" style="margin-top:0">
       <summary class="compare-head finding-summary"><span>${head}<em class="finding-hint">${lang === "jp" ? "クリックして開く。" : "Click to open."}</em></span></summary>
+      ${imageHTML || ""}
       ${subhead ? `<p style="font-size:13px;font-weight:700;color:var(--text);margin:0 0 6px">${subhead}</p>` : ""}
       ${ul(mainItems)}
       ${notesItems && notesItems.length
@@ -2371,6 +2372,13 @@ function athleteFindingsHTML() {
     ], spotlight);
   }
   /* female (polished into full sentences) */
+  const onoLauNote = jp
+    ? "任意の選手詳細カードのCompare機能で、好きな2選手を比較できます！"
+    : "Use the Compare feature on any Athlete Detail Card to compare any two athletes!";
+  const onoLauImg = `<figure style="margin:12px 0 4px">
+      <img src="images/OnoVSLau.png" alt="Maho Ono vs Grace Lau" loading="lazy" style="width:100%;border-radius:var(--radius);border:1px solid var(--border);display:block">
+      <figcaption style="font-size:12px;color:var(--text-muted);font-style:italic;margin-top:6px;text-align:center">${onoLauNote}</figcaption>
+    </figure>`;
   if (jp) return _findingsBlock(head, [
     `今シーズンの女子型は、明確な2強である<strong>Grace Lau</strong>（香港）と<strong>Maho Ono</strong>（日本）のトップ争いによって特徴づけられました。両者とも全9大会に出場しています。`,
     `Lauはより高いピークを持っていました。最高スコア（<strong>9.22</strong>対<strong>8.88</strong>）と勝率（<strong>91.7%</strong>対<strong>88.5%</strong>）で上回りました。`,
