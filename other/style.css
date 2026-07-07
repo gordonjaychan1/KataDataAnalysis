@@ -208,6 +208,9 @@ header {
 .card-header { display: flex; align-items: baseline; gap: 12px; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--border-light); flex-wrap: wrap; padding-right: 32px; }
 .card-title    { font-size: 18px; font-weight: 700; }
 .card-subtitle { font-size: 13px; color: var(--text-muted); }
+/* Stats grid on the left, athlete photo set apart on the right. */
+.card-stats-row { display: flex; align-items: flex-start; gap: 22px; margin-bottom: 14px; }
+.card-stats-row .card-stats { flex: 1; min-width: 0; margin-bottom: 0; }
 .card-stats {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   gap: 10px; margin-bottom: 14px;
@@ -222,13 +225,14 @@ header {
 .stat-rank  { font-size: 11px; color: var(--text-muted); margin-top: 3px; font-variant-numeric: tabular-nums; }
 .stat-box.clickable { cursor: pointer; transition: background 0.12s, border-color 0.12s; }
 .stat-box.clickable:hover { background: var(--red-light); border-color: var(--red); }
-/* Athlete headshot: fills the trailing empty grid cell beside the stat boxes.
-   A silhouette is painted as the cell background; when a real photo loads it
+/* Athlete headshot: a square set apart to the right of the stats grid.
+   A silhouette is painted as the box background; when a real photo loads it
    covers the silhouette, and when no photo exists (img removed via onerror)
    the silhouette shows through as a placeholder. */
 .stat-photo {
+  flex: 0 0 auto; width: 160px; height: 160px; align-self: flex-start;
   border-radius: var(--radius); border: 1px solid var(--border-light);
-  overflow: hidden; min-height: 72px;
+  overflow: hidden;
   background: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Ccircle%20cx='32'%20cy='23'%20r='12'%20fill='%23cbbda3'/%3E%3Cpath%20d='M13%2058c0-11%208-19%2019-19s19%208%2019%2019z'%20fill='%23cbbda3'/%3E%3C/svg%3E") center 60% / 48% no-repeat var(--bg);
 }
 [data-theme="dark"] .stat-photo {
@@ -629,6 +633,10 @@ blockquote.dedication {
   .header-right { flex-wrap: wrap; }
   .global-search-wrap { flex: 1 1 100%; }
   #global-search { width: 100%; box-sizing: border-box; }
+
+  /* Shrink the athlete headshot so the stats grid keeps room on narrow screens */
+  .card-stats-row { gap: 14px; }
+  .stat-photo { width: 116px; height: 116px; }
 
   /* Keep the three stat cards side by side, just more compact */
   .welcome-stats { grid-template-columns: repeat(3, 1fr); gap: 8px; }
