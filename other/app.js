@@ -534,6 +534,16 @@ function switchToTab(tabId) {
   if (sec) { sec.classList.remove("hidden"); sec.classList.add("active"); }
   _updateSiteCredit(tabId);
   window.scrollTo(0, 0);
+  /* Set up the sticky-header split scroll for tabs whose master table needs it,
+     so programmatic navigation (welcome boxes, card links) gets a scrollable
+     table just like clicking the tab button does. */
+  const tabTableMap = {
+    kata: "kata-table", karateka: "karateka-table",
+    tournaments: "tournaments-table", countries: "countries-table",
+    compare: "compare-shared-table"
+  };
+  const tid = tabTableMap[tabId];
+  if (tid) setTimeout(() => splitTableScroll(tid), 0);
 }
 
 /* ── Welcome stats ─────────────────────────────────────────────────────────── */
