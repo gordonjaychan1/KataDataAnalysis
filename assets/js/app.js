@@ -227,7 +227,7 @@ const TOURN_ORDER = Object.fromEntries(Object.keys(TOURN_META).map((k, i) => [k,
 const charts = {};
 
 /* ── Boot ──────────────────────────────────────────────────────────────────── */
-fetch("other/data.json")
+fetch("data/data.json")
   .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
   .then(d => { DATA = d; init(); })
   .catch(err => {
@@ -2398,7 +2398,7 @@ function athleteFindingsHTML() {
     ? "任意の選手詳細カードのCompare機能で、好きな2選手を比較できます！"
     : "Use the Compare feature on any Athlete Detail Card to compare any two athletes!";
   const onoLauImg = `<figure style="margin:12px 0 4px">
-      <img src="images/OnoVSLau.png" alt="Maho Ono vs Grace Lau" loading="lazy" style="width:100%;border-radius:var(--radius);border:1px solid var(--border);display:block">
+      <img src="images/reference/OnoVSLau.png" alt="Maho Ono vs Grace Lau" loading="lazy" style="width:100%;border-radius:var(--radius);border:1px solid var(--border);display:block">
       <figcaption style="font-size:12px;color:var(--text-muted);font-style:italic;margin-top:6px;text-align:center">${onoLauNote}</figcaption>
     </figure>`;
   if (jp) return _findingsBlock(head, [

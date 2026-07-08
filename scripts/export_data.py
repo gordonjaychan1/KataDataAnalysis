@@ -1,6 +1,6 @@
 """
-Run this script from the same folder as Male2425Season.csv and Female2425Season.csv.
-It generates data.json used by the website.
+Reads the season CSVs from ../data/ and writes ../data/data.json, which the
+website loads at runtime. Run it from this scripts/ folder.
 
 Usage:
     py export_data.py
@@ -406,7 +406,7 @@ output = {
     },
 }
 
-out_path = os.path.join(script_dir, "data.json")
+out_path = os.path.join(script_dir, "..", "data", "data.json")
 with open(out_path, "w", encoding="utf-8") as f:
     json.dump(output, f, ensure_ascii=False, indent=2)
 

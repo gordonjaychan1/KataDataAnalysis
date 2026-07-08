@@ -17,7 +17,7 @@ Examples:
 | `Ortiz Aquino Jefferson` | `ortiz-aquino-jefferson.jpg`      |
 | `Aya En-Nesyry`          | `aya-en-nesyry.jpg`               |
 
-The slug logic lives in `photoSlug()` in `other/app.js`.
+The slug logic lives in `photoSlug()` in `assets/js/app.js`.
 
 ## Notes
 
