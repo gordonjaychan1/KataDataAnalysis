@@ -276,9 +276,9 @@ df_round = df_with_round[df_with_round["Gender"] == "Female"]
 karateka_m = build_karateka_master(df[df["Gender"] == "Male"], df_clean[df_clean["Gender"] == "Male"], dm_round)
 karateka_f = build_karateka_master(df[df["Gender"] == "Female"], df_clean[df_clean["Gender"] == "Female"], df_round)
 
-# ── Placements / medals ───────────────────────────────────────────────────────
+# ── Medals ────────────────────────────────────────────────────────────────────
 try:
-    pldf = pd.read_csv(find_csv("Placements.csv"))
+    pldf = pd.read_csv(find_csv("Medals.csv"))
     medals = {"male": {}, "female": {}}
     for _, row in pldf.iterrows():
         tourn = str(row.iloc[0]).strip().title()
@@ -295,9 +295,9 @@ try:
             medals[g].setdefault(name, []).append({"Tournament": tourn, "Place": place})
     for km_df, g_key in [(karateka_m, "male"), (karateka_f, "female")]:
         km_df["Medals"] = km_df["Karateka"].map(lambda k: medals[g_key].get(k, []))
-    print("Placements loaded.")
+    print("Medals loaded.")
 except FileNotFoundError:
-    print("Placements CSV not found — medals skipped.")
+    print("Medals CSV not found — medals skipped.")
 
 # ── Tournament summary ────────────────────────────────────────────────────────
 tourn_summary = []
