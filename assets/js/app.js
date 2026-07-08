@@ -3357,7 +3357,7 @@ function renderWorldMap() {
   const svgWrap = document.getElementById("world-map-svg-wrap");
   const tooltip = document.getElementById("map-tooltip");
 
-  fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
+  fetch("assets/vendor/countries-110m.json")
     .then(r => r.json())
     .then(world => {
       const countries = topojson.feature(world, world.objects.countries);
