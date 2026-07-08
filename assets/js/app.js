@@ -3342,13 +3342,18 @@ function renderWorldMap() {
     "Republic of Korea": "South Korea",
     "Iran (Islamic Republic of)": "Iran",
     "Taiwan": "Taiwan",
-    "Hong Kong S.A.R.": "Hong Kong",
     "United Arab Emirates": "UAE",
-    "Czech Republic": "Czech Republic",
+    "Czechia": "Czech Republic",
+    "Dominican Rep.": "Dominican Republic",
     "Slovakia": "Slovakia",
     "Montenegro": "Montenegro",
   };
   const resolve = name => NAME_MAP[name] || name;
+
+  /* City-states / territories with no polygon in the 110m atlas: Hong Kong is
+     merged into China, and Singapore is too small to appear. Draw them as
+     point markers so their athletes still show up on the map. */
+  const POINT_LOCATIONS = { "Hong Kong": [114.17, 22.32], "Singapore": [103.82, 1.35] };
 
   const mapHeading = lang === "jp"
     ? `${t("fig.athletesByCountry")}：${gender === "male" ? "男子" : "女子"}`
@@ -3408,6 +3413,30 @@ function renderWorldMap() {
           const name = resolve(d.properties.name);
           if (athleteMap[name]) confirmNav("country", name);
         });
+
+      /* Point markers for territories that have no polygon (see POINT_LOCATIONS) */
+      const points = Object.entries(POINT_LOCATIONS).filter(([name]) => athleteMap[name]);
+      svg.append("g")
+        .selectAll("circle")
+        .data(points)
+        .join("circle")
+        .attr("cx", d => proj(d[1])[0])
+        .attr("cy", d => proj(d[1])[1])
+        .attr("r", 4)
+        .attr("fill", d => color(athleteMap[d[0]]))
+        .attr("stroke", mapStroke)
+        .attr("stroke-width", 0.8)
+        .style("cursor", "pointer")
+        .on("mousemove", (event, d) => {
+          const name = d[0], n = athleteMap[name];
+          if (!tooltip) return;
+          tooltip.style.display = "block";
+          tooltip.style.left = (event.clientX + 12) + "px";
+          tooltip.style.top  = (event.clientY - 28) + "px";
+          tooltip.innerHTML = `<strong>${esc(displayName("country", name))}</strong> · ${n} ${lang === "jp" ? t("map.athletes") : "athlete" + (n !== 1 ? "s" : "")}`;
+        })
+        .on("mouseleave", () => { if (tooltip) tooltip.style.display = "none"; })
+        .on("click", (event, d) => { if (athleteMap[d[0]]) confirmNav("country", d[0]); });
 
       svgWrap.appendChild(svg.node());
     })
