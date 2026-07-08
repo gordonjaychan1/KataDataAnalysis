@@ -186,6 +186,7 @@ const I18N = {
   "tip.totalMedals": { jp: "今シーズン獲得した総メダル数" },
 
   /* ── Detail-card section titles ── */
+  "sec.statistics": { en: "Statistics", jp: "統計" },
   "sec.scoreDistribution": { en: "Score Distribution", jp: "スコア分布" },
   "sec.allAthletes": { en: "All Athletes", jp: "全選手" },
   "sec.medals": { en: "Medals", jp: "メダル" },

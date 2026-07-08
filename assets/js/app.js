@@ -1241,6 +1241,7 @@ function showKataCard(r) {
       ${compareBtn("kata", r.Kata)}
     </div>
     ${scoreMissing ? `<p style="font-size:12px;color:var(--text-muted);background:var(--bg);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:var(--radius);padding:8px 12px;margin-bottom:12px">The score for this kata's performance${r.Performances === 1 ? "" : "s"} was not recorded and is missing from the dataset. Score-related statistics are unavailable and shown as —.</p>` : ""}
+    <div class="card-section-title">${t("sec.statistics")}</div>
     <div class="card-stats">
       <div class="stat-box">
         <div class="stat-label">${t("col.performances")}</div><div class="stat-value">${r.Performances}</div>${rkFig('Performances', false, 'kata-findings', 'finding-k1')}
@@ -1479,6 +1480,7 @@ function showKaratekaCard(r) {
       <span class="card-subtitle">${flagOf(r.Country)} ${esc(displayName("country", r.Country) || "")}</span>
       ${compareBtn("karateka", r.Karateka)}
     </div>
+    <div class="card-section-title">${t("sec.statistics")}</div>
     <div class="card-stats-row">
     <div class="card-stats">
       <div class="stat-box"><div class="stat-label">${t("col.performances")}</div><div class="stat-value">${r.Performances}</div>${rkK('Performances')}</div>
@@ -1655,6 +1657,7 @@ function showCountryCard(r, all) {
       <span class="card-title">${flagOf(r.Country)} ${esc(displayName("country", r.Country))}</span>
       ${compareBtn("country", r.Country)}
     </div>
+    <div class="card-section-title">${t("sec.statistics")}</div>
     <div class="card-stats">
       <div class="stat-box"><div class="stat-label">${t("col.athletes")}</div><div class="stat-value">${r.Athletes}</div>${rkC('Athletes')}</div>
       <div class="stat-box"><div class="stat-label">${t("col.performances")}</div><div class="stat-value">${r.Performances}</div>${rkC('Performances')}</div>
@@ -1993,7 +1996,7 @@ function showTournamentCard(r) {
   }
   medalists.sort((a, b) => a.place - b.place);
   const medalistHtml = medalists.length ? `
-    <div class="card-section-title" style="margin-top:14px">${t("sec.medalists")}</div>
+    <div class="card-section-title" style="margin-top:40px">${t("sec.medalists")}</div>
     <div class="pill-list" style="margin-bottom:14px">${medalists.map(m => `<span class="pill">${medalIcon(m.place)} ${flagOf(m.country)} <strong>${navLink("karateka", m.name)}</strong></span>`).join("")}</div>` : "";
 
   /* athletes — with tournament-specific stats */
@@ -2076,6 +2079,7 @@ function showTournamentCard(r) {
       ${meta.date ? `<span class="card-subtitle">${esc(meta.date)}</span>` : ""}
     </div>
     ${meta.city ? `<p style="font-size:13px;color:var(--text-muted);margin-bottom:14px">${flagOf(meta.country)} ${esc(meta.city)}, ${esc(meta.country)}</p>` : ""}
+    <div class="card-section-title">${t("sec.statistics")}</div>
     <div class="card-stats">
       <div class="stat-box"><div class="stat-label">${t("col.performances")}</div><div class="stat-value">${r.Total_Performances}</div></div>
       <div class="stat-box"><div class="stat-label">${t("col.athletes")}</div><div class="stat-value">${athletes.length}</div></div>
