@@ -43,7 +43,7 @@
   --border-light:#322c22;
   --text:        #efe6d2;
   --text-muted:  #b0a68f;
-  --red:         #d75a5a;
+  --red:         #c04747;
   --red-light:   #3a2222;
   --row-hover:   #2d2820;
   --row-alt:     rgba(255,255,255,0.035);
@@ -232,6 +232,10 @@ header {
 }
 .stat-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-muted); margin-bottom: 4px; }
 .stat-value { font-size: 18px; font-weight: 700; }
+/* Leader stat boxes hold a name (often long) rather than a number, so shrink
+   the value a touch and let it wrap instead of overflowing the box. */
+.stat-value--name { font-size: 15px; line-height: 1.25; }
+.stat-value--name .nav-link { font-weight: 700; }
 .stat-rank  { font-size: 11px; color: var(--text-muted); margin-top: 3px; font-variant-numeric: tabular-nums; }
 .stat-box.clickable { cursor: pointer; transition: background 0.12s, border-color 0.12s, transform 0.12s, box-shadow 0.12s; }
 .stat-box.clickable:hover { background: var(--red-light); border-color: var(--red); }
@@ -305,6 +309,21 @@ header {
 /* ── Findings ─────────────────────────────────────────────────────────────── */
 .findings-grid { display: flex; flex-direction: column; gap: 48px; }
 .findings-page-subtitle { font-size: 14px; color: var(--text-muted); margin-bottom: 32px; line-height: 1.6; }
+.findings-leaderboard { margin-bottom: 44px; }
+/* Leader cards run ~20% larger than the detail-card stat boxes, with 50% more
+   space between them. Scoped here so the detail cards keep their tighter size. */
+.findings-leaderboard .card-stats {
+  grid-template-columns: repeat(auto-fill, minmax(144px, 1fr));
+  gap: 39px;
+}
+.findings-leaderboard .stat-box { padding: 12px 17px; }
+.findings-leaderboard .stat-label { font-size: 12px; }
+.findings-leaderboard .stat-value--name { font-size: 18px; }
+.findings-leaderboard .stat-rank { font-size: 13px; }
+.findings-leader-note {
+  font-size: 12px; color: var(--text-muted); font-style: italic;
+  margin-top: 14px;
+}
 .finding-block {
   background: var(--surface); border: 1px solid var(--border);
   border-left: 3px solid var(--border); border-radius: var(--radius);

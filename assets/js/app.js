@@ -1016,7 +1016,10 @@ function setupSortableTable(tableId, stateKey, renderFn) {
       const s = sortState[stateKey];
       s.dir = s.col === col ? (s.dir === "asc" ? "desc" : "asc") : "asc";
       s.col = col;
-      document.querySelectorAll(`#${tableId} thead th`).forEach(h => h.classList.remove("sort-asc","sort-desc"));
+      // Clear via the header row (th.parentElement), not `#${tableId} thead th`:
+      // splitTableScroll moves the thead out of the table, so the id selector
+      // would match nothing and stale arrows would pile up across columns.
+      th.parentElement.querySelectorAll("th").forEach(h => h.classList.remove("sort-asc","sort-desc"));
       th.classList.add(s.dir === "asc" ? "sort-asc" : "sort-desc");
       renderFn();
     });
@@ -1272,7 +1275,7 @@ function showKataCard(r) {
       ${diffStat}
     </div>
     ${r.Mean_Score != null ? `
-    <div class="card-section-title">${t("sec.scoreDistribution")}</div>
+    <div class="card-section-title" style="margin-top:48px">${t("sec.scoreDistribution")}</div>
     <div style="height:140px;position:relative;margin-bottom:14px"><canvas id="chart-kata-histogram"></canvas></div>` : ""}
     ${athleteFlat.length ? `
     <div class="card-section-title">${t("sec.allAthletes")}</div>
@@ -1323,6 +1326,7 @@ function renderKaratekaTable() {
   const q = searchQuery.karateka;
   DATA.karateka[gender].forEach(r => {
     r.Range = (r.Max_Score != null && r.Min_Score != null) ? r.Max_Score - r.Min_Score : null;
+    r.Medal_Points = medalPoints(r.Medals);
   });
   let rows = sortData(DATA.karateka[gender], s.col, s.dir);
   if (q) rows = rows.filter(r => r.Karateka && r.Karateka.toLowerCase().includes(q));
@@ -2429,8 +2433,100 @@ function athleteFindingsHTML() {
   ], spotlight, onoLauImg);
 }
 
+/* ══════════════════════════════════════════════════════════ SEASON-LEADER CARDS */
+/* Pick the row that tops a metric, and count how many share that top value.
+   `sel` reads the metric (null values skipped); `min` requires MORE than that
+   many performances so a tiny sample can't top a score/rate metric; `lowest`
+   flips it for "smaller is better" metrics. Returns { row, tie, value } where
+   `tie` is how many rows share the top value (1 = an outright leader). */
+function leaderInfo(rows, sel, { min = 0, lowest = false } = {}) {
+  const eligible = min ? rows.filter(r => (r.Performances || 0) > min) : rows;
+  let best = null, bestV = null;
+  for (const r of eligible) {
+    const v = sel(r);
+    if (v == null) continue;
+    if (best == null || (lowest ? v < bestV : v > bestV)) { best = r; bestV = v; }
+  }
+  if (best == null) return { row: null, tie: 0, value: null };
+  const tie = eligible.reduce((n, r) => n + (sel(r) === bestV ? 1 : 0), 0);
+  return { row: best, tie, value: bestV };
+}
+
+/* A single leader card, styled like the detail-card stat boxes. When several
+   entities share the top value the box shows the tie count instead of a name,
+   since a single name would misrepresent the result. */
+function leaderBox(label, type, info, sub) {
+  if (!info || !info.row) return "";
+  const name  = type === "kata" ? info.row.Kata : info.row.Karateka;
+  const value = info.tie > 1
+    ? t(type === "kata" ? "lead.tiedKata" : "lead.tiedAthletes").replace("{n}", info.tie)
+    : navLink(type, name);
+  return `<div class="stat-box">
+    <div class="stat-label">${label}</div>
+    <div class="stat-value stat-value--name">${value}</div>
+    <div class="stat-rank">${sub}</div>
+  </div>`;
+}
+
+const MIN_LEADER_PERFS = 5;   // floor for score/rate leaders so a lone perf can't win
+
+/* Toggle a leaderboard's tie footnote based on whether any metric tied. */
+function setTieNote(noteId, hasTie) {
+  const note = document.getElementById(noteId);
+  if (note) note.style.display = hasTie ? "" : "none";
+}
+
+function renderKataLeaders() {
+  const el = document.getElementById("kata-leaderboard");
+  if (!el) return;
+  const kata = DATA.kata[gender];
+  const cards = [];
+  let hasTie = false;
+  const push = (label, info, sub) => { if (info.tie > 1) hasTie = true; cards.push(leaderBox(label, "kata", info, sub)); };
+  let info;
+  info = leaderInfo(kata, x => x.Performances);
+  push(t("lead.mostPerformed"), info, info.row ? `${info.row.Performances} ${t("unit.performances")}` : "");
+  info = leaderInfo(kata, x => x.Unique_Karateka);
+  push(t("lead.mostPerformers"), info, info.row ? `${info.row.Unique_Karateka} ${t("unit.performers")}` : "");
+  info = leaderInfo(kata, x => x.Mean_Score, { min: MIN_LEADER_PERFS });
+  push(t("lead.highestAvg"), info, info.row ? fmt2(info.row.Mean_Score) : "");
+  info = leaderInfo(kata, x => x.Win_Rate, { min: MIN_LEADER_PERFS });
+  push(t("lead.highestWR"), info, info.row ? fmtPct(info.row.Win_Rate) : "");
+  info = leaderInfo(kata, x => x.Max_Score);
+  push(t("lead.highestSingle"), info, info.row ? fmt2(info.row.Max_Score) : "");
+  info = leaderInfo(kata, x => x.Std_Dev, { min: MIN_LEADER_PERFS, lowest: true });
+  push(t("lead.mostConsistent"), info, info.row ? `${fmt2(info.row.Std_Dev)} ${t("unit.stdDev")}` : "");
+  el.innerHTML = cards.join("");
+  setTieNote("kata-leader-tie-note", hasTie);
+}
+
+function renderAthleteLeaders() {
+  const el = document.getElementById("athlete-leaderboard");
+  if (!el) return;
+  const ath = DATA.karateka[gender];
+  const cards = [];
+  let hasTie = false;
+  const push = (label, info, sub) => { if (info.tie > 1) hasTie = true; cards.push(leaderBox(label, "karateka", info, sub)); };
+  let info;
+  info = leaderInfo(ath, x => x.Performances);
+  push(t("lead.mostPerformances"), info, info.row ? `${info.row.Performances} ${t("unit.performances")}` : "");
+  info = leaderInfo(ath, x => x.Tournaments_Attended);
+  push(t("lead.mostTournaments"), info, info.row ? `${info.row.Tournaments_Attended} ${t("unit.tournaments")}` : "");
+  info = leaderInfo(ath, x => medalPoints(x.Medals));
+  push(t("lead.mostMedals"), info, info.row ? (medalTally(info.row.Medals) || "—") : "");
+  info = leaderInfo(ath, x => x.Mean_Score, { min: MIN_LEADER_PERFS });
+  push(t("lead.highestAvg"), info, info.row ? fmt2(info.row.Mean_Score) : "");
+  info = leaderInfo(ath, x => x.Win_Rate, { min: MIN_LEADER_PERFS });
+  push(t("lead.highestWR"), info, info.row ? fmtPct(info.row.Win_Rate) : "");
+  info = leaderInfo(ath, x => x.Differential);
+  push(t("lead.bestDiff"), info, info.row ? (info.row.Differential > 0 ? "+" : "") + info.row.Differential.toFixed(3) : "");
+  el.innerHTML = cards.join("");
+  setTieNote("athlete-leader-tie-note", hasTie);
+}
+
 /* ════════════════════════════════════════════════════════════════ KATA FINDINGS */
 function renderKataFindings() {
+  renderKataLeaders();
   const kata   = DATA.kata[gender];
   const tourns = DATA.tournaments.filter(r => r.Gender.toLowerCase() === gender);
   const g = gender === "male" ? "male" : "female";
@@ -2864,6 +2960,7 @@ function renderKataStdDev() {
 
 /* ════════════════════════════════════════════════════════════════ KARATEKA FINDINGS */
 function renderKaratekaFindings() {
+  renderAthleteLeaders();
   const kdata     = DATA.karateka[gender];
   const countries = DATA.countries[gender];
   const g = gender === "male" ? "male" : "female";
