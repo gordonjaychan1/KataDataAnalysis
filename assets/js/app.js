@@ -1934,8 +1934,8 @@ function renderTournamentsTable() {
     <td class="name-cell">${t("summary.avgAllTournaments")}</td>
     <td class="num" title="Mean number of performances per tournament">${fmt2(tMean("Total_Performances"))}</td>
     <td class="num" title="Mean number of athletes per tournament">${fmt2(tMean("Unique_Karateka"))}</td>
-    <td class="num" title="Mean number of unique kata performed per tournament">${fmt2(tMean("Unique_Kata"))}</td>
-    <td class="num" title="Mean number of countries represented per tournament">${fmt2(tMean("Unique_Countries"))}</td>
+    <td class="num" title="Mean number of unique kata performed per tournament">${(() => { const v = tMean("Unique_Kata"); return v != null ? Math.round(v) : "—"; })()}</td>
+    <td class="num" title="Mean number of countries represented per tournament">${(() => { const v = tMean("Unique_Countries"); return v != null ? Math.round(v) : "—"; })()}</td>
     <td class="num" title="Weighted average score across all tournaments and performances">${tWtAvg != null ? tWtAvg.toFixed(3) : "—"}</td>
   </tr>`;
   const rows = sortData(baseRows, s.col, s.dir);
