@@ -2447,9 +2447,9 @@ function leaderInfo(rows, sel, { min = 0, lowest = false } = {}) {
     if (v == null) continue;
     if (best == null || (lowest ? v < bestV : v > bestV)) { best = r; bestV = v; }
   }
-  if (best == null) return { row: null, tie: 0, value: null };
-  const tie = eligible.reduce((n, r) => n + (sel(r) === bestV ? 1 : 0), 0);
-  return { row: best, tie, value: bestV };
+  if (best == null) return { row: null, tie: 0, value: null, tied: [] };
+  const tied = eligible.filter(r => sel(r) === bestV);
+  return { row: best, tie: tied.length, value: bestV, tied };
 }
 
 /* A single leader card, styled like the detail-card stat boxes. When several
@@ -2458,12 +2458,18 @@ function leaderInfo(rows, sel, { min = 0, lowest = false } = {}) {
 function leaderBox(label, type, info, sub) {
   if (!info || !info.row) return "";
   const name  = type === "kata" ? info.row.Kata : info.row.Karateka;
-  const value = info.tie > 1
-    ? t(type === "kata" ? "lead.tiedKata" : "lead.tiedAthletes").replace("{n}", info.tie)
-    : navLink(type, name);
+  let value, tipAttr = "";
+  if (info.tie > 1) {
+    // List every tied entity in a hover tooltip, since the box can only show a count.
+    const names = (info.tied || []).map(r => displayName(type, type === "kata" ? r.Kata : r.Karateka));
+    value  = t(type === "kata" ? "lead.tiedKata" : "lead.tiedAthletes").replace("{n}", info.tie);
+    tipAttr = ` title="${esc(names.join(", "))}" style="cursor:help"`;
+  } else {
+    value = navLink(type, name);
+  }
   return `<div class="stat-box">
     <div class="stat-label">${label}</div>
-    <div class="stat-value stat-value--name">${value}</div>
+    <div class="stat-value stat-value--name"${tipAttr}>${value}</div>
     <div class="stat-rank">${sub}</div>
   </div>`;
 }
