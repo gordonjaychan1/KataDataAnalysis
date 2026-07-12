@@ -3102,17 +3102,17 @@ function setupGlobalSearch() {
     (DATA.kata[gender] || []).filter(r => r.Kata.toLowerCase().includes(q)).slice(0, 5)
       .forEach(r => results.push({ type: "kata", name: r.Kata, sub: `${r.Kata_Tier || ""} · ${r.Performances} performances` }));
 
-    /* karateka */
+    /* karateka — flag the athlete's country in the sub line */
     (DATA.karateka[gender] || []).filter(r => r.Karateka.toLowerCase().includes(q)).slice(0, 5)
-      .forEach(r => results.push({ type: "karateka", name: r.Karateka, sub: `${r.Country} · ${r.Performances} performances` }));
+      .forEach(r => results.push({ type: "karateka", name: r.Karateka, subHtml: `${flagOf(r.Country)}${esc(r.Country)} · ${r.Performances} performances` }));
 
-    /* countries */
+    /* countries — flag the country next to its name */
     buildCountryStats().filter(r => r.Country.toLowerCase().includes(q)).slice(0, 3)
-      .forEach(r => results.push({ type: "country", name: r.Country, sub: `${r.Athletes} athletes` }));
+      .forEach(r => results.push({ type: "country", name: r.Country, flag: flagOf(r.Country), sub: `${r.Athletes} athletes` }));
 
-    /* tournaments */
+    /* tournaments — flag the host country next to the tournament name */
     (DATA.tournaments || []).filter(r => r.Tournament.toLowerCase().includes(q) && r.Gender.toLowerCase() === gender).slice(0, 3)
-      .forEach(r => results.push({ type: "tournament", name: r.Tournament, sub: `${r.Total_Performances} performances` }));
+      .forEach(r => results.push({ type: "tournament", name: r.Tournament, flag: flagOf((TOURN_META[r.Tournament] || {}).country), sub: `${r.Total_Performances} performances` }));
 
     if (!results.length) {
       dropdown.innerHTML = `<div class="gsd-empty">${lang === "jp" ? `「${esc(q)}」の検索結果はありません` : `No results for "${esc(q)}"`}</div>`;
@@ -3128,8 +3128,8 @@ function setupGlobalSearch() {
       html += `<div class="gsd-group-label">${groupLabels[type]}</div>`;
       items.forEach(item => {
         html += `<div class="gsd-item" data-type="${esc(item.type)}" data-name="${esc(item.name)}">
-          <span class="gsd-name">${esc(item.name)}</span>
-          <span class="gsd-sub">${esc(item.sub)}</span>
+          <span class="gsd-name">${item.flag || ""}${esc(item.name)}</span>
+          <span class="gsd-sub">${item.subHtml || esc(item.sub)}</span>
         </div>`;
       });
     }
