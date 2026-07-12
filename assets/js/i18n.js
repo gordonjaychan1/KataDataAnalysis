@@ -205,6 +205,7 @@ const I18N = {
   "lead.mostTournaments":  { en: "Most Tournaments", jp: "最多出場大会" },
   "lead.mostMedals":       { en: "Most Medals", jp: "最多メダル" },
   "lead.bestDiff":         { en: "Best Differential", jp: "最高得点差" },
+  "lead.bestDiffTip":      { en: "An athlete's average score minus their opponent's, across all their bouts. A higher differential means they consistently out-scored the athletes they faced.", jp: "全ての試合における、その選手の平均スコアから対戦相手のスコアを引いた値。得点差が大きいほど、対戦相手を一貫して上回って得点したことを意味します。" },
   "unit.performances":     { en: "performances", jp: "演武" },
   "unit.performers":       { en: "performers", jp: "名" },
   "unit.tournaments":      { en: "tournaments", jp: "大会" },

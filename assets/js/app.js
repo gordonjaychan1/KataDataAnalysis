@@ -2455,7 +2455,7 @@ function leaderInfo(rows, sel, { min = 0, lowest = false } = {}) {
 /* A single leader card, styled like the detail-card stat boxes. When several
    entities share the top value the box shows the tie count instead of a name,
    since a single name would misrepresent the result. */
-function leaderBox(label, type, info, sub) {
+function leaderBox(label, type, info, sub, labelTip) {
   if (!info || !info.row) return "";
   const name  = type === "kata" ? info.row.Kata : info.row.Karateka;
   let value, tipAttr = "";
@@ -2467,8 +2467,10 @@ function leaderBox(label, type, info, sub) {
   } else {
     value = navLink(type, name);
   }
+  // Optional explainer shown when hovering the box's title.
+  const labelAttr = labelTip ? ` title="${esc(labelTip)}" style="cursor:help"` : "";
   return `<div class="stat-box">
-    <div class="stat-label">${label}</div>
+    <div class="stat-label"${labelAttr}>${label}</div>
     <div class="stat-value stat-value--name"${tipAttr}>${value}</div>
     <div class="stat-rank">${sub}</div>
   </div>`;
@@ -2512,7 +2514,7 @@ function renderAthleteLeaders() {
   const ath = DATA.karateka[gender];
   const cards = [];
   let hasTie = false;
-  const push = (label, info, sub) => { if (info.tie > 1) hasTie = true; cards.push(leaderBox(label, "karateka", info, sub)); };
+  const push = (label, info, sub, labelTip) => { if (info.tie > 1) hasTie = true; cards.push(leaderBox(label, "karateka", info, sub, labelTip)); };
   let info;
   info = leaderInfo(ath, x => x.Performances);
   push(t("lead.mostPerformances"), info, info.row ? `${info.row.Performances} ${t("unit.performances")}` : "");
@@ -2525,7 +2527,7 @@ function renderAthleteLeaders() {
   info = leaderInfo(ath, x => x.Win_Rate, { min: MIN_LEADER_PERFS });
   push(t("lead.highestWR"), info, info.row ? fmtPct(info.row.Win_Rate) : "");
   info = leaderInfo(ath, x => x.Differential);
-  push(t("lead.bestDiff"), info, info.row ? (info.row.Differential > 0 ? "+" : "") + info.row.Differential.toFixed(3) : "");
+  push(t("lead.bestDiff"), info, info.row ? (info.row.Differential > 0 ? "+" : "") + info.row.Differential.toFixed(3) : "", t("lead.bestDiffTip"));
   el.innerHTML = cards.join("");
   setTieNote("athlete-leader-tie-note", hasTie);
 }
