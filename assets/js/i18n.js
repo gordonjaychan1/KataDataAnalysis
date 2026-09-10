@@ -368,6 +368,8 @@ const I18N = {
   "ref.fromUsa": { jp: "出典：USA Karate競技規則、2026年1月1日" },
   "ref.usaRulesTitle": { jp: "USA Karate：競技規則（2026年1月1日）↗" },
   "ref.wkfRulesTitle": { jp: "WKF：型競技規則 2026 ↗" },
+  "ref.viewOfficialList": { jp: "公式型リストを見る（付録1）↗" },
+  "ref.viewOfficialUsaList": { jp: "階級付き公式型リストを見る ↗" },
   "ref.usaRulesMeta": { jp: "USA Karate · 2026" },
   "ref.wkfRulesMeta": { jp: "世界空手連盟（WKF） · 2026" },
   "ref.figApp1": { jp: "図 App-1" },
