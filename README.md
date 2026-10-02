@@ -3,7 +3,7 @@
 A website that compiles and analyzes men's and women's **kata** competition data
 from the 2024–25 World Karate Federation (WKF) season.
 
-🔗 **Live site:** https://gordonjaychan1.github.io/KataDataAnalysis/
+🔗 **Live site:** https://gordonjaychan.com/KataDataAnalysis/
 
 Every ranked performance from the season's major tournaments is recorded and
 turned into browsable tables, per-athlete and per-kata breakdowns, and a set of
